@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cyx33qtjbsw34"]
+
+[ext_resource type="Script" uid="uid://drcu4nbliielg" path="res://Component/Object/Ground/Ground.gd" id="1_en00y"]
+
+[node name="Ground" type="StaticBody2D" unique_id=1744010081]
+script = ExtResource("1_en00y")
+can_transfer = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1077352614]
+polygon = PackedVector2Array(2000, 200, 2000, -200, -2000, -200, -2000, 200)
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=817137210]
+
+[node name="Polygon2D" type="Polygon2D" parent="VisualRoot" unique_id=486029332]
+color = Color(0.17254902, 0.38039216, 0.1882353, 1)
+polygon = PackedVector2Array(2000, 200, 2000, -200, -2000, -200, -2000, 200)

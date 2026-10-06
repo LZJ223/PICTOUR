@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bopxiokiwukv1"]
+
+[ext_resource type="Script" uid="uid://cby3g7862frru" path="res://Component/Object/Box/Box.gd" id="1_b7xo7"]
+
+[node name="Box" type="StaticBody2D" unique_id=1268601166]
+script = ExtResource("1_b7xo7")
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=817137210]
+
+[node name="Line2D" type="Line2D" parent="VisualRoot" unique_id=2080341624]
+visible = false
+points = PackedVector2Array(0, 20, 20, 0, 0, -20, -20, 0)
+closed = true
+width = 8.0
+
+[node name="Polygon2D" type="Polygon2D" parent="VisualRoot" unique_id=859248024]
+color = Color(0.5014, 0.92, 0.20240003, 1)
+polygon = PackedVector2Array(20, 0, 0, -20, -20, 0, 0, 20)
+
+[node name="Area2D" type="Area2D" parent="VisualRoot" unique_id=1324729838]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="VisualRoot/Area2D" unique_id=1912068527]
+polygon = PackedVector2Array(20, 0, 0, 20, -20, 0, 0, -20)
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=432924817]
+polygon = PackedVector2Array(20, 0, 0, 20, -20, 0, 0, -20)

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bpeywtosj468q"]
+
+[ext_resource type="Script" uid="uid://bckgic5oa4uty" path="res://System/System_Controller.gd" id="1_slmeh"]
+[ext_resource type="PackedScene" uid="uid://ch17qkfauofft" path="res://Component/Player/Player.tscn" id="2_d1kw5"]
+[ext_resource type="PackedScene" uid="uid://clyqats0d1enx" path="res://Level/Prototype_Level.tscn" id="3_d1kw5"]
+
+[node name="Node2D" type="Node2D" unique_id=1565919311]
+
+[node name="Level" parent="." unique_id=1182049839 instance=ExtResource("3_d1kw5")]
+
+[node name="Player" parent="." unique_id=892840010 instance=ExtResource("2_d1kw5")]
+z_index = 301
+position = Vector2(668, 330)
+collision_layer = 2
+collision_mask = 2
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1520852743]
+offset = Vector2(0, -180)
+
+[node name="System" type="Node" parent="." unique_id=1585831549 node_paths=PackedStringArray("player", "camera", "layers")]
+script = ExtResource("1_slmeh")
+player = NodePath("../Player")
+camera = NodePath("../Camera")
+layers = [NodePath("../Level/Layer0"), NodePath("../Level/Layer1"), NodePath("../Level/Layer2"), NodePath("../Level/Layer3")]

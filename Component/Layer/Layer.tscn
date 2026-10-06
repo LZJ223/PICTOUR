@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b5ej4b6svua03"]
+
+[ext_resource type="Script" uid="uid://d2d2ky3j05054" path="res://Component/Layer/Depth_Layer.gd" id="1_jhfs8"]
+[ext_resource type="PackedScene" uid="uid://cyx33qtjbsw34" path="res://Component/Object/Ground/Ground.tscn" id="2_wjutn"]
+
+[node name="Layer" type="Node2D" unique_id=1112075574]
+script = ExtResource("1_jhfs8")
+
+[node name="Ground" parent="." unique_id=629838226 instance=ExtResource("2_wjutn")]
+position = Vector2(640, 720)

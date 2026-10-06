@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://clyqats0d1enx"]
+
+[ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Layer.tscn" id="1_njsva"]
+[ext_resource type="PackedScene" uid="uid://bd2e8t8vka0ac" path="res://Component/Object/Box/Box.tscn" id="2_lrx2v"]
+[ext_resource type="PackedScene" uid="uid://bopxiokiwukv1" path="res://Component/Object/Goal/Goal.tscn" id="3_jc4bg"]
+
+[node name="PrototypeLevel" type="Node2D" unique_id=1182049839]
+
+[node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("1_njsva")]
+layer_id = 3
+slot = 3
+
+[node name="Polygon2D" parent="Layer3/Ground/VisualRoot" parent_id_path=PackedInt32Array(1104449370, 629838226, 817137210) index="0" unique_id=486029332]
+color = Color(0.1215, 0.27, 0.133875, 1)
+
+[node name="Box" parent="Layer3" unique_id=1005985776 instance=ExtResource("2_lrx2v")]
+position = Vector2(168, 500)
+
+[node name="Box2" parent="Layer3" unique_id=330834349 instance=ExtResource("2_lrx2v")]
+position = Vector2(914, 500)
+
+[node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("1_njsva")]
+layer_id = 2
+slot = 2
+
+[node name="Polygon2D" parent="Layer2/Ground/VisualRoot" parent_id_path=PackedInt32Array(1568737787, 629838226, 817137210) index="0" unique_id=486029332]
+color = Color(0.198, 0.44, 0.21816663, 1)
+
+[node name="Box" parent="Layer2" unique_id=775469374 instance=ExtResource("2_lrx2v")]
+position = Vector2(1050, 500)
+
+[node name="Box2" parent="Layer2" unique_id=842993570 instance=ExtResource("2_lrx2v")]
+position = Vector2(379, 500)
+
+[node name="Goal" parent="Layer2" unique_id=1268601166 instance=ExtResource("3_jc4bg")]
+position = Vector2(1432, 30)
+
+[node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("1_njsva")]
+layer_id = 1
+
+[node name="Polygon2D" parent="Layer1/Ground/VisualRoot" parent_id_path=PackedInt32Array(1836359811, 629838226, 817137210) index="0" unique_id=486029332]
+color = Color(0.288, 0.64, 0.31733328, 1)
+
+[node name="Box" parent="Layer1" unique_id=1229236693 instance=ExtResource("2_lrx2v")]
+position = Vector2(482, 500)
+
+[node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("1_njsva")]
+slot = 0
+
+[node name="Polygon2D" parent="Layer0/Ground/VisualRoot" parent_id_path=PackedInt32Array(1112075574, 629838226, 817137210) index="0" unique_id=486029332]
+color = Color(0.396, 0.88, 0.43633327, 1)
+
+[node name="Box" parent="Layer0" unique_id=289244368 instance=ExtResource("2_lrx2v")]
+position = Vector2(755, 500)
+
+[editable path="Layer3"]
+[editable path="Layer3/Ground"]
+[editable path="Layer2"]
+[editable path="Layer2/Ground"]
+[editable path="Layer1"]
+[editable path="Layer1/Ground"]
+[editable path="Layer0"]
+[editable path="Layer0/Ground"]

@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://bd2e8t8vka0ac"]
+
+[ext_resource type="Script" uid="uid://cby3g7862frru" path="res://Component/Object/Box/Box.gd" id="1_koqq6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyepm"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nwjy5"]
+size = Vector2(40, 40)
+
+[node name="Box" type="RigidBody2D" unique_id=330834349]
+script = ExtResource("1_koqq6")
+object_id = null
+can_transfer = null
+size_step = null
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=817137210]
+
+[node name="Line2D" type="Line2D" parent="VisualRoot" unique_id=2080341624]
+visible = false
+points = PackedVector2Array(20, 20, 20, -20, -20, -20, -20, 20)
+closed = true
+width = 8.0
+
+[node name="Polygon2D" type="Polygon2D" parent="VisualRoot" unique_id=859248024]
+color = Color(0.59, 0.41358995, 0.1298, 1)
+polygon = PackedVector2Array(20, 20, 20, -20, -20, -20, -20, 20)
+
+[node name="Area2D" type="Area2D" parent="VisualRoot" unique_id=1324729838]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisualRoot/Area2D" unique_id=565012821]
+shape = SubResource("RectangleShape2D_cyepm")
+
+[node name="CollisionBox" type="CollisionShape2D" parent="." unique_id=2027003969]
+shape = SubResource("RectangleShape2D_nwjy5")
