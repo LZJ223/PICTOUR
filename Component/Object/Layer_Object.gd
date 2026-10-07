@@ -19,6 +19,7 @@ func _ready() -> void:
 	owner_layer = find_owner_layer()
 	assert(owner_layer != null, "%s 必须位于 DepthLayer/Objects 下！" % name)
 	set_collision_group(1, owner_layer.slot + 1)
+	visual_root.z_index = 400 - owner_layer.slot * 100
 
 ## 图层切换
 func transfer_to(target_layer: DepthLayer, anchor_position: Vector2) -> void:
@@ -31,14 +32,14 @@ func transfer_to(target_layer: DepthLayer, anchor_position: Vector2) -> void:
 	position = anchor_position + (position - anchor_position) * ratio
 	collision_box.scale *= ratio
 	set_collision_group(owner_layer.layer_id + 1, target_layer.layer_id + 1)
+	visual_root.z_index = 400 - target_layer.slot * 100
 	owner_layer = target_layer
 
 ## 更新屏幕位置
-func apply_visual_transfer(anchor_position: Vector2, slot: int) -> void:
-	var scaling: float = Global.layer_scales[slot]
+func apply_visual_transfer(anchor_position: Vector2) -> void:
+	var scaling: float = Global.layer_scales[owner_layer.slot]
 	visual_root.scale = collision_box.scale * scaling
 	visual_root.position = (anchor_position - position) * (1 - scaling)
-	visual_root.z_index = 400 - slot * 100
 
 ## 寻找母图层
 func find_owner_layer() -> DepthLayer:

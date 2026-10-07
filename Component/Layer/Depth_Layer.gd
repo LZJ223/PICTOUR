@@ -20,4 +20,4 @@ func set_slot(new_slot: int) -> void:
 func apply_slot_state(anchor_position: Vector2) -> void:
 	for child in get_children():
 		if child is Object:
-			child.apply_visual_transfer(anchor_position, slot)
+			child.apply_visual_transfer(anchor_position)

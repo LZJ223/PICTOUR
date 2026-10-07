@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://cabe2ddgr2o0l"]
+
+[ext_resource type="Script" uid="uid://b0voj1n1u8lhf" path="res://Component/Object/Shadowed_Geometry/Shadowed_Geometry.gd" id="1_mdyyw"]
+
+[node name="ShadowedGeometry" type="RigidBody2D" unique_id=330834349]
+script = ExtResource("1_mdyyw")
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=519937963]
+polygon = PackedVector2Array(20, 20, 20, -20, -20, -20, -20, 20)
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=817137210]
+
+[node name="Line2D" type="Line2D" parent="VisualRoot" unique_id=2080341624]
+visible = false
+points = PackedVector2Array(20, 20, 20, -20, -20, -20, -20, 20)
+closed = true
+width = 8.0
+
+[node name="Polygon2D" type="Polygon2D" parent="VisualRoot" unique_id=859248024]
+color = Color(0.59, 0.41358995, 0.1298, 1)
+polygon = PackedVector2Array(20, 20, 20, -20, -20, -20, -20, 20)
+
+[node name="Area2D" type="Area2D" parent="VisualRoot" unique_id=1324729838]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="VisualRoot/Area2D" unique_id=847824507]
+polygon = PackedVector2Array(20, 20, 20, -20, -20, -20, -20, 20)
+
+[node name="Shadow" type="Polygon2D" parent="." unique_id=2067473628]
+visible = false
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 20, 20, 20, -20)
