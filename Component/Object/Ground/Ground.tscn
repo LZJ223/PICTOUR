@@ -6,7 +6,7 @@
 script = ExtResource("1_en00y")
 can_transfer = false
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1077352614]
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=1077352614]
 polygon = PackedVector2Array(2000, 200, 2000, -200, -2000, -200, -2000, 200)
 
 [node name="VisualRoot" type="Node2D" parent="." unique_id=817137210]

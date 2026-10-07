@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://clyqats0d1enx"]
 
-[ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Layer.tscn" id="1_njsva"]
+[ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="1_njsva"]
+[ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_xrs3t"]
 [ext_resource type="PackedScene" uid="uid://bd2e8t8vka0ac" path="res://Component/Object/Box/Box.tscn" id="2_lrx2v"]
 [ext_resource type="PackedScene" uid="uid://bopxiokiwukv1" path="res://Component/Object/Goal/Goal.tscn" id="3_jc4bg"]
 
 [node name="PrototypeLevel" type="Node2D" unique_id=1182049839]
+script = ExtResource("1_xrs3t")
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("1_njsva")]
 layer_id = 3

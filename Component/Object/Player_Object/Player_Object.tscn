@@ -6,6 +6,9 @@
 lock_rotation = true
 script = ExtResource("1_nj30h")
 
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=1419982568]
+polygon = PackedVector2Array(10, 0, 10, -40, -10, -40, -10, 0)
+
 [node name="VisualRoot" type="Node2D" parent="." unique_id=1127300797]
 
 [node name="Line2D" type="Line2D" parent="VisualRoot" unique_id=610225834]
@@ -24,6 +27,3 @@ monitorable = false
 
 [node name="Collision" type="CollisionPolygon2D" parent="VisualRoot/Area2D" unique_id=121423720]
 polygon = PackedVector2Array(10, -40, -10, -40, -10, 0, 10, 0)
-
-[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=1419982568]
-polygon = PackedVector2Array(10, 0, 10, -40, -10, -40, -10, 0)

@@ -1,15 +1,17 @@
+## 此脚本为自动挂载，负责全局参数以及信号系统
+
 extends Node
 ## 图层配置信息
-const layer_count : int = 4
-const layer_scale : float = 0.75
+var layer_count : int = 4
+var layer_scale : float = 0.8
 var layer_scales : Array = [1.0 / layer_scale, 1.0, layer_scale, layer_scale * layer_scale]
+var current_layer_index : int = 1
 ## 操作状态信息
 var object_selected : LayerObject = null
-var UAV_activated : bool = false
 ## 信号定义
 signal layer_cycle(direction: int)
 signal layer_change(direction: int, object: LayerObject)
-signal UAV_activate(UAV_status: bool)
+signal UAV_activate()
 
 ## 输入判定与信号触发
 func _unhandled_input(event: InputEvent) -> void:
@@ -25,8 +27,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.is_action_pressed("backward"):
 			layer_change.emit(-1, object_selected)
 	if event.is_action_pressed("UAV"):
-		UAV_activated = not UAV_activated
-		UAV_activate.emit(UAV_activated)
+		UAV_activate.emit()
 	## 点击交互与物件选取
 	if event.is_action_pressed("pickup"):
 		## 查询鼠标位置
@@ -45,14 +46,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		var best_z : int = -999
 		for result in results:
 			var collider : Area2D = result.collider
-			if collider.z_index > best_z:
+			if collider.z_index > best_z and collider.input_pickable:
 				best_z = collider.z_index
 				best = collider
 		## 更新状态与输出信号
 		while best != null and not best is LayerObject:
 			best = best.get_parent()
 		if object_selected:
-			object_selected.set_pick_condition()
+			object_selected.set_pick_condition(false)
 		object_selected = best as LayerObject
 		if object_selected:
 			object_selected.set_pick_condition(true)

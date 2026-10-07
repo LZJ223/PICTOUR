@@ -1,3 +1,5 @@
+## 此脚本挂载在Layer节点上，负责管理图层槽位，调用子物件进行视觉更新
+
 class_name DepthLayer
 extends Node2D
 ## 图层信息
@@ -11,7 +13,7 @@ func _ready() -> void:
 
 ## 更新图层槽位
 func set_slot(new_slot: int) -> void:
-	assert(new_slot >= 0 and new_slot < 4)
+	assert(new_slot >= 0 and new_slot < 4, "图层超出范围！")
 	slot = new_slot
 
 ## 更新位置

@@ -2,17 +2,17 @@
 
 [ext_resource type="Script" uid="uid://cby3g7862frru" path="res://Component/Object/Box/Box.gd" id="1_koqq6"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyepm"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nwjy5"]
 size = Vector2(40, 40)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nwjy5"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyepm"]
 size = Vector2(40, 40)
 
 [node name="Box" type="RigidBody2D" unique_id=330834349]
 script = ExtResource("1_koqq6")
-object_id = null
-can_transfer = null
-size_step = null
+
+[node name="CollisionBox" type="CollisionShape2D" parent="." unique_id=2027003969]
+shape = SubResource("RectangleShape2D_nwjy5")
 
 [node name="VisualRoot" type="Node2D" parent="." unique_id=817137210]
 
@@ -32,6 +32,3 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VisualRoot/Area2D" unique_id=565012821]
 shape = SubResource("RectangleShape2D_cyepm")
-
-[node name="CollisionBox" type="CollisionShape2D" parent="." unique_id=2027003969]
-shape = SubResource("RectangleShape2D_nwjy5")

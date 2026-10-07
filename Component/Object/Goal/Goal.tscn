@@ -5,6 +5,9 @@
 [node name="Box" type="StaticBody2D" unique_id=1268601166]
 script = ExtResource("1_b7xo7")
 
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=432924817]
+polygon = PackedVector2Array(20, 0, 0, 20, -20, 0, 0, -20)
+
 [node name="VisualRoot" type="Node2D" parent="." unique_id=817137210]
 
 [node name="Line2D" type="Line2D" parent="VisualRoot" unique_id=2080341624]
@@ -22,7 +25,4 @@ monitoring = false
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="VisualRoot/Area2D" unique_id=1912068527]
-polygon = PackedVector2Array(20, 0, 0, 20, -20, 0, 0, -20)
-
-[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=432924817]
 polygon = PackedVector2Array(20, 0, 0, 20, -20, 0, 0, -20)
