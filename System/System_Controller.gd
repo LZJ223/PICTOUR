@@ -50,7 +50,7 @@ func _process(_delta: float) -> void:
 ## 图层轮换
 func cycle(direction: int) -> void:
 	for layer in layers:
-		layer.set_slot(posmod(layer.slot + direction, Global.layer_count))
+		layer.slot = posmod(layer.slot + direction, Global.layer_count)
 
 ## 改变物体图层
 func transfer(direction: int, object: LayerObject) -> void:
