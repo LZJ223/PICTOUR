@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.7", "Mobile")
 [autoload]
 
 Global="*uid://dl63g7i2u2byx"
+SignalSystem="*res://System_Script/Signal.gd"
 
 [display]
 

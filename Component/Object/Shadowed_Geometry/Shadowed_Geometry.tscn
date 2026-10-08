@@ -4,6 +4,9 @@
 
 [node name="ShadowedGeometry" type="RigidBody2D" unique_id=330834349]
 script = ExtResource("1_mdyyw")
+can_transfer = null
+can_leave_shadow = true
+can_be_shadowed = true
 
 [node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=519937963]
 polygon = PackedVector2Array(20, 20, 20, -20, -20, -20, -20, 20)

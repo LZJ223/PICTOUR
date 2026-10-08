@@ -22,6 +22,12 @@ position = Vector2(168, 500)
 [node name="Box2" parent="Layer3" unique_id=330834349 instance=ExtResource("2_lrx2v")]
 position = Vector2(914, 500)
 
+[node name="ShadowedGeometry" parent="Layer3" unique_id=252556292 instance=ExtResource("5_5eqqv")]
+position = Vector2(700, 500)
+
+[node name="ShadowedGeometry2" parent="Layer3" unique_id=384252079 instance=ExtResource("5_5eqqv")]
+position = Vector2(542, 500)
+
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("1_njsva")]
 layer_id = 2
 slot = 2
