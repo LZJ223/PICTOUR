@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="SceneryFamilyPiece" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Component/SceneryFamilies/Scenery_Family_Piece.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/SceneryFamilies/Generated/Strata_Family.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+piece_id = &"strata_shelf"
+display_name = "浮页岩檐"
+family = &"strata"
+silhouette_note = "地层风蚀后仅剩连贯上沿，下方断面以大小不等的齿片结束。"
+affordance_note = "三个相近高度的长踏面适合跨缝；整体可作为上方薄檐或下方桥面。"
+parent_texture = ExtResource("2")
+region = Rect2(603, 241, 624, 215)
+display_size = Vector2(360, 124.04)
+solids = Array[PackedVector2Array]([PackedVector2Array(0.000000, 0.079070, 0.022436, 0.004651, 0.389423, 0.000000, 0.411859, 0.018605, 0.443910, 0.139535, 0.681090, 0.153488, 0.711538, 0.218605, 0.985577, 0.218605, 0.998397, 0.283721, 0.993590, 0.362791, 0.942308, 0.488372, 0.924679, 0.641860, 0.886218, 0.744186, 0.881410, 0.902326, 0.842949, 0.995349, 0.799679, 0.902326, 0.750000, 0.879070, 0.693910, 0.995349, 0.642628, 0.869767, 0.605769, 0.865116, 0.583333, 0.786047, 0.552885, 0.781395, 0.512821, 0.697674, 0.459936, 0.753488, 0.447115, 0.813953, 0.386218, 0.851163, 0.336538, 0.981395, 0.310897, 0.911628, 0.285256, 0.748837, 0.245192, 0.720930, 0.200321, 0.618605, 0.179487, 0.600000, 0.125000, 0.665116, 0.094551, 0.627907, 0.081731, 0.516279, 0.056090, 0.488372, 0.043269, 0.390698, 0.019231, 0.339535)])
+footholds = Array[PackedVector2Array]([PackedVector2Array(0.028846, 0.032558, 0.383013, 0.032558), PackedVector2Array(0.451923, 0.172093, 0.679487, 0.172093), PackedVector2Array(0.717949, 0.241860, 0.979167, 0.241860)])
+empty_points = PackedVector2Array()

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="SceneryFamilyPiece" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Component/SceneryFamilies/Scenery_Family_Piece.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/SceneryFamilies/Generated/Strata_Family.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+piece_id = &"strata_spire"
+display_name = "叠页石柱"
+family = &"strata"
+silhouette_note = "层理方向贯穿石柱，侵蚀使右侧留下悬肩、左下留下底座。"
+affordance_note = "高顶适合远处目标，右肩提供中途停留；宽底座可承接低处来路。"
+parent_texture = ExtResource("2")
+region = Rect2(17, 587, 534, 571)
+display_size = Vector2(280, 299.4)
+solids = Array[PackedVector2Array]([PackedVector2Array(0.659176, 0.012259, 0.552434, 0.000000, 0.219101, 0.014011, 0.202247, 0.098074, 0.211610, 0.122592, 0.189139, 0.150613, 0.189139, 0.199650, 0.138577, 0.225919, 0.134831, 0.259194, 0.110487, 0.280210, 0.110487, 0.336252, 0.140449, 0.373030, 0.132959, 0.420315, 0.159176, 0.457093, 0.185393, 0.462347, 0.207865, 0.488616, 0.222846, 0.546410, 0.241573, 0.560420, 0.185393, 0.612960, 0.200375, 0.711033, 0.166667, 0.796848, 0.117978, 0.816112, 0.101124, 0.861646, 0.056180, 0.873905, 0.000000, 0.989492, 0.998127, 0.989492, 0.936330, 0.856392, 0.880150, 0.845884, 0.863296, 0.819615, 0.820225, 0.809107, 0.769663, 0.665499, 0.741573, 0.640981, 0.745318, 0.605954, 0.807116, 0.530648, 0.947566, 0.483363, 0.975655, 0.408056, 0.679775, 0.381786, 0.659176, 0.343257, 0.617978, 0.320490, 0.636704, 0.255692, 0.698502, 0.176883, 0.657303, 0.157618, 0.616105, 0.108581, 0.647940, 0.064799)])
+footholds = Array[PackedVector2Array]([PackedVector2Array(0.232210, 0.015762, 0.634831, 0.014011), PackedVector2Array(0.696629, 0.394046, 0.953184, 0.415061), PackedVector2Array(0.127341, 0.819615, 0.168539, 0.803853)])
+empty_points = PackedVector2Array()

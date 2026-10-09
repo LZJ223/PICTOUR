@@ -1,0 +1,271 @@
+[gd_scene load_steps=27 format=3]
+
+[ext_resource type="Script" path="res://Level/Story_Garden_Level.gd" id="1"]
+[ext_resource type="Script" path="res://Component/Layer/Depth_Layer.gd" id="2"]
+[ext_resource type="Script" path="res://Component/StoryWorld/Story_Bank.gd" id="3"]
+[ext_resource type="Script" path="res://Component/StoryWorld/Background_Landform.gd" id="4"]
+[ext_resource type="Script" path="res://Component/PaperStage/Paper_Atmosphere.gd" id="5"]
+[ext_resource type="PackedScene" path="res://Component/PaperStage/Hero_Fan_Tree.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://Component/PaperStage/Broken_Arch_AI.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://Component/SceneryFamilies/Scenery_Family_Object.tscn" id="8"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Pieces/strata_wedge.tres" id="9"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Pieces/oldwood_bridge.tres" id="10"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Pieces/arcade_half.tres" id="11"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Pieces/strata_spire.tres" id="12"]
+[ext_resource type="PackedScene" path="res://Component/SceneryFamilies/Derived_Crop_Object.tscn" id="13"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Crops/rose_fan.tres" id="14"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Crops/twin_fan.tres" id="15"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Crops/branch_elbow.tres" id="16"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Crops/low_root.tres" id="17"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Crops/slate_shelf.tres" id="18"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Crops/slate_chip.tres" id="19"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Crops/wall_cap.tres" id="20"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Crops/broken_lintel.tres" id="21"]
+[ext_resource type="PackedScene" path="res://Component/PaperStage/Paper_Stage_Object.tscn" id="22"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Botanical/Pieces/fern_mat.tres" id="23"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Botanical/Pieces/moon_reeds.tres" id="24"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Botanical/Pieces/bell_spray.tres" id="25"]
+[ext_resource type="Resource" path="res://Art/SceneryFamilies/Botanical/Pieces/flower_clump.tres" id="26"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1")
+layer_count = 2
+layer_scale = 0.8
+current_layer_index = 0
+allow_layer_cycle = false
+allow_uav = false
+allow_scenery_overlap_outside_player_layer = true
+lock_camera_y = true
+camera_height = 360.0
+
+[node name="Atmosphere" type="Node2D" parent="."]
+script = ExtResource("5")
+
+[node name="Back" type="Node2D" parent="."]
+script = ExtResource("2")
+layer_id = 1
+slot = 1
+
+[node name="GroveLand" type="Node2D" parent="Back"]
+script = ExtResource("4")
+edge = PackedVector2Array(-500,560,-160,540,0,555,200,548,370,570,620,585,760,560)
+underside = PackedVector2Array(760,634,690,650,620,622,560,662,420,668,350,635,230,686,80,674,-20,636,-120,656,-270,632,-350,660,-500,629)
+ink_color = Color(0.65,0.63,0.58,1)
+
+[node name="CourtLand" type="Node2D" parent="Back"]
+script = ExtResource("4")
+edge = PackedVector2Array(730,600,840,565,900,535,1200,535,1235,560,1395,560,1450,540)
+underside = PackedVector2Array(1450,630,1320,648,1240,635,1190,663,1080,674,1000,643,885,664,790,630,730,657)
+ink_color = Color(0.62,0.60,0.57,1)
+
+[node name="ValleyLand" type="Node2D" parent="Back"]
+script = ExtResource("4")
+edge = PackedVector2Array(1280,575,1320,551,1345,535,1420,535,1450,522.5,1480,522.5,1510,530,1530,552)
+underside = PackedVector2Array(1530,578,1518,592,1470,608,1450,626,1400,633,1372,626,1345,642,1315,631,1280,620)
+ink_color = Color(0.66,0.65,0.61,1)
+
+[node name="ValleyFarLand" type="Node2D" parent="Back"]
+script = ExtResource("4")
+edge = PackedVector2Array(1825,549,1860,523,1900,523,1940,532,2000,535,2070,553,2110,575)
+underside = PackedVector2Array(2110,637,2077,651,2040,650,2002,626,1950,626,1916,650,1885,642,1853,615,1835,592,1825,567)
+ink_color = Color(0.66,0.65,0.61,1)
+
+[node name="GoalLand" type="Node2D" parent="Back"]
+script = ExtResource("4")
+edge = PackedVector2Array(1960,600,2050,550,2110,545,2250,505,2400,505,2500,540,2800,580)
+underside = PackedVector2Array(2800,674,2640,689,2520,652,2440,667,2310,641,2200,658,2130,619,2030,645,1960,660)
+ink_color = Color(0.58,0.60,0.58,1)
+
+[node name="GroveReeds" parent="Back" instance=ExtResource("13")]
+position = Vector2(288,568)
+piece = ExtResource("24")
+dimensions = Vector2(94,210)
+metadata/persistent_id = "GroveReeds"
+
+[node name="TwinFan" parent="Back" instance=ExtResource("13")]
+position = Vector2(580,582.6)
+piece = ExtResource("15")
+dimensions = Vector2(245,191)
+metadata/persistent_id = "TwinFan"
+
+[node name="BranchElbow" parent="Back" instance=ExtResource("13")]
+position = Vector2(737,582)
+piece = ExtResource("16")
+dimensions = Vector2(165,123)
+metadata/persistent_id = "BranchElbow"
+
+[node name="CourtArch" parent="Back" instance=ExtResource("8")]
+position = Vector2(1010,539)
+modulate = Color(1.03,0.96,0.98,1)
+piece = ExtResource("11")
+dimensions = Vector2(300,430)
+metadata/persistent_id = "CourtArch"
+
+[node name="CourtSlate" parent="Back" instance=ExtResource("13")]
+position = Vector2(1125,562)
+piece = ExtResource("18")
+dimensions = Vector2(215,89)
+metadata/persistent_id = "CourtSlate"
+
+[node name="CourtFern" parent="Back" instance=ExtResource("13")]
+position = Vector2(1025,554)
+piece = ExtResource("23")
+dimensions = Vector2(250,113.3)
+metadata/persistent_id = "CourtFern"
+
+[node name="BrokenArch" parent="Back" instance=ExtResource("7")]
+position = Vector2(1670,535)
+dimensions = Vector2(650,356.25)
+display_name = "缺月残拱"
+metadata/persistent_id = "BrokenArch"
+
+[node name="LowStone" parent="Back" instance=ExtResource("8")]
+position = Vector2(1463.75,522.5)
+modulate = Color(1.03,1,0.94,1)
+piece = ExtResource("9")
+dimensions = Vector2(187.5,112.5)
+metadata/persistent_id = "LowStone"
+
+[node name="RootBridge" parent="Back" instance=ExtResource("8")]
+position = Vector2(1745,522.5)
+modulate = Color(0.86,0.89,0.82,1)
+piece = ExtResource("10")
+dimensions = Vector2(400,167.5)
+metadata/persistent_id = "RootBridge"
+
+[node name="FarSpire" parent="Back" instance=ExtResource("8")]
+position = Vector2(2230,517)
+modulate = Color(0.96,0.96,1.05,1)
+piece = ExtResource("12")
+dimensions = Vector2(218,340)
+metadata/persistent_id = "FarSpire"
+
+[node name="GoalLintel" parent="Back" instance=ExtResource("13")]
+position = Vector2(2295,515)
+piece = ExtResource("21")
+dimensions = Vector2(230,108)
+metadata/persistent_id = "GoalLintel"
+
+[node name="GoalChip" parent="Back" instance=ExtResource("13")]
+position = Vector2(2183,536)
+piece = ExtResource("19")
+dimensions = Vector2(150,116)
+metadata/persistent_id = "GoalChip"
+
+[node name="ValleyReeds" parent="Back" instance=ExtResource("13")]
+position = Vector2(1903,548)
+piece = ExtResource("24")
+dimensions = Vector2(77,184.8)
+metadata/persistent_id = "ValleyReeds"
+
+[node name="GoalBell" parent="Back" instance=ExtResource("13")]
+position = Vector2(2200,546)
+piece = ExtResource("25")
+dimensions = Vector2(112,161.3)
+metadata/persistent_id = "GoalBell"
+
+[node name="Mid" type="Node2D" parent="."]
+script = ExtResource("2")
+layer_id = 0
+slot = 0
+
+[node name="GroveBank" type="StaticBody2D" parent="Mid"]
+script = ExtResource("3")
+edge = PackedVector2Array(-440,635,-375,615,-330,598,-305,590,-60,590,-25,582,0,580,360,580,415,577,462,571,500,564,548,558,594,552,630,550,740,550)
+underside = PackedVector2Array(740,607,710,619,683,624,654,638,627,643,607,638,590,620,563,631,522,645,480,654,452,651,431,640,411,626,389,645,363,662,337,672,298,683,276,680,245,663,210,655,181,661,151,681,128,688,94,686,61,676,32,669,-23,677,-70,677,-100,663,-126,647,-169,650,-225,660,-260,654,-280,639,-365,657,-440,686)
+seed_value = 101
+z_index = 195
+collision_layer = 1
+ink_color = Color(0.32,0.28,0.31,1)
+
+[node name="CourtBank" type="StaticBody2D" parent="Mid"]
+script = ExtResource("3")
+edge = PackedVector2Array(740,550,790,542,960,542,970,530,1010,520,1120,520,1150,512,1170,501,1190,490,1217,483,1255,480,1320,480)
+underside = PackedVector2Array(1320,516,1280,543,1217,529,1180,568,1120,602,1050,620,1000,594,944,625,897,599,848,612,790,590,740,607)
+seed_value = 112
+z_index = 195
+collision_layer = 1
+ink_color = Color(0.32,0.28,0.31,1)
+
+[node name="FarBank" type="StaticBody2D" parent="Mid"]
+script = ExtResource("3")
+edge = PackedVector2Array(1850,520,1980,520,2040,520,2075,512,2110,495,2130,490,2160,485,2180,484,2440,484,2560,484,2600,490,2640,504,2680,527,2720,558,2750,590,2785,640,2820,710,2860,792)
+underside = PackedVector2Array(2860,860,2790,805,2720,704,2670,644,2620,596,2580,575,2533,578,2500,563,2470,559,2440,577,2414,595,2380,612,2350,618,2300,616,2260,604,2240,615,2210,625,2170,615,2130,599,2104,605,2078,620,2054,617,2030,608,1994,588,1960,605,1930,620,1905,609,1880,592,1861,571,1850,555)
+seed_value = 129
+z_index = 195
+collision_layer = 1
+ink_color = Color(0.32,0.28,0.31,1)
+
+[node name="StartBranch" parent="Mid" instance=ExtResource("13")]
+position = Vector2(40,583)
+piece = ExtResource("16")
+dimensions = Vector2(155,116)
+metadata/persistent_id = "StartBranch"
+
+[node name="HeroTree" parent="Mid" instance=ExtResource("6")]
+position = Vector2(-190,590)
+dimensions = Vector2(620,558)
+display_name = "守页老树"
+metadata/persistent_id = "HeroTree"
+
+[node name="RoseFan" parent="Mid" instance=ExtResource("13")]
+position = Vector2(20,485)
+piece = ExtResource("14")
+dimensions = Vector2(153,146.4)
+metadata/persistent_id = "RoseFan"
+
+[node name="GroveFern" parent="Mid" instance=ExtResource("13")]
+position = Vector2(142,589)
+piece = ExtResource("23")
+dimensions = Vector2(190,86.1)
+metadata/persistent_id = "GroveFern"
+
+[node name="GroveBell" parent="Mid" instance=ExtResource("13")]
+position = Vector2(405,585)
+piece = ExtResource("25")
+dimensions = Vector2(106,152.6)
+metadata/persistent_id = "GroveBell"
+
+[node name="CourtStep" parent="Mid" instance=ExtResource("8")]
+position = Vector2(870,542)
+piece = ExtResource("9")
+dimensions = Vector2(150,65)
+metadata/persistent_id = "CourtStep"
+
+[node name="CourtFlowers" parent="Mid" instance=ExtResource("13")]
+position = Vector2(947,550)
+piece = ExtResource("26")
+dimensions = Vector2(78,84.9)
+metadata/persistent_id = "CourtFlowers"
+
+[node name="ReturnRoot" parent="Mid" instance=ExtResource("13")]
+position = Vector2(1960,520)
+piece = ExtResource("17")
+dimensions = Vector2(130,82)
+metadata/persistent_id = "ReturnRoot"
+
+[node name="LastCap" parent="Mid" instance=ExtResource("13")]
+position = Vector2(2500,486.8)
+piece = ExtResource("20")
+dimensions = Vector2(120,103)
+metadata/persistent_id = "LastCap"
+
+[node name="GoalReeds" parent="Mid" instance=ExtResource("13")]
+position = Vector2(2450,494)
+piece = ExtResource("24")
+dimensions = Vector2(86,206.4)
+metadata/persistent_id = "GoalReeds"
+
+[node name="GoalFlowers" parent="Mid" instance=ExtResource("13")]
+position = Vector2(2275,492)
+piece = ExtResource("26")
+dimensions = Vector2(84,91.5)
+metadata/persistent_id = "GoalFlowers"
+
+[node name="EdgeSeed" parent="Mid" instance=ExtResource("22")]
+position = Vector2(1295,480)
+profile = 3
+dimensions = Vector2(39,60)
+variation = 1
+display_name = "书页草"
+metadata/persistent_id = "EdgeSeed"

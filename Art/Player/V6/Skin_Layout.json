@@ -1,0 +1,544 @@
+{
+  "version": 1,
+  "source": "AI生成分件母图。原PNG不修改；UV裁去重复领圈和关节截面，复用肢体纹理。",
+  "parts": [
+    {
+      "name": "far_thigh",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        705,
+        794,
+        110,
+        133
+      ],
+      "pivot": [
+        41,
+        1
+      ],
+      "scale": 0.205,
+      "attach": "far_hip",
+      "z": -5,
+      "end": "far_knee",
+      "axis": [
+        38,
+        126
+      ],
+      "width_scale": 0.21,
+      "tint": [
+        0.83,
+        0.8,
+        0.82,
+        1
+      ],
+      "centerline": [
+        [
+          0,
+          41
+        ],
+        [
+          21,
+          46
+        ],
+        [
+          41,
+          52
+        ],
+        [
+          61,
+          60
+        ],
+        [
+          81,
+          67
+        ],
+        [
+          101,
+          75
+        ],
+        [
+          133,
+          77
+        ]
+      ]
+    },
+    {
+      "name": "far_shin",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        1106,
+        805,
+        86,
+        213
+      ],
+      "pivot": [
+        42,
+        0
+      ],
+      "scale": 0.132,
+      "attach": "far_knee",
+      "z": -5,
+      "end": "far_ankle",
+      "axis": [
+        1,
+        210
+      ],
+      "width_scale": 0.32,
+      "tint": [
+        0.83,
+        0.8,
+        0.82,
+        1
+      ],
+      "centerline": [
+        [
+          0,
+          42
+        ],
+        [
+          30,
+          38
+        ],
+        [
+          70,
+          33
+        ],
+        [
+          110,
+          35
+        ],
+        [
+          150,
+          38
+        ],
+        [
+          190,
+          40
+        ],
+        [
+          213,
+          43
+        ]
+      ]
+    },
+    {
+      "name": "far_foot",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        1115,
+        998,
+        143,
+        63
+      ],
+      "pivot": [
+        39,
+        51
+      ],
+      "scale": 0.0473,
+      "attach": "far_ankle",
+      "z": -4,
+      "end": "far_toe",
+      "axis": [
+        91,
+        0
+      ],
+      "width_scale": 1.0,
+      "tint": [
+        0.83,
+        0.8,
+        0.82,
+        1
+      ],
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "name": "far_upper_arm",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        1124,
+        449,
+        116,
+        168
+      ],
+      "pivot": [
+        84,
+        -18
+      ],
+      "scale": 0.077,
+      "attach": "far_shoulder",
+      "z": -2,
+      "end": "far_elbow",
+      "axis": [
+        -49,
+        169
+      ],
+      "width_scale": 0.76,
+      "tint": [
+        0.83,
+        0.8,
+        0.82,
+        1
+      ]
+    },
+    {
+      "name": "far_forearm",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        297,
+        902,
+        93,
+        147
+      ],
+      "pivot": [
+        9,
+        -6
+      ],
+      "scale": 0.085,
+      "attach": "far_elbow",
+      "z": -2,
+      "end": "far_hand",
+      "axis": [
+        58,
+        119
+      ],
+      "width_scale": 0.84,
+      "tint": [
+        0.83,
+        0.8,
+        0.82,
+        1
+      ]
+    },
+    {
+      "name": "near_thigh",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        705,
+        794,
+        110,
+        133
+      ],
+      "pivot": [
+        41,
+        1
+      ],
+      "scale": 0.205,
+      "attach": "near_hip",
+      "z": 3,
+      "end": "near_knee",
+      "axis": [
+        38,
+        126
+      ],
+      "width_scale": 0.21,
+      "tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "centerline": [
+        [
+          0,
+          41
+        ],
+        [
+          21,
+          46
+        ],
+        [
+          41,
+          52
+        ],
+        [
+          61,
+          60
+        ],
+        [
+          81,
+          67
+        ],
+        [
+          101,
+          75
+        ],
+        [
+          133,
+          77
+        ]
+      ]
+    },
+    {
+      "name": "near_shin",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        1106,
+        805,
+        86,
+        213
+      ],
+      "pivot": [
+        42,
+        0
+      ],
+      "scale": 0.132,
+      "attach": "near_knee",
+      "z": 3,
+      "end": "near_ankle",
+      "axis": [
+        1,
+        210
+      ],
+      "width_scale": 0.32,
+      "tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "centerline": [
+        [
+          0,
+          42
+        ],
+        [
+          30,
+          38
+        ],
+        [
+          70,
+          33
+        ],
+        [
+          110,
+          35
+        ],
+        [
+          150,
+          38
+        ],
+        [
+          190,
+          40
+        ],
+        [
+          213,
+          43
+        ]
+      ]
+    },
+    {
+      "name": "near_foot",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        1115,
+        998,
+        143,
+        63
+      ],
+      "pivot": [
+        39,
+        51
+      ],
+      "scale": 0.0473,
+      "attach": "near_ankle",
+      "z": 4,
+      "end": "near_toe",
+      "axis": [
+        91,
+        0
+      ],
+      "width_scale": 1.0,
+      "tint": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "grid": [
+        4,
+        4
+      ]
+    },
+    {
+      "name": "near_upper_arm",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        1124,
+        449,
+        116,
+        168
+      ],
+      "pivot": [
+        84,
+        -18
+      ],
+      "scale": 0.077,
+      "attach": "near_shoulder",
+      "z": 6,
+      "end": "near_elbow",
+      "axis": [
+        -49,
+        169
+      ],
+      "width_scale": 0.76,
+      "tint": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "near_forearm",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        297,
+        902,
+        93,
+        147
+      ],
+      "pivot": [
+        9,
+        -6
+      ],
+      "scale": 0.085,
+      "attach": "near_elbow",
+      "z": 6,
+      "end": "near_hand",
+      "axis": [
+        58,
+        119
+      ],
+      "width_scale": 0.84,
+      "tint": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "rear_hair",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        604,
+        140,
+        260,
+        256
+      ],
+      "pivot": [
+        170,
+        8
+      ],
+      "scale": 0.13,
+      "attach": "neck",
+      "z": -3,
+      "deform": "hair",
+      "width_scale": 0.82,
+      "grid": [
+        6,
+        14
+      ]
+    },
+    {
+      "name": "rear_coat",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        580,
+        409,
+        283,
+        327
+      ],
+      "pivot": [
+        212,
+        10
+      ],
+      "scale": 0.08,
+      "attach": "waist",
+      "z": -1,
+      "deform": "coat",
+      "width_scale": 1.2,
+      "hem_weight": -0.6,
+      "grid": [
+        6,
+        14
+      ]
+    },
+    {
+      "name": "bodice",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        1112,
+        126,
+        148,
+        237
+      ],
+      "pivot": [
+        71,
+        1
+      ],
+      "scale": 0.075,
+      "attach": "neck",
+      "z": 4,
+      "end": "waist",
+      "axis": [
+        1,
+        229
+      ],
+      "width_scale": 1.0,
+      "grid": [
+        5,
+        12
+      ]
+    },
+    {
+      "name": "front_coat",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        198,
+        385,
+        241,
+        373
+      ],
+      "pivot": [
+        152,
+        10
+      ],
+      "scale": 0.087,
+      "attach": "waist",
+      "z": 5,
+      "deform": "coat",
+      "width_scale": 1.33,
+      "hem_weight": 1.0,
+      "grid": [
+        7,
+        16
+      ]
+    },
+    {
+      "name": "head",
+      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "region": [
+        184,
+        35,
+        276,
+        266
+      ],
+      "pivot": [
+        168,
+        214
+      ],
+      "scale": 0.09,
+      "attach": "neck",
+      "z": 8,
+      "deform": "rigid",
+      "grid": [
+        7,
+        8
+      ]
+    }
+  ]
+}

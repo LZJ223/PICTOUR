@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="920" viewBox="0 0 1200 920">
+<title>折页井：三主体纵向空间提案，未实现与未验证</title>
+<defs>
+ <pattern id="soil" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#e3dfd5"/><path d="M0 12L12 0" stroke="#cbc4b7" stroke-width="1"/></pattern>
+ <marker id="up" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#276781"/></marker>
+ <marker id="low" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#a05745"/></marker>
+</defs>
+<rect width="1200" height="920" fill="#faf7ef"/>
+<g font-family="Microsoft YaHei, sans-serif" fill="#343942">
+ <text x="48" y="40" font-size="24" font-weight="bold">折页井 · 三主体 / 同空间两种配置</text>
+ <text x="48" y="66" font-size="14" fill="#9b5548">结构示意，未实现、未物理验证；两种B的位置不会同时存在。不是美术目标图。</text>
+</g>
+<g transform="translate(70 92) scale(.45)">
+ <rect width="2240" height="1320" fill="none" stroke="#b9b3a8" stroke-dasharray="10 8" stroke-width="2"/>
+ <!-- 固定世界底面只给出路径约束，具体空间连接及下轮廓待白模。 -->
+ <path d="M40 1100H1000L1080 1180H1230L1340 1100L2010 835H2140L2220 1320H40Z" fill="url(#soil)" stroke="#aaa397" stroke-width="3"/>
+ <path d="M1540 735H1900V782L1780 810L1620 790L1540 775Z" fill="url(#soil)" stroke="#aaa397" stroke-width="3"/>
+ <path d="M300 180H910L1510 570V640L910 255H300Z" fill="url(#soil)" stroke="#aaa397" stroke-width="3"/>
+ <!-- 初始A，中景卷根门：阻挡低洞，兼作上行枝肩。 -->
+ <path d="M600 1030H660V955H720V885H780V820H1000V865H815V1000L850 1100H730V1070H600Z" fill="#927382" fill-opacity=".86" stroke="#6d475a" stroke-width="4"/>
+ <!-- B在上桥配置的实体，垂腹影响下洞净空。 -->
+ <path d="M1110 820H1410V865L1290 880V1060H1230V880L1110 865Z" fill="#89aab5" fill-opacity=".85" stroke="#276781" stroke-width="4"/>
+ <!-- B在低路配置的位置，另一个状态而非第四件。 -->
+ <path d="M1014 820H1314V865L1194 880V1060H1134V880L1014 865Z" fill="none" stroke="#a05745" stroke-width="5" stroke-dasharray="12 9"/>
+ <!-- C共同支点。 -->
+ <path d="M1594 735L1614 650L1630 645H1715L1774 735Z" fill="#b8a16a" stroke="#8e7335" stroke-width="4"/>
+ <circle cx="820" cy="155" r="15" fill="#644b75"/><path d="M820 120V98" stroke="#644b75" stroke-width="4"/>
+ <circle cx="360" cy="1078" r="18" fill="#444c60"/>
+ <!-- 两路线的原路返程均应成立；箭头只表示初次上行。 -->
+ <path d="M390 1080L585 1080L625 1010L685 935L745 865L830 800L1090 800L1280 800L1490 780L1570 715L1650 625L1485 550L925 160L850 155" fill="none" stroke="#276781" stroke-width="8" stroke-linejoin="round" marker-end="url(#up)"/>
+ <path d="M390 1125L985 1125L1090 1205H1225L1350 1125L2025 855L1880 715H1790" fill="none" stroke="#a05745" stroke-width="8" stroke-linejoin="round" marker-end="url(#low)"/>
+ <path d="M1790 715L1700 630L1520 563" fill="none" stroke="#a05745" stroke-width="5" stroke-dasharray="10 8" marker-end="url(#low)"/>
+ <path d="M1194 1070V1170" stroke="#a05745" stroke-width="3"/><path d="M1175 1070H1210M1175 1170H1210" stroke="#a05745" stroke-width="3"/>
+ <g font-family="Microsoft YaHei,sans-serif" font-size="30" fill="#343942">
+  <text x="80" y="1038">井底前庭 / 站位区</text><text x="605" y="775">A 卷根门</text>
+  <text x="1095" y="770">B 宽桥面 + 窄垂腹</text><text x="1630" y="608">C 矮根</text>
+  <text x="1920" y="795">下路坡顶 835</text><text x="1640" y="862">共同上岸 735</text>
+  <text x="1000" y="1280">低位配置：腹下净高约120</text><text x="810" y="85">墨迹 / 终点 180</text>
+  <text x="920" y="355">共同斜岸</text><text x="1870" y="1000">长坡回望</text>
+ </g>
+</g>
+<g font-family="Microsoft YaHei,sans-serif" font-size="15" fill="#343942">
+ <text x="70" y="714">蓝：留A → 爬A → 较右站位搬近B架桥 → C登高。褐：B停凹地上方 → A送远 → 从桥腹下绕行 → C。</text>
+ <text x="70" y="741">两路返程应能沿各自实体逆行；不能用撤销或R代替正常返程。主要世界范围 2240 × 1320。</text>
+ <rect x="70" y="764" width="1060" height="112" rx="8" fill="#f0ece3"/>
+ <text x="88" y="790" font-weight="bold">背景占用 / 撤回边界</text>
+ <text x="88" y="816">背景A空腔约 x700–1260、y830–1200，B初始上肩占其右上侧；需实际轮廓检查，不能写物件专用槽。</text>
+ <text x="88" y="840">普通W/S严格占用；撤回原子恢复上次成功换层前的世界和玩家。跨景遮挡允许，同景实体互穿不允许。</text>
+ <text x="88" y="864">相机可上下取景，投影锚点Y拟固定720。此解耦尚未实现；直接解除现有Y锁会让背景随爬高重新排列。</text>
+ <text x="70" y="903" font-size="13" fill="#77776f">候选坐标不是验收结果。脚位、净空、背景轮廓、连续可用站位区与回搬都须在独立F6白模验证。</text>
+</g>
+</svg>

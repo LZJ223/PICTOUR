@@ -1,0 +1,14 @@
+{
+  "project": "PICTOUR",
+  "date": "2026-10-08",
+  "kind": "art_direction_concept",
+  "status": "proposal_not_integrated",
+  "tool": "built-in imagegen",
+  "model_version": "not provided by tool response",
+  "output": "Paper_Garden_01.png",
+  "prompt": "Paper_Garden_01.prompt.txt",
+  "reference": "User-provided GRIS screenshot, viewed for discussion only; not sent as image-generation input",
+  "input_images": [],
+  "human_image_edits": false,
+  "intended_use": "Private project concept discussion; independent production assets are a later step"
+}

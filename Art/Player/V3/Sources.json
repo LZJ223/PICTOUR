@@ -1,0 +1,12 @@
+{
+  "type": "original_code_generated_sprite_art",
+  "date": "2026-10-09",
+  "source": "Build_Traveler_V3.gd and Traveler_Pose.gd",
+  "author": "PICTOUR project / Codex assisted",
+  "external_pixels_used": false,
+  "style_reference": "Art/Concepts/Paper_Garden_01.png, project approved direction",
+  "motion_reference": "User supplied GRIS running screenshot, used for side-view weight and opposing limbs only; no reference pixels copied",
+  "output": "Traveler_V3_Atlas.svg, Traveler_V3_Atlas.png, Traveler_V3_Frames.tres, Traveler_V3_Poses.png",
+  "cloth": "Original deterministic cloth simulation, Scarf_Cloth.gd; cloth tail is rendered independently from the sprite atlas",
+  "limitations": "16 discrete locomotion poses, intentionally finite frame animation; cloth uses a constrained strip instead of a complete cloth surface solver. Bone length and phase checks do not constitute artistic acceptance."
+}

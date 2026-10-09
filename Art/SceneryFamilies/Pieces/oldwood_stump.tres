@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="SceneryFamilyPiece" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Component/SceneryFamilies/Scenery_Family_Piece.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/SceneryFamilies/Generated/Oldwood_Family.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+piece_id = &"oldwood_stump"
+display_name = "裂心树墩"
+family = &"oldwood"
+silhouette_note = "锯面与保留的裂心高低错开，外伸根须给出低处入口。"
+affordance_note = "长锯面容纳停步；侧根可与低石相接，裂心留作不规则遮挡。"
+parent_texture = ExtResource("2")
+region = Rect2(18, 214, 501, 268)
+display_size = Vector2(260, 139.08)
+solids = Array[PackedVector2Array]([PackedVector2Array(0.998004, 0.936567, 0.930140, 0.787313, 0.890220, 0.623134, 0.866267, 0.682836, 0.848303, 0.369403, 0.798403, 0.141791, 0.774451, 0.104478, 0.752495, 0.167910, 0.732535, 0.000000, 0.630739, 0.134328, 0.610778, 0.126866, 0.574850, 0.227612, 0.546906, 0.108209, 0.512974, 0.104478, 0.495010, 0.070896, 0.297405, 0.070896, 0.203593, 0.108209, 0.243513, 0.365672, 0.269461, 0.410448, 0.255489, 0.541045, 0.215569, 0.626866, 0.143713, 0.645522, 0.000000, 0.970149, 0.103792, 0.932836, 0.181637, 0.787313, 0.219561, 0.794776, 0.141717, 0.992537, 0.211577, 0.996269, 0.359281, 0.944030, 0.427146, 0.847015, 0.495010, 0.805970, 0.528942, 0.850746, 0.542914, 0.940299, 0.578842, 0.966418, 0.630739, 0.955224, 0.698603, 0.992537, 0.838323, 0.951493, 0.868263, 0.985075, 0.938124, 0.992537, 0.964072, 0.985075, 0.954092, 0.947761)])
+footholds = Array[PackedVector2Array]([PackedVector2Array(0.237525, 0.100746, 0.500998, 0.100746)])
+empty_points = PackedVector2Array(0.461078, 0.955224)

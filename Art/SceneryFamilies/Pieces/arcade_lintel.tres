@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="SceneryFamilyPiece" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Component/SceneryFamilies/Scenery_Family_Piece.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/SceneryFamilies/Generated/Arcade_Family.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+piece_id = &"arcade_lintel"
+display_name = "长挑落檐"
+family = &"arcade"
+silhouette_note = "遗留檐口从厚基延伸为细长悬臂，残缺底边留出穿行空间。"
+affordance_note = "长而浅的上沿可跨缝，厚基一侧可承接较低物件。"
+parent_texture = ExtResource("2")
+region = Rect2(523, 245, 698, 239)
+display_size = Vector2(390, 133.54)
+solids = Array[PackedVector2Array]([PackedVector2Array(0.000000, 0.083682, 0.012894, 0.000000, 0.438395, 0.008368, 0.465616, 0.154812, 0.971347, 0.150628, 0.998567, 0.263598, 0.975645, 0.364017, 0.906877, 0.338912, 0.886819, 0.384937, 0.829513, 0.401674, 0.769341, 0.481172, 0.726361, 0.623431, 0.694842, 0.849372, 0.491404, 0.849372, 0.471347, 0.782427, 0.434097, 0.761506, 0.404011, 0.849372, 0.342407, 0.853556, 0.306590, 0.991632, 0.057307, 0.995816, 0.035817, 0.937238, 0.037249, 0.820084, 0.055874, 0.765690, 0.058739, 0.682008, 0.038682, 0.631799, 0.041547, 0.330544, 0.035817, 0.263598, 0.005731, 0.175732)])
+footholds = Array[PackedVector2Array]([PackedVector2Array(0.020057, 0.025105, 0.431232, 0.029289), PackedVector2Array(0.478510, 0.179916, 0.955587, 0.179916)])
+empty_points = PackedVector2Array()

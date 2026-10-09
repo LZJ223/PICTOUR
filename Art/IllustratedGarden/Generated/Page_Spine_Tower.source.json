@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-09",
+  "tool": "built-in image_gen",
+  "model": "not reported by tool",
+  "source": "C:/Users/willi/.codex/generated_images/01a11af9-fca4-7c10-beb9-3f3d9c9545c8/exec-fcab97c8-804c-41a0-b5e8-d891a4b75b04.png",
+  "project_file": "Art/IllustratedGarden/Generated/Page_Spine_Tower.png",
+  "reference_images": [
+    "Art/Concepts/Paper_Garden_01.png"
+  ],
+  "alpha": true,
+  "pixel_edits": false,
+  "usage": "GameJam transparent parent scenery sprite",
+  "derivatives": "Engine-native atlas regions and traced silhouette resources"
+}

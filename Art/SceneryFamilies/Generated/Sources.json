@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-09",
+  "method": "OpenAI built-in imagegen",
+  "model": "not reported",
+  "reference": "Art/Concepts/Paper_Garden_01.png",
+  "prompts": "Prompts.txt",
+  "assets": [
+    {
+      "file": "Oldwood_Family.png",
+      "original": "C:/Users/willi/.codex/generated_images/01a11af9-fca4-7c10-beb9-3f3d9c9545c8/exec-458396f3-3f5b-4f9c-9c3b-244080382715.png"
+    },
+    {
+      "file": "Strata_Family.png",
+      "original": "C:/Users/willi/.codex/generated_images/01a11af9-fca4-7c10-beb9-3f3d9c9545c8/exec-80efa31d-3575-4852-900e-e5d18cebf1eb.png"
+    },
+    {
+      "file": "Arcade_Family.png",
+      "original": "C:/Users/willi/.codex/generated_images/01a11af9-fca4-7c10-beb9-3f3d9c9545c8/exec-01f9c2f5-91f9-413c-8308-4d8373b05639.png"
+    }
+  ],
+  "notes": "Each parent sheet contains four newly designed structural variants, not recolors. In-engine AtlasTexture regions retain the original PNG and transparency; collision and landing contours are authored separately."
+}

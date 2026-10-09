@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="SceneryFamilyPiece" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Component/SceneryFamilies/Scenery_Family_Piece.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/SceneryFamilies/Generated/Strata_Family.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+piece_id = &"strata_wedge"
+display_name = "斜页岩"
+family = &"strata"
+silhouette_note = "低侧被侵蚀成缓坡，高侧保留长断面。"
+affordance_note = "可从低侧接近的页石；翻面、错景会改变它与根肩之间的落差。"
+parent_texture = ExtResource("2")
+region = Rect2(41, 173, 514, 276)
+display_size = Vector2(180, 96.65)
+solids = Array[PackedVector2Array]([PackedVector2Array(0.003891, 0.036232, 0.023346, 0.003623, 0.243191, 0.000000, 0.431907, 0.065217, 0.445525, 0.144928, 0.476654, 0.177536, 0.496109, 0.264493, 0.634241, 0.333333, 0.651751, 0.438406, 0.675097, 0.456522, 0.715953, 0.572464, 0.778210, 0.644928, 0.859922, 0.684783, 0.885214, 0.775362, 0.943580, 0.815217, 0.998054, 0.978261, 0.050584, 0.978261, 0.054475, 0.887681, 0.029183, 0.847826, 0.035019, 0.619565, 0.066148, 0.568841, 0.068093, 0.489130, 0.036965, 0.391304, 0.042802, 0.253623, 0.011673, 0.192029)])
+footholds = Array[PackedVector2Array]([PackedVector2Array(0.031128, 0.021739, 0.414397, 0.050725), PackedVector2Array(0.498054, 0.275362, 0.622568, 0.333333), PackedVector2Array(0.784047, 0.659420, 0.857977, 0.695652)])
+empty_points = PackedVector2Array()

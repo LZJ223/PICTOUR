@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-09",
+  "tool": "built-in image_gen",
+  "model": "not reported by tool",
+  "source": "C:/Users/willi/.codex/generated_images/01a11af9-fca4-7c10-beb9-3f3d9c9545c8/exec-63af3e04-e8b6-4f07-a96d-f2d4602f4bcd.png",
+  "project_file": "Art/IllustratedGarden/Generated/Page_Strata_Surface.png",
+  "reference_images": [
+    "Art/Concepts/Paper_Garden_01.png"
+  ],
+  "alpha": false,
+  "pixel_edits": false,
+  "usage": "Geological landform interior material, not independent scenery",
+  "derivatives": "Engine-native shader UV mapping/tint; original PNG preserved"
+}

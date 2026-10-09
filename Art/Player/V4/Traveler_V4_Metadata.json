@@ -1,0 +1,519 @@
+{
+	"animations": {
+		"apex": [
+			{
+				"collar": [
+					3.20000004768372,
+					-75.8000030517578
+				],
+				"lowest_pixel_y": -7.2,
+				"sheet": "actions",
+				"source_bounds": [
+					63,
+					522,
+					298,
+					439
+				],
+				"source_frame": 4,
+				"source_root": [
+					228.0,
+					485.0
+				]
+			}
+		],
+		"brake": [
+			{
+				"collar": [
+					-2.79999995231628,
+					-70.5999984741211
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "actions",
+				"source_bounds": [
+					1210,
+					530,
+					269,
+					459
+				],
+				"source_frame": 7,
+				"source_root": [
+					232.0,
+					477.0
+				]
+			}
+		],
+		"fall": [
+			{
+				"collar": [
+					0.0,
+					-71.4000015258789
+				],
+				"lowest_pixel_y": -1.6,
+				"sheet": "actions",
+				"source_bounds": [
+					436,
+					543,
+					290,
+					443
+				],
+				"source_frame": 5,
+				"source_root": [
+					222.0,
+					482.0
+				]
+			}
+		],
+		"idle": [
+			{
+				"collar": [
+					-2.40000009536743,
+					-74.2000045776367
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "actions",
+				"source_bounds": [
+					109,
+					23,
+					188,
+					475
+				],
+				"source_frame": 0,
+				"source_root": [
+					222.0,
+					498.0
+				]
+			},
+			{
+				"collar": [
+					-2.40000009536743,
+					-73.8000030517578
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "actions",
+				"source_bounds": [
+					475,
+					23,
+					189,
+					474
+				],
+				"source_frame": 1,
+				"source_root": [
+					208.0,
+					497.0
+				]
+			}
+		],
+		"land": [
+			{
+				"collar": [
+					-0.600000023841858,
+					-62.7999992370605
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "actions",
+				"source_bounds": [
+					818,
+					572,
+					289,
+					414
+				],
+				"source_frame": 6,
+				"source_root": [
+					223.0,
+					474.0
+				]
+			}
+		],
+		"rise": [
+			{
+				"collar": [
+					1.80000007152557,
+					-76.4000015258789
+				],
+				"lowest_pixel_y": -4.2,
+				"sheet": "actions",
+				"source_bounds": [
+					1209,
+					16,
+					266,
+					461
+				],
+				"source_frame": 3,
+				"source_root": [
+					208.0,
+					498.0
+				]
+			}
+		],
+		"run": [
+			{
+				"collar": [
+					2.40000009536743,
+					-65.5999984741211
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "run",
+				"source_bounds": [
+					59,
+					65,
+					339,
+					437
+				],
+				"source_frame": 0,
+				"source_root": [
+					229.0,
+					502.0
+				]
+			},
+			{
+				"collar": [
+					2.40000009536743,
+					-62.4000015258789
+				],
+				"lowest_pixel_y": 0.2,
+				"sheet": "run",
+				"source_bounds": [
+					451,
+					82,
+					276,
+					421
+				],
+				"source_frame": 1,
+				"source_root": [
+					230.0,
+					502.0
+				]
+			},
+			{
+				"collar": [
+					2.40000009536743,
+					-66.4000015258789
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "run",
+				"source_bounds": [
+					828,
+					75,
+					281,
+					439
+				],
+				"source_frame": 2,
+				"source_root": [
+					235.0,
+					514.0
+				]
+			},
+			{
+				"collar": [
+					2.40000009536743,
+					-73.2000045776367
+				],
+				"lowest_pixel_y": -5.6,
+				"sheet": "run",
+				"source_bounds": [
+					1190,
+					46,
+					299,
+					446
+				],
+				"source_frame": 3,
+				"source_root": [
+					219.0,
+					520.0
+				]
+			},
+			{
+				"collar": [
+					2.40000009536743,
+					-64.2000045776367
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "run",
+				"source_bounds": [
+					48,
+					554,
+					349,
+					424
+				],
+				"source_frame": 4,
+				"source_root": [
+					233.0,
+					466.0
+				]
+			},
+			{
+				"collar": [
+					2.40000009536743,
+					-61.2000007629395
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "run",
+				"source_bounds": [
+					464,
+					569,
+					262,
+					409
+				],
+				"source_frame": 5,
+				"source_root": [
+					237.0,
+					466.0
+				]
+			},
+			{
+				"collar": [
+					2.40000009536743,
+					-63.7999992370605
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "run",
+				"source_bounds": [
+					820,
+					555,
+					320,
+					425
+				],
+				"source_frame": 6,
+				"source_root": [
+					240.0,
+					468.0
+				]
+			},
+			{
+				"collar": [
+					2.40000009536743,
+					-68.5999984741211
+				],
+				"lowest_pixel_y": -7.6,
+				"sheet": "run",
+				"source_bounds": [
+					1219,
+					537,
+					279,
+					411
+				],
+				"source_frame": 7,
+				"source_root": [
+					230.0,
+					474.0
+				]
+			}
+		],
+		"takeoff": [
+			{
+				"collar": [
+					2.40000009536743,
+					-64.2000045776367
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "actions",
+				"source_bounds": [
+					813,
+					73,
+					270,
+					424
+				],
+				"source_frame": 2,
+				"source_root": [
+					219.0,
+					497.0
+				]
+			}
+		],
+		"walk": [
+			{
+				"collar": [
+					-4.40000009536743,
+					-73.4000015258789
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "walk",
+				"source_bounds": [
+					60,
+					20,
+					314,
+					481
+				],
+				"source_frame": 0,
+				"source_root": [
+					243.0,
+					501.0
+				]
+			},
+			{
+				"collar": [
+					-4.40000009536743,
+					-72.4000015258789
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "walk",
+				"source_bounds": [
+					461,
+					26,
+					253,
+					476
+				],
+				"source_frame": 1,
+				"source_root": [
+					233.0,
+					502.0
+				]
+			},
+			{
+				"collar": [
+					-4.40000009536743,
+					-74.0
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "walk",
+				"source_bounds": [
+					841,
+					22,
+					225,
+					480
+				],
+				"source_frame": 2,
+				"source_root": [
+					209.0,
+					502.0
+				]
+			},
+			{
+				"collar": [
+					-4.40000009536743,
+					-72.4000015258789
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "walk",
+				"source_bounds": [
+					1220,
+					24,
+					290,
+					477
+				],
+				"source_frame": 3,
+				"source_root": [
+					231.0,
+					501.0
+				]
+			},
+			{
+				"collar": [
+					-4.40000009536743,
+					-70.8000030517578
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "walk",
+				"source_bounds": [
+					50,
+					530,
+					331,
+					468
+				],
+				"source_frame": 4,
+				"source_root": [
+					240.0,
+					486.0
+				]
+			},
+			{
+				"collar": [
+					-4.40000009536743,
+					-69.4000015258789
+				],
+				"lowest_pixel_y": 0.2,
+				"sheet": "walk",
+				"source_bounds": [
+					461,
+					531,
+					242,
+					468
+				],
+				"source_frame": 5,
+				"source_root": [
+					237.0,
+					486.0
+				]
+			},
+			{
+				"collar": [
+					-4.40000009536743,
+					-72.4000015258789
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "walk",
+				"source_bounds": [
+					825,
+					530,
+					272,
+					468
+				],
+				"source_frame": 6,
+				"source_root": [
+					222.0,
+					486.0
+				]
+			},
+			{
+				"collar": [
+					-4.40000009536743,
+					-71.0
+				],
+				"lowest_pixel_y": 0.0,
+				"sheet": "walk",
+				"source_bounds": [
+					1201,
+					527,
+					311,
+					471
+				],
+				"source_frame": 7,
+				"source_root": [
+					233.0,
+					486.0
+				]
+			}
+		]
+	},
+	"canvas": [
+		640.0,
+		640.0
+	],
+	"canvas_pivot": [
+		320.0,
+		580.0
+	],
+	"run_stride": 152.0,
+	"scale": 0.2,
+	"source_sheets": {
+		"actions": {
+			"grid": [
+				4.0,
+				2.0
+			],
+			"height": 1024,
+			"path": "res://Art/Player/V4/Generated/Traveler_C_Actions.png",
+			"width": 1536
+		},
+		"run": {
+			"grid": [
+				4.0,
+				2.0
+			],
+			"height": 1024,
+			"path": "res://Art/Player/V4/Generated/Traveler_C_Run.png",
+			"width": 1536
+		},
+		"walk": {
+			"grid": [
+				4.0,
+				2.0
+			],
+			"height": 1024,
+			"path": "res://Art/Player/V4/Generated/Traveler_C_Walk.png",
+			"width": 1536
+		}
+	},
+	"version": 1,
+	"walk_stride": 108.0
+}

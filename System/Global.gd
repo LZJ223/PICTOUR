@@ -1,59 +1,106 @@
-## 此脚本为自动挂载，负责全局参数以及信号系统
-
+## 自动挂载：图层配置、选中状态和在物理更新中执行的交互请求。
 extends Node
-## 图层配置信息
-var layer_count : int = 4
-var layer_scale : float = 0.8
-var layer_scales : Array = [1.0 / layer_scale, 1.0, layer_scale, layer_scale * layer_scale]
-var current_layer_index : int = 1
-## 操作状态信息
-var object_selected : LayerObject = null
-## 信号定义
+
+var layer_count: int = 4
+var layer_scale: float = 0.8
+var layer_scales: Array = [1.25, 1.0, 0.8, 0.64]
+var current_layer_index: int = 1
+var allow_object_transfer: bool = true
+var allow_layer_cycle: bool = true
+var allow_uav: bool = true
+var uav_active: bool = false
+var object_selected: LayerObject = null
+var _pending_inputs: Array[Dictionary] = []
+
 signal layer_cycle(direction: int)
 signal layer_change(direction: int, object: LayerObject)
 signal UAV_activate()
+signal transfer_result(object: LayerObject, success: bool, reason: String)
 
-## 输入判定与信号触发
+
 func _unhandled_input(event: InputEvent) -> void:
-	## 键盘交互
-	if object_selected == null:
-		if event.is_action_pressed("forward"):
-			layer_cycle.emit(1)
-		elif event.is_action_pressed("backward"):
-			layer_cycle.emit(-1)
-	else:
-		if event.is_action_pressed("forward"):
-			layer_change.emit(1, object_selected)
-		elif event.is_action_pressed("backward"):
-			layer_change.emit(-1, object_selected)
-	if event.is_action_pressed("UAV"):
-		UAV_activate.emit()
-	## 点击交互与物件选取
+	if event is InputEventKey and event.echo:
+		return
 	if event.is_action_pressed("pickup"):
-		## 查询鼠标位置
-		var screen_position : Vector2 = get_viewport().get_mouse_position()
-		var canvas_transform : Transform2D = get_viewport().get_canvas_transform()
-		var mouse_position : Vector2 = canvas_transform.affine_inverse() * screen_position
-		## 查询该位置下的碰撞体
-		var space := get_viewport().world_2d.direct_space_state
-		var params := PhysicsPointQueryParameters2D.new()
-		params.position = mouse_position
-		params.collide_with_areas = true
-		params.collide_with_bodies = false
-		var results := space.intersect_point(params, 32)
-		## 检测z轴
-		var best: Node = null
-		var best_z : int = -999
-		for result in results:
-			var collider : Area2D = result.collider
-			if collider.z_index > best_z and collider.input_pickable:
-				best_z = collider.z_index
-				best = collider
-		## 更新状态与输出信号
-		while best != null and not best is LayerObject:
-			best = best.get_parent()
-		if object_selected:
-			object_selected.set_pick_condition(false)
-		object_selected = best as LayerObject
-		if object_selected:
-			object_selected.set_pick_condition(true)
+		var point: Vector2 = event.position if event is InputEventMouseButton else get_viewport().get_mouse_position()
+		_pending_inputs.append({"kind": "pick", "point": get_viewport().get_canvas_transform().affine_inverse() * point})
+	elif event.is_action_pressed("transfer_forward") and allow_object_transfer and not uav_active:
+		_pending_inputs.append({"kind": "transfer", "direction": 1})
+	elif event.is_action_pressed("transfer_backward") and allow_object_transfer and not uav_active:
+		_pending_inputs.append({"kind": "transfer", "direction": -1})
+	elif allow_layer_cycle and event.is_action_pressed("forward"):
+		_pending_inputs.append({"kind": "legacy", "direction": 1})
+	elif allow_layer_cycle and event.is_action_pressed("backward"):
+		_pending_inputs.append({"kind": "legacy", "direction": -1})
+	elif allow_uav and event.is_action_pressed("UAV"):
+		_pending_inputs.append({"kind": "uav"})
+
+
+func _physics_process(_delta: float) -> void:
+	if not is_instance_valid(object_selected):
+		object_selected = null
+	var commands := _pending_inputs.duplicate()
+	_pending_inputs.clear()
+	for command in commands:
+		match command.kind:
+			"pick":
+				_pick_at(command.point)
+			"transfer":
+				if allow_object_transfer and not uav_active and is_instance_valid(object_selected):
+					layer_change.emit(command.direction, object_selected)
+			"legacy":
+				if allow_layer_cycle:
+					if is_instance_valid(object_selected) and allow_object_transfer:
+						layer_change.emit(command.direction, object_selected)
+					else:
+						layer_cycle.emit(command.direction)
+			"uav":
+				if allow_uav:
+					UAV_activate.emit()
+
+
+func select_object(object: LayerObject) -> void:
+	if is_instance_valid(object_selected):
+		object_selected.set_pick_condition(false)
+	object_selected = object if is_instance_valid(object) and object.can_transfer else null
+	if is_instance_valid(object_selected):
+		object_selected.set_pick_condition(true)
+
+
+func clear_selection() -> void:
+	select_object(null)
+	_pending_inputs.clear()
+
+
+func _pick_at(point: Vector2) -> void:
+	var params := PhysicsPointQueryParameters2D.new()
+	params.position = point
+	params.collide_with_areas = true
+	params.collide_with_bodies = false
+	var results := get_viewport().world_2d.direct_space_state.intersect_point(params, 64)
+	var best: LayerObject = null
+	var best_z: int = -2147483648
+	for result in results:
+		var area := result.collider as Area2D
+		if area == null or not area.input_pickable:
+			continue
+		var ancestor: Node = area
+		while ancestor != null and not ancestor is LayerObject:
+			ancestor = ancestor.get_parent()
+		var object := ancestor as LayerObject
+		if object == null or not object.can_transfer:
+			continue
+		var effective_z := _effective_z(area)
+		if best == null or effective_z > best_z or (effective_z == best_z and object.get_instance_id() > best.get_instance_id()):
+			best = object
+			best_z = effective_z
+	select_object(null if best == object_selected else best)
+
+
+func _effective_z(item: CanvasItem) -> int:
+	var result := item.z_index
+	if item.z_as_relative:
+		var ancestor := item.get_parent() as CanvasItem
+		if ancestor != null:
+			result += _effective_z(ancestor)
+	return result

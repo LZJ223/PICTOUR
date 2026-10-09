@@ -18,26 +18,43 @@ func _ready() -> void:
 	add_to_group("layer_objects")
 	owner_layer = find_owner_layer()
 	assert(owner_layer != null, "%s 必须位于 DepthLayer/Objects 下！" % name)
-	set_collision_group(1, owner_layer.slot + 1)
+	set_collision_group(1, owner_layer.layer_id + 1)
 
 ## 图层切换
-func transfer_to(target_layer: DepthLayer, anchor_position: Vector2) -> void:
+func transfer_to(target_layer: DepthLayer, anchor_position: Vector2) -> bool:
 	## 可行性检测
 	if not can_transfer:
-		return
+		return false
 	## 改变属性
-	reparent(target_layer, false)
+	var next_position := get_transfer_position(target_layer, anchor_position)
 	var ratio : float = Global.layer_scales[owner_layer.slot] / Global.layer_scales[target_layer.slot]
-	position = anchor_position + (position - anchor_position) * ratio
+	reparent(target_layer, true)
+	global_position = next_position
 	collision_box.scale *= ratio
 	set_collision_group(owner_layer.layer_id + 1, target_layer.layer_id + 1)
 	owner_layer = target_layer
+	apply_visual_transfer(anchor_position)
+	reset_physics_interpolation()
+	return true
+
+func get_transfer_position(target_layer: DepthLayer, anchor_position: Vector2) -> Vector2:
+	var ratio: float = Global.layer_scales[owner_layer.slot] / Global.layer_scales[target_layer.slot]
+	return anchor_position + (global_position - anchor_position) * ratio
+
+func get_transfer_collision_transform(target_layer: DepthLayer, anchor_position: Vector2) -> Transform2D:
+	var ratio: float = Global.layer_scales[owner_layer.slot] / Global.layer_scales[target_layer.slot]
+	var result := collision_box.global_transform
+	result.origin = get_transfer_position(target_layer, anchor_position) + (result.origin - global_position) * ratio
+	result.x *= ratio
+	result.y *= ratio
+	return result
 
 ## 更新屏幕位置
 func apply_visual_transfer(anchor_position: Vector2) -> void:
 	var scaling: float = Global.layer_scales[owner_layer.slot]
-	visual_root.scale = collision_box.scale * scaling
-	visual_root.position = (anchor_position - position) * (1 - scaling)
+	visual_root.global_position = anchor_position + (global_position - anchor_position) * scaling
+	visual_root.global_rotation = global_rotation
+	visual_root.global_scale = collision_box.global_scale * scaling
 	visual_root.z_index = (Global.layer_count - owner_layer.slot) * 100
 
 ## 寻找母图层
@@ -50,11 +67,10 @@ func find_owner_layer() -> DepthLayer:
 	return null
 
 ## 更新碰撞组
-func set_collision_group(old_group: int, new_group: int) -> void:
-	self.set_collision_layer_value(old_group, false)
-	self.set_collision_layer_value(new_group, true)
-	self.set_collision_mask_value(old_group, false)
-	self.set_collision_mask_value(new_group, true)
+func set_collision_group(_old_group: int, new_group: int) -> void:
+	assert(new_group >= 1 and new_group <= 32)
+	collision_layer = 1 << (new_group - 1)
+	collision_mask = collision_layer
 
 ## 更新选取状态
 @abstract func set_pick_condition(condition: bool = false) -> void

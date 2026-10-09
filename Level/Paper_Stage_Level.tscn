@@ -1,0 +1,117 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://Level/Paper_Stage_Level.gd" id="1"]
+[ext_resource type="Script" path="res://Component/Layer/Depth_Layer.gd" id="2"]
+[ext_resource type="Script" path="res://Component/PaperStage/Paper_Island.gd" id="3"]
+[ext_resource type="Script" path="res://Component/PaperStage/Paper_Atmosphere.gd" id="4"]
+[ext_resource type="PackedScene" path="res://Component/PaperStage/Paper_Stage_Object.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://Component/PaperStage/Hero_Fan_Tree.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://Component/PaperStage/Broken_Arch_AI.tscn" id="7"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1")
+layer_count = 2
+layer_scale = 0.8
+current_layer_index = 0
+allow_layer_cycle = false
+allow_uav = false
+allow_scenery_overlap_outside_player_layer = true
+lock_camera_y = true
+camera_height = 360.0
+
+[node name="Atmosphere" type="Node2D" parent="."]
+script = ExtResource("4")
+
+[node name="Back" type="Node2D" parent="."]
+script = ExtResource("2")
+layer_id = 1
+slot = 1
+
+[node name="BrokenArch" parent="Back" instance=ExtResource("7")]
+position = Vector2(1027.5,547.5)
+dimensions = Vector2(525,387.5)
+display_name = "残拱"
+
+[node name="TallRuin" parent="Back" instance=ExtResource("5")]
+position = Vector2(66,547.5)
+profile = 1
+dimensions = Vector2(370,650)
+display_name = "长窗遗迹"
+
+[node name="SeedSpray" parent="Back" instance=ExtResource("5")]
+position = Vector2(754,600)
+profile = 3
+dimensions = Vector2(160,270)
+variation = 1
+display_name = "风铃草"
+
+[node name="SeedSprayTall" parent="Back" instance=ExtResource("5")]
+position = Vector2(1430,670)
+profile = 3
+dimensions = Vector2(136,365)
+display_name = "风铃草"
+
+[node name="Mid" type="Node2D" parent="."]
+script = ExtResource("2")
+layer_id = 0
+slot = 0
+
+[node name="PaperBank" type="StaticBody2D" parent="Mid"]
+script = ExtResource("3")
+edge = PackedVector2Array(-450,498,-180,500,30,510,380,510,620,510,790,510)
+thickness = 115.0
+seed_value = 32
+z_index = 195
+collision_layer = 1
+
+[node name="FarBank" type="StaticBody2D" parent="Mid"]
+script = ExtResource("3")
+edge = PackedVector2Array(1110,510,1350,510,1450,470,1690,470)
+thickness = 157.0
+seed_value = 71
+z_index = 195
+collision_layer = 1
+
+[node name="HeroTree" parent="Mid" instance=ExtResource("6")]
+position = Vector2(420,510)
+dimensions = Vector2(540,486)
+display_name = "折扇树"
+
+[node name="BankStone" parent="Mid" instance=ExtResource("5")]
+position = Vector2(45,510)
+profile = 2
+dimensions = Vector2(110,65)
+variation = 1
+display_name = "断页石"
+
+[node name="ReturnStone" parent="Mid" instance=ExtResource("5")]
+position = Vector2(1270,510)
+profile = 2
+dimensions = Vector2(130,80)
+display_name = "斜墨石"
+
+[node name="FootSeed" parent="Mid" instance=ExtResource("5")]
+position = Vector2(474,510)
+profile = 3
+dimensions = Vector2(53,71)
+display_name = "书页草"
+
+[node name="EdgeSeed" parent="Mid" instance=ExtResource("5")]
+position = Vector2(780,510)
+profile = 3
+dimensions = Vector2(38,57)
+variation = 1
+display_name = "书页草"
+
+[node name="WelcomeSeed" parent="Mid" instance=ExtResource("5")]
+position = Vector2(110,510)
+profile = 3
+dimensions = Vector2(71,130)
+variation = 1
+display_name = "凝露草"
+
+[node name="FarSeed" parent="Mid" instance=ExtResource("5")]
+position = Vector2(1570,470)
+profile = 3
+dimensions = Vector2(79,162)
+display_name = "凝露草"

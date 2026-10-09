@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="SceneryFamilyPiece" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Component/SceneryFamilies/Scenery_Family_Piece.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/SceneryFamilies/Generated/Arcade_Family.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+piece_id = &"arcade_base"
+display_name = "旧廊残基"
+family = &"arcade"
+silhouette_note = "柱基塌落形成长短不一的断面，底部小券口保留通透。"
+affordance_note = "短尺度的残墙，断面可接树根或层岩；小券口提供轻巧的负形。"
+parent_texture = ExtResource("2")
+region = Rect2(78, 241, 398, 242)
+display_size = Vector2(260, 158.09)
+solids = Array[PackedVector2Array]([PackedVector2Array(0.005025, 0.016529, 0.507538, 0.000000, 0.555276, 0.198347, 0.763819, 0.214876, 0.776382, 0.363636, 0.824121, 0.429752, 0.869347, 0.417355, 0.889447, 0.442149, 0.904523, 0.570248, 0.874372, 0.615702, 0.874372, 0.673554, 0.994975, 0.929752, 0.994975, 0.987603, 0.698492, 0.995868, 0.635678, 0.814050, 0.575377, 0.780992, 0.517588, 0.842975, 0.484925, 0.995868, 0.027638, 0.991736, 0.025126, 0.913223, 0.050251, 0.842975, 0.108040, 0.789256, 0.110553, 0.417355, 0.060302, 0.227273, 0.017588, 0.185950)])
+footholds = Array[PackedVector2Array]([PackedVector2Array(0.025126, 0.028926, 0.502513, 0.028926), PackedVector2Array(0.567839, 0.227273, 0.751256, 0.235537)])
+empty_points = PackedVector2Array(0.585427, 0.946281)

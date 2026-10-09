@@ -1,0 +1,12 @@
+{
+  "method": "OpenAI built-in imagegen",
+  "model": "not reported by tool",
+  "date": "2026-10-09",
+  "style_reference": "Art/Concepts/Paper_Garden_01.png",
+  "prompt_file": "Prompts.txt",
+  "assets": [
+    {"file":"Hero_Fan_Tree.png","original":"C:/Users/willi/.codex/generated_images/01a11af9-fca4-7c10-beb9-3f3d9c9545c8/exec-b3aa8690-7e0d-4384-94bc-f893077442ae.png","use":"movable hero tree"},
+    {"file":"Broken_Arch.png","original":"C:/Users/willi/.codex/generated_images/01a11af9-fca4-7c10-beb9-3f3d9c9545c8/exec-a6cdf277-4dea-4dfa-aaa0-8a5cd8bb92d8.png","use":"movable broken arch / platform"}
+  ],
+  "notes": "Original AI assets made for this project; original outputs preserved, alpha retained. GRIS screenshot used only for animation study, not copied into game assets. No third-party license asserted."
+}

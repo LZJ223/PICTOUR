@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="DerivedCropPiece" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Component/SceneryFamilies/Derived_Crop_Piece.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/SceneryFamilies/Generated/Oldwood_Family.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+piece_id = &"branch_elbow"
+display_name = "折枝肘"
+family = &"derived_crop"
+silhouette_note = "从三向断枝取右肩，切口沿细颈木纹折线，不包含整根树干。"
+derivation_note = "从三向断枝取右肩，切口沿细颈木纹折线，不包含整根树干。"
+affordance_note = "宽锯面与斜腹形成矮枝台；左右翻向可改变接路方向。"
+parent_texture = ExtResource("2")
+region = Rect2(363, 678, 178, 133)
+display_size = Vector2(165, 123.29)
+non_solid = false
+visual_masks = Array[PackedVector2Array]([PackedVector2Array(0.089888, 0.075188, 0.191011, 0.120301, 0.230337, 0.067669, 0.516854, 0.030075, 0.983146, 0.045113, 0.848315, 0.390977, 0.533708, 0.601504, 0.398876, 0.624060, 0.219101, 0.849624, 0.157303, 0.969925, 0.073034, 0.917293, 0.112360, 0.812030, 0.044944, 0.766917, 0.078652, 0.661654, 0.011236, 0.578947, 0.044944, 0.496241, 0.005618, 0.428571, 0.044944, 0.270677)])
+picks = Array[PackedVector2Array]([PackedVector2Array(0.089888, 0.075188, 0.191011, 0.120301, 0.230337, 0.067669, 0.516854, 0.030075, 0.983146, 0.045113, 0.848315, 0.390977, 0.533708, 0.601504, 0.398876, 0.624060, 0.219101, 0.849624, 0.157303, 0.969925, 0.073034, 0.917293, 0.112360, 0.812030, 0.044944, 0.766917, 0.078652, 0.661654, 0.011236, 0.578947, 0.044944, 0.496241, 0.005618, 0.428571, 0.044944, 0.270677)])
+solids = Array[PackedVector2Array]([PackedVector2Array(0.089888, 0.075188, 0.191011, 0.120301, 0.230337, 0.067669, 0.516854, 0.030075, 0.983146, 0.045113, 0.848315, 0.390977, 0.533708, 0.601504, 0.398876, 0.624060, 0.219101, 0.849624, 0.157303, 0.969925, 0.073034, 0.917293, 0.112360, 0.812030, 0.044944, 0.766917, 0.078652, 0.661654, 0.011236, 0.578947, 0.044944, 0.496241, 0.005618, 0.428571, 0.044944, 0.270677)])
+footholds = Array[PackedVector2Array]([PackedVector2Array(0.241573, 0.082707, 0.910112, 0.060150)])

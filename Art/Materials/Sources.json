@@ -1,0 +1,10 @@
+{
+  "Dry_Ink_AI.png": {
+    "created": "2026-10-09",
+    "method": "OpenAI built-in image_gen; exact model name not supplied by tool",
+    "source": "C:/Users/willi/.codex/generated_images/01a11af9-fca4-7c10-beb9-3f3d9c9545c8/exec-5cbc8edd-2544-4cb1-9d17-a97a463fb05e.png",
+    "prompt": "Dry_Ink_AI.prompt.txt",
+    "purpose": "Static dry ink surface, clipped by native game geometry; no scenery baked into background.",
+    "license_note": "Generated project asset; disclose AI use with event submission. No third-party source image."
+  }
+}

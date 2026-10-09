@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="DerivedCropPiece" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Component/SceneryFamilies/Derived_Crop_Piece.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/PaperStage/Generated/Hero_Fan_Tree.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+piece_id = &"rose_fan"
+display_name = "粉墨落扇"
+family = &"derived_crop"
+silhouette_note = "从主树左上粉扇单独提取，沿扇叶本身边缘掩片，细连接尖端保留。"
+derivation_note = "从主树左上粉扇单独提取，沿扇叶本身边缘掩片，细连接尖端保留。"
+affordance_note = "轻薄可搬的落叶与冠片，不承重；可作为枝头、草丛或岸边卷叶。"
+parent_texture = ExtResource("2")
+region = Rect2(230, 140, 370, 355)
+display_size = Vector2(140, 134.32)
+non_solid = true
+visual_masks = Array[PackedVector2Array]([PackedVector2Array(0.013514, 0.478873, 0.070270, 0.369014, 0.143243, 0.267606, 0.216216, 0.191549, 0.305405, 0.121127, 0.383784, 0.064789, 0.472973, 0.014085, 0.575676, 0.143662, 0.659459, 0.284507, 0.751351, 0.447887, 0.870270, 0.695775, 0.986486, 0.983099, 0.845946, 0.881690, 0.700000, 0.791549, 0.500000, 0.687324, 0.302703, 0.585915, 0.137838, 0.521127)])
+picks = Array[PackedVector2Array]([PackedVector2Array(0.013514, 0.478873, 0.070270, 0.369014, 0.143243, 0.267606, 0.216216, 0.191549, 0.305405, 0.121127, 0.383784, 0.064789, 0.472973, 0.014085, 0.575676, 0.143662, 0.659459, 0.284507, 0.751351, 0.447887, 0.870270, 0.695775, 0.986486, 0.983099, 0.845946, 0.881690, 0.700000, 0.791549, 0.500000, 0.687324, 0.302703, 0.585915, 0.137838, 0.521127)])
+solids = Array[PackedVector2Array]([])
+footholds = Array[PackedVector2Array]([])

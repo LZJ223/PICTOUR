@@ -1,0 +1,168 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Level/Natural_Garden_Level.gd" id="1"]
+[ext_resource type="Script" path="res://Component/Layer/Depth_Layer.gd" id="2"]
+[ext_resource type="PackedScene" path="res://Component/Object/Natural_Object/Natural_Object.tscn" id="3"]
+[ext_resource type="Script" path="res://Component/Terrain/Horizon_Terrain.gd" id="4"]
+
+[node name="NaturalGardenLevel" type="Node2D"]
+script = ExtResource("1")
+layer_count = 2
+layer_scale = 0.8
+current_layer_index = 0
+allow_layer_cycle = false
+allow_uav = false
+allow_scenery_overlap_outside_player_layer = true
+lock_camera_y = true
+camera_height = 360.0
+
+[node name="BackgroundLayer" type="Node2D" parent="."]
+script = ExtResource("2")
+layer_id = 1
+slot = 1
+
+[node name="OpeningFanTree" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(320,660)
+kind = 1
+dimensions = Vector2(500,550)
+variation = 1
+display_name = "开页扇树"
+
+[node name="LowTree" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(725,660)
+kind = 1
+dimensions = Vector2(325,275)
+display_name = "折枝树"
+
+[node name="PassageArch" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(1160,660)
+kind = 2
+dimensions = Vector2(562.5,268.75)
+display_name = "月洞拱"
+
+[node name="RootBridge" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(1100,660)
+kind = 3
+dimensions = Vector2(500,125)
+variation = 1
+display_name = "跨岸枯枝"
+
+[node name="SecondGardenArch" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(2270,660)
+kind = 2
+dimensions = Vector2(680,480)
+variation = 1
+display_name = "叠页长拱"
+
+[node name="ClimbingBranch" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(1915,660)
+kind = 3
+dimensions = Vector2(540,205)
+display_name = "三折枝"
+
+[node name="ClosingFanTree" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(3130,660)
+kind = 1
+dimensions = Vector2(680,640)
+variation = 1
+display_name = "庭尾扇树"
+
+[node name="FarStone" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(2680,660)
+dimensions = Vector2(240,140)
+variation = 1
+display_name = "薄墨岩"
+
+[node name="FanGrass1" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(60,660)
+kind = 4
+dimensions = Vector2(80,170)
+display_name = "扇草"
+
+[node name="FanGrass2" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(590,660)
+kind = 4
+dimensions = Vector2(65,195)
+variation = 1
+display_name = "页芽"
+
+[node name="FanGrass3" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(1580,660)
+kind = 4
+dimensions = Vector2(140,220)
+display_name = "扇草"
+
+[node name="FanGrass4" parent="BackgroundLayer" instance=ExtResource("3")]
+position = Vector2(2460,660)
+kind = 4
+dimensions = Vector2(90,195)
+variation = 1
+display_name = "页芽"
+
+[node name="PlayerLayer" type="Node2D" parent="."]
+script = ExtResource("2")
+layer_id = 0
+slot = 0
+
+[node name="PaperBank" type="StaticBody2D" parent="PlayerLayer"]
+script = ExtResource("4")
+edge = PackedVector2Array(-600,600, 250,600, 640,600, 880,600)
+
+[node name="GardenBank" type="StaticBody2D" parent="PlayerLayer"]
+script = ExtResource("4")
+edge = PackedVector2Array(1240,600, 1610,600, 1920,600, 2440,600, 2980,600)
+
+[node name="FirstStone" parent="PlayerLayer" instance=ExtResource("3")]
+position = Vector2(410,600)
+dimensions = Vector2(140,80)
+display_name = "折角石"
+
+[node name="ReturnStone" parent="PlayerLayer" instance=ExtResource("3")]
+position = Vector2(1580,600)
+dimensions = Vector2(170,80)
+variation = 1
+display_name = "回岸石"
+
+[node name="InkTree" parent="PlayerLayer" instance=ExtResource("3")]
+position = Vector2(1930,600)
+kind = 1
+dimensions = Vector2(300,255)
+variation = 1
+display_name = "藏墨树"
+
+[node name="SmallStone" parent="PlayerLayer" instance=ExtResource("3")]
+position = Vector2(2500,600)
+dimensions = Vector2(180,60)
+display_name = "卧石"
+
+[node name="NearPlant1" parent="PlayerLayer" instance=ExtResource("3")]
+position = Vector2(65,600)
+kind = 4
+dimensions = Vector2(65,100)
+display_name = "扇草"
+
+[node name="NearPlant2" parent="PlayerLayer" instance=ExtResource("3")]
+position = Vector2(545,600)
+kind = 4
+dimensions = Vector2(55,90)
+variation = 1
+display_name = "页芽"
+
+[node name="NearPlant3" parent="PlayerLayer" instance=ExtResource("3")]
+position = Vector2(1320,600)
+kind = 4
+dimensions = Vector2(70,90)
+display_name = "扇草"
+
+[node name="NearPlant4" parent="PlayerLayer" instance=ExtResource("3")]
+position = Vector2(1720,600)
+kind = 4
+dimensions = Vector2(85,160)
+variation = 1
+display_name = "页芽"
+
+[node name="NearPlant5" parent="PlayerLayer" instance=ExtResource("3")]
+position = Vector2(2340,600)
+kind = 4
+dimensions = Vector2(70,110)
+display_name = "扇草"

@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-09",
+  "tool": "built-in image_gen",
+  "model": "not reported by tool",
+  "source": "C:/Users/willi/.codex/generated_images/01a11af9-fca4-7c10-beb9-3f3d9c9545c8/exec-a3397b1c-cbe3-4e38-abb6-3b97a915fe18.png",
+  "project_file": "Art/VerticalGarden/Generated/Curled_Root_Gate.png",
+  "reference_images": [
+    "Art/Concepts/Paper_Garden_01.png"
+  ],
+  "alpha": true,
+  "pixel_edits": false,
+  "usage": "GameJam prototype raster asset; AI-generated hand-drawn style, not human cel animation",
+  "derivatives": "Engine-native AtlasTexture/Polygon2D UV regions; original PNG preserved"
+}

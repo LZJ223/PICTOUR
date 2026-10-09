@@ -1,0 +1,17 @@
+{
+  "asset": "Traveler_Atlas.png",
+  "created": "2026-10-08",
+  "source_type": "original_procedural_art",
+  "tool": "Godot 4.7.2 SVG rasterizer; original GDScript geometry",
+  "source_files": ["Build_Traveler.gd", "Traveler_Atlas.svg", "Traveler_Frames.tres"],
+  "reference": "Project original Paper Garden art direction: geometric paper traveler, warm paper cloak, plum ink outlines, vermilion scarf",
+  "third_party_assets": "None; no source image sampled or edited",
+  "imagegen_used": false,
+  "grid": {"columns": 8, "rows": 6, "cell_width": 96, "cell_height": 128},
+  "animations": ["idle", "walk", "run", "rise", "fall", "dash"],
+  "foot_anchor": [48, 115],
+  "leg_endpoint": [48, 112],
+  "foot_anchor_note": "Foot anchor includes the rounded ink outline; grounded PNG alpha bounds end at source y=115",
+  "in_game_scale": 0.5,
+  "purpose": "First playable art prototype; editable replacement asset, not final production character"
+}

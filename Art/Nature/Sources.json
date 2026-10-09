@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-09",
+  "author": "PICTOUR project / Codex procedural drawing",
+  "method": "Original GDScript SVG composition; Godot SVG rasterization at 2x density",
+  "third_party_assets": false,
+  "generated_image_model": null,
+  "reference": "Art/Concepts/Paper_Garden_01.png (approved project concept)",
+  "runtime_ai_texture": "Art/Materials/Dry_Ink_AI.png (source documented in Art/Materials)",
+  "source_geometry": "Component/Object/Natural_Object/Natural_Form.gd",
+  "source_generator": "Art/Nature/Build_Nature.gd",
+  "families": ["Rock", "Short_Tree", "Arch", "Branch", "Plant"],
+  "variants_per_family": 2,
+  "canvas_bleed": 24,
+  "pixel_density": 2,
+  "usage": "Movable storybook scenery sprites in all depth layers",
+  "rights": "Original project assets; no external licensing dependency"
+}

@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-09",
+  "reference": "Art/Concepts/Paper_Garden_01.png",
+  "native_assets": {
+    "author": "PICTOUR project / Codex",
+    "method": "Original polygon structure, collision tracing and Godot shader for dry ink",
+    "source": "Component/PaperStage/Paper_Stage_Form.gd",
+    "ink_texture": "Art/Materials/Dry_Ink_AI.png",
+    "paper_texture": "Art/Scenery/Paper_Grain.png",
+    "rights": "Original project geometry; the two reused project textures retain their existing source records"
+  },
+  "generated_assets": "Generated/ source records are maintained with the generated images",
+  "collision_authoring": "Hero tree and broken arch outlines hand traced in their image coordinates; canopy is selectable but not solid. Alpha-derived selection preserves openings.",
+  "environment_rule": "Only continuous paper, ink washes and atmospheric bands are fixed decoration; recognizable standalone objects remain transferable."
+}

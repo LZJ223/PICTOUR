@@ -1,0 +1,15 @@
+{
+  "collection": "PICTOUR 失页花园场景精灵首版",
+  "created": "2026-10-08",
+  "authoring": "Codex 编写原创 SVG 几何与版画刻线；Godot 4.7.2 原生 SVG 栅格器生成 PNG。",
+  "generator": "res://Art/Environment/Generate_Environment.gd",
+  "raster_scale": 2,
+  "source_directory": "SVG/",
+  "runtime_directory": "PNG/",
+  "assets": ["Terrain", "Fold_Step", "Paper_Tree", "Paint_Box", "Page_Bridge", "Tall_Door", "Transfer_Tag"],
+  "third_party_assets": false,
+  "image_generation_used": false,
+  "reference": "配色与形状依据用户已认可的本项目 Paper_Garden_01 概念图和美术定调提案；未复制 GRIS 截图像素。",
+  "usage": "序章平台、树柱、画具匣、桥段、机关门与可搬纸签；实际碰撞与点选维持原白模。",
+  "status": "程序化美术实验素材，可重新生成和继续修改。无第三方授权约束；不代表第三方授予的许可声明。"
+}

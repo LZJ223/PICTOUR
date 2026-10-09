@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-08",
+  "assets": [
+    {
+      "file": "Garden_Arch_AI.png",
+      "source": "built-in imagegen",
+      "model_version": "not provided",
+      "prompt": "Garden_Arch_AI.prompt.txt",
+      "transparent_background": true,
+      "purpose": "Non-interactive decoration in the existing background layer",
+      "edits": "none"
+    },
+    {
+      "files": [
+        "Paper_Grain",
+        "Ink_Drop",
+        "Ink_Seal_Plate",
+        "Canvas_Frame",
+        "Fan_Plant"
+      ],
+      "source": "original procedural SVG art by Codex, rasterized with Godot",
+      "generator": "Build_Scenery.gd",
+      "purpose": "Static paper medium and storybook gameplay props"
+    }
+  ]
+}

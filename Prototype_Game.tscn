@@ -13,6 +13,7 @@ position = Vector2(668, 330)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1520852743]
 offset = Vector2(0, -180)
+process_callback = 0
 
 [node name="System" type="Node" parent="." unique_id=1585831549 node_paths=PackedStringArray("player", "camera", "level")]
 script = ExtResource("1_slmeh")

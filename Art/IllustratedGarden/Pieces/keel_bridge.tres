@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="IllustratedGardenPiece" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Component/IllustratedGarden/Illustrated_Piece.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/VerticalGarden/Generated/Hanging_Bough_Bridge.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+display_name = "垂腹枝"
+family = "oldwood"
+painting = ExtResource("2")
+source_pivot = Vector2(700, 970)
+unit_scale = 0.375
+source_contours = Array[PackedVector2Array]([PackedVector2Array(46,280, 110,274, 185,316, 272,354, 342,369, 440,379, 590,394, 710,399, 910,399, 1100,390, 1210,373, 1300,350, 1370,322, 1369,356, 1384,378, 1370,401, 1380,437, 1350,503, 1340,560, 1330,620, 1336,651, 1301,655, 1275,628, 1247,576, 1238,550, 1220,604, 1215,626, 1195,615, 1190,570, 1163,538, 1110,512, 1070,510, 1030,526, 1000,555, 991,580, 1006,596, 994,627, 1004,685, 989,749, 981,799, 992,854, 995,912, 980,946, 947,970, 922,947, 906,931, 908,913, 928,899, 953,907, 969,903, 966,880, 940,848, 913,810, 900,773, 885,710, 862,643, 840,591, 815,554, 781,529, 737,507, 678,485, 584,468, 495,458, 433,462, 362,483, 310,510, 276,540, 274,569, 256,582, 240,619, 216,658, 196,655, 179,625, 165,580, 143,561, 127,565, 114,553, 121,528, 113,509, 111,480, 98,511, 88,507, 83,480, 74,460, 58,436, 50,410, 25,395, 20,367, 25,343, 50,337)])
+source_walkable = Array[PackedVector2Array]([PackedVector2Array(440, 379, 1100, 390)])

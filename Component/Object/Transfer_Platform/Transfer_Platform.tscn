@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Component/Object/Transfer_Platform/Transfer_Platform.gd" id="1_platform"]
+[ext_resource type="Script" path="res://Component/Object/Transfer_Platform/Storybook_Object_Visual.gd" id="2_art"]
+
+[sub_resource type="RectangleShape2D" id="Shape_body"]
+size = Vector2(160, 60)
+
+[sub_resource type="RectangleShape2D" id="Shape_pick"]
+size = Vector2(160, 60)
+
+[node name="TransferPlatform" type="StaticBody2D"]
+script = ExtResource("1_platform")
+
+[node name="CollisionBox" type="CollisionShape2D" parent="."]
+shape = SubResource("Shape_body")
+
+[node name="VisualRoot" type="Node2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="VisualRoot"]
+visible = false
+polygon = PackedVector2Array(-80, -30, 80, -30, 80, 30, -80, 30)
+color = Color(0.62, 0.65, 0.69, 1)
+
+[node name="StorybookArt" type="Node2D" parent="VisualRoot"]
+script = ExtResource("2_art")
+
+[node name="DepthOutline" type="Line2D" parent="VisualRoot"]
+points = PackedVector2Array(-80, -30, 80, -30, 80, 30, -80, 30)
+closed = true
+width = 2.0
+default_color = Color(0.12, 0.16, 0.2, 1)
+
+[node name="TopEdge" type="Line2D" parent="VisualRoot"]
+points = PackedVector2Array(-80, -30, 80, -30)
+width = 2.5
+default_color = Color(0.88, 0.93, 0.9, 1)
+
+[node name="TransferMark" type="Line2D" parent="VisualRoot"]
+points = PackedVector2Array(-77, -27, 77, -27)
+width = 3.0
+default_color = Color(0.54, 0.91, 1, 1)
+
+[node name="Selection" type="Line2D" parent="VisualRoot"]
+visible = false
+points = PackedVector2Array(-80, -30, 80, -30, 80, 30, -80, 30)
+closed = true
+width = 4.0
+default_color = Color(0.843, 0.416, 0.286, 1)
+
+[node name="Caption" type="Label" parent="VisualRoot"]
+offset_left = -80.0
+offset_top = -22.0
+offset_right = 80.0
+offset_bottom = 4.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.13, 0.16, 0.2, 1)
+theme_override_colors/font_shadow_color = Color(0.949, 0.91, 0.831, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+
+[node name="Area2D" type="Area2D" parent="VisualRoot"]
+collision_layer = 1
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisualRoot/Area2D"]
+shape = SubResource("Shape_pick")

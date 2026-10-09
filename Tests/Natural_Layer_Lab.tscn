@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://Natural_Garden_Game.tscn" id="1"]
+[ext_resource type="Script" path="res://Component/Layer/Depth_Layer.gd" id="2"]
+
+[node name="FourLayerLab" instance=ExtResource("1")]
+
+[node name="Level" parent="." index="0"]
+layer_count = 4
+current_layer_index = 1
+allow_layer_cycle = false
+enable_bookmarks = false
+
+[node name="BackgroundLayer" parent="Level" index="0"]
+slot = 2
+
+[node name="PlayerLayer" parent="Level" index="1"]
+slot = 1
+
+[node name="NearLayer" type="Node2D" parent="Level"]
+script = ExtResource("2")
+layer_id = 2
+slot = 0
+
+[node name="FarLayer" type="Node2D" parent="Level"]
+script = ExtResource("2")
+layer_id = 3
+slot = 3
+
+[editable path="Level"]

@@ -1,0 +1,14 @@
+{
+  "method": "OpenAI built-in imagegen",
+  "model": "not reported",
+  "date": "2026-10-09",
+  "reference": "../Female_Traveler_Choices.png — selected C only",
+  "prompts": "Prompts.txt",
+  "original_directory": "C:/Users/willi/.codex/generated_images/01a11af9-fca4-7c10-beb9-3f3d9c9545c8",
+  "originals": {
+    "Traveler_C_Walk": "exec-7d8016ec-47cc-4b50-b630-010a4aa06a43.png",
+    "Traveler_C_Run": "exec-4ad7e373-0d27-4c00-b580-38bc98bf4ea5.png",
+    "Traveler_C_Actions": "exec-5e95f617-e88f-44ca-8bd6-0033d8335e7c.png"
+  },
+  "notes": "Generated eight-key-pose bitmap sheets. Original RGBA retained. Playback/collision/anchor correctness requires actual in-engine validation; these sheets alone are not evidence of final animation quality."
+}

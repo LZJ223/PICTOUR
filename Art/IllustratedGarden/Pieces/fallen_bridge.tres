@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="IllustratedGardenPiece" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Component/IllustratedGarden/Illustrated_Piece.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/IllustratedGarden/Generated/Fallen_Page_Bridge.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+display_name = "折页横根"
+family = "foldstone"
+painting = ExtResource("2")
+source_pivot = Vector2(1000, 720)
+unit_scale = 0.225
+source_contours = Array[PackedVector2Array]([PackedVector2Array(84, 407, 136, 397, 191, 402, 275, 414, 420, 420, 456, 443, 501, 419, 544, 388, 563, 350, 670, 320, 767, 295, 861, 269, 890, 294, 950, 273, 1001, 270, 1100, 241, 1240, 188, 1360, 154, 1393, 175, 1434, 150, 1545, 141, 1700, 137, 1900, 137, 1937, 138, 1930, 172, 1906, 209, 1878, 248, 1850, 291, 1834, 327, 1820, 357, 1790, 383, 1763, 385, 1747, 366, 1750, 347, 1770, 345, 1786, 356, 1798, 341, 1780, 313, 1740, 291, 1670, 277, 1570, 275, 1491, 287, 1436, 310, 1394, 345, 1360, 365, 1314, 372, 1200, 393, 1140, 420, 1071, 465, 1020, 510, 983, 553, 999, 582, 1028, 611, 1080, 660, 1140, 690, 1171, 720, 1138, 718, 1050, 688, 990, 674, 903, 686, 868, 681, 838, 683, 803, 698, 754, 696, 715, 697, 706, 671, 680, 654, 665, 607, 636, 566, 600, 542, 570, 532, 530, 529, 481, 546, 475, 592, 451, 588, 422, 570, 403, 573, 381, 555, 361, 560, 344, 542, 330, 543, 299, 519, 273, 520, 243, 530, 206, 533, 179, 548, 164, 519, 142, 484, 117, 477, 100, 489, 86, 457, 84, 407)])
+source_walkable = Array[PackedVector2Array]([PackedVector2Array(115, 408, 420, 420), PackedVector2Array(563, 350, 861, 269), PackedVector2Array(1434, 150, 1910, 138)])

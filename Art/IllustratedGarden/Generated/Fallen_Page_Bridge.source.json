@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-09",
+  "tool": "built-in image_gen",
+  "model": "not reported by tool",
+  "source": "C:/Users/willi/.codex/generated_images/01a11af9-fca4-7c10-beb9-3f3d9c9545c8/exec-597f1542-aee4-473a-b0dc-122ade2f56c3.png",
+  "project_file": "Art/IllustratedGarden/Generated/Fallen_Page_Bridge.png",
+  "reference_images": [
+    "Art/Concepts/Paper_Garden_01.png"
+  ],
+  "alpha": true,
+  "pixel_edits": false,
+  "usage": "GameJam transparent parent scenery sprite",
+  "derivatives": "Engine-native atlas regions and traced silhouette resources"
+}

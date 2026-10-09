@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Level/Vertical_Garden_Level.gd" id="1"]
+[ext_resource type="Script" path="res://Component/Layer/Depth_Layer.gd" id="2"]
+[ext_resource type="Script" path="res://Component/PaperStage/Paper_Atmosphere.gd" id="3"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1")
+layer_count = 2
+layer_scale = 0.8
+current_layer_index = 0
+allow_layer_cycle = false
+allow_uav = false
+allow_scenery_overlap_outside_player_layer = false
+lock_camera_y = false
+
+[node name="Atmosphere" type="Node2D" parent="."]
+script = ExtResource("3")
+
+[node name="Back" type="Node2D" parent="."]
+script = ExtResource("2")
+layer_id = 1
+slot = 1
+
+[node name="Mid" type="Node2D" parent="."]
+script = ExtResource("2")
+layer_id = 0
+slot = 0

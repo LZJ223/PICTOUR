@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://ch17qkfauofft"]
 
 [ext_resource type="Script" uid="uid://mjogndgqblf" path="res://Component/Player/Player_Controller.gd" id="1_bmrpg"]
+[ext_resource type="Script" path="res://Component/Player/Traveler_Visual.gd" id="2_traveler"]
+[ext_resource type="SpriteFrames" path="res://Art/Player/Traveler_Frames.tres" id="3_frames"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cyepm"]
 size = Vector2(20, 10)
@@ -15,14 +17,22 @@ script = ExtResource("1_bmrpg")
 visible = false
 position = Vector2(0, -46)
 shape = SubResource("RectangleShape2D_cyepm")
+disabled = true
 
 [node name="CollisionBox_Body" type="CollisionShape2D" parent="." unique_id=711116522]
 position = Vector2(0, -20)
 shape = SubResource("RectangleShape2D_vdobj")
 
 [node name="Visual_Body" type="Polygon2D" parent="." unique_id=1032413386]
-color = Color(0.64, 1, 0.66999996, 1)
+color = Color(1, 1, 1, 0)
 polygon = PackedVector2Array(-10, -40, 10, -40, 10, 0, -10, 0)
+
+[node name="Traveler" type="AnimatedSprite2D" parent="Visual_Body"]
+position = Vector2(0, -25.5)
+scale = Vector2(0.5, 0.5)
+sprite_frames = ExtResource("3_frames")
+animation = &"idle"
+script = ExtResource("2_traveler")
 
 [node name="Visual_UAV" type="Polygon2D" parent="." unique_id=278923229]
 visible = false

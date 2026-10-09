@@ -13,5 +13,7 @@ func _ready() -> void:
 ## 更新位置
 func apply_slot_state(anchor_position: Vector2) -> void:
 	for child in get_children():
-		if child is Object:
+		if child is LayerObject:
+			child.apply_visual_transfer(anchor_position)
+		elif child is LayerDecoration:
 			child.apply_visual_transfer(anchor_position)

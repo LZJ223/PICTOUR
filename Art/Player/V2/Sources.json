@@ -1,0 +1,13 @@
+{
+  "author": "PICTOUR 开发协作原创程序绘制",
+  "created": "2026-10-09",
+  "generator": "res://Art/Player/V2/Build_Traveler_Large.gd",
+  "method": "GDScript 生成原创 SVG，Godot 内置 SVG 栅格化为 PNG；未读取或改写第三方图像",
+  "assets": ["Traveler_Large_Atlas.svg", "Traveler_Large_Atlas.png", "Traveler_Large_Frames.tres"],
+  "usage": "新绘本自然地貌样板的玩家，旧白模精灵保留",
+  "cell": [192, 256],
+  "render_scale": 0.5,
+  "foot_pixel_y": 236,
+  "design": "红围巾、直身一体工作服、短袖与手臂、细线双腿；围巾尾部独立程序惯性模拟",
+  "frames": {"idle": 8, "walk": 16, "run": 16, "rise": 6, "fall": 6, "dash": 4, "takeoff": 4, "land": 4, "brake": 4, "turn": 4}
+}

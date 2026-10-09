@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="IllustratedGardenPiece" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Component/IllustratedGarden/Illustrated_Piece.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/IllustratedGarden/Generated/Page_Spine_Tower.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+display_name = "断冠页岩"
+family = "foldstone_crop"
+painting = ExtResource("2")
+source_pivot = Vector2(1020, 340)
+unit_scale = 0.24
+source_contours = Array[PackedVector2Array]([PackedVector2Array(712, 89, 746, 43, 794, 40, 893, 71, 976, 80, 985, 115, 1012, 157, 1070, 158, 1200, 177, 1318, 185, 1310, 211, 1287, 237, 1250, 228, 1190, 264, 1150, 279, 1084, 329, 1023, 360, 951, 290, 911, 292, 835, 223, 804, 227, 742, 168, 713, 138)])
+visual_masks = Array[PackedVector2Array]([PackedVector2Array(712, 89, 746, 43, 794, 40, 893, 71, 976, 80, 985, 115, 1012, 157, 1070, 158, 1200, 177, 1318, 185, 1310, 211, 1287, 237, 1250, 228, 1190, 264, 1150, 279, 1084, 329, 1023, 360, 951, 290, 911, 292, 835, 223, 804, 227, 742, 168, 713, 138)])
+source_walkable = Array[PackedVector2Array]([PackedVector2Array(746, 60, 960, 85)])
