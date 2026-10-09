@@ -39,9 +39,9 @@ func shadow_boolean() -> void:
 		var plans: Array[CutPlan] = []
 		for child in target_layer.get_children().duplicate():
 			if child is LayerObject:
-				if not child.can_be_shadowed or not child.collision_box is CollisionPolygon2D:
+				if not child.can_be_shadowed:
 					continue
-				var source_polygon: PackedVector2Array = _polygon_to_world((child.collision_box as CollisionPolygon2D).polygon, child.collision_box.global_transform)
+				var source_polygon: PackedVector2Array = _polygon_to_world(child.collision_box.polygon, child.collision_box.global_transform)
 				var pieces: Array[PackedVector2Array] = _subtract_shadows(source_polygon, shadows)
 				if _polygons_area(pieces) < abs(_polygon_area(source_polygon)) - BOOLEAN_AREA_EPSILON:
 					plans.append(CutPlan.new(child, pieces))

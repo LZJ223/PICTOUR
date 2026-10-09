@@ -2,23 +2,17 @@
 
 [ext_resource type="Script" uid="uid://mjogndgqblf" path="res://Component/Player/Player_Controller.gd" id="1_bmrpg"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyepm"]
-size = Vector2(20, 10)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vdobj"]
-size = Vector2(20, 40)
-
 [node name="Player" type="CharacterBody2D" unique_id=743403745]
 script = ExtResource("1_bmrpg")
 
-[node name="CollisionBox_UAV" type="CollisionShape2D" parent="." unique_id=1896861087]
+[node name="CollisionBox_UAV" type="CollisionPolygon2D" parent="." unique_id=220988333]
 visible = false
 position = Vector2(0, -46)
-shape = SubResource("RectangleShape2D_cyepm")
+polygon = PackedVector2Array(10, 5, 10, -5, -10, -5, -10, 5)
 
-[node name="CollisionBox_Body" type="CollisionShape2D" parent="." unique_id=711116522]
+[node name="CollisionBox_Body" type="CollisionPolygon2D" parent="." unique_id=504041598]
 position = Vector2(0, -20)
-shape = SubResource("RectangleShape2D_vdobj")
+polygon = PackedVector2Array(10, 20, 10, -20, -10, -20, -10, 20)
 
 [node name="Visual_Body" type="Polygon2D" parent="." unique_id=1032413386]
 color = Color(0.64, 1, 0.66999996, 1)

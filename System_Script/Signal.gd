@@ -2,7 +2,7 @@
 
 extends Node
 ## 信号定义
-signal layer_cycle(direction: int)
+signal layer_cycle(direction: int, check_collision: bool)
 signal layer_change(direction: int, object: LayerObject)
 signal UAV_activate()
 signal shadow_boolean()
@@ -22,10 +22,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	## 键盘交互
 	if Global.object_selected == null:
 		if event.is_action_pressed("forward"):
-			layer_cycle.emit(1)
+			layer_cycle.emit(1, true)
 			timer_reset()
 		elif event.is_action_pressed("backward"):
-			layer_cycle.emit(-1)
+			layer_cycle.emit(-1, true)
 			timer_reset()
 	else:
 		if event.is_action_pressed("forward"):

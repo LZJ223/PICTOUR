@@ -11,7 +11,7 @@ extends PhysicsBody2D
 @export var can_leave_shadow: bool = false
 @export var can_be_shadowed: bool = false
 ## 子节点信息
-@onready var collision_box: Node2D = $CollisionBox
+@onready var collision_box: CollisionPolygon2D = $CollisionBox
 @onready var visual_root: Node2D = $VisualRoot
 var owner_layer: DepthLayer
 ## 影子信息
@@ -27,15 +27,14 @@ func _ready() -> void:
 	update_layer_slot()
 
 ## 图层切换
-func transfer_to(target_layer: DepthLayer, anchor_position: Vector2) -> void:
+func transfer_to(target_layer: DepthLayer, target_transform: Transform2D, target_collision_transform: Transform2D) -> void:
 	## 可行性检测
 	if not can_transfer:
 		return
 	## 改变属性
 	reparent(target_layer, false)
-	var ratio : float = Global.layer_scales[owner_layer.slot] / Global.layer_scales[target_layer.slot]
-	position = anchor_position + (position - anchor_position) * ratio
-	collision_box.scale *= ratio
+	global_transform = target_transform
+	collision_box.transform = target_collision_transform
 	owner_layer = target_layer
 	update_layer_slot()
 

@@ -12,8 +12,8 @@ extends CharacterBody2D
 @export var UAV_friction_deceleration: float = 20
 @export var UAV_distance: float = 400
 ## 节点信息
-@onready var body_collision_box: CollisionShape2D = $CollisionBox_Body
-@onready var UAV_collision_box: CollisionShape2D = $CollisionBox_UAV
+@onready var body_collision_box: CollisionPolygon2D = $CollisionBox_Body
+@onready var UAV_collision_box: CollisionPolygon2D = $CollisionBox_UAV
 @onready var body_visual: Polygon2D = $Visual_Body
 @onready var UAV_visual: Polygon2D = $Visual_UAV
 ## 状态信息
@@ -27,7 +27,6 @@ const player_body_type = preload("res://Component/Object/Player_Object/Player_Ob
 ## 准备阶段绑定信号
 func _ready() -> void:
 	activated = true
-	SignalSystem.layer_cycle.connect(collision_group_change)
 	SignalSystem.UAV_activate.connect(UAV_activate)
 
 ## 人物移动逻辑
@@ -82,7 +81,7 @@ func UAV_activate() -> void:
 	else:
 		var player_body_layer: DepthLayer = player_body.find_owner_layer()
 		while player_body_layer.slot != Global.current_layer_index:
-			SignalSystem.layer_cycle.emit(1)
+			SignalSystem.layer_cycle.emit(1, false)
 		position = player_body.position
 		scale = player_body.collision_box.scale
 		player_body.queue_free()
