@@ -13,16 +13,16 @@
 ## 项目与架构边界
 
 - 引擎基线为 Godot `4.7.2-stable`，GDScript，2D 物理与 2.5D 视觉表现。保持现有 Mobile 渲染与 Windows D3D12 配置，升级或更换渲染方案需有任务依据。
-- 当前 F5 入口为 `Illustrated_Garden_Game.tscn`，使用完整V7角色和静态绘本箱庭；独立启动为 `Play_Illustrated_Garden.cmd`。旧 `Story_Garden_Game.tscn` 保留V6；`Vertical_Garden_Game.tscn`、`Garden_Study_Game.tscn`、`Paper_Stage_Game.tscn`、`Natural_Garden_Game.tscn`、旧白模与四层原型保留F6。自动加载为 `System/Global.gd`，关卡参数由Level在进入树时写入Global。
+- 当前 F5 入口为 `Illustrated_Garden_Game.tscn`，使用完整V7角色和静态绘本箱庭；独立启动为 `Play_Illustrated_Garden.cmd`。旧 `Story_Garden_Game.tscn` 保留V6；`Vertical_Garden_Game.tscn`、`Paper_Stage_Game.tscn`、`Natural_Garden_Game.tscn`、旧白模与四层原型保留F6。自动加载显式引用 `res://System/Global.gd`（保留脚本UID，避免初次导入依赖UID缓存），关卡参数由Level在进入树时写入Global。
 - 序章实验关卡为两层，倍率 `1.0 / 0.8`、玩家槽位 `0`，禁止整体轮换、无人机和挪动自己。Level 默认参数仍供旧原型使用：四层、`layer_scale = 0.8`、`current_layer_index = 1`。倍率按 `layer_scale ^ (slot - current_layer_index)` 生成；两层与四层已回归，其他配置需验证。
 - `layer_id` 是固定内容身份和碰撞位依据；`slot` 是可轮换的视觉槽位，不能混用。更改层数、槽位或碰撞约定时，检查配置、玩家、物件、影子和实际关卡。
 - 物件根节点保存真实位置和物理状态；`CollisionBox` 保存实体碰撞与实际尺寸；`VisualRoot` 保存外观与点选代理。不得把视觉变换写到实体物理节点。
 - 项目已开启物理插值。人物移动、相机与视差投影统一在物理帧更新，顺序为 Player → System → Camera；不要在 `_process` 写入插值节点变换。传送、恢复点和整体轮换使用 `System.reset_view_interpolation()` 清空画面历史，单物件搬运也要重置插值历史。
 - Windows 原型当前默认关闭 VSync、渲染上限 240 FPS，物理保持 60Hz；用户已通过独立窗口对照及更新后的内嵌窗口确认关闭同步顺滑。需要复查同步用 `Play_VSync.cmd`，不要根据屏幕标称刷新率自动改变物理频率，或在每帧强制同步模式。具体驱动／VRR 原因尚未确诊，见序章白模日志。
 - 普通图层物件继承 `LayerObject`，实现选中反馈，直接放在 `DepthLayer` 下。非物理装饰使用 `LayerDecoration`，直接放在真实图层下，并纳入同一物理投影与重置历史。当前遍历仅刷新直接子级 LayerObject／LayerDecoration；新增物件容器须先适配遍历。
-- 当前角色为 `Component/Player/V7/Traveler_V7.tscn`：C款长发叠页衣，作者化关键姿态和引擎原生曲线重画衣页/翻面/发束/线腿/围巾，头部仍取旧透明母图局部。用户要求视觉美感优先于固定骨长和足锚精度；不可再把减小所有动作幅度等同于轻盈。步速180/跑速320/短冲560，碰撞30×86、满跳约108.6px，沿用V5跨步控制器。姿态在物理帧求解，显示帧只插值绘图，不修改实体变换；地形读数按当前层mask并排除自己。公共 `reset_after_restore()` 与围巾 `reset_cloth()` 必须用于近距离R/M/Z。保留PNG、提示词、来源，不将agent曲线或AI生成称作人工逐帧绘制。旧V6/V5与RunStudy保留；功能和绘制回归不等于达到GRIS艺术水准。
-- V6未通过用户的动态美术审阅。用户提供GRIS实录后已确认上身/衣形僵直、短周期低扫地的机械感。`Art/Player/RunStudy/` 是独立作者化关键姿态研究，用同一C款原图观察短奔跑循环；仅验证右向恒速，坡面、起停、转身、恢复接口仍须单独接入。不得把它直接替换正式角色，或把减少动作幅度等同于轻盈；先检查整体剪影、服装体积、动作节奏与遮挡。
-- V5使用局部 `Traveler_Step_Controller.gd`，在共享控制器原输入语义上增加约12px接地跨步。必须检查完整身体上抬、横移、落脚三段扫掠和当前层mask；不可用放大阈值绕过高墙、空中障碍、断谷或头部净空。它局部保留了移动计算，未来修改共享移动逻辑时必须同步审查这份覆写，避免漂移。动画起停按输入意图，短接触丢失有50ms视觉宽限，真正起跳立即切空中；跨步只平滑视觉上身，实体仍在真实踏面。
+- 当前角色为 `Component/Player/V7/Traveler_V7.tscn`：C款长发叠页衣，作者化关键姿态和引擎原生曲线重画衣页/翻面/发束/线腿/围巾，头部仍取旧透明母图局部。用户要求视觉美感优先于固定骨长和足锚精度；不可再把减小所有动作幅度等同于轻盈。步速180/跑速320/短冲560，碰撞30×86、满跳约108.6px，使用 `Component/Player/Shared/Traveler_Step_Controller.gd`。姿态在物理帧求解，显示帧只插值绘图，不修改实体变换；地形读数按当前层mask并排除自己。公共 `reset_after_restore()` 与围巾 `reset_cloth()` 必须用于近距离R/M/Z。保留PNG、提示词、来源，不将agent曲线或AI生成称作人工逐帧绘制。旧V6保留，V4/V5和RunStudy展示已归档至 `8bee01e` 历史；功能和绘制回归不等于达到GRIS艺术水准。
+- V6未通过用户的动态美术审阅，保留Story样板与技术回归。MotionStudy/RunStudy展示场已归档；RunStudy作者化曲线是活跃V7依赖，已移至 `Component/Player/Shared/Authored_Run.gd`。共享母图与提示词/来源位于 `Art/Player/Traveler_C/`，像素与UID保持原值。不得将减少动作幅度等同于轻盈；先检查整体剪影、服装体积、动作节奏与遮挡。
+- V6/V7使用Shared目录的 `Traveler_Step_Controller.gd`，继承基础控制器并增加约12px接地跨步。必须检查完整身体上抬、横移、落脚三段扫掠和当前层mask；不可用放大阈值绕过高墙、空中障碍、断谷或头部净空。它局部保留了移动计算，未来修改共享移动逻辑时必须同步审查这份覆写，避免漂移。动画起停按输入意图，短接触丢失有50ms视觉宽限，真正起跳立即切空中；跨步只平滑视觉上身，实体仍在真实踏面。
 - `SceneryFamilyObject` 继承 `PaperStageObject`，通过 `SceneryFamilyPiece` 记录父图区域、默认尺寸、实体与可踏边；原图并非严格四等分，不能按中线盲裁。`mirror_x` 同步图像、碰撞与点选，勿单独翻Sprite。可踏边仅标注真实轮廓，不生成额外隐形平台。素材观察场支持两/四景；序章仍两景。
 - `DerivedCropObject/Piece` 在原图Atlas裁框内用自然轮廓掩片派生局部断体；原PNG不改写，掩片、实体和点选同步。薄冠/花草只有点选无实体。局部碎片名义矩形可能有空白，摆放应依据真实根点，不能把包围框底当落地面。
 - `StoryBank` 使用左→右上沿与右→左下沿定义固定岸体，两者不得自交；细小侵蚀同时用于绘制与碰撞，不改上沿踏面。`BackgroundLandform` 直接放在DepthLayer下，与本层景物同物理帧投影；它只表示固定世界地平线，没有角色实体。未来允许玩家换景时须补背景地面碰撞，不能把当前视觉地貌当已支持角色进入背景。
@@ -37,7 +37,7 @@
 - 新绘本箱庭复用Study的严格两层占用与内存Z/R，但投影Y由 `Level.editor_projection_anchor_y` 唯一保存（默认920）；本地总装入树前设置Player出生点和System投影值。编辑器预览读取同值，不能另写一份720默认覆盖。关卡全部静态保存于 `Level/Illustrated_Garden_Level.tscn`，可搬景物直属Mid/Back，piece资源保存母图区域、源根点、真实实体/踏边与掩片；禁止运行时重造一份摆位。连续地貌仍不可搬，独立可辨认树/岩/拱门/植物统一可搬。无磁盘存档；不要将此样板宣称完成最近书签/持久化。
 - `addons/pictour_garden_editor/` 是原生EditorPlugin布景面板。插入、移动、景别归属、删除及重复稳定ID修复共用Godot EditorUndoRedoManager与场景保存；不将VisualRoot/碰撞子节点单独挪动。原生复制可能复制persistent_id，修复只处理空/后续重复项，保留首份并可撤回。离线预览只检查编辑实体坐标，不模拟完整运行视差画面；真实鼠标与屏幕映射需要带画面审阅。插件专项仅修改Exports私有fixture，不保存默认地图或触碰玩家进度。
 - `BookmarkManager` 保存全场可搬景物的稳定ID、固定layer_id、根位置与CollisionBox尺度。R/坠落/地图恢复摆位，墨水/能力/解锁书签独立永久保留。测试必须在加入场景树前覆盖独立 `user://Tests/...` 路径并清理自己的测试存档，不覆盖玩家默认进度。详见2026-10-09实现日志。
-- 保留的Story庭园使用 `user://Story_Garden_Save.json`，旧组合样板使用 `user://Garden_Study_Save.json`，上一版画页使用 `user://Paper_Stage_Save.json`。关卡布局与进度不可混写。Story等保存样板启动检查附加 `-- --no-save`；新绘本、动作观察场与素材目录不创建存档。
+- 保留的Story庭园使用 `user://Story_Garden_Save.json`，已归档GardenStudy曾使用 `user://Garden_Study_Save.json`（清理不删除玩家存档），上一版画页使用 `user://Paper_Stage_Save.json`。关卡布局与进度不可混写。Story等保存样板启动检查附加 `-- --no-save`；新绘本、动作观察场与素材目录不创建存档。
 - 公共组件在 `Component/`，协调逻辑在 `System/`，关卡在 `Level/`。新增关卡复制原型，不覆盖模板；模板路径为 `Component/Layer/Depth_Layer.tscn`。
 - 保留已有命名（包括 `UAV`、下划线文件名）；局部代码遵循现有风格，不顺带全库格式化或改名。GDScript 使用 tab 缩进、UTF-8、LF。
 - 不因本文提到已知缺陷而顺带修复它们；是否纳入当前任务取决于任务目标与验收需要。
@@ -57,10 +57,11 @@
 
 - 一次提交解决一个目的，格式为 `type(scope): 中文简述`，常用 type 为 `feat`、`fix`、`refactor`、`docs`、`test`、`chore`、`build`。
 - 提交前核对分支、任务差异和验证结果；只暂存当前任务文件并检查 staged diff，避免把他人修改一起提交。
-- 允许任务范围内的本地分支和可逆修改。用户于2026-10-09授权将当前积累成果一次本地提交到dev，并提供仓库局部身份；此单次授权不扩展为后续任务自动暂存/提交或远端推送。后续提交遵循用户明确指令，身份缺失时再询问，不能借用历史作者。
+- 允许任务范围内的本地分支和可逆修改。用户于2026-10-09授权一次本地开发基线提交并明确推送dev，提供仓库局部身份；2026-10-10再次授权旧实验清理、普通提交并同步dev。以上均为本次任务授权，不扩展为后续自动提交/推送。后续遵循用户明确指令，身份缺失时再询问，不能借用历史作者。
 - 远端推送、合入 `main`、赛事投稿和对外发布按用户明确指令执行；已授权的操作不重复询问。不要默认强推、重写共享历史、硬重置、删除工作区或清理他人改动。
 - 查看远端可 fetch 并检查差异；main 的后续改动是否引入 dev 按任务和用户意图决定，不自动同步两个探索方向。获授权同步且无分叉时使用 fast-forward；不自动 stash 或以单方版本覆盖冲突。共享历史通过新提交修复或 revert 撤销。
 - 跟踪 `.gd`、`.tscn`、`.tres`、`.uid`、项目配置和原始资产。`.godot/`、导出产物与导出凭据不提交；资源移动时同步维护路径和 UID。
+- 归档未采用实验时，先检查运行、布景台与回归依赖；抽取活跃共享资源，迁移必要断言，保留UID与来源。旧实验优先留在普通Git历史及被忽略的本地归档；不以清理为由重写历史。日期日志按历史阅读，当前README不得保留失效启动命令。
 - 场景虽然是文本，合并后仍需 Godot 验证节点、资源引用与碰撞。二进制资产由一个责任人修改，冲突不能按文本合并。
 - 当前没有大型二进制资产，不预先启用全类型 LFS。引入大型美术源文件或音频前，按类型和实际体积制定 LFS 规则；不擅自迁移现有历史。
 
@@ -70,7 +71,7 @@
 - 脚本、场景、项目配置变化：先 headless 导入，再启动主场景至少 120 帧。检查日志中的错误，不能仅依退出码判断通过。
 - 核心机制修改：补充能覆盖改变行为的回归验证，并安排带画面试玩。重点检查图层完整轮换、换层前后画面连续性、碰撞归属、物件选取、无人机往返和软锁恢复。
 - 回归入口包含 `Tests/Prologue_Regression.tscn`、`Prologue_Playthrough.tscn`、`Natural_Regression.tscn`、`Natural_Playthrough.tscn`、`Bookmark_Regression.tscn` 与 `Art/Player/V2/Traveler_Large_Check.tscn`；直接运行场景，避免 `--script` 提前解析时无法识别 autoload 的问题。检查有效断言数量、日志和退出码。
-- 当前庭园专项为 `Tests/Story_Garden_Regression.tscn`（连续路径、双路往返/保存/换层），V6角色、Study撤回与Vertical路线各有独立专项；准确入口见README和各实现日志。`Component/SceneryFamilies/Derived_Crop_Check.tscn`验证局部碎片/植物两四层往返、点选与落脚。旧样板与素材测试保留。不要将旧V2“每帧贴地”当新奔跑质量标准，也不要用测试数量证明动画或构图定稿。角色验证使用正常60Hz；`--time-scale`会改变物理步长，不能作为等价加速工具。
+- 当前绘本专项为 `Tests/Illustrated_Garden_Regression.tscn`（高低路线、自然往返、换层），旧Story另保留 `Tests/Story_Garden_Regression.tscn`（书签保存/恢复），V6角色、Study撤回与Vertical路线各有独立专项；准确入口见README和各实现日志。`Component/SceneryFamilies/Derived_Crop_Check.tscn`验证局部碎片/植物两四层往返、点选与落脚。旧样板与素材测试保留。不要将旧V2“每帧贴地”当新奔跑质量标准，也不要用测试数量证明动画或构图定稿。角色验证使用正常60Hz；`--time-scale`会改变物理步长，不能作为等价加速工具。
 - 参数化功能至少验证默认与一组非默认配置。未执行的测试明确标注，不假定其通过。
 - 功能测试应针对风险和行为，避免为低影响修改新增测试框架、重复实现逻辑或扩大无关范围。
 - 当前仓库没有导出预设、自动化测试框架或 CI。不能声称已完成打包验证；正式交付前检查目标平台的导出模板、启动包和核心流程。

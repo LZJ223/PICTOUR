@@ -2,7 +2,7 @@
 
 角色入口 `Component/Player/V7/Traveler_V7.tscn`；观察入口 `Art/Player/V7/Traveler_V7_Lab.tscn`，F6运行。空格暂停，R重新出发，1原尺寸、2放大。观察场使用四个独立物理世界：180px/s走、320px/s跑、18°坡面走跑、跳跃/短冲/反向/停步；不创建存档。
 
-该版针对用户要求的「轻盈而坚定，视觉正确优先于物理正确」完整重做衣服、发束、线腿、袖口和红围巾的绘制方法。作者化关键姿态决定接触、承重、蹬离、收腿与展开，再对画面连续插值；关节投影允许缩短，不以固定骨长或世界足锚精度决定表演。原来的V6和独立RunStudy保留。
+该版针对用户要求的「轻盈而坚定，视觉正确优先于物理正确」完整重做衣服、发束、线腿、袖口和红围巾的绘制方法。作者化关键姿态决定接触、承重、蹬离、收腿与展开，再对画面连续插值；关节投影允许缩短，不以固定骨长或世界足锚精度决定表演。V6仍保留；独立RunStudy展示场已归档，可从清理前提交 `8bee01e` 恢复。
 
 ## 外观与动态
 
@@ -16,7 +16,7 @@
 
 ## 资产来源
 
-`Traveler_V7_Visual.gd` 仅使用原AI分件母图 `Art/Player/V6/Generated/Traveler_C_Rig.png` 的头部区域 `[184,35,276,266]`；该PNG没有修改。完整母图提示词和来源见同目录的 `Traveler_C_Rig.prompt.txt`、`Traveler_C_Rig.source.json`。局部图像在运行时裁取并变换。
+`Traveler_V7_Visual.gd` 仅使用公共母图 [Traveler_C_Rig.png](../Traveler_C/Traveler_C_Rig.png) 的头部区域 `[184,35,276,266]`；该AI生成PNG移至 `Art/Player/Traveler_C/`，原像素未修改。完整母图[提示词](../Traveler_C/Traveler_C_Rig.prompt.txt)和[来源](../Traveler_C/Traveler_C_Rig.source.json)保存在同目录。局部图像在运行时裁取并变换。生成时使用的V4参考选择图 `Art/Player/V4/Female_Traveler_Choices.png` 可从提交 `8bee01e` 恢复。
 
 服装、发束、线腿、袖口、围巾与叶墨纹由本轮agent在Godot原生曲线中重绘，不称作人工手绘或AI完整动画图集。轻微纸墨颗粒引用已有AI纹理 `Art/Materials/Dry_Ink_AI.png`，来源沿用其资产记录。
 
@@ -24,7 +24,7 @@ GRIS录屏与用户截图仅用于分析动作节奏、体积与轮廓，不复�
 
 ## 实体与恢复接口
 
-沿用V5自然跨步控制器：30×86实体、步速180、跑速320、短冲560、跳初速610，满跳约108.6px；60Hz物理及渲染插值、现有VSync配置不变。地形读数使用当前内容层mask并排除自己。
+沿用从V5抽取的公共自然跨步控制器 `Component/Player/Shared/Traveler_Step_Controller.gd`：30×86实体、步速180、跑速320、短冲560、跳初速610，满跳约108.6px；60Hz物理及渲染插值、现有VSync配置不变。地形读数使用当前内容层mask并排除自己。RunStudy的作者化曲线保留为 `Component/Player/Shared/Authored_Run.gd`，由V7的 `Page_Poses.gd` 调用。
 
 `Visual_Body/Traveler.reset_after_restore()` 清除位移、微坡、衣发响应与前后姿态历史；`Visual_Body/Scarf.reset_cloth()`复位围巾。既有Bookmark/Study系统的公共接口可直接调用；包括不足100px的近距离恢复。动作在物理帧求解，显示帧只插值绘图数据，不写实体或节点变换。
 

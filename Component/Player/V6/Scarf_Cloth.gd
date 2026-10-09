@@ -19,7 +19,7 @@ var _last_origin := Vector2.ZERO
 func _ready() -> void:
 	process_physics_priority = 2
 	var fabric := ShaderMaterial.new()
-	fabric.shader = load("res://Component/Player/V5/Scarf_Fabric.gdshader")
+	fabric.shader = load("res://Component/Player/Shared/Scarf_Fabric.gdshader")
 	fabric.set_shader_parameter("paper_ink", load("res://Art/Materials/Dry_Ink_AI.png"))
 	material = fabric
 	reset_cloth()

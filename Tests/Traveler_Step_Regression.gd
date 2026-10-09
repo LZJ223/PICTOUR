@@ -1,8 +1,8 @@
 extends Node2D
 ## 真实 CharacterBody2D 跨步回归；--baseline 保留修复前 4px 卡脚复现。
 
-const TRAVELER = preload("res://Component/Player/V5/Traveler_V5.tscn")
-const STEP_CONTROLLER = preload("res://Component/Player/V5/Traveler_Step_Controller.gd")
+const TRAVELER = preload("res://Component/Player/V7/Traveler_V7.tscn")
+const STEP_CONTROLLER = preload("res://Component/Player/Shared/Traveler_Step_Controller.gd")
 const BASE_CONTROLLER = preload("res://Component/Player/Player_Controller.gd")
 var player: PlayerController
 var fixtures: Node2D

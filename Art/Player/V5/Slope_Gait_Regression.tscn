@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://Art/Player/V5/Slope_Gait_Regression.gd" id="1"]
-
-[node name="SlopeGaitRegression" type="Node"]
-script = ExtResource("1")

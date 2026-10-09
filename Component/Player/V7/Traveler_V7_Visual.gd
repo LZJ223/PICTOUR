@@ -65,7 +65,7 @@ func _ready() -> void:
 func _load_head() -> void:
 	_head = Polygon2D.new()
 	_head.name = "MotherHead"
-	_head.texture = preload("res://Art/Player/V6/Generated/Traveler_C_Rig.png")
+	_head.texture = preload("res://Art/Player/Traveler_C/Traveler_C_Rig.png")
 	_head.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	_head.z_index = 10
 	_head.uv = PackedVector2Array([Vector2(184, 35), Vector2(460, 35), Vector2(460, 301), Vector2(184, 301)])

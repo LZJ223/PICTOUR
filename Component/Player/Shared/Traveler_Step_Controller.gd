@@ -1,5 +1,5 @@
 extends PlayerController
-## V5 专用自然跨步。旧角色仍使用原 PlayerController。
+## V6/V7 共用自然跨步。旧白模角色仍使用原 PlayerController。
 ## 三段完整身体扫掠只修正接地低凸起，不改变跳跃、空中控制或碰撞层。
 
 @export_range(0.0, 24.0, 0.5) var max_step_height: float = 12.0

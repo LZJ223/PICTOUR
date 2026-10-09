@@ -64,7 +64,7 @@ func _run() -> void:
 	_check(player.move_speed == 180 and player.run_speed == 320 and player.dash_speed == 560 and player.jump_speed == 610, "物理参数未变")
 	_check(player.get_node("CollisionBox_Body").shape.size == Vector2(30, 86), "30×86实体尺寸")
 	for part in visual._parts:
-		_check(part.node.texture.resource_path == "res://Art/Player/V6/Generated/Traveler_C_Rig.png", "皮肤沿用AI原图：" + str(part.definition.name))
+		_check(part.node.texture.resource_path == "res://Art/Player/Traveler_C/Traveler_C_Rig.png", "皮肤沿用AI原图：" + str(part.definition.name))
 	for angle in [0.0, -3.0, 3.0, -18.0, 18.0, -28.0, 28.0]:
 		await _set_floor(angle)
 		_check(player.is_on_floor(), "坡%.0f实体初始接地" % angle)

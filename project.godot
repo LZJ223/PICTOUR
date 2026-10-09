@@ -17,7 +17,7 @@ run/max_fps=240
 
 [autoload]
 
-Global="*uid://dl63g7i2u2byx"
+Global="*res://System/Global.gd"
 
 [display]
 

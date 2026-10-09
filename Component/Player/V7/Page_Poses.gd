@@ -1,7 +1,7 @@
 extends RefCounted
 ## 作者化侧视姿态。关节允许投影缩短，剪影、衣形与节奏优先于固定骨长。
 
-const RUN = preload("res://Component/Player/RunStudy/Authored_Run.gd")
+const RUN = preload("res://Component/Player/Shared/Authored_Run.gd")
 const RUN_STRIDE := 211.2
 const WALK_STRIDE := 144.0
 

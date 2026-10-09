@@ -4,11 +4,13 @@
 
 | 用途 | 最终保存路径 | 完整最终提示词 | 来源记录 |
 | --- | --- | --- | --- |
-| C 旅人拆分母图 | [Traveler_C_Rig.png](Player/V6/Generated/Traveler_C_Rig.png) | [Traveler_C_Rig.prompt.txt](Player/V6/Generated/Traveler_C_Rig.prompt.txt) | [Traveler_C_Rig.source.json](Player/V6/Generated/Traveler_C_Rig.source.json) |
+| C 旅人拆分母图 | [Traveler_C_Rig.png](Player/Traveler_C/Traveler_C_Rig.png) | [Traveler_C_Rig.prompt.txt](Player/Traveler_C/Traveler_C_Rig.prompt.txt) | [Traveler_C_Rig.source.json](Player/Traveler_C/Traveler_C_Rig.source.json) |
 | 卷根门场景母图 | [Curled_Root_Gate.png](VerticalGarden/Generated/Curled_Root_Gate.png) | [Curled_Root_Gate.prompt.txt](VerticalGarden/Generated/Curled_Root_Gate.prompt.txt) | [Curled_Root_Gate.source.json](VerticalGarden/Generated/Curled_Root_Gate.source.json) |
 | 垂腹枝场景母图 | [Hanging_Bough_Bridge.png](VerticalGarden/Generated/Hanging_Bough_Bridge.png) | [Hanging_Bough_Bridge.prompt.txt](VerticalGarden/Generated/Hanging_Bough_Bridge.prompt.txt) | [Hanging_Bough_Bridge.source.json](VerticalGarden/Generated/Hanging_Bough_Bridge.source.json) |
 
-`Run_Study` 使用第一张母图的已有像素，关键姿态、衣物形变和围巾运动由引擎脚本驱动；它是动画制作方法的候选验证，还未达到角色最终美术标准。
+`Run_Study` 使用第一张母图的已有像素，关键姿态、衣物形变和围巾运动由引擎脚本驱动；它是动画制作方法的候选验证，还未达到角色最终美术标准。展示场已归档，可从清理前提交 `8bee01e` 恢复；供V7使用的作者化曲线保留于 `Component/Player/Shared/Authored_Run.gd`。
+
+2026-10-10整理后，C旅人母图及完整生成记录集中于 `Art/Player/Traveler_C/`，PNG像素与UID保留。来源记录中的V4参考选择图 `Art/Player/V4/Female_Traveler_Choices.png` 是生成时的历史路径，可从提交 `8bee01e` 恢复。V6/V7共用的跨步控制器与V6围巾材质集中于 `Component/Player/Shared/`。
 
 ## 本轮绘本箱庭新增
 

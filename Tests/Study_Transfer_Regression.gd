@@ -1,8 +1,8 @@
 extends Node2D
-## 固定投影Y、严格两层占用与原子整套撤回。不读取任何玩家存档。
+## 正式V7的固定投影Y、严格两层占用与原子整套撤回；--v6保留旧角色覆盖。不读取玩家存档。
 
 const STUDY_SYSTEM = preload("res://System/Study/Study_System_Controller.gd")
-const PLAYER = preload("res://Component/Player/V5/Traveler_V5.tscn")
+const PLAYER = preload("res://Component/Player/V7/Traveler_V7.tscn")
 const PLATFORM = preload("res://Component/Object/Transfer_Platform/Transfer_Platform.tscn")
 const MULTIPART = preload("res://Component/VerticalGarden/Vertical_Object.tscn")
 var checks := 0
@@ -157,6 +157,8 @@ func _run() -> void:
 	_check(system.reset_study() and system.get_projection_anchor().y == 720, "R恢复最初投影锚点")
 	if "--v6" in OS.get_cmdline_user_args():
 		await _v6_small_restore()
+	else:
+		await _v7_small_restore()
 	await _capture("02_restored")
 	print("STUDY_TRANSFER: %d checks, %d failures." % [checks, failures])
 	get_tree().quit(1 if failures > 0 else 0)
@@ -380,3 +382,42 @@ func _v6_small_restore() -> void:
 	_check(feet[0].distance_to(player.position) < 22 and feet[1].distance_to(player.position) < 22, "小距离Z当帧清掉未来位置的世界脚锚")
 	_check(visual.get("pose") == visual.get("previous_pose"), "V6新旧姿态同帧重建，插值不拉回未来姿态")
 	_check(int(visual.get("visual_facing")) == -1, "V6撤回立即跟随恢复的人物朝向")
+
+
+func _v7_small_restore() -> void:
+	var visual := player.get_node("Visual_Body/Traveler")
+	var scarf := player.get_node("Visual_Body/Scarf")
+	_check(visual.has_method("reset_after_restore") and scarf.has_method("reset_cloth"), "V7提供人物与围巾公共恢复入口")
+	player.facing_direction = -1
+	player.velocity = Vector2.ZERO
+	_check(system.transfer(1, a), "V7小距离撤回准备")
+	var original := player.global_position
+	player.position += Vector2(48, -10)
+	player.facing_direction = 1
+	player.velocity = Vector2(320, -20)
+	await _wait(8)
+	_check(player.global_position.distance_to(original) < 100 and Vector2(visual.get("_last_position")).is_equal_approx(player.global_position), "近距离未来站位进入V7位移缓存，未触发自动传送重置")
+	_check(absf(float(scarf.get("_wind"))) > 0.1, "近距离未来运动确实积累围巾惯性")
+	_check(system.undo_transfer() and player.global_position == original, "V7小于自动传送阈值的Z真实恢复人物")
+	_v7_restored_visual("近距离Z")
+	player.position += Vector2(-32, -6)
+	player.facing_direction = -1
+	player.velocity = Vector2(-320, 20)
+	await _wait(8)
+	_check(player.global_position.distance_to(original) < 100 and absf(float(scarf.get("_wind"))) > 0.1, "近距离R之前同样积累未来姿态与围巾惯性")
+	_check(system.reset_study() and player.position == Vector2(200, 600) and player.velocity == Vector2.ZERO, "V7近距离R真实恢复初始人物与运动")
+	_v7_restored_visual("近距离R")
+	_check(system.history.get_history_count() == 0, "V7近距离R仍清空完整换层历史")
+
+
+func _v7_restored_visual(label: String) -> void:
+	var visual := player.get_node("Visual_Body/Traveler")
+	var scarf := player.get_node("Visual_Body/Scarf")
+	# V7没有旧角色的世界脚锚。其等价恢复契约是清除位移与绘图历史，
+	# 避免未来站位驱动下一物理帧或显示插值；真实落脚由上面的活体实体专项覆盖。
+	_check(visual.get("pose") == visual.get("previous_pose"), label + "同帧重建前后姿态，插值不拉回未来")
+	_check(Vector2(visual.get("_last_position")).is_equal_approx(player.global_position), label + "位移历史立即同步恢复站位")
+	_check(float(visual.get("activity")) == 0 and float(visual.get("_step_offset")) == 0 and float(visual.get("_unsupported_time")) == 0, label + "清除动作与跨步失地历史")
+	_check(int(visual.get("visual_facing")) == player.facing_direction, label + "视觉立即跟随恢复的人物朝向")
+	_check(scarf.get("_points") == scarf.get("_previous_points") and scarf.get_ribbon_points().size() == 25, label + "完整围巾前后绘图历史同帧一致")
+	_check(Vector2(scarf.get("_last_origin")).is_equal_approx(player.global_position) and float(scarf.get("_wind")) == 0, label + "围巾锚点历史与惯性立即重置")

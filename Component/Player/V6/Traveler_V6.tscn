@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3]
 
-[ext_resource type="Script" path="res://Component/Player/V5/Traveler_Step_Controller.gd" id="1_controller"]
+[ext_resource type="Script" path="res://Component/Player/Shared/Traveler_Step_Controller.gd" id="1_controller"]
 [ext_resource type="Script" path="res://Component/Player/V6/Traveler_V6_Visual.gd" id="2_visual"]
 [ext_resource type="Script" path="res://Component/Player/V6/Scarf_Cloth.gd" id="3_scarf"]
 

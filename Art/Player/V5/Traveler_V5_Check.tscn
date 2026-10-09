@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://Art/Player/V5/Traveler_V5_Check.gd" id="1"]
-
-[node name="TravelerV5Check" type="Node2D"]
-script = ExtResource("1")

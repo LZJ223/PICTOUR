@@ -1,5 +1,5 @@
 extends RefCounted
-## 独立候选：先设计姿态和timing，再以接触窗约束足点。不是量产控制器。
+## 作者化关键姿态曲线：先设计姿态和timing，再以接触窗约束足点，供V7使用。
 
 const PERIOD := 0.64
 const SPEED := 320.0

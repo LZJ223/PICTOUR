@@ -4,11 +4,11 @@ Godot 4.7.2 制作的 2.5D 平台解谜游戏。玩家改变站位，利用图�
 
 项目参加 TapTap 2026「聚光灯」21 天游戏创作挑战，主题为「涌现」。[官方公告](https://www.taptap.cn/moment/854692229854265392)
 
-`dev` 是用户从 `main` 起步的大地图与美术实验路线。队友另一路探索关卡式设计，尚未上传 GitHub。先做 Windows 原型；用户于2026-10-09授权将当前积累成果作一次本地基线提交。后续提交、远端推送和合入main仍按明确指令执行。
+`dev` 是用户从 `main` 起步的大地图与美术实验路线，已跟踪 `origin/dev`。队友另一路探索关卡式设计，尚未上传 GitHub。先做 Windows 原型；开发基线快照为 `8bee01e`。2026-10-10 用户授权清理旧实验并提交、同步 dev；后续提交、推送和合入 main 按明确指令执行。
 
 ## 运行与操作
 
-使用 Godot `4.7.2-stable` 导入 `project.godot`，按 **F5** 运行 `Illustrated_Garden_Game.tscn`：新「折页庭园」箱庭与完整V7角色。也可双击 [Play_Illustrated_Garden.cmd](Play_Illustrated_Garden.cmd)。此前的 `Story_Garden_Game.tscn`、`Vertical_Garden_Game.tscn`、`Garden_Study_Game.tscn`、`Paper_Stage_Game.tscn`、`Natural_Garden_Game.tscn`、旧白模 `Prologue_Test_Game.tscn` 与四层原型 `Prototype_Game.tscn` 均保留，可打开后按 F6 运行。
+使用 Godot `4.7.2-stable` 导入 `project.godot`，按 **F5** 运行 `Illustrated_Garden_Game.tscn`：新「折页庭园」箱庭与完整V7角色。也可双击 [Play_Illustrated_Garden.cmd](Play_Illustrated_Garden.cmd)。此前的 `Story_Garden_Game.tscn`、`Vertical_Garden_Game.tscn`、`Paper_Stage_Game.tscn`、`Natural_Garden_Game.tscn`、旧白模 `Prologue_Test_Game.tscn` 与四层原型 `Prototype_Game.tscn` 均保留，可打开后按 F6 运行。
 
 Windows 原型默认 **关闭 VSync、渲染上限 240 FPS**，物理保持 60Hz 并开启插值。这组配置已由用户在独立与编辑器内嵌窗口确认顺滑；原同步开启的窗口存在整幅画面抖动，提示问题与此环境开启同步时的帧率／呈现节奏有关。项目配置更新后需停止并重新运行，关闭同步可能出现撕裂。
 
@@ -61,19 +61,19 @@ Windows 原型默认 **关闭 VSync、渲染上限 240 FPS**，物理保持 60Hz
 
 用户同日提供GRIS跑动实录后，明确认为V6动作差距过大。逐帧复核确认上身与衣形过于僵直，低扫地、短周期步态仍显机械；这版未通过动态美术审阅，作为旧Story样板与技术验证记录保留。新的完整角色见前面的V7入口。
 
-新的独立对照打开 `Art/Player/RunStudy/Run_Study_Lab.tscn` 按F6：左为V6，右为同速度的关键姿态候选，下方显示接触、承重、蹬离和收膝。Space暂停/继续，1–4冻结双方并查看姿态，0恢复；实录为 `Exports/Run_Study.mp4`（4秒）。它只验证右向平地奔跑，尚未接入正式角色状态与地形适配。方法复盘见 [GRIS跑动对照](ProjectLogs/GRIS跑动对照_2026-10-09.md)。
+旧 RunStudy 关键姿态对照场已从当前树归档；作者化曲线仍由 V7 使用，位于 `Component/Player/Shared/Authored_Run.gd`。历史对照与实录说明见 [GRIS跑动对照](ProjectLogs/GRIS跑动对照_2026-10-09.md)，旧场景可从 `8bee01e` 恢复。
 
-V6沿用V5局部控制器的约12px自然跨步：走、跑、短冲经过低石沿时，先确认全身上方净空和另一侧真实踏面，再越过；13px以上台沿、高根侧壁和空中障碍仍不能自动攀爬。动画起停读取操作意图与实际行程，50ms以内的短暂接地丢失不误插下落/落地，真实起跳立即响应。详见[跨步实现](ProjectLogs/自然跨步实现_2026-10-09.md)、[坡面步态诊断](ProjectLogs/坡面步态修复_2026-10-09.md)。
+V6/V7共用 `Component/Player/Shared/Traveler_Step_Controller.gd` 的约12px自然跨步：走、跑、短冲经过低石沿时，先确认全身上方净空和另一侧真实踏面，再越过；13px以上台沿、高根侧壁和空中障碍仍不能自动攀爬。动画起停读取操作意图与实际行程，50ms以内的短暂接地丢失不误插下落/落地，真实起跳立即响应。详见[跨步实现](ProjectLogs/自然跨步实现_2026-10-09.md)、[坡面步态诊断](ProjectLogs/坡面步态修复_2026-10-09.md)。
 
-打开 `Art/Player/V6/Traveler_V6_Lab.tscn` 按F6，对照平地走跑、18°上坡、28°下坡；Space暂停、R重播、1/2切观察倍率。新分件原图、提示词、来源与拼装参数位于 `Art/Player/V6/`。旧16帧AI动作保留在 [V5角色说明](Art/Player/V5/README.md) 与 [角色动作V5](ProjectLogs/角色动作V5_2026-10-09.md)；裁片与植物用法见 [派生素材说明](Art/SceneryFamilies/Crops/README.md)。旧图集的重复腿姿与衣摆跳变是历史限制，不因增加图片数量而自然解决。
+打开 `Art/Player/V6/Traveler_V6_Lab.tscn` 按F6，对照平地走跑、18°上坡、28°下坡；Space暂停、R重播、1/2切观察倍率。共享分件母图、提示词和来源位于 `Art/Player/Traveler_C/`，V6拼装参数保存在 `Art/Player/V6/`。旧16帧AI动作已归档，制作记录见 [角色动作V5](ProjectLogs/角色动作V5_2026-10-09.md)；裁片与植物用法见 [派生素材说明](Art/SceneryFamilies/Crops/README.md)。旧图集的重复腿姿与衣摆跳变不会因增加图片数量而自然解决。
 
 当前V6动作实录为 `Exports/Traveler_V6_Lab.mp4`，庭园最新截图在忽略目录 `Exports/Story_Garden/`。`Exports/Story_Garden_Playthrough.mp4` 与 `Exports/Traveler_V5_Lab.mp4` 是旧V5版本记录。场景与素材均能直接在编辑器调整；完整序章、最终构图、美术和音效仍待迭代。
 
-同日新反馈后的实际动画顺序可在 `Art/Player/V5/Playback_Order_Review.tscn` 查看；真实坡面状态记录为 `Art/Player/V5/Slope_Gait_Regression.tscn` 与 `Exports/Slope_Gait.mp4`。本次修复后，跨步专项120项、坡面状态42项和庭园双路线154项均在headless及D3D12检查通过；这些结果不等于原图集已自然流畅。
+旧V5播放顺序和坡面观察场已归档。当前跨步回归 `Tests/Traveler_Step_Regression.tscn` 直接验证V7活体，坡面与动作状态由 `Tests/Traveler_V7_Check.tscn` 覆盖；历史结果不等于原图集已自然流畅。
 
 这一轮已接入V6分件动作，纵向相机、背景真实占用和完整撤回规则在独立「折页井」验证。原庭园保留现有背景遮叠规则和凝墨书签；新试验不写玩家存档。早期方案见[动画制作与可逆空间提案](ProjectLogs/动画制作与可逆空间提案_2026-10-09.md)、[三主体纵向空间提案](ProjectLogs/纵向少元素设计提案_2026-10-09.md)与[空间示意图](ProjectLogs/Designs/Vertical_Garden_Study.svg)，实际布局以后续实现和场景为准。
 
-独立动作灰稿可打开 `Art/Player/MotionStudy/Motion_Study.tscn` 按F6，实录为 `Exports/Motion_Study.mp4`。它展示固定腿身份、平地支撑脚锁定和连续关节运动；几何轮廓仅用于观察动作，尚未连接真实地形与控制器，也未替换C款美术。详见[灰稿说明](Art/Player/MotionStudy/README.md)。
+未采用的 MotionStudy 动作灰稿已归档；方法与否决原因保留在日期日志及 `8bee01e` 历史中。
 
 ## 独立纵向试验：折页井
 
@@ -87,25 +87,13 @@ V6沿用V5局部控制器的约12px自然跨步：走、跑、短冲经过低石
 
 这一轮角色与场景的集成、实际验证和剩余限制见 [轻盈步态与折页井整合](ProjectLogs/轻盈步态与折页井整合_2026-10-09.md)。
 
-## 保留的上一版：枝与余页
+## 旧实验归档与共享素材
 
-本轮以古木、层页石、残廊三组 AI 生成父图衍生出十二种不同轮廓，分别提供根座、跨接、侧肩与穿行空间；真实实体沿断口和侵蚀面制作，不额外叠加隐形台阶。新场景采用其中七个实例，全部保存在 `Level/Garden_Study_Level.tscn` 中，能直接在编辑器里调整。树、拱门、石块、断根、花草均可换层；固定纸岸与抽象纸面色洗承担环境职责。
+2026-10-10 清理了 V4/V5 旧角色图集、MotionStudy/RunStudy 展示场、GardenStudy 旧组合场和一次性调试入口。它们保存在基线提交 `8bee01e`，本机还有被忽略的 `Exports/Archived_Experiments_8bee01e/` 可逆归档；日期日志保留当时事实。清理通过普通新提交完成，不重写历史。
 
-同一个缺口已验证两种往返路线：
+当前角色共享控制器、围巾着色器和作者化曲线放在 `Component/Player/Shared/`；C款母图与来源记录放在 `Art/Player/Traveler_C/`。当前地图、V7、布景台及仍有回归/素材依赖的旧样板保留。母图来源中引用的 V4 选择图属于生成历史，可从基线恢复，不是运行依赖。
 
-- **残拱高路：** 从初始书签向右走到岸头附近，再将残拱搬近，沿左侧破损断口登上拱顶，到右岸书签后可原路返回。初始站位搬入会因拱脚与左岸相交而拒绝，换站位后可通过。
-- **页石＋伏根低路：** 保留残拱在背景，先搬近小页石，再走几步观察横根相对页石的漂移并搬近横根，借石块登上根肩，沿根脊越岸；反向也能返回。同处背景的两件物品不会因玩家移动而改变彼此位置，先固定一件才会产生相对视差。
-
-R、坠落或书签地图恢复记录的摆位，墨水保留。新场景使用独立 `user://Garden_Study_Save.json`。这是一个可玩的组合研究片段，尚不是完整序章；两条实测路线也不等于已穷举所有解法。场景疏密、景物重叠辨识和动画自然程度仍需人工试玩审阅。
-
-**V4 角色**保留用户选择的柔和女性特征、长发、修长叠页衣和植物印纹。AI 生成透明位图包含走路8帧、奔跑8帧、其他姿态8帧，统一足根与后领锚点；独立红围巾随动作连续求解。站高约95px，实体30×86，满跳约108.6px；本场景步速180、跑速320、短冲560px/s，其他旧角色参数不变。8帧是当前候选步态，尚未达到最终动画验收。
-
-独立观察入口：
-
-- `Art/Player/V4/Traveler_V4_Lab.tscn`：F6 查看待机、走路、跑步与转身；Space暂停，R重播，1/2切换倍率。
-- `Component/SceneryFamilies/Scenery_Family_Catalog.tscn`：F6 查看十二种素材；1/2/3切素材族，左键与W/S换景，4切两/四景，H显示自然踏面。它不开放序章新能力，也不写存档。
-
-本机实录为 `Exports/Garden_Study_Playthrough.mp4`、`Exports/Traveler_V4_Lab.mp4`；实际截图在 `Exports/Garden_Study/`。调试产物不提交。设计与验证见 [衍生景物与多解空间](ProjectLogs/衍生景物与多解空间_2026-10-09.md)，来源与构建见 [V4角色说明](Art/Player/V4/README.md)、[衍生素材说明](Art/SceneryFamilies/README.md)，参考研究见 [角色视觉研究](ProjectLogs/角色视觉研究_2026-10-09.md)。
+`Component/SceneryFamilies/Scenery_Family_Catalog.tscn` 仍可按F6观察十二种父图衍生轮廓：1/2/3切素材族，左键与W/S换景，4切两/四景，H显示踏面；不写存档。衍生素材仍被当前地图和布景台使用，见 [素材说明](Art/SceneryFamilies/README.md)。完整清单与验证见 [工程清理记录](ProjectLogs/工程清理_2026-10-10.md)。
 
 ## 保留的上一版画页与动作观察场
 
@@ -177,12 +165,8 @@ $godotExe = 'D:\EpicGames\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe'
 & $godotExe --headless --path . res://Tests/Study_Transfer_Regression.tscn -- --v6
 & $godotExe --headless --path . res://Tests/Study_Transfer_Level_Check.tscn
 & $godotExe --headless --path . res://Tests/Study_Transfer_V6_Bookmark.tscn
-& $godotExe --headless --path . res://Art/Player/V5/Traveler_V5_Check.tscn
 & $godotExe --headless --path . res://Tests/Traveler_Step_Regression.tscn
-& $godotExe --headless --path . res://Art/Player/V5/Slope_Gait_Regression.tscn
 & $godotExe --headless --path . res://Component/SceneryFamilies/Derived_Crop_Check.tscn
-& $godotExe --headless --path . res://Tests/Garden_Study_Regression.tscn
-& $godotExe --headless --path . res://Art/Player/V4/Traveler_V4_Check.tscn
 & $godotExe --headless --path . res://Component/SceneryFamilies/Scenery_Family_Check.tscn
 & $godotExe --headless --path . res://Tests/Paper_Stage_Regression.tscn
 & $godotExe --headless --path . res://Art/Player/V3/Traveler_V3_Check.tscn
@@ -200,7 +184,7 @@ $godotExe = 'D:\EpicGames\Godot\4.7.2\Godot_v4.7.2-stable_win64_console.exe'
 必须检查日志与有效断言数量，不能只看退出码。测试与试玩清单见 [序章白模实现记录](ProjectLogs/序章白模实现_2026-10-08.md)。自动回归和画面检查不代替人类手感验收；尚无 Windows 导出预设或投稿包。
 
 - `Component/`：公共图层、玩家与物件；自然景物 `Natural_Object/`、固定地平线 `Terrain/`、凝墨书签 `Bookmark/`。
-- `Level/`：关卡参数与场景；`Illustrated_Garden_Level` 为当前静态箱庭，`Story_Garden_Level`、`Garden_Study_Level` 等旧样板保留，`Bookmark_Manager` 管理旧样板摆位和进度。
+- `Level/`：关卡参数与场景；`Illustrated_Garden_Level` 为当前静态箱庭，`Story_Garden_Level` 等仍有验证用途的旧样板保留；GardenStudy已归档，`Bookmark_Manager` 管理旧样板摆位和进度。
 - `Component/StoryWorld/`：自定义固定岸体和与背景同层投影的世界底面；不包含不可搬的树或建筑。
 - `System/`：输入、选中、相机、碰撞检查及换层协调。
 - `Tests/`：轻量 Godot 行为回归与实际关卡通路验证。

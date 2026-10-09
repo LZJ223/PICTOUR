@@ -4,7 +4,7 @@
   "parts": [
     {
       "name": "far_thigh",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         705,
         794,
@@ -63,7 +63,7 @@
     },
     {
       "name": "far_shin",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         1106,
         805,
@@ -122,7 +122,7 @@
     },
     {
       "name": "far_foot",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         1115,
         998,
@@ -155,7 +155,7 @@
     },
     {
       "name": "far_upper_arm",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         1124,
         449,
@@ -184,7 +184,7 @@
     },
     {
       "name": "far_forearm",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         297,
         902,
@@ -213,7 +213,7 @@
     },
     {
       "name": "near_thigh",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         705,
         794,
@@ -272,7 +272,7 @@
     },
     {
       "name": "near_shin",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         1106,
         805,
@@ -331,7 +331,7 @@
     },
     {
       "name": "near_foot",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         1115,
         998,
@@ -364,7 +364,7 @@
     },
     {
       "name": "near_upper_arm",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         1124,
         449,
@@ -393,7 +393,7 @@
     },
     {
       "name": "near_forearm",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         297,
         902,
@@ -422,7 +422,7 @@
     },
     {
       "name": "rear_hair",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         604,
         140,
@@ -445,7 +445,7 @@
     },
     {
       "name": "rear_coat",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         580,
         409,
@@ -469,7 +469,7 @@
     },
     {
       "name": "bodice",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         1112,
         126,
@@ -496,7 +496,7 @@
     },
     {
       "name": "front_coat",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         198,
         385,
@@ -520,7 +520,7 @@
     },
     {
       "name": "head",
-      "path": "res://Art/Player/V6/Generated/Traveler_C_Rig.png",
+      "path": "res://Art/Player/Traveler_C/Traveler_C_Rig.png",
       "region": [
         184,
         35,

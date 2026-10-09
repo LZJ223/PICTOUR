@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgks6ub8fywjr"
-path="res://.godot/imported/Traveler_C_Actions.png-f77965091f9036330a3b7d99f8664894.ctex"
+uid="uid://dxq2is6j506wt"
+path="res://.godot/imported/Traveler_C_Rig.png-02a6154739bfb1ba50c5326d694b81e6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Player/V4/Generated/Traveler_C_Actions.png"
-dest_files=["res://.godot/imported/Traveler_C_Actions.png-f77965091f9036330a3b7d99f8664894.ctex"]
+source_file="res://Art/Player/Traveler_C/Traveler_C_Rig.png"
+dest_files=["res://.godot/imported/Traveler_C_Rig.png-02a6154739bfb1ba50c5326d694b81e6.ctex"]
 
 [params]
 
