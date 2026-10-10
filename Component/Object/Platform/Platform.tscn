@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://ba0hrrg5coygt"]
+
+[ext_resource type="Script" uid="uid://8vs8rcwh4yuk" path="res://Component/Object/Platform/Platform.gd" id="1_platform"]
+
+[node name="Platform" type="AnimatableBody2D"]
+sync_to_physics = true
+script = ExtResource("1_platform")
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(80, 16, 80, -16, -80, -16, -80, 16)
+
+[node name="VisualRoot" type="Node2D" parent="."]
+
+[node name="Line2D" type="Line2D" parent="VisualRoot"]
+visible = false
+points = PackedVector2Array(80, 16, 80, -16, -80, -16, -80, 16)
+closed = true
+width = 8.0
+
+[node name="Polygon2D" type="Polygon2D" parent="VisualRoot"]
+color = Color(0.35, 0.55, 0.75, 1)
+polygon = PackedVector2Array(80, 16, 80, -16, -80, -16, -80, 16)
+
+[node name="Area2D" type="Area2D" parent="VisualRoot"]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="VisualRoot/Area2D"]
+polygon = PackedVector2Array(80, 16, 80, -16, -80, -16, -80, 16)
