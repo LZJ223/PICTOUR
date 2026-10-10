@@ -1,21 +1,22 @@
 [gd_scene format=3 uid="uid://bpeywtosj468q"]
 
-[ext_resource type="Script" uid="uid://bckgic5oa4uty" path="res://System/System_Controller.gd" id="1_slmeh"]
+[ext_resource type="Script" uid="uid://b07lcsdd0i6dv" path="res://System_Script/Layer_Controller_System.gd" id="1_layer"]
 [ext_resource type="PackedScene" uid="uid://ch17qkfauofft" path="res://Component/Player/Player.tscn" id="2_d1kw5"]
 [ext_resource type="PackedScene" uid="uid://clyqats0d1enx" path="res://Level/Prototype_Level.tscn" id="3_d1kw5"]
+[ext_resource type="Script" uid="uid://c2t31v7eb34te" path="res://System_Script/Shadow_Controller_System.gd" id="4_shadow"]
 
 [node name="Node2D" type="Node2D" unique_id=1565919311]
 
 [node name="Level" parent="." unique_id=1182049839 instance=ExtResource("3_d1kw5")]
 
 [node name="Player" parent="." unique_id=892840010 instance=ExtResource("2_d1kw5")]
-position = Vector2(668, 330)
+position = Vector2(668, 520)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1520852743]
 offset = Vector2(0, -180)
 
-[node name="System" type="Node" parent="." unique_id=1585831549 node_paths=PackedStringArray("player", "camera", "level")]
-script = ExtResource("1_slmeh")
-player = NodePath("../Player")
-camera = NodePath("../Camera")
-level = NodePath("../Level")
+[node name="LayerControllerSystem" type="Node" parent="." unique_id=1585831549]
+script = ExtResource("1_layer")
+
+[node name="ShadowControllerSystem" type="Node" parent="." unique_id=1161260881]
+script = ExtResource("4_shadow")

@@ -1,4 +1,4 @@
-## 此脚本挂载在Player上，负责玩家的移动逻辑（以及碰撞箱管理），外观状态切换
+## 此脚本挂载在Player上，负责玩家的移动逻辑、碰撞箱管理与无人机状态切换
 
 class_name PlayerController
 extends CharacterBody2D
@@ -12,8 +12,8 @@ extends CharacterBody2D
 @export var UAV_friction_deceleration: float = 20
 @export var UAV_distance: float = 400
 ## 节点信息
-@onready var body_collision_box: CollisionShape2D = $CollisionBox_Body
-@onready var UAV_collision_box: CollisionShape2D = $CollisionBox_UAV
+@onready var body_collision_box: CollisionPolygon2D = $CollisionBox_Body
+@onready var UAV_collision_box: CollisionPolygon2D = $CollisionBox_UAV
 @onready var body_visual: Polygon2D = $Visual_Body
 @onready var UAV_visual: Polygon2D = $Visual_UAV
 ## 状态信息
@@ -21,11 +21,13 @@ var collision_group: int = 1
 var activated: bool = false
 var UAV_activated: bool = false
 var player_body: Player_Object = null
+## 无人机系统使用的玩家（物体）节点资源预加载
+const player_body_type = preload("res://Component/Object/Player_Object/Player_Object.tscn")
 
 ## 准备阶段绑定信号
 func _ready() -> void:
 	activated = true
-	Global.layer_cycle.connect(collision_group_change)
+	SignalSystem.UAV_activate.connect(UAV_activate)
 
 ## 人物移动逻辑
 func _physics_process(delta: float) -> void:
@@ -33,7 +35,10 @@ func _physics_process(delta: float) -> void:
 		## 无人机未激活
 		if not UAV_activated:
 			velocity.x += Input.get_axis("move_left", "move_right") * acceleration
-			velocity.x -= sign(velocity.x) * friction_deceleration
+			if abs(velocity.x) < friction_deceleration:
+				velocity.x = 0
+			else:
+				velocity.x -= sign(velocity.x) * friction_deceleration
 			velocity.x = clamp(velocity.x, -1 * move_speed, move_speed)
 			if not is_on_floor():
 				velocity.y += gravity_acceleration * delta
@@ -52,19 +57,35 @@ func _physics_process(delta: float) -> void:
 				velocity = Vector2.ZERO
 			velocity = velocity.normalized() * clamp(velocity.length(), 0, UAV_move_speed)
 			velocity.y = clamp(velocity.y, -1 * move_speed, move_speed)
+		if velocity.length() > 0.0001:
+			SignalSystem.timer_reset()
 		move_and_slide()
 
 ## 无人机状态切换
-func UAV_activate(condition: bool) -> bool:
-	if condition and not is_on_floor():
-		return false
-	body_collision_box.disabled = condition
-	body_visual.visible = not condition
-	UAV_collision_box.disabled = not condition
-	UAV_visual.visible = condition
-	UAV_activated = condition
+func UAV_activate() -> void:
+	if not UAV_activated and not is_on_floor():
+		return
+	UAV_activated = not UAV_activated
+	body_collision_box.disabled = UAV_activated
+	body_visual.visible = not UAV_activated
+	UAV_collision_box.disabled = not UAV_activated
+	UAV_visual.visible = UAV_activated
 	velocity = Vector2.ZERO
-	return true
+	if UAV_activated:
+		var current_layer: DepthLayer = Global.get_layer_at_slot(Global.current_layer_index)
+		player_body = player_body_type.instantiate()
+		current_layer.add_child(player_body)
+		player_body.position = position
+		player_body.collision_box.scale = scale
+		player_body.update_layer_slot()
+	else:
+		var player_body_layer: DepthLayer = player_body.find_owner_layer()
+		while player_body_layer.slot != Global.current_layer_index:
+			SignalSystem.layer_cycle.emit(1, false)
+		position = player_body.position
+		scale = player_body.collision_box.scale
+		player_body.queue_free()
+		player_body = null
 
 ## 轮换图层时碰撞箱改变
 func collision_group_change(direction: int) -> void:

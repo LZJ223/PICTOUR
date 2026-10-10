@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_xrs3t"]
 [ext_resource type="PackedScene" uid="uid://bd2e8t8vka0ac" path="res://Component/Object/Box/Box.tscn" id="2_lrx2v"]
 [ext_resource type="PackedScene" uid="uid://bopxiokiwukv1" path="res://Component/Object/Goal/Goal.tscn" id="3_jc4bg"]
+[ext_resource type="PackedScene" uid="uid://cabe2ddgr2o0l" path="res://Component/Object/Shadowed_Geometry/Shadowed_Geometry.tscn" id="5_5eqqv"]
 
 [node name="PrototypeLevel" type="Node2D" unique_id=1182049839]
 script = ExtResource("1_xrs3t")
@@ -21,6 +22,12 @@ position = Vector2(168, 500)
 [node name="Box2" parent="Layer3" unique_id=330834349 instance=ExtResource("2_lrx2v")]
 position = Vector2(914, 500)
 
+[node name="ShadowedGeometry" parent="Layer3" unique_id=252556292 instance=ExtResource("5_5eqqv")]
+position = Vector2(700, 500)
+
+[node name="ShadowedGeometry2" parent="Layer3" unique_id=384252079 instance=ExtResource("5_5eqqv")]
+position = Vector2(542, 500)
+
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("1_njsva")]
 layer_id = 2
 slot = 2
@@ -36,6 +43,9 @@ position = Vector2(379, 500)
 
 [node name="Goal" parent="Layer2" unique_id=1268601166 instance=ExtResource("3_jc4bg")]
 position = Vector2(1432, 30)
+
+[node name="ShadowedGeometry" parent="Layer2" unique_id=1313795509 instance=ExtResource("5_5eqqv")]
+position = Vector2(612, 500)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("1_njsva")]
 layer_id = 1
