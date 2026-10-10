@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="1_layer"]
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="2_level"]
 [ext_resource type="PackedScene" uid="uid://ba0hrrg5coygt" path="res://Component/Object/Platform/Platform.tscn" id="3_platform"]
+[ext_resource type="PackedScene" path="res://Component/Object/Trigger/Trigger.tscn" id="4_trigger"]
 
 [node name="Level01BeastForest" type="Node2D" unique_id=17966447]
 script = ExtResource("2_level")
@@ -26,6 +27,75 @@ layer_id = 1
 
 [node name="Polygon2D" parent="Layer1/Ground/VisualRoot" parent_id_path=PackedInt32Array(2100000002, 629838226, 817137210) index="0" unique_id=486029332]
 color = Color(0.288, 0.64, 0.31733328, 1)
+
+[node name="DialoguePad" parent="Layer1" unique_id=3200000101 instance=ExtResource("3_platform")]
+position = Vector2(980, 504)
+selectable = false
+has_collision = false
+
+[node name="Polygon2D" parent="Layer1/DialoguePad/VisualRoot" index="1"]
+color = Color(0.95, 0.85, 0.3, 1)
+
+[node name="DialogueTrigger" parent="Layer1/DialoguePad" unique_id=3200000102 instance=ExtResource("4_trigger")]
+action = 1
+dialogue_text = "这是对话。你还站在原来的地方。"
+
+[node name="CheckpointPad" parent="Layer1" unique_id=3200000103 instance=ExtResource("3_platform")]
+position = Vector2(1260, 504)
+selectable = false
+has_collision = false
+
+[node name="Polygon2D" parent="Layer1/CheckpointPad/VisualRoot" index="1"]
+color = Color(0.4, 0.85, 0.45, 1)
+
+[node name="CheckpointTrigger" parent="Layer1/CheckpointPad" unique_id=3200000104 instance=ExtResource("4_trigger")]
+action = 2
+
+[node name="TeleportPad" parent="Layer1" unique_id=3200000105 instance=ExtResource("3_platform")]
+position = Vector2(280, 504)
+selectable = false
+has_collision = false
+
+[node name="Polygon2D" parent="Layer1/TeleportPad/VisualRoot" index="1"]
+color = Color(0.35, 0.7, 1, 1)
+
+[node name="TeleportTrigger" parent="Layer1/TeleportPad" unique_id=3200000106 instance=ExtResource("4_trigger")]
+teleport_target = NodePath("../../../ReturnPoint")
+
+[node name="MechanismPad" parent="Layer1" unique_id=3200000107 instance=ExtResource("3_platform")]
+position = Vector2(1820, 504)
+selectable = false
+has_collision = false
+
+[node name="Polygon2D" parent="Layer1/MechanismPad/VisualRoot" index="1"]
+color = Color(0.75, 0.45, 0.9, 1)
+
+[node name="MechanismTrigger" parent="Layer1/MechanismPad" unique_id=3200000108 instance=ExtResource("4_trigger")]
+action = 4
+mechanism_target = NodePath("../../Gate")
+
+[node name="Gate" parent="Layer1" unique_id=3200000109 instance=ExtResource("3_platform")]
+position = Vector2(1980, 450)
+activation_kind = 1
+move_offset = Vector2(160, 0)
+move_speed = 70.0
+
+[node name="Polygon2D" parent="Layer1/Gate/VisualRoot" index="1"]
+color = Color(0.9, 0.55, 0.15, 1)
+
+[node name="DeathPad" parent="Layer1" unique_id=3200000110 instance=ExtResource("3_platform")]
+position = Vector2(2480, 504)
+selectable = false
+has_collision = false
+
+[node name="Polygon2D" parent="Layer1/DeathPad/VisualRoot" index="1"]
+color = Color(0.9, 0.3, 0.3, 1)
+
+[node name="DeathTrigger" parent="Layer1/DeathPad" unique_id=3200000111 instance=ExtResource("4_trigger")]
+action = 3
+
+[node name="ReturnPoint" type="Marker2D" parent="." unique_id=3200000112]
+position = Vector2(668, 520)
 
 [node name="Layer0" parent="." unique_id=2100000001 instance=ExtResource("1_layer")]
 slot = 0
@@ -104,6 +174,17 @@ color = Color(0.35, 0.78, 0.82, 1)
 [editable path="Layer2/Ground"]
 [editable path="Layer1"]
 [editable path="Layer1/Ground"]
+[editable path="Layer1/DialoguePad"]
+[editable path="Layer1/DialoguePad/DialogueTrigger"]
+[editable path="Layer1/CheckpointPad"]
+[editable path="Layer1/CheckpointPad/CheckpointTrigger"]
+[editable path="Layer1/TeleportPad"]
+[editable path="Layer1/TeleportPad/TeleportTrigger"]
+[editable path="Layer1/MechanismPad"]
+[editable path="Layer1/MechanismPad/MechanismTrigger"]
+[editable path="Layer1/Gate"]
+[editable path="Layer1/DeathPad"]
+[editable path="Layer1/DeathPad/DeathTrigger"]
 [editable path="Layer0"]
 [editable path="Layer0/Ground"]
 [editable path="Layer0/Step"]
