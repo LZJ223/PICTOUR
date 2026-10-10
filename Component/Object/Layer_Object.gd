@@ -18,7 +18,7 @@ var owner_layer: DepthLayer
 var shadow_box: Array[Polygon2D] = []
 var shadow_visual: Array[Polygon2D] = []
 var shadow_active: Array[bool] = []
-const _EAGLE_SHADER := preload("res://Component/Visual/Eagle_Eye_Grayscale.gdshader")
+const _EAGLE_SHADER := preload("res://Shader/Eagle_Eye_Grayscale.gdshader")
 static var _eagle_gray_material: ShaderMaterial
 
 ## 初始化
@@ -46,9 +46,8 @@ func apply_visual_transfer(anchor_position: Vector2) -> void:
 	visual_root.scale = collision_box.scale * scaling
 	visual_root.position = (anchor_position - position) * (1 - scaling)
 
-## 更新图层深度
+## 更新物体所属图层状态
 func update_layer_slot() -> void:
-	visual_root.z_index = (Global.layer_count - owner_layer.slot) * 100
 	collision_layer = 0
 	collision_mask = 0
 	self.set_collision_layer_value(owner_layer.layer_id + 1, true)

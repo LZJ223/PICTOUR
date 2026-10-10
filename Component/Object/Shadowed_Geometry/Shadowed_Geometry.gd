@@ -15,11 +15,14 @@ func _ready() -> void:
 			shadow_active.append(false)
 			shadow_temp = shadow.duplicate()
 			add_child(shadow_temp)
+			## 影子仍按投射目标层独立排序，不被投影物体所在的 CanvasGroup 改写深度。
+			shadow_temp.z_as_relative = false
 			shadow_temp.z_index = (Global.layer_count - shadow_layer) * 100 + 50
 			shadow_temp.visible = false
 			shadow_box.append(shadow_temp)
 			shadow_temp = shadow.duplicate()
 			add_child(shadow_temp)
+			shadow_temp.z_as_relative = false
 			shadow_temp.z_index = (Global.layer_count - shadow_layer) * 100 + 50
 			shadow_temp.visible = false
 			shadow_visual.append(shadow_temp)

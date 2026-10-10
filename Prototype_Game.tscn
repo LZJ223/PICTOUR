@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://bpeywtosj468q"]
 
+[ext_resource type="PackedScene" uid="uid://clyqats0d1enx" path="res://Level/Prototype_Level.tscn" id="1_apf1e"]
 [ext_resource type="Script" uid="uid://b07lcsdd0i6dv" path="res://System_Script/Layer_Controller_System.gd" id="1_layer"]
 [ext_resource type="PackedScene" uid="uid://ch17qkfauofft" path="res://Component/Player/Player.tscn" id="2_d1kw5"]
-[ext_resource type="PackedScene" uid="uid://drunnjs1qa8ni" path="res://Level/Level_01_BeastForest.tscn" id="3_d1kw5"]
 [ext_resource type="Script" uid="uid://c2t31v7eb34te" path="res://System_Script/Shadow_Controller_System.gd" id="4_shadow"]
 
 [node name="Node2D" type="Node2D" unique_id=1565919311]
 
-[node name="Level" parent="." unique_id=17966447 instance=ExtResource("3_d1kw5")]
+[node name="Level" parent="." unique_id=1182049839 instance=ExtResource("1_apf1e")]
 
 [node name="Player" parent="." unique_id=892840010 instance=ExtResource("2_d1kw5")]
 position = Vector2(668, 520)
