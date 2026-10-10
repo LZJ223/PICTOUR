@@ -18,6 +18,8 @@ var owner_layer: DepthLayer
 var shadow_box: Array[Polygon2D] = []
 var shadow_visual: Array[Polygon2D] = []
 var shadow_active: Array[bool] = []
+const _EAGLE_SHADER := preload("res://Component/Visual/Eagle_Eye_Grayscale.gdshader")
+static var _eagle_gray_material: ShaderMaterial
 
 ## 初始化
 func _ready() -> void:
@@ -51,6 +53,52 @@ func update_layer_slot() -> void:
 	collision_mask = 0
 	self.set_collision_layer_value(owner_layer.layer_id + 1, true)
 	self.set_collision_mask_value(owner_layer.layer_id + 1, true)
+	refresh_eagle_eye()
+
+## 鹰眼打开时，不在玩家当前碰撞层的画面变成灰。原来的颜色会保留。
+func refresh_eagle_eye() -> void:
+	if visual_root == null:
+		return
+	var gray := Global.eagle_eye and not _is_player_layer()
+	_set_eagle_gray(visual_root, gray)
+	for node in shadow_box:
+		_set_eagle_gray(node, gray)
+	for node in shadow_visual:
+		_set_eagle_gray(node, gray)
+	var shadow_template := get_node_or_null("Shadow") as CanvasItem
+	if shadow_template != null:
+		_set_eagle_gray(shadow_template, gray)
+
+func _is_player_layer() -> bool:
+	if Global.player == null or owner_layer == null:
+		return true
+	return owner_layer.layer_id == Global.player.collision_group - 1
+
+func _set_eagle_gray(node: Node, gray: bool) -> void:
+	if node is Polygon2D or node is Line2D:
+		_apply_gray_material(node as CanvasItem, gray)
+	for child in node.get_children():
+		_set_eagle_gray(child, gray)
+
+func _apply_gray_material(item: CanvasItem, gray: bool) -> void:
+	var gray_material := _shared_eagle_material()
+	if gray:
+		if item.material == gray_material:
+			return
+		item.set_meta(&"eagle_eye_previous_material", item.material)
+		item.material = gray_material
+		return
+	if item.material != gray_material:
+		return
+	var previous: Material = item.get_meta(&"eagle_eye_previous_material")
+	item.material = previous
+	item.remove_meta(&"eagle_eye_previous_material")
+
+static func _shared_eagle_material() -> ShaderMaterial:
+	if _eagle_gray_material == null:
+		_eagle_gray_material = ShaderMaterial.new()
+		_eagle_gray_material.shader = _EAGLE_SHADER
+	return _eagle_gray_material
 
 ## 寻找母图层
 func find_owner_layer() -> DepthLayer:

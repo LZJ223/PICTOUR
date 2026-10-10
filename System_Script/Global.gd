@@ -14,6 +14,17 @@ var layers: Array[DepthLayer] = []
 ## 全局状态信息
 var object_selected: LayerObject = null
 var camera_fixed: bool = true
+var eagle_eye: bool = false
+
+## 开关鹰眼，并让全部图层物体按当前所在层刷新画面
+func set_eagle_eye(enabled: bool) -> void:
+	eagle_eye = enabled
+	var tree := get_tree()
+	if tree == null:
+		return
+	for node in tree.get_nodes_in_group("layer_objects"):
+		if node.has_method("refresh_eagle_eye"):
+			node.refresh_eagle_eye()
 
 ## 自动查找主场景中的 Player、Camera、Level 和全部 DepthLayer
 func discover_scene_nodes(scene_root: Node) -> void:

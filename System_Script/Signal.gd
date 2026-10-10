@@ -5,6 +5,7 @@ extends Node
 signal layer_cycle(direction: int, check_collision: bool)
 signal layer_change(direction: int, object: LayerObject)
 signal UAV_activate()
+signal eagle_eye_changed(enabled: bool)
 signal shadow_boolean()
 ## 影子布尔计时器
 var timer: Timer = null
@@ -34,6 +35,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			layer_change.emit(-1, Global.object_selected)
 	if event.is_action_pressed("UAV"):
 		UAV_activate.emit()
+	if event.is_action_pressed("eagle_eye"):
+		Global.set_eagle_eye(not Global.eagle_eye)
+		eagle_eye_changed.emit(Global.eagle_eye)
+		timer_reset()
 	## 点击交互与物件选取
 	if event.is_action_pressed("pickup"):
 		timer_reset()
