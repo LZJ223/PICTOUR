@@ -111,3 +111,7 @@ func find_owner_layer() -> DepthLayer:
 
 ## 更新选取状态
 @abstract func set_pick_condition(condition: bool = false) -> void
+
+## 触发器的机关动作会调用这里。各物体自己决定被叫到之后做什么。
+func activate() -> void:
+	pass

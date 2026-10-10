@@ -5,8 +5,8 @@ extends CharacterBody2D
 ## 人物运动参数
 @export var move_speed: float = 260.0
 @export var jump_speed: float = 620.0
-## 离开地面后还能再跳几次。1 是二段跳，0 是只能在地面跳。
-@export var air_jump_count: int = 1:
+## 离开地面后还能再跳几次。0 是只能在地面跳，1 是二段跳。
+@export var air_jump_count: int = 0:
 	set(value):
 		air_jump_count = maxi(value, 0)
 @export var acceleration: float = 80
@@ -101,8 +101,34 @@ func UAV_activate() -> void:
 ## 轮换图层时碰撞箱改变
 func collision_group_change(direction: int) -> void:
 	var new_collision_group: int = posmod(collision_group - direction - 1, Global.layer_count) + 1
-	set_collision_layer_value(collision_group, false)
-	set_collision_layer_value(new_collision_group, true)
-	set_collision_mask_value(collision_group, false)
-	set_collision_mask_value(new_collision_group, true)
-	collision_group = new_collision_group
+	_set_collision_group(new_collision_group)
+
+## 死亡触发器按记录恢复位置、所在层和大小。已经换层的物体不动。
+func apply_recorded_state(recorded_position: Vector2, recorded_group: int, recorded_scale: Vector2) -> void:
+	_leave_uav_without_returning()
+	global_position = recorded_position
+	scale = recorded_scale
+	_set_collision_group(recorded_group)
+	velocity = Vector2.ZERO
+	_air_jumps_left = air_jump_count
+
+func _set_collision_group(group: int) -> void:
+	if group != collision_group:
+		set_collision_layer_value(collision_group, false)
+		set_collision_mask_value(collision_group, false)
+		collision_group = group
+	set_collision_layer_value(collision_group, true)
+	set_collision_mask_value(collision_group, true)
+
+func _leave_uav_without_returning() -> void:
+	if not UAV_activated:
+		return
+	UAV_activated = false
+	body_collision_box.disabled = false
+	body_visual.visible = true
+	UAV_collision_box.disabled = true
+	UAV_visual.visible = false
+	velocity = Vector2.ZERO
+	if player_body != null:
+		player_body.queue_free()
+		player_body = null

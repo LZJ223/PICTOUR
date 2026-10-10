@@ -45,6 +45,11 @@ extends LayerObject
 ## 每次消失后停留的秒数。
 @export var hidden_duration: float = 2.0
 
+@export_group("被触发时")
+## 触发器叫到这块平台时做什么。默认什么都不做。
+enum ActivationKind { NONE, START_MOVING, STOP_MOVING, TOGGLE_MOVING, SHOW, HIDE, TOGGLE_SHOWN }
+@export var activation_kind: ActivationKind = ActivationKind.NONE
+
 var _shown: bool = true
 var _origin: Vector2 = Vector2.ZERO
 var _distance_along: float = 0.0
@@ -108,6 +113,22 @@ func update_layer_slot() -> void:
 	super()
 	_apply_collision()
 	_apply_pick()
+
+
+func activate() -> void:
+	match activation_kind:
+		ActivationKind.START_MOVING:
+			moving = true
+		ActivationKind.STOP_MOVING:
+			moving = false
+		ActivationKind.TOGGLE_MOVING:
+			moving = not moving
+		ActivationKind.SHOW:
+			set_shown(true)
+		ActivationKind.HIDE:
+			set_shown(false)
+		ActivationKind.TOGGLE_SHOWN:
+			set_shown(not is_shown())
 
 
 func set_pick_condition(condition: bool = false) -> void:
