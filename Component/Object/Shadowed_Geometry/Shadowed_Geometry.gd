@@ -1,7 +1,5 @@
 class_name ShadowedGeometry
 extends LayerObject
-## 节点信息
-@onready var selected_box = $VisualRoot/Line2D
 @onready var shadow: Polygon2D = $Shadow
 
 ## 准备时生成影子
@@ -9,6 +7,7 @@ func _ready() -> void:
 	add_to_group("layer_objects")
 	owner_layer = find_owner_layer()
 	assert(owner_layer != null, "%s 必须位于 DepthLayer/Objects 下！" % name)
+	_setup_selection_outlines()
 	if can_leave_shadow:
 		var shadow_temp: Polygon2D
 		for shadow_layer in range(Global.current_layer_index + 2, Global.layer_count):
@@ -52,8 +51,3 @@ func update_layer_slot() -> void:
 			var active: bool = owner_layer.slot > Global.current_layer_index and owner_layer.slot < shadow_layer
 			shadow_active[index] = active
 			shadow_visual[index].visible = active
-	
-
-## 更新选取状态
-func set_pick_condition(condition: bool = false) -> void:
-	selected_box.visible = condition

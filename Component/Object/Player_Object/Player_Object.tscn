@@ -11,12 +11,6 @@ polygon = PackedVector2Array(10, 0, 10, -40, -10, -40, -10, 0)
 
 [node name="VisualRoot" type="Node2D" parent="." unique_id=1127300797]
 
-[node name="Line2D" type="Line2D" parent="VisualRoot" unique_id=610225834]
-visible = false
-points = PackedVector2Array(10, -40, 10, 0, -10, 0, -10, -40)
-closed = true
-width = 8.0
-
 [node name="Visual_Body" type="Polygon2D" parent="VisualRoot" unique_id=1032413386]
 color = Color(0.64, 1, 0.66999996, 1)
 polygon = PackedVector2Array(-10, -40, 10, -40, 10, 0, -10, 0)

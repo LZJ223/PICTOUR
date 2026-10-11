@@ -57,7 +57,6 @@ var _forward: bool = true
 var _phase_time: float = 0.0
 
 @onready var _visual_polygon: Polygon2D = $VisualRoot/Polygon2D
-@onready var _outline: Line2D = $VisualRoot/Line2D
 @onready var _pick_area: Area2D = $VisualRoot/Area2D
 @onready var _pick_shape: CollisionPolygon2D = $VisualRoot/Area2D/CollisionShape2D
 
@@ -131,12 +130,6 @@ func activate() -> void:
 			set_shown(not is_shown())
 
 
-func set_pick_condition(condition: bool = false) -> void:
-	if not is_node_ready():
-		return
-	_outline.visible = condition and selectable and _shown
-
-
 func _validate_property(property: Dictionary) -> void:
 	if property.name == "can_transfer":
 		property.usage = PROPERTY_USAGE_NO_EDITOR
@@ -147,7 +140,6 @@ func _sync_shape() -> void:
 		return
 	var points := collision_box.polygon
 	_visual_polygon.polygon = points
-	_outline.points = points
 	_pick_shape.polygon = points
 
 
@@ -155,8 +147,6 @@ func _apply_presence() -> void:
 	if _visual_polygon == null:
 		return
 	_visual_polygon.visible = _shown
-	if not _shown:
-		_outline.visible = false
 	_apply_collision()
 
 

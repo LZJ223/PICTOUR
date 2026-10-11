@@ -123,16 +123,14 @@ func _configure_fragment_geometry(fragment: LayerObject, polygon: PackedVector2A
 	## 寻找节点
 	var collision: CollisionPolygon2D = fragment.get_node_or_null("CollisionBox") as CollisionPolygon2D
 	var visual: Polygon2D = fragment.get_node_or_null("VisualRoot/Polygon2D") as Polygon2D
-	var selection: Line2D = fragment.get_node_or_null("VisualRoot/Line2D") as Line2D
 	var pick_shape: CollisionPolygon2D = fragment.get_node_or_null("VisualRoot/Area2D/CollisionShape2D") as CollisionPolygon2D
 	var shadow_template: Polygon2D = fragment.get_node_or_null("Shadow") as Polygon2D
-	if collision == null or visual == null or selection == null or pick_shape == null:
+	if collision == null or visual == null or pick_shape == null:
 		push_error("%s 缺少生成布尔碎片所需的节点！" % fragment.name)
 		return false
 	## 设置多边形
 	collision.polygon = polygon
 	visual.polygon = polygon
-	selection.points = polygon
 	pick_shape.polygon = polygon
 	if shadow_template != null:
 		shadow_template.polygon = polygon

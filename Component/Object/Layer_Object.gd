@@ -19,13 +19,17 @@ var shadow_box: Array[Polygon2D] = []
 var shadow_visual: Array[Polygon2D] = []
 var shadow_active: Array[bool] = []
 const _EAGLE_SHADER := preload("res://Shader/Eagle_Eye_Grayscale.gdshader")
+const _SELECTION_OUTLINE_SHADER := preload("res://Shader/Selection_Outline.gdshader")
 static var _eagle_gray_material: ShaderMaterial
+var _selected: bool = false
+var _selection_outlines: Array[Dictionary] = []
 
 ## 初始化
 func _ready() -> void:
 	add_to_group("layer_objects")
 	owner_layer = find_owner_layer()
 	assert(owner_layer != null, "%s 必须位于 DepthLayer/Objects 下！" % name)
+	_setup_selection_outlines()
 	update_layer_slot()
 
 ## 图层切换
@@ -45,6 +49,8 @@ func apply_visual_transfer(anchor_position: Vector2) -> void:
 	var scaling: float = Global.layer_scales[owner_layer.slot]
 	visual_root.scale = collision_box.scale * scaling
 	visual_root.position = (anchor_position - position) * (1 - scaling)
+	if _selected:
+		_sync_selection_outlines()
 
 ## 更新物体所属图层状态
 func update_layer_slot() -> void:
@@ -53,6 +59,8 @@ func update_layer_slot() -> void:
 	self.set_collision_layer_value(owner_layer.layer_id + 1, true)
 	self.set_collision_mask_value(owner_layer.layer_id + 1, true)
 	refresh_eagle_eye()
+	if _selected:
+		_sync_selection_outlines()
 
 ## 鹰眼打开时，不在玩家当前碰撞层的画面变成灰。原来的颜色会保留。
 func refresh_eagle_eye() -> void:
@@ -74,7 +82,10 @@ func _is_player_layer() -> bool:
 	return owner_layer.layer_id == Global.player.collision_group - 1
 
 func _set_eagle_gray(node: Node, gray: bool) -> void:
-	if node is Polygon2D or node is Line2D:
+	## 选择描边拥有独立材质，不能被鹰眼材质覆盖。
+	if node.has_meta(&"selection_outline_visual"):
+		return
+	if node is Polygon2D or node is Sprite2D:
 		_apply_gray_material(node as CanvasItem, gray)
 	for child in node.get_children():
 		_set_eagle_gray(child, gray)
@@ -108,8 +119,181 @@ func find_owner_layer() -> DepthLayer:
 		current = current.get_parent()
 	return null
 
-## 更新选取状态
-@abstract func set_pick_condition(condition: bool = false) -> void
+## 更新选取状态。所有物体统一由独立描边副本响应，不再要求子类实现。
+func set_pick_condition(condition: bool = false) -> void:
+	_selected = condition
+	_sync_selection_outlines(condition)
+
+
+## 为 VisualRoot 下的 Polygon2D 与 Sprite2D 建立独立描边副本。
+## 副本使用绝对 Z 值绘制在所属 CanvasGroup 前一层，因此不会被整层滤镜模糊或染色。
+func _setup_selection_outlines() -> void:
+	if visual_root == null:
+		return
+	var sources: Array[Node2D] = []
+	_collect_outline_sources(visual_root, sources)
+	for source in sources:
+		var outline := _create_outline_visual(source)
+		if outline == null:
+			continue
+		var outline_material := ShaderMaterial.new()
+		outline_material.shader = _SELECTION_OUTLINE_SHADER
+		outline.material = outline_material
+		outline.set_meta(&"selection_outline_visual", true)
+		source.get_parent().add_child(outline)
+		_selection_outlines.append({
+			"source": source,
+			"outline": outline,
+			"material": outline_material,
+		})
+	_sync_selection_outlines(true)
+
+
+func _collect_outline_sources(node: Node, sources: Array[Node2D]) -> void:
+	for child in node.get_children():
+		if child is Polygon2D or child is Sprite2D:
+			sources.append(child as Node2D)
+		_collect_outline_sources(child, sources)
+
+
+func _create_outline_visual(source: Node2D) -> Node2D:
+	var outline: Node2D
+	if source is Polygon2D:
+		var source_polygon := source as Polygon2D
+		var polygon := Polygon2D.new()
+		polygon.polygon = source_polygon.polygon
+		polygon.uv = source_polygon.uv
+		polygon.texture = source_polygon.texture
+		polygon.texture_offset = source_polygon.texture_offset
+		polygon.texture_rotation = source_polygon.texture_rotation
+		polygon.texture_scale = source_polygon.texture_scale
+		polygon.invert_enabled = source_polygon.invert_enabled
+		polygon.invert_border = source_polygon.invert_border
+		outline = polygon
+	elif source is Sprite2D:
+		var source_sprite := source as Sprite2D
+		var sprite := Sprite2D.new()
+		sprite.texture = source_sprite.texture
+		sprite.centered = source_sprite.centered
+		sprite.offset = source_sprite.offset
+		sprite.flip_h = source_sprite.flip_h
+		sprite.flip_v = source_sprite.flip_v
+		sprite.hframes = source_sprite.hframes
+		sprite.vframes = source_sprite.vframes
+		sprite.frame = source_sprite.frame
+		sprite.region_enabled = source_sprite.region_enabled
+		sprite.region_rect = source_sprite.region_rect
+		sprite.region_filter_clip_enabled = source_sprite.region_filter_clip_enabled
+		outline = sprite
+	else:
+		return null
+	outline.name = "%s_SelectionOutline" % source.name
+	outline.show_behind_parent = true
+	outline.z_as_relative = false
+	outline.visible = false
+	return outline
+
+
+## 同步源节点的形状、变换与图层。缩放补偿会把描边宽度固定为屏幕像素。
+func _sync_selection_outlines(sync_geometry: bool = false) -> void:
+	if owner_layer == null:
+		return
+	var camera_zoom := Vector2.ONE
+	var camera := get_viewport().get_camera_2d()
+	if camera != null:
+		camera_zoom = camera.zoom.abs()
+	for entry in _selection_outlines:
+		var source := entry.source as Node2D
+		var outline := entry.outline as Node2D
+		var outline_material := entry.material as ShaderMaterial
+		if not is_instance_valid(source) or not is_instance_valid(outline):
+			continue
+		outline.transform = source.transform
+		outline.z_index = (Global.layer_count - owner_layer.slot) * 100 - 1
+		outline.visible = _selected and source.visible
+		outline_material.set_shader_parameter("selected", _selected)
+		## Sprite2D 可能正在逐帧动画；仅选中的精灵需要持续同步帧与 UV。
+		if sync_geometry or source is Sprite2D:
+			_sync_outline_geometry(source, outline, outline_material)
+		var screen_scale := source.global_transform.get_scale().abs() * camera_zoom
+		outline_material.set_shader_parameter(
+			"outline_scale_compensation",
+			Vector2(
+				1.0 / maxf(screen_scale.x, 0.0001),
+				1.0 / maxf(screen_scale.y, 0.0001)
+			)
+		)
+
+
+func _sync_outline_geometry(
+	source: Node2D,
+	outline: Node2D,
+	outline_material: ShaderMaterial
+) -> void:
+	if source is Polygon2D and outline is Polygon2D:
+		var source_polygon := source as Polygon2D
+		var outline_polygon := outline as Polygon2D
+		outline_polygon.polygon = source_polygon.polygon
+		outline_polygon.uv = source_polygon.uv
+		outline_polygon.texture = source_polygon.texture
+		outline_material.set_shader_parameter("use_texture_alpha", false)
+		outline_material.set_shader_parameter("rectangular_geometry", false)
+		outline_material.set_shader_parameter(
+			"visual_center", _polygon_bounds(source_polygon.polygon).get_center()
+		)
+	elif source is Sprite2D and outline is Sprite2D:
+		var source_sprite := source as Sprite2D
+		var outline_sprite := outline as Sprite2D
+		outline_sprite.texture = source_sprite.texture
+		outline_sprite.frame = source_sprite.frame
+		outline_sprite.region_rect = source_sprite.region_rect
+		outline_material.set_shader_parameter("source_texture", source_sprite.texture)
+		var texture_size := Vector2(source_sprite.texture.get_size()) if source_sprite.texture else Vector2.ONE
+		outline_material.set_shader_parameter(
+			"source_texture_pixel_size",
+			Vector2(1.0 / texture_size.x, 1.0 / texture_size.y)
+		)
+		outline_material.set_shader_parameter(
+			"use_texture_alpha", source_sprite.texture != null
+		)
+		outline_material.set_shader_parameter("rectangular_geometry", true)
+		outline_material.set_shader_parameter(
+			"visual_center", source_sprite.get_rect().get_center()
+		)
+		outline_material.set_shader_parameter(
+			"source_uv_rect", _sprite_uv_rect(source_sprite)
+		)
+
+
+func _sprite_uv_rect(sprite: Sprite2D) -> Vector4:
+	if sprite.texture == null:
+		return Vector4(0.0, 0.0, 1.0, 1.0)
+	var texture_size := Vector2(sprite.texture.get_size())
+	if sprite.region_enabled:
+		return Vector4(
+			sprite.region_rect.position.x / texture_size.x,
+			sprite.region_rect.position.y / texture_size.y,
+			sprite.region_rect.size.x / texture_size.x,
+			sprite.region_rect.size.y / texture_size.y
+		)
+	var frame_size := Vector2(1.0 / sprite.hframes, 1.0 / sprite.vframes)
+	var frame_x := sprite.frame % sprite.hframes
+	var frame_y := sprite.frame / sprite.hframes
+	return Vector4(
+		frame_x * frame_size.x,
+		frame_y * frame_size.y,
+		frame_size.x,
+		frame_size.y
+	)
+
+
+func _polygon_bounds(points: PackedVector2Array) -> Rect2:
+	if points.is_empty():
+		return Rect2()
+	var bounds := Rect2(points[0], Vector2.ZERO)
+	for point in points:
+		bounds = bounds.expand(point)
+	return bounds
 
 ## 触发器的机关动作会调用这里。各物体自己决定被叫到之后做什么。
 func activate() -> void:

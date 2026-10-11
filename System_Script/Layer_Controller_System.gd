@@ -7,6 +7,7 @@ const COLLISION_TOLERANCE := 0.5
 
 func _ready() -> void:
 	Global.discover_scene_nodes(get_parent())
+	Renderer.apply_settings()
 	SignalSystem.layer_cycle.connect(cycle)
 	SignalSystem.layer_change.connect(transfer)
 

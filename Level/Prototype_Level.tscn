@@ -10,34 +10,22 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tfeex"]
 resource_local_to_scene = true
 shader = ExtResource("3_qouki")
-shader_parameter/blur_lod = 0.0
-shader_parameter/darkness = 0.0
-shader_parameter/fog_color = Color(0.75, 0.82, 0.78, 0.8)
-shader_parameter/fog_strength = 0.0
+shader_parameter/relative_depth = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vhgbe"]
 resource_local_to_scene = true
 shader = ExtResource("3_qouki")
-shader_parameter/blur_lod = 0.0
-shader_parameter/darkness = 0.0
-shader_parameter/fog_color = Color(0.75, 0.82, 0.78, 0.8)
-shader_parameter/fog_strength = 0.0
+shader_parameter/relative_depth = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l7ftx"]
 resource_local_to_scene = true
 shader = ExtResource("3_qouki")
-shader_parameter/blur_lod = 0.0
-shader_parameter/darkness = 0.0
-shader_parameter/fog_color = Color(0.75, 0.82, 0.78, 0.8)
-shader_parameter/fog_strength = 0.0
+shader_parameter/relative_depth = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w55a4"]
 resource_local_to_scene = true
 shader = ExtResource("3_qouki")
-shader_parameter/blur_lod = 0.0
-shader_parameter/darkness = 0.0
-shader_parameter/fog_color = Color(0.75, 0.82, 0.78, 0.8)
-shader_parameter/fog_strength = 0.0
+shader_parameter/relative_depth = 0.0
 
 [node name="PrototypeLevel" type="Node2D" unique_id=1182049839]
 script = ExtResource("1_xrs3t")

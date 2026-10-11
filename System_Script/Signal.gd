@@ -54,19 +54,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		params.collide_with_bodies = false
 		var results := space.intersect_point(params, 32)
 		## 检测 z 轴
-		var best: Node = null
+		var best: LayerObject = null
 		var best_z: int = -999
 		for result in results:
 			var collider: Area2D = result.collider
-			if collider.z_index > best_z and collider.input_pickable:
-				best_z = collider.z_index
-				best = collider
+			if not collider.input_pickable:
+				continue
+			var candidate: Node = collider
+			while candidate != null and not candidate is LayerObject:
+				candidate = candidate.get_parent()
+			if candidate is LayerObject:
+				var object := candidate as LayerObject
+				var layer_z := object.owner_layer.z_index
+				if layer_z > best_z:
+					best_z = layer_z
+					best = object
 		## 更新选取状态
-		while best != null and not best is LayerObject:
-			best = best.get_parent()
 		if Global.object_selected:
 			Global.object_selected.set_pick_condition(false)
-		Global.object_selected = best as LayerObject
+		Global.object_selected = best
 		if Global.object_selected:
 			Global.object_selected.set_pick_condition(true)
 
