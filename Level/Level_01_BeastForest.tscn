@@ -6,7 +6,6 @@
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_y35lg"]
 [ext_resource type="PackedScene" path="res://Component/Object/Trigger/Trigger.tscn" id="4_trigger"]
 [ext_resource type="PackedScene" uid="uid://cyx33qtjbsw34" path="res://Component/Object/Ground/Ground.tscn" id="5_ground"]
-[ext_resource type="PackedScene" uid="uid://cvine01platform" path="res://Component/Object/Vine/Vine.tscn" id="6_vine"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y35lg"]
 resource_local_to_scene = true
@@ -1399,18 +1398,6 @@ polygon = PackedVector2Array(776, 32, 776, -32, -776, -32, -776, 32)
 [node name="Polygon2D" parent="Layer1/Tutor01/VisualRoot" parent_id_path=PackedInt32Array(5032705, 817137210) index="0" unique_id=486029332]
 color = Color(0.288, 0.64, 0.31733328, 1)
 polygon = PackedVector2Array(776, 32, 776, -32, -776, -32, -776, 32)
-
-[node name="VineTest_Short" parent="Layer1" unique_id=910000001 instance=ExtResource("6_vine")]
-position = Vector2(-17250, 1080)
-rope_length = 150.0
-
-[node name="VineTest_Medium" parent="Layer1" unique_id=910000002 instance=ExtResource("6_vine")]
-position = Vector2(-17016, 1030)
-rope_length = 250.0
-
-[node name="VineTest_Long" parent="Layer1" unique_id=910000003 instance=ExtResource("6_vine")]
-position = Vector2(-16780, 980)
-rope_length = 400.0
 
 [node name="Tutor02" parent="Layer1" unique_id=5032706 instance=ExtResource("5_ground")]
 position = Vector2(-17016, 736)

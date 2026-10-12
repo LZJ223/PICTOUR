@@ -41,6 +41,8 @@ var _gripped_player: PlayerController = null
 var _current_length: float = 0.0
 var _angle: float = 0.0
 var _angular_velocity: float = 0.0
+## 风扇等外力源累积的角加速度，每帧 update_swing 时消耗并重置
+var _wind_angular_accel: float = 0.0
 
 @onready var _grab_area: Area2D = $GrabArea
 @onready var _grab_shape: CollisionShape2D = $GrabArea/CollisionShape2D
@@ -109,6 +111,10 @@ func update_swing(delta: float, input: Vector2) -> Vector2:
 		return global_position
 	## 攀爬：W（input.y=-1）缩短绳子往上爬，S（input.y=1）伸长绳子往下爬
 	_current_length = clamp(_current_length + input.y * climb_speed * delta, min_length, rope_length)
+	## 风力外力（由风扇通过 apply_wind_force 累积），提前取出并从总角速度中分离，
+	## 使其不受下方钟摆能量守恒 max_omega 的限制——外部力可以突破重力势能上限。
+	var wind_contribution: float = _wind_angular_accel * delta
+	_wind_angular_accel = 0.0
 	## 钟摆重力恢复力
 	var angular_accel: float = -(gravity / max(_current_length, 1.0)) * sin(_angle)
 	_angular_velocity += angular_accel * delta
@@ -130,10 +136,15 @@ func update_swing(delta: float, input: Vector2) -> Vector2:
 	## 避免短绳大摆幅时速度异常大。
 	## 仅限制"向外"（远离垂直）的角速度，允许向内的恢复速度不受限，
 	## 否则在最大摆幅处角速度会被钳为0导致无法回弹。
+	## 注意：风力贡献 wind_contribution 不参与此限制，外部力可突破能量上限。
 	var max_omega: float = sqrt(max(0.0, 2.0 * gravity / max(_current_length, 1.0) * (cos(_angle) - cos(max_swing_angle))))
 	var outward: bool = (_angle > 0.0 and _angular_velocity > 0.0) or (_angle < 0.0 and _angular_velocity < 0.0)
 	if outward:
 		_angular_velocity = min(_angular_velocity, max_omega)
+	## 加回风力贡献，并单独限制风力本身的最大角速度，防止极端强风导致失控
+	_angular_velocity += wind_contribution
+	var max_wind_omega: float = 12.0
+	_angular_velocity = clamp(_angular_velocity, -max_wind_omega, max_wind_omega)
 	## 阻尼
 	_angular_velocity *= (1.0 - swing_damping * delta)
 	## 积分角度并限制最大摆幅
@@ -146,6 +157,20 @@ func update_swing(delta: float, input: Vector2) -> Vector2:
 		_angular_velocity = max(_angular_velocity, 0.0)
 	_update_line_visual()
 	return global_position + Vector2(sin(_angle), cos(_angle)) * _current_length
+
+
+## 由风扇调用，把风力转换为钟摆的角加速度外力。
+## 风力的切向分量随角度衰减：切线方向 = (cos(angle), -sin(angle))，
+## 风力在切线上的投影 = direction.x * cos(angle) - direction.y * sin(angle)。
+## 这样风在藤蔓垂直时效果最强，摆到侧面时效果自然减弱，
+## 避免风力在最大角度仍然全力向外推导致藤蔓卡死。
+## 投影自带符号：风从一侧吹时，会把藤蔓推向该侧，过了垂直点后推力逐渐减小。
+func apply_wind_force(direction: Vector2, force: float, delta: float) -> void:
+	if _gripped_player == null:
+		return
+	var tangent_factor: float = direction.x * cos(_angle) - direction.y * sin(_angle)
+	var effective_force: float = force * tangent_factor
+	_wind_angular_accel += effective_force / max(_current_length, 1.0)
 
 
 ## 玩家主动松开，返回切向惯性速度（沿藤蔓切线方向）。

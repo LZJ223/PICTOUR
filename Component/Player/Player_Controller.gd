@@ -69,6 +69,24 @@ func _physics_process(delta: float) -> void:
 		if current_state == PlayerState.NORMAL:
 			_handle_bounce()
 
+
+## 由风扇调用，根据当前状态处理风力。
+## - NORMAL：直接加到 velocity，并限制风力方向的速度上限
+## - ON_ROPE：转发给当前藤蔓，作为钟摆外力
+## - UAV：无人机不受风
+func apply_wind_force(direction: Vector2, force: float, max_speed: float, delta: float) -> void:
+	match current_state:
+		PlayerState.NORMAL:
+			velocity += direction * force * delta
+			var vel_along_wind: float = velocity.dot(direction)
+			if vel_along_wind > max_speed:
+				velocity -= direction * (vel_along_wind - max_speed)
+		PlayerState.ON_ROPE:
+			if _current_vine != null:
+				_current_vine.apply_wind_force(direction, force, delta)
+		PlayerState.UAV:
+			pass
+
 ## 普通地面/空中移动
 func _update_normal(delta: float) -> void:
 	velocity.x += Input.get_axis("move_left", "move_right") * acceleration
