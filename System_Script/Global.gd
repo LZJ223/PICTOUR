@@ -18,8 +18,17 @@ var eagle_eye: bool = false
 var checkpoint_position: Vector2 = Vector2.ZERO
 var checkpoint_collision_group: int = 1
 var checkpoint_scale: Vector2 = Vector2.ONE
+## 收藏册只增不减。item_id 为键。
+var collection: Dictionary = {}
+## 当前身上的道具。界面以后来读这本账，现在不画。
+var held: Dictionary = {}
+## 这一局里已经收走过的 item_id。死亡回检查点也不清。
+var _picked_ids: Dictionary = {}
 var _dialogue_label: Label
 var _dialogue_timer: Timer
+
+## 收起一件东西。tool 为真时记入持有栏；同时也可以记入收藏册。
+signal item_picked(item_id: String, tool: bool)
 
 ## 开关鹰眼，并让全部图层物体按当前所在层刷新画面
 func set_eagle_eye(enabled: bool) -> void:
@@ -67,11 +76,37 @@ func remember_player_state() -> void:
 	checkpoint_collision_group = player.collision_group
 	checkpoint_scale = player.scale
 
-## 把玩家放回最近记下的状态。
+## 把玩家放回最近记下的状态。不改收藏册和持有栏。
 func restore_player_state() -> void:
 	if player == null:
 		return
 	player.apply_recorded_state(checkpoint_position, checkpoint_collision_group, checkpoint_scale)
+
+
+func has_collected(item_id: String) -> bool:
+	return collection.has(item_id)
+
+
+func is_holding(item_id: String) -> bool:
+	return held.has(item_id)
+
+
+func was_picked(item_id: String) -> bool:
+	return _picked_ids.has(item_id)
+
+
+## 记下一次拾取。同一 id 再记一次不会变成两份，信号仍会发出。
+func note_pickup(item_id: String, tool: bool, record_collection: bool) -> void:
+	if item_id == "":
+		return
+	_picked_ids[item_id] = true
+	if tool:
+		held[item_id] = true
+		if record_collection:
+			collection[item_id] = true
+	else:
+		collection[item_id] = true
+	item_picked.emit(item_id, tool)
 
 ## 在画面上显示一句对话。后来的一句会换掉前面的。
 func show_line(text: String) -> void:
