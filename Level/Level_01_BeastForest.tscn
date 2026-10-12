@@ -6,18 +6,22 @@
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_y35lg"]
 [ext_resource type="PackedScene" path="res://Component/Object/Trigger/Trigger.tscn" id="4_trigger"]
 [ext_resource type="PackedScene" uid="uid://cyx33qtjbsw34" path="res://Component/Object/Ground/Ground.tscn" id="5_ground"]
+[ext_resource type="PackedScene" uid="uid://n5tye1jhomwc" path="res://Component/Object/Vine/Vine.tscn" id="6_vine"]
+[ext_resource type="PackedScene" uid="uid://dpcdfo1qnrw4u" path="res://Component/Object/Fan/Fan.tscn" id="7_fan"]
+[ext_resource type="PackedScene" path="res://Component/Object/Pickup/Pickup.tscn" id="8_pickup"]
+[ext_resource type="PackedScene" uid="uid://bd2e8t8vka0ac" path="res://Component/Object/Box/Box.tscn" id="9_box"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_y35lg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oqs21"]
 resource_local_to_scene = true
 shader = ExtResource("3_y35lg")
 shader_parameter/relative_depth = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hrour"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_853vr"]
 resource_local_to_scene = true
 shader = ExtResource("3_y35lg")
 shader_parameter/relative_depth = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_o5we0"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e2x1d"]
 resource_local_to_scene = true
 shader = ExtResource("3_y35lg")
 shader_parameter/relative_depth = 0.0
@@ -25,7 +29,7 @@ shader_parameter/relative_depth = 0.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_portal"]
 size = Vector2(200, 140)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_oqs21"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_idijq"]
 resource_local_to_scene = true
 shader = ExtResource("3_y35lg")
 shader_parameter/relative_depth = 0.0
@@ -34,7 +38,7 @@ shader_parameter/relative_depth = 0.0
 script = ExtResource("2_level")
 
 [node name="Layer3" parent="." unique_id=2100000004 instance=ExtResource("1_layer")]
-material = SubResource("ShaderMaterial_y35lg")
+material = SubResource("ShaderMaterial_oqs21")
 layer_id = 3
 slot = 3
 
@@ -46,7 +50,7 @@ disabled = true
 visible = false
 
 [node name="Layer2" parent="." unique_id=2100000003 instance=ExtResource("1_layer")]
-material = SubResource("ShaderMaterial_hrour")
+material = SubResource("ShaderMaterial_853vr")
 layer_id = 2
 slot = 2
 
@@ -57,8 +61,23 @@ disabled = true
 [node name="Polygon2D" parent="Layer2/Ground/VisualRoot" parent_id_path=PackedInt32Array(2100000003, 629838226, 817137210) index="0" unique_id=486029332]
 visible = false
 
+[node name="Tutor_ShaftBottom_Layer2" parent="Layer2" unique_id=400000001 instance=ExtResource("3_platform")]
+position = Vector2(-13424, 2656)
+selectable = false
+can_transfer = false
+
+[node name="Tutor_ElevatorTrigger_L2" parent="Layer2/Tutor_ShaftBottom_Layer2" unique_id=400000002 instance=ExtResource("4_trigger")]
+position = Vector2(0, -16)
+action = 4
+mechanism_target = NodePath("../../../Layer1/Tutor_Elevator_1")
+
+[node name="Tutor_SwampSafeFloor_L2" parent="Layer2" unique_id=400000003 instance=ExtResource("3_platform")]
+position = Vector2(-7856, 3184)
+selectable = false
+can_transfer = false
+
 [node name="Layer1" parent="." unique_id=2100000002 instance=ExtResource("1_layer")]
-material = SubResource("ShaderMaterial_o5we0")
+material = SubResource("ShaderMaterial_e2x1d")
 layer_id = 1
 
 [node name="CollisionBox" parent="Layer1/Ground" parent_id_path=PackedInt32Array(2100000002, 629838226) index="0" unique_id=1077352614]
@@ -2309,6 +2328,118 @@ polygon = PackedVector2Array(32, 256, 32, -256, -32, -256, -32, 256)
 color = Color(0.288, 0.64, 0.31733328, 1)
 polygon = PackedVector2Array(32, 256, 32, -256, -32, -256, -32, 256)
 
+[node name="Tutor_ExitBlock_1" parent="Layer1" unique_id=400000020 instance=ExtResource("3_platform")]
+position = Vector2(-14336, 1544)
+scale = Vector2(0.4, 8.5)
+
+[node name="Tutor_Pickup_1" parent="Layer1" unique_id=400000021 instance=ExtResource("8_pickup")]
+position = Vector2(-14100, 1500)
+item_id = "tutor_leaf_1"
+can_transfer = true
+
+[node name="Tutor_DeathPlatform_1" parent="Layer1" unique_id=400000022 instance=ExtResource("3_platform")]
+position = Vector2(-13424, 1808)
+scale = Vector2(0.6, 1)
+selectable = false
+can_transfer = false
+
+[node name="Tutor_DeathTrigger_1" parent="Layer1" unique_id=400000023 instance=ExtResource("4_trigger")]
+position = Vector2(-13424, 1960)
+action = 3
+
+[node name="Tutor_BigBox_1" parent="Layer1" unique_id=400000024 instance=ExtResource("9_box")]
+position = Vector2(-12263, 1694)
+scale = Vector2(1.22, -1.21)
+carriable = false
+
+[node name="Tutor_Pickup_3" parent="Layer1" unique_id=400000025 instance=ExtResource("8_pickup")]
+position = Vector2(-11920, 1648)
+item_id = "tutor_leaf_3"
+can_transfer = true
+
+[node name="Tutor_Vine_1" parent="Layer1" unique_id=400000026 instance=ExtResource("6_vine")]
+position = Vector2(-12528, 2285)
+collision_layer = 2
+collision_mask = 2
+rope_length = 420.0
+
+[node name="Tutor_Vine_2" parent="Layer1" unique_id=400000027 instance=ExtResource("6_vine")]
+position = Vector2(-12209, 2286)
+collision_layer = 2
+collision_mask = 2
+rope_length = 420.0
+
+[node name="Tutor_Elevator_1" parent="Layer1" unique_id=400000028 instance=ExtResource("3_platform")]
+position = Vector2(-13424, 2624)
+selectable = false
+move_offset = Vector2(0, -832)
+activation_kind = 3
+can_transfer = false
+
+[node name="Tutor_PickupPlatform_1" parent="Layer1" unique_id=400000029 instance=ExtResource("3_platform")]
+position = Vector2(-11901, 2655)
+scale = Vector2(3.23, 0.99)
+selectable = false
+can_transfer = false
+
+[node name="Tutor_Pickup_2" parent="Layer1" unique_id=400000030 instance=ExtResource("8_pickup")]
+position = Vector2(-11894, 2576)
+item_id = "tutor_leaf_2"
+can_transfer = true
+
+[node name="Tutor_DeathFloor_R3" parent="Layer1" unique_id=400000031 instance=ExtResource("3_platform")]
+position = Vector2(-12500, 2960)
+scale = Vector2(12, 1)
+selectable = false
+can_transfer = false
+
+[node name="Tutor_DeathFloorTrigger_R3" parent="Layer1" unique_id=400000032 instance=ExtResource("4_trigger")]
+position = Vector2(-12500, 2920)
+action = 3
+
+[node name="Tutor_Fan_1" parent="Layer1" unique_id=400000033 instance=ExtResource("7_fan")]
+process_priority = -10
+position = Vector2(-11390, 2661)
+rotation = -3.14
+collision_layer = 2
+collision_mask = 2
+wind_area_size = Vector2(256, 1200)
+wind_area_offset = Vector2(0, 600)
+activation_kind = 2
+
+[node name="Tutor_FanOffTrigger_1" parent="Layer1" unique_id=400000034 instance=ExtResource("4_trigger")]
+position = Vector2(-11700, 3720)
+action = 4
+mechanism_target = NodePath("../Tutor_Fan_1")
+
+[node name="Tutor_Box_Large_1" parent="Layer1" unique_id=400000035 instance=ExtResource("9_box")]
+position = Vector2(-11920, 3768)
+scale = Vector2(2, 2)
+
+[node name="Tutor_Box_Small_1" parent="Layer1" unique_id=400000036 instance=ExtResource("9_box")]
+position = Vector2(-11780, 3788)
+
+[node name="Tutor_HighPlatform_1" parent="Layer1" unique_id=400000037 instance=ExtResource("3_platform")]
+position = Vector2(-11600, 3624)
+scale = Vector2(1.5, 1)
+selectable = false
+can_transfer = false
+
+[node name="Tutor_BouncyPlatform_1" parent="Layer1" unique_id=400000038 instance=ExtResource("3_platform")]
+position = Vector2(-11400, 3800)
+selectable = false
+bounce_force = 800.0
+can_transfer = false
+
+[node name="Tutor_Pickup_4" parent="Layer1" unique_id=400000039 instance=ExtResource("8_pickup")]
+position = Vector2(-11390, 2400)
+item_id = "tutor_leaf_4"
+can_transfer = true
+
+[node name="Tutor_SwampDeath_1" parent="Layer1" unique_id=400000040 instance=ExtResource("4_trigger")]
+position = Vector2(-7856, 3300)
+action = 3
+
 [node name="ToMainPad" parent="Layer1" unique_id=5033805 instance=ExtResource("3_platform")]
 position = Vector2(-2248, 2260)
 selectable = false
@@ -4536,7 +4667,7 @@ position = Vector2(36126, 9948)
 position = Vector2(30944, -385)
 
 [node name="Layer0" parent="." unique_id=2100000001 instance=ExtResource("1_layer")]
-material = SubResource("ShaderMaterial_oqs21")
+material = SubResource("ShaderMaterial_idijq")
 slot = 0
 
 [node name="CollisionBox" parent="Layer0/Ground" parent_id_path=PackedInt32Array(2100000001, 629838226) index="0" unique_id=1077352614]
@@ -4545,6 +4676,9 @@ disabled = true
 
 [node name="Polygon2D" parent="Layer0/Ground/VisualRoot" parent_id_path=PackedInt32Array(2100000001, 629838226, 817137210) index="0" unique_id=486029332]
 visible = false
+
+[node name="Tutor_Box_1" parent="Layer0" unique_id=400000010 instance=ExtResource("9_box")]
+position = Vector2(-14500, 1640)
 
 [editable path="Layer3"]
 [editable path="Layer3/Ground"]
