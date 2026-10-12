@@ -2,6 +2,10 @@
 
 class_name PlayerController
 extends CharacterBody2D
+
+## 玩家状态机
+enum PlayerState { NORMAL, ON_ROPE, UAV }
+
 ## 人物运动参数
 @export var move_speed: float = 260.0
 @export var jump_speed: float = 620.0
@@ -26,9 +30,16 @@ extends CharacterBody2D
 ## 状态信息
 var collision_group: int = 1
 var activated: bool = false
-var UAV_activated: bool = false
+var current_state: PlayerState = PlayerState.NORMAL
 var _air_jumps_left: int = 0
 var player_body: Player_Object = null
+## 藤蔓交互
+var _grabable_vines: Array[Vine] = []
+var _current_vine: Vine = null
+## 松手后的惯性保护时间（秒），期间不施加水平摩擦和速度上限，
+## 确保摆荡惯性不会被 move_speed 钳位和摩擦立即抹消。
+@export var release_inertia_time: float = 0.4
+var _inertia_timer: float = 0.0
 ## 无人机系统使用的玩家（物体）节点资源预加载
 const player_body_type = preload("res://Component/Object/Player_Object/Player_Object.tscn")
 
@@ -42,61 +53,159 @@ func _ready() -> void:
 
 ## 人物移动逻辑
 func _physics_process(delta: float) -> void:
-	if activated:
-		## 无人机未激活
-		if not UAV_activated:
-			velocity.x += Input.get_axis("move_left", "move_right") * acceleration
-			if abs(velocity.x) < friction_deceleration:
-				velocity.x = 0
-			else:
-				velocity.x -= sign(velocity.x) * friction_deceleration
-			velocity.x = clamp(velocity.x, -1 * move_speed, move_speed)
-			var grounded := is_on_floor()
-			if grounded:
-				_air_jumps_left = air_jump_count
-			else:
-				velocity.y += gravity_acceleration * delta
-			if Input.is_action_just_pressed("jump") and (grounded or _air_jumps_left > 0):
-				if not grounded:
-					_air_jumps_left -= 1
-				velocity.y = -jump_speed
-		## 无人机激活
-		else:
-			velocity.x += Input.get_axis("move_left", "move_right") * acceleration
-			velocity.y += Input.get_axis("move_up", "move_down") * acceleration
-			var dist: Vector2 = position - player_body.position
-			if dist.length() > UAV_distance:
-				velocity -= dist.normalized() * (dist.length() - UAV_distance)
-			if velocity.length() > UAV_friction_deceleration:
-				velocity -= velocity.normalized() * UAV_friction_deceleration
-			else:
-				velocity = Vector2.ZERO
-			velocity = velocity.normalized() * clamp(velocity.length(), 0, UAV_move_speed)
-			velocity.y = clamp(velocity.y, -1 * move_speed, move_speed)
-		if velocity.length() > 0.0001:
-			SignalSystem.timer_reset()
+	if not activated:
+		return
+	match current_state:
+		PlayerState.NORMAL:
+			_update_normal(delta)
+		PlayerState.ON_ROPE:
+			_update_on_rope(delta)
+		PlayerState.UAV:
+			_update_uav(delta)
+	if velocity.length() > 0.0001:
+		SignalSystem.timer_reset()
+	if current_state != PlayerState.ON_ROPE:
 		move_and_slide()
-		if not UAV_activated:
+		if current_state == PlayerState.NORMAL:
 			_handle_bounce()
+
+## 普通地面/空中移动
+func _update_normal(delta: float) -> void:
+	velocity.x += Input.get_axis("move_left", "move_right") * acceleration
+	if _inertia_timer > 0.0:
+		## 惯性保护期：施加较弱的摩擦让速度自然衰减，不硬钳位到 move_speed，
+		## 但保留 2 倍 move_speed 的软上限，防止输入叠加导致速度失控。
+		_inertia_timer -= delta
+		var reduced_friction: float = friction_deceleration * 0.3
+		if abs(velocity.x) < reduced_friction:
+			velocity.x = 0
+		else:
+			velocity.x -= sign(velocity.x) * reduced_friction
+		var soft_limit: float = move_speed * 2.0
+		if abs(velocity.x) > soft_limit:
+			velocity.x = sign(velocity.x) * soft_limit
+	else:
+		if abs(velocity.x) < friction_deceleration:
+			velocity.x = 0
+		else:
+			velocity.x -= sign(velocity.x) * friction_deceleration
+		velocity.x = clamp(velocity.x, -move_speed, move_speed)
+	var grounded := is_on_floor()
+	if grounded:
+		_air_jumps_left = air_jump_count
+		## 落地后结束惯性保护
+		_inertia_timer = 0.0
+	else:
+		velocity.y += gravity_acceleration * delta
+	if Input.is_action_just_pressed("jump") and (grounded or _air_jumps_left > 0):
+		if not grounded:
+			_air_jumps_left -= 1
+		velocity.y = -jump_speed
+	## F 键抓取附近藤蔓
+	if Input.is_action_just_pressed("grab"):
+		_try_grab_vine()
+
+## 藤蔓攀爬/摆荡：位置由藤蔓驱动，不调用 move_and_slide
+func _update_on_rope(delta: float) -> void:
+	if _current_vine == null:
+		_force_release_vine()
+		return
+	## 空格松开藤蔓，获得切向惯性速度
+	if Input.is_action_just_pressed("jump"):
+		_release_vine()
+		return
+	var input := Vector2(
+		Input.get_axis("move_left", "move_right"),
+		Input.get_axis("move_up", "move_down")
+	)
+	global_position = _current_vine.update_swing(delta, input)
+
+## 无人机移动
+func _update_uav(delta: float) -> void:
+	velocity.x += Input.get_axis("move_left", "move_right") * acceleration
+	velocity.y += Input.get_axis("move_up", "move_down") * acceleration
+	var dist: Vector2 = position - player_body.position
+	if dist.length() > UAV_distance:
+		velocity -= dist.normalized() * (dist.length() - UAV_distance)
+	if velocity.length() > UAV_friction_deceleration:
+		velocity -= velocity.normalized() * UAV_friction_deceleration
+	else:
+		velocity = Vector2.ZERO
+	velocity = velocity.normalized() * clamp(velocity.length(), 0, UAV_move_speed)
+	velocity.y = clamp(velocity.y, -1 * move_speed, move_speed)
+
+## 尝试抓取最近的可抓取藤蔓。
+## 主动扫描场景中所有 vines 组的藤蔓，不依赖 Area2D 信号注册，
+## 确保高速飞行中也能抓到下一根绳子。
+func _try_grab_vine() -> void:
+	var candidates: Array[Vine] = []
+	for node in get_tree().get_nodes_in_group("vines"):
+		if node is Vine:
+			candidates.append(node as Vine)
+	if candidates.is_empty():
+		return
+	## 找最近的藤蔓（按到锚点的距离粗筛）
+	var nearest: Vine = candidates[0]
+	var min_dist: float = global_position.distance_to(nearest.global_position)
+	for vine in candidates:
+		var d: float = global_position.distance_to(vine.global_position)
+		if d < min_dist:
+			min_dist = d
+			nearest = vine
+	if nearest.try_grab(self):
+		_current_vine = nearest
+		current_state = PlayerState.ON_ROPE
+		## 藤蔓上禁用实体碰撞，位置完全由藤蔓驱动
+		body_collision_box.disabled = true
+		velocity = Vector2.ZERO
+		_inertia_timer = 0.0
+
+## 主动松开藤蔓，获得切向惯性速度
+func _release_vine() -> void:
+	if _current_vine == null:
+		return
+	velocity = _current_vine.release()
+	_current_vine = null
+	current_state = PlayerState.NORMAL
+	body_collision_box.disabled = false
+	_air_jumps_left = air_jump_count
+	## 启动惯性保护期，避免水平惯性被摩擦和速度上限立即抹消
+	_inertia_timer = release_inertia_time
+
+## 强制松开藤蔓（换层、死亡等），不保留惯性速度
+func _force_release_vine() -> void:
+	if _current_vine != null:
+		_current_vine.force_release()
+		_current_vine = null
+	current_state = PlayerState.NORMAL
+	body_collision_box.disabled = false
+	velocity = Vector2.ZERO
+	_inertia_timer = 0.0
+
+## 由藤蔓 GrabArea 调用，注册可抓取藤蔓
+func register_grabable_vine(vine: Vine) -> void:
+	if vine not in _grabable_vines:
+		_grabable_vines.append(vine)
+
+## 由藤蔓 GrabArea 调用，注销可抓取藤蔓
+func unregister_grabable_vine(vine: Vine) -> void:
+	_grabable_vines.erase(vine)
 
 ## 无人机状态切换
 func UAV_activate() -> void:
-	if not UAV_activated and not is_on_floor():
+	## 藤蔓上不能切换无人机
+	if current_state == PlayerState.ON_ROPE:
 		return
-	UAV_activated = not UAV_activated
-	body_collision_box.disabled = UAV_activated
-	body_visual.visible = not UAV_activated
-	UAV_collision_box.disabled = not UAV_activated
-	UAV_visual.visible = UAV_activated
-	velocity = Vector2.ZERO
-	if UAV_activated:
-		var current_layer: DepthLayer = Global.get_layer_at_slot(Global.current_layer_index)
-		player_body = player_body_type.instantiate()
-		current_layer.add_child(player_body)
-		player_body.position = position
-		player_body.collision_box.scale = scale
-		player_body.update_layer_slot()
-	else:
+	if current_state == PlayerState.NORMAL and not is_on_floor():
+		return
+	if current_state == PlayerState.UAV:
+		## 从无人机切回普通
+		current_state = PlayerState.NORMAL
+		body_collision_box.disabled = false
+		body_visual.visible = true
+		UAV_collision_box.disabled = true
+		UAV_visual.visible = false
+		velocity = Vector2.ZERO
 		var player_body_layer: DepthLayer = player_body.find_owner_layer()
 		while player_body_layer.slot != Global.current_layer_index:
 			SignalSystem.layer_cycle.emit(1, false)
@@ -104,14 +213,31 @@ func UAV_activate() -> void:
 		scale = player_body.collision_box.scale
 		player_body.queue_free()
 		player_body = null
+	else:
+		## 从普通切入无人机
+		current_state = PlayerState.UAV
+		body_collision_box.disabled = true
+		body_visual.visible = false
+		UAV_collision_box.disabled = false
+		UAV_visual.visible = true
+		velocity = Vector2.ZERO
+		var current_layer: DepthLayer = Global.get_layer_at_slot(Global.current_layer_index)
+		player_body = player_body_type.instantiate()
+		current_layer.add_child(player_body)
+		player_body.position = position
+		player_body.collision_box.scale = scale
+		player_body.update_layer_slot()
 
-## 轮换图层时碰撞箱改变
+## 轮换图层时碰撞箱改变。藤蔓上换层强制松开。
 func collision_group_change(direction: int) -> void:
+	if current_state == PlayerState.ON_ROPE:
+		_force_release_vine()
 	var new_collision_group: int = posmod(collision_group - direction - 1, Global.layer_count) + 1
 	_set_collision_group(new_collision_group)
 
 ## 死亡触发器按记录恢复位置、所在层和大小。已经换层的物体不动。
 func apply_recorded_state(recorded_position: Vector2, recorded_group: int, recorded_scale: Vector2) -> void:
+	_force_release_vine()
 	_leave_uav_without_returning()
 	global_position = recorded_position
 	scale = recorded_scale
@@ -128,9 +254,9 @@ func _set_collision_group(group: int) -> void:
 	set_collision_mask_value(collision_group, true)
 
 func _leave_uav_without_returning() -> void:
-	if not UAV_activated:
+	if current_state != PlayerState.UAV:
 		return
-	UAV_activated = false
+	current_state = PlayerState.NORMAL
 	body_collision_box.disabled = false
 	body_visual.visible = true
 	UAV_collision_box.disabled = true

@@ -25,7 +25,7 @@ func cycle(direction: int, check_collision: bool = true) -> void:
 		var target_layer: DepthLayer = Global.get_layer_at_slot(target_slot)
 		var player_collision: CollisionPolygon2D = (
 			Global.player.UAV_collision_box
-			if Global.player.UAV_activated
+			if Global.player.current_state == PlayerController.PlayerState.UAV
 			else Global.player.body_collision_box
 		)
 		if _has_collision(Global.player, player_collision, target_layer, player_collision.global_transform):
