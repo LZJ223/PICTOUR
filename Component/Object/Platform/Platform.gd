@@ -50,6 +50,10 @@ extends LayerObject
 enum ActivationKind { NONE, START_MOVING, STOP_MOVING, TOGGLE_MOVING, SHOW, HIDE, TOGGLE_SHOWN }
 @export var activation_kind: ActivationKind = ActivationKind.NONE
 
+@export_group("弹力")
+## 玩家从上方踩到平台时，沿法线方向弹起的速度。0 表示不弹。
+@export var bounce_force: float = 0.0
+
 var _shown: bool = true
 var _origin: Vector2 = Vector2.ZERO
 var _distance_along: float = 0.0
@@ -102,7 +106,11 @@ func transfer_to(target_layer: DepthLayer, target_transform: Transform2D, target
 	can_transfer = selectable
 	if not selectable:
 		return
+	var old_scale := collision_box.scale.x
 	super(target_layer, target_transform, target_collision_transform)
+	var new_scale := collision_box.scale.x
+	if old_scale > 0.0:
+		bounce_force *= new_scale / old_scale
 	_origin = position
 	_distance_along = 0.0
 	_forward = true

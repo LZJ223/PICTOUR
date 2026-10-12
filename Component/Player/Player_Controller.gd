@@ -15,6 +15,9 @@ extends CharacterBody2D
 @export var friction_deceleration: float = 40
 @export var UAV_friction_deceleration: float = 20
 @export var UAV_distance: float = 400
+## 弹力平台判定阈值：碰撞法线 y 分量小于此值才算"从上方踩下"。
+## -1.0 是纯水平面，0.0 是垂直墙，-0.5 约为 60° 以下的坡面。
+@export var bounce_normal_threshold: float = -0.5
 ## 节点信息
 @onready var body_collision_box: CollisionPolygon2D = $CollisionBox_Body
 @onready var UAV_collision_box: CollisionPolygon2D = $CollisionBox_UAV
@@ -33,6 +36,8 @@ const player_body_type = preload("res://Component/Object/Player_Object/Player_Ob
 func _ready() -> void:
 	activated = true
 	_air_jumps_left = air_jump_count
+	## 关掉地板吸附，否则弹起瞬间会被吸附回平台表面。
+	floor_snap_length = 0.0
 	SignalSystem.UAV_activate.connect(UAV_activate)
 
 ## 人物移动逻辑
@@ -71,6 +76,8 @@ func _physics_process(delta: float) -> void:
 		if velocity.length() > 0.0001:
 			SignalSystem.timer_reset()
 		move_and_slide()
+		if not UAV_activated:
+			_handle_bounce()
 
 ## 无人机状态切换
 func UAV_activate() -> void:
@@ -132,3 +139,37 @@ func _leave_uav_without_returning() -> void:
 	if player_body != null:
 		player_body.queue_free()
 		player_body = null
+
+## 玩家从上方踩到带 bounce_force 的平台时，沿法线弹起。
+## 方案 D：保留切向速度，法向速度替换为平台弹力。
+## 弹起后立即再 move_and_slide() 一次，确保离开平台表面，
+## 否则下一帧会因仍在 floor 上而被重力/吸附拉回。
+func _handle_bounce() -> void:
+	var count := get_slide_collision_count()
+	if count == 0:
+		return
+	for i in count:
+		var collision: KinematicCollision2D = get_slide_collision(i)
+		var normal: Vector2 = collision.get_normal()
+		## 只处理从上方踩下的碰撞（法线朝上，y 分量小于阈值）。
+		if normal.y >= bounce_normal_threshold:
+			continue
+		var platform: Platform = _find_platform(collision.get_collider())
+		if platform == null or platform.bounce_force <= 0.0:
+			continue
+		## 分解速度：切向保留，法向替换为弹力方向（沿法线向上）。
+		var normal_dot: float = velocity.dot(normal)
+		var tangent_vel: Vector2 = velocity - normal * normal_dot
+		velocity = tangent_vel + normal * platform.bounce_force
+		## 立即用新速度移动一次，离开平台表面，避免被吸附回地面。
+		move_and_slide()
+		return
+
+## 从碰撞体向上查找 Platform 节点。
+func _find_platform(collider: Node) -> Platform:
+	var current: Node = collider
+	while current != null:
+		if current is Platform:
+			return current as Platform
+		current = current.get_parent()
+	return null
