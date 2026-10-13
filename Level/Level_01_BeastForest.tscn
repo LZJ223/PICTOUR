@@ -72,8 +72,9 @@ action = 4
 mechanism_target = NodePath("../../../Layer1/Tutor_Elevator_1")
 
 [node name="Tutor_SwampSafeFloor_L2" parent="Layer2" unique_id=400000003 instance=ExtResource("3_platform")]
-position = Vector2(-7856, 3184)
+position = Vector2(-8545, 3160)
 selectable = false
+move_offset = Vector2(300, 0)
 can_transfer = false
 
 [node name="Layer1" parent="." unique_id=2100000002 instance=ExtResource("1_layer")]
@@ -2329,22 +2330,18 @@ color = Color(0.288, 0.64, 0.31733328, 1)
 polygon = PackedVector2Array(32, 256, 32, -256, -32, -256, -32, 256)
 
 [node name="Tutor_ExitBlock_1" parent="Layer1" unique_id=400000020 instance=ExtResource("3_platform")]
-position = Vector2(-14336, 1544)
+position = Vector2(-16207, 1044)
 scale = Vector2(0.4, 8.5)
-
-[node name="Tutor_Pickup_1" parent="Layer1" unique_id=400000021 instance=ExtResource("8_pickup")]
-position = Vector2(-14100, 1500)
-item_id = "tutor_leaf_1"
-can_transfer = true
 
 [node name="Tutor_DeathPlatform_1" parent="Layer1" unique_id=400000022 instance=ExtResource("3_platform")]
 position = Vector2(-13424, 1808)
-scale = Vector2(0.6, 1)
+scale = Vector2(1.36, 1.96)
 selectable = false
 can_transfer = false
 
 [node name="Tutor_DeathTrigger_1" parent="Layer1" unique_id=400000023 instance=ExtResource("4_trigger")]
-position = Vector2(-13424, 1960)
+position = Vector2(-13424, 1808)
+scale = Vector2(2.079961, 1)
 action = 3
 
 [node name="Tutor_BigBox_1" parent="Layer1" unique_id=400000024 instance=ExtResource("9_box")]
@@ -2357,18 +2354,6 @@ position = Vector2(-11920, 1648)
 item_id = "tutor_leaf_3"
 can_transfer = true
 
-[node name="Tutor_Vine_1" parent="Layer1" unique_id=400000026 instance=ExtResource("6_vine")]
-position = Vector2(-12528, 2285)
-collision_layer = 2
-collision_mask = 2
-rope_length = 420.0
-
-[node name="Tutor_Vine_2" parent="Layer1" unique_id=400000027 instance=ExtResource("6_vine")]
-position = Vector2(-12209, 2286)
-collision_layer = 2
-collision_mask = 2
-rope_length = 420.0
-
 [node name="Tutor_Elevator_1" parent="Layer1" unique_id=400000028 instance=ExtResource("3_platform")]
 position = Vector2(-13424, 2624)
 selectable = false
@@ -2377,8 +2362,8 @@ activation_kind = 3
 can_transfer = false
 
 [node name="Tutor_PickupPlatform_1" parent="Layer1" unique_id=400000029 instance=ExtResource("3_platform")]
-position = Vector2(-11901, 2655)
-scale = Vector2(3.23, 0.99)
+position = Vector2(-11893, 2623)
+scale = Vector2(1.8286216, 0.99)
 selectable = false
 can_transfer = false
 
@@ -2388,56 +2373,47 @@ item_id = "tutor_leaf_2"
 can_transfer = true
 
 [node name="Tutor_DeathFloor_R3" parent="Layer1" unique_id=400000031 instance=ExtResource("3_platform")]
-position = Vector2(-12500, 2960)
-scale = Vector2(12, 1)
+position = Vector2(-12215.001, 2789)
+scale = Vector2(7.16, 1)
 selectable = false
 can_transfer = false
 
 [node name="Tutor_DeathFloorTrigger_R3" parent="Layer1" unique_id=400000032 instance=ExtResource("4_trigger")]
-position = Vector2(-12500, 2920)
+position = Vector2(-12217, 2785)
+scale = Vector2(11.839961, 1)
 action = 3
 
 [node name="Tutor_Fan_1" parent="Layer1" unique_id=400000033 instance=ExtResource("7_fan")]
 process_priority = -10
-position = Vector2(-11390, 2661)
+position = Vector2(-11379, 2649)
 rotation = -3.14
+scale = Vector2(1.8794532, 1)
 collision_layer = 2
 collision_mask = 2
-wind_area_size = Vector2(256, 1200)
-wind_area_offset = Vector2(0, 600)
+wind_area_size = Vector2(150, 1000)
+wind_area_offset = Vector2(0, 500)
 activation_kind = 2
 
 [node name="Tutor_FanOffTrigger_1" parent="Layer1" unique_id=400000034 instance=ExtResource("4_trigger")]
-position = Vector2(-11700, 3720)
+position = Vector2(-11793, 2568)
 action = 4
 mechanism_target = NodePath("../Tutor_Fan_1")
 
 [node name="Tutor_Box_Large_1" parent="Layer1" unique_id=400000035 instance=ExtResource("9_box")]
-position = Vector2(-11920, 3768)
+position = Vector2(-11729, 3717)
 scale = Vector2(2, 2)
 
 [node name="Tutor_Box_Small_1" parent="Layer1" unique_id=400000036 instance=ExtResource("9_box")]
-position = Vector2(-11780, 3788)
-
-[node name="Tutor_HighPlatform_1" parent="Layer1" unique_id=400000037 instance=ExtResource("3_platform")]
-position = Vector2(-11600, 3624)
-scale = Vector2(1.5, 1)
-selectable = false
-can_transfer = false
-
-[node name="Tutor_BouncyPlatform_1" parent="Layer1" unique_id=400000038 instance=ExtResource("3_platform")]
-position = Vector2(-11400, 3800)
-selectable = false
-bounce_force = 800.0
-can_transfer = false
+position = Vector2(-11512, 3769)
 
 [node name="Tutor_Pickup_4" parent="Layer1" unique_id=400000039 instance=ExtResource("8_pickup")]
-position = Vector2(-11390, 2400)
+position = Vector2(-11383, 2066)
 item_id = "tutor_leaf_4"
 can_transfer = true
 
 [node name="Tutor_SwampDeath_1" parent="Layer1" unique_id=400000040 instance=ExtResource("4_trigger")]
-position = Vector2(-7856, 3300)
+position = Vector2(-7855, 3265)
+scale = Vector2(17.44002, 1)
 action = 3
 
 [node name="ToMainPad" parent="Layer1" unique_id=5033805 instance=ExtResource("3_platform")]
@@ -4648,6 +4624,75 @@ shape = SubResource("RectangleShape2D_portal")
 [node name="Zone" parent="Layer1/ToCabinPad/ToCabinTrigger" index="1"]
 polygon = PackedVector2Array(-100, -70, 100, -70, 100, 70, -100, 70)
 
+[node name="Platform" parent="Layer1" unique_id=3638316 instance=ExtResource("3_platform")]
+position = Vector2(-17282, 1228)
+
+[node name="Platform2" parent="Layer1" unique_id=1928472235 instance=ExtResource("3_platform")]
+position = Vector2(-17050, 1146)
+
+[node name="Platform3" parent="Layer1" unique_id=2120172444 instance=ExtResource("3_platform")]
+position = Vector2(-16825, 1066)
+
+[node name="Pickup" parent="Layer1" unique_id=2011080764 instance=ExtResource("8_pickup")]
+position = Vector2(-16827, 1026)
+can_transfer = true
+
+[node name="Box" parent="Layer1" unique_id=330834349 instance=ExtResource("9_box")]
+position = Vector2(-14256, 1741)
+
+[node name="Vine" parent="Layer1" unique_id=118736897 instance=ExtResource("6_vine")]
+position = Vector2(-12656, 2289)
+scale = Vector2(1, 1.9600097)
+collision_layer = 2
+collision_mask = 2
+
+[node name="Box2" parent="Layer1" unique_id=2115586053 instance=ExtResource("9_box")]
+position = Vector2(-12509.001, 1706)
+scale = Vector2(3, 3)
+
+[node name="Fan" parent="Layer1" unique_id=1724354869 instance=ExtResource("7_fan")]
+process_priority = -10
+position = Vector2(-11727, 3545)
+collision_layer = 2
+collision_mask = 2
+wind_area_size = Vector2(120, 600)
+wind_area_offset = Vector2(0, -300)
+
+[node name="Box3" parent="Layer1" unique_id=643442934 instance=ExtResource("9_box")]
+position = Vector2(-11304, 3710)
+scale = Vector2(3, 3)
+
+[node name="Pickup2" parent="Layer1" unique_id=1553693246 instance=ExtResource("8_pickup")]
+position = Vector2(-11012, 3056)
+can_transfer = true
+
+[node name="Trigger" parent="Layer1" unique_id=561270005 instance=ExtResource("4_trigger")]
+position = Vector2(-11006, 2980)
+scale = Vector2(4.331264, 0.30561334)
+action = 3
+
+[node name="Fan2" parent="Layer1" unique_id=1520685448 instance=ExtResource("7_fan")]
+process_priority = -10
+position = Vector2(-11014, 3545)
+collision_layer = 2
+collision_mask = 2
+wind_area_size = Vector2(120, 600)
+wind_area_offset = Vector2(0, -300)
+
+[node name="Platform4" parent="Layer1" unique_id=422660796 instance=ExtResource("3_platform")]
+position = Vector2(-10751, 3577)
+move_offset = Vector2(0, -300)
+
+[node name="Trigger2" parent="Layer1" unique_id=28003450 instance=ExtResource("4_trigger")]
+position = Vector2(-10739, 3207)
+action = 4
+teleport_target = NodePath("../Fan2")
+mechanism_target = NodePath("../Fan2")
+
+[node name="Platform5" parent="Layer1" unique_id=1789547005 instance=ExtResource("3_platform")]
+position = Vector2(-9826, 3646)
+bounce_force = 2.0
+
 [node name="ArriveTutorial" type="Marker2D" parent="." unique_id=5033809]
 position = Vector2(-2728, 2260)
 
@@ -4678,7 +4723,114 @@ disabled = true
 visible = false
 
 [node name="Tutor_Box_1" parent="Layer0" unique_id=400000010 instance=ExtResource("9_box")]
-position = Vector2(-14500, 1640)
+position = Vector2(-16356, 1236)
+
+[node name="Pickup" parent="." unique_id=1055746962 instance=ExtResource("8_pickup")]
+position = Vector2(-15975, 1296)
+can_transfer = true
+
+[node name="Platform" parent="." unique_id=1529922415 instance=ExtResource("3_platform")]
+position = Vector2(-13428, 1459)
+scale = Vector2(1.200039, 1)
+blink = true
+can_leave_shadow = true
+
+[node name="Pickup2" parent="." unique_id=1256836745 instance=ExtResource("8_pickup")]
+position = Vector2(-13435, 1398)
+can_transfer = true
+can_leave_shadow = true
+
+[node name="Vine" parent="." unique_id=1140373836 instance=ExtResource("6_vine")]
+position = Vector2(-13909, 1265)
+scale = Vector2(1, 2.3600001)
+
+[node name="Platform2" parent="." unique_id=729067971 instance=ExtResource("3_platform")]
+position = Vector2(-13119.001, 1461)
+scale = Vector2(1.24, 1)
+moving = true
+can_leave_shadow = true
+
+[node name="Vine2" parent="." unique_id=917577986 instance=ExtResource("6_vine")]
+position = Vector2(-12388, 2285.0002)
+scale = Vector2(-1.0679035, 2.0214233)
+
+[node name="Pickup3" parent="." unique_id=1582068426 instance=ExtResource("8_pickup")]
+position = Vector2(-11727, 3064)
+can_transfer = true
+
+[node name="Platform3" parent="." unique_id=144814948 instance=ExtResource("3_platform")]
+position = Vector2(-7987, 3226)
+bounce_force = 2.0
+
+[node name="Vine3" parent="." unique_id=128828638 instance=ExtResource("6_vine")]
+position = Vector2(-7346, 2803.0002)
+scale = Vector2(1, 1.92)
+
+[node name="Platform4" parent="." unique_id=1751255143 instance=ExtResource("3_platform")]
+position = Vector2(-7603, 3224)
+bounce_force = 2.0
+
+[node name="Fan" parent="." unique_id=1448893727 instance=ExtResource("7_fan")]
+process_priority = -10
+position = Vector2(-6995, 3048.0002)
+rotation = -1.5707964
+scale = Vector2(1.7, 1.5)
+wind_area_size = Vector2(120, 200)
+wind_area_offset = Vector2(0, -100)
+
+[node name="Platform5" parent="." unique_id=115948068 instance=ExtResource("3_platform")]
+position = Vector2(-5748, 3112)
+bounce_force = 3.0
+
+[node name="Platform6" parent="." unique_id=2097733899 instance=ExtResource("3_platform")]
+position = Vector2(-4634, 2042)
+rotation = 1.5707964
+scale = Vector2(1.3600049, 1)
+activation_kind = 5
+
+[node name="Trigger" parent="." unique_id=1658984631 instance=ExtResource("4_trigger")]
+position = Vector2(-4813, 1595)
+action = 4
+mechanism_target = NodePath("../Platform6")
+
+[node name="Box" parent="." unique_id=1799909933 instance=ExtResource("9_box")]
+position = Vector2(-5103, 2391)
+scale = Vector2(3, 3)
+
+[node name="Box2" parent="." unique_id=2117448700 instance=ExtResource("9_box")]
+position = Vector2(-5339, 2391)
+scale = Vector2(2, 2)
+
+[node name="Box3" parent="." unique_id=789925641 instance=ExtResource("9_box")]
+position = Vector2(-5554, 2391)
+
+[node name="Platform8" parent="." unique_id=1072233130 instance=ExtResource("3_platform")]
+position = Vector2(-5587, 1976)
+bounce_force = 2.0
+
+[node name="Platform9" parent="." unique_id=334211900 instance=ExtResource("3_platform")]
+position = Vector2(-5308, 2075)
+bounce_force = 2.0
+
+[node name="Platform7" parent="." unique_id=1101931554 instance=ExtResource("3_platform")]
+position = Vector2(-5878, 1868)
+bounce_force = 2.0
+
+[node name="Vine4" parent="." unique_id=833763201 instance=ExtResource("6_vine")]
+position = Vector2(-5511, 1265)
+scale = Vector2(1, 2.3200002)
+
+[node name="Fan2" parent="." unique_id=211616687 instance=ExtResource("7_fan")]
+process_priority = -10
+position = Vector2(-4213.0005, 2147)
+scale = Vector2(1.7, 1)
+wind_area_size = Vector2(120, 500)
+wind_area_offset = Vector2(0, -250)
+can_leave_shadow = true
+
+[node name="Pickup4" parent="." unique_id=139925469 instance=ExtResource("8_pickup")]
+position = Vector2(-4213, 1559)
+can_transfer = true
 
 [editable path="Layer3"]
 [editable path="Layer3/Ground"]
