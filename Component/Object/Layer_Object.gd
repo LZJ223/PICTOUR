@@ -6,10 +6,28 @@
 @abstract
 class_name LayerObject
 extends PhysicsBody2D
+
+enum TransferMotion { OUTWARD, INWARD }
+
 ## 物体信息
 @export var can_transfer: bool = true
 @export var can_leave_shadow: bool = false
 @export var can_be_shadowed: bool = false
+
+@export_group("图层切换动效")
+## 向外切换时，物体短暂放大的倍率。
+@export_range(1.0, 2.0, 0.01) var outward_peak_scale: float = 1.15
+## 向内切换时，物体短暂缩小的倍率。
+@export_range(0.1, 1.0, 0.01) var inward_min_scale: float = 0.86
+## 向内/向外拉拽的第一阶段时长。
+@export_range(0.01, 0.5, 0.01) var transfer_impulse_duration: float = 0.07
+## 物体恢复到正常画面大小的时长。
+@export_range(0.01, 0.5, 0.01) var transfer_settle_duration: float = 0.10
+## 换层失败时的最大水平抖动幅度，单位接近屏幕像素。
+@export_range(0.0, 32.0, 0.5) var blocked_shake_amplitude: float = 7.0
+## 换层失败时的总抖动时长。
+@export_range(0.01, 0.5, 0.01) var blocked_shake_duration: float = 0.20
+
 ## 子节点信息
 @onready var collision_box: CollisionPolygon2D = $CollisionBox
 @onready var visual_root: Node2D = $VisualRoot
@@ -23,6 +41,10 @@ const _SELECTION_OUTLINE_SHADER := preload("res://Shader/Selection_Outline.gdsha
 static var _eagle_gray_material: ShaderMaterial
 var _selected: bool = false
 var _selection_outlines: Array[Dictionary] = []
+## 图层切换动效只修饰画面，不修改物体根节点或碰撞箱。
+var _transfer_visual_scale: float = 1.0
+var _transfer_visual_offset: Vector2 = Vector2.ZERO
+var _transfer_visual_tween: Tween
 
 ## 初始化
 func _ready() -> void:
@@ -47,10 +69,75 @@ func transfer_to(target_layer: DepthLayer, target_transform: Transform2D, target
 ## 更新屏幕位置
 func apply_visual_transfer(anchor_position: Vector2) -> void:
 	var scaling: float = Global.layer_scales[owner_layer.slot]
-	visual_root.scale = collision_box.scale * scaling
-	visual_root.position = (anchor_position - position) * (1 - scaling)
+	var camera_zoom := Vector2.ONE
+	var camera := get_viewport().get_camera_2d()
+	if camera != null:
+		camera_zoom = camera.zoom.abs()
+	var visual_offset := Vector2(
+		_transfer_visual_offset.x / maxf(camera_zoom.x, 0.0001),
+		_transfer_visual_offset.y / maxf(camera_zoom.y, 0.0001)
+	)
+	visual_root.scale = collision_box.scale * scaling * _transfer_visual_scale
+	visual_root.position = (anchor_position - position) * (1 - scaling) + visual_offset
 	if _selected:
 		_sync_selection_outlines()
+
+## 播放一次成功换层反馈。真实换层已完成，本动画只在新的基础画面上叠加缩放。
+func play_transfer_success(motion: int) -> void:
+	_prepare_transfer_visual_tween()
+	var impulse_scale: float = (
+		outward_peak_scale
+		if motion == TransferMotion.OUTWARD
+		else inward_min_scale
+	)
+	_transfer_visual_tween.tween_property(
+		self, "_transfer_visual_scale", impulse_scale, transfer_impulse_duration
+	).set_trans(Tween.TRANS_QUAD).set_ease(
+		Tween.EASE_OUT if motion == TransferMotion.OUTWARD else Tween.EASE_IN
+	)
+	_transfer_visual_tween.tween_property(
+		self, "_transfer_visual_scale", 1.0, transfer_settle_duration
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_transfer_visual_tween.finished.connect(_on_transfer_visual_finished)
+
+## 播放一次换层受阻反馈。偏移按屏幕像素解释，不会改变物理位置。
+func play_transfer_blocked() -> void:
+	_prepare_transfer_visual_tween()
+	if blocked_shake_amplitude <= 0.0:
+		_on_transfer_visual_finished()
+		return
+	var step_duration: float = blocked_shake_duration / 5.0
+	var offsets: Array[float] = [
+		blocked_shake_amplitude,
+		-blocked_shake_amplitude * 0.8,
+		blocked_shake_amplitude * 0.55,
+		-blocked_shake_amplitude * 0.3,
+		0.0,
+	]
+	for offset in offsets:
+		_transfer_visual_tween.tween_property(
+			self,
+			"_transfer_visual_offset",
+			Vector2(offset, 0.0),
+			step_duration
+		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_transfer_visual_tween.finished.connect(_on_transfer_visual_finished)
+
+## 新反馈会安全中断旧反馈，避免快速连续操作导致倍率与偏移累积。
+func _prepare_transfer_visual_tween() -> void:
+	if _transfer_visual_tween != null and _transfer_visual_tween.is_valid():
+		_transfer_visual_tween.kill()
+	_reset_transfer_visual_state()
+	_transfer_visual_tween = create_tween()
+	_transfer_visual_tween.set_process_mode(Tween.TWEEN_PROCESS_IDLE)
+
+func _on_transfer_visual_finished() -> void:
+	_reset_transfer_visual_state()
+	_transfer_visual_tween = null
+
+func _reset_transfer_visual_state() -> void:
+	_transfer_visual_scale = 1.0
+	_transfer_visual_offset = Vector2.ZERO
 
 ## 更新物体所属图层状态
 func update_layer_slot() -> void:

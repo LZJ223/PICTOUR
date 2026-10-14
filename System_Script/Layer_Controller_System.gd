@@ -5,6 +5,13 @@ extends Node
 
 const COLLISION_TOLERANCE := 0.5
 
+enum TransferBlockReason {
+	NOT_TRANSFERABLE,
+	OUT_OF_RANGE,
+	INVALID_TARGET,
+	COLLISION,
+}
+
 func _ready() -> void:
 	Global.discover_scene_nodes(get_parent())
 	Renderer.apply_settings()
@@ -38,20 +45,48 @@ func cycle(direction: int, check_collision: bool = true) -> void:
 				object.update_layer_slot()
 
 ## 改变物体图层
-func transfer(direction: int, object: LayerObject) -> void:
-	var slot: int = object.find_owner_layer().slot - direction
-	if slot < 0 or slot >= Global.layer_count:
-		return
-	var target_layer: DepthLayer = Global.get_layer_at_slot(slot)
-	var ratio: float = Global.layer_scales[object.owner_layer.slot] / Global.layer_scales[slot]
+func transfer(direction: int, object: LayerObject) -> bool:
+	if not is_instance_valid(object):
+		return false
+	var source_layer: DepthLayer = object.find_owner_layer()
+	if source_layer == null:
+		_reject_transfer(object, TransferBlockReason.INVALID_TARGET)
+		return false
+	if not object.can_transfer:
+		_reject_transfer(object, TransferBlockReason.NOT_TRANSFERABLE)
+		return false
+	var source_slot: int = source_layer.slot
+	var target_slot: int = source_slot - direction
+	if target_slot < 0 or target_slot >= Global.layer_count or target_slot == source_slot:
+		_reject_transfer(object, TransferBlockReason.OUT_OF_RANGE)
+		return false
+	var target_layer: DepthLayer = Global.get_layer_at_slot(target_slot)
+	if target_layer == null:
+		_reject_transfer(object, TransferBlockReason.INVALID_TARGET)
+		return false
+	var ratio: float = Global.layer_scales[source_slot] / Global.layer_scales[target_slot]
 	var object_transform: Transform2D = object.global_transform
 	object_transform.origin = Global.camera.global_position + (object.global_position - Global.camera.global_position) * ratio
 	var collision_transform: Transform2D = object.collision_box.transform
 	collision_transform.x *= ratio
 	collision_transform.y *= ratio
 	if _has_collision(object, object.collision_box, target_layer, object_transform * collision_transform):
-		return
+		_reject_transfer(object, TransferBlockReason.COLLISION)
+		return false
 	object.transfer_to(target_layer, object_transform, collision_transform)
+	## 先按目标层重算基础画面，再叠加短促的拉拽动画。
+	object.apply_visual_transfer(Global.camera.global_position)
+	var motion: int = (
+		LayerObject.TransferMotion.OUTWARD
+		if target_slot < source_slot
+		else LayerObject.TransferMotion.INWARD
+	)
+	object.play_transfer_success(motion)
+	return true
+
+## 失败原因暂时共享同一种抖动，枚举为后续音效和差异化反馈保留。
+func _reject_transfer(object: LayerObject, _reason: int) -> void:
+	object.play_transfer_blocked()
 
 ## 检测候选碰撞箱是否与目标图层中的物理体重叠
 func _has_collision(body: PhysicsBody2D, collision_box: CollisionPolygon2D, target_layer: DepthLayer, candidate_transform: Transform2D) -> bool:

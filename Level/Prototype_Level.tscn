@@ -2,10 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="1_njsva"]
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_xrs3t"]
-[ext_resource type="PackedScene" uid="uid://bd2e8t8vka0ac" path="res://Component/Object/Box/Box.tscn" id="2_lrx2v"]
-[ext_resource type="PackedScene" uid="uid://bopxiokiwukv1" path="res://Component/Object/Goal/Goal.tscn" id="3_jc4bg"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_qouki"]
-[ext_resource type="PackedScene" uid="uid://cabe2ddgr2o0l" path="res://Component/Object/Shadowed_Geometry/Shadowed_Geometry.tscn" id="5_5eqqv"]
+[ext_resource type="PackedScene" uid="uid://by6iwxwd7u6rn" path="res://Component/Object/StaticBox/House.tscn" id="4_xrs3t"]
+[ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/StaticBox/Tree_01.tscn" id="5_5eqqv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qouki"]
+resource_local_to_scene = true
+shader = ExtResource("3_qouki")
+shader_parameter/relative_depth = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tfeex"]
 resource_local_to_scene = true
@@ -22,61 +26,32 @@ resource_local_to_scene = true
 shader = ExtResource("3_qouki")
 shader_parameter/relative_depth = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_w55a4"]
-resource_local_to_scene = true
-shader = ExtResource("3_qouki")
-shader_parameter/relative_depth = 0.0
-
 [node name="PrototypeLevel" type="Node2D" unique_id=1182049839]
 script = ExtResource("1_xrs3t")
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("1_njsva")]
-material = SubResource("ShaderMaterial_tfeex")
+material = SubResource("ShaderMaterial_qouki")
 layer_id = 3
 slot = 3
 
-[node name="Box" parent="Layer3" unique_id=1005985776 instance=ExtResource("2_lrx2v")]
-position = Vector2(168, 500)
-
-[node name="Box2" parent="Layer3" unique_id=330834349 instance=ExtResource("2_lrx2v")]
-position = Vector2(914, 500)
-
-[node name="ShadowedGeometry" parent="Layer3" unique_id=252556292 instance=ExtResource("5_5eqqv")]
-position = Vector2(700, 500)
-
-[node name="ShadowedGeometry2" parent="Layer3" unique_id=384252079 instance=ExtResource("5_5eqqv")]
-position = Vector2(542, 500)
-
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("1_njsva")]
-material = SubResource("ShaderMaterial_vhgbe")
+material = SubResource("ShaderMaterial_tfeex")
 layer_id = 2
 slot = 2
 
-[node name="Box" parent="Layer2" unique_id=775469374 instance=ExtResource("2_lrx2v")]
-position = Vector2(1050, 500)
-
-[node name="Box2" parent="Layer2" unique_id=842993570 instance=ExtResource("2_lrx2v")]
-position = Vector2(379, 500)
-
-[node name="Goal" parent="Layer2" unique_id=1268601166 instance=ExtResource("3_jc4bg")]
-position = Vector2(1432, 30)
-
-[node name="ShadowedGeometry" parent="Layer2" unique_id=1313795509 instance=ExtResource("5_5eqqv")]
-position = Vector2(612, 500)
-
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("1_njsva")]
-material = SubResource("ShaderMaterial_l7ftx")
+material = SubResource("ShaderMaterial_vhgbe")
 layer_id = 1
 
-[node name="Box" parent="Layer1" unique_id=1229236693 instance=ExtResource("2_lrx2v")]
-position = Vector2(482, 500)
+[node name="House" parent="Layer1" unique_id=1740520627 instance=ExtResource("4_xrs3t")]
+position = Vector2(266, 304)
+
+[node name="House2" parent="Layer1" unique_id=719242815 instance=ExtResource("5_5eqqv")]
+position = Vector2(967, 304)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("1_njsva")]
-material = SubResource("ShaderMaterial_w55a4")
+material = SubResource("ShaderMaterial_l7ftx")
 slot = 0
-
-[node name="Box" parent="Layer0" unique_id=289244368 instance=ExtResource("2_lrx2v")]
-position = Vector2(755, 500)
 
 [editable path="Layer3"]
 [editable path="Layer2"]
