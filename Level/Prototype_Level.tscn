@@ -6,6 +6,7 @@
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_qouki"]
 [ext_resource type="PackedScene" uid="uid://by6iwxwd7u6rn" path="res://Component/Object/House.tscn" id="4_xrs3t"]
 [ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/Tree/Tree_01.tscn" id="5_5eqqv"]
+[ext_resource type="PackedScene" uid="uid://btvd5akgi0dy" path="res://Component/Object/Soil/Soil_001.tscn" id="7_tfeex"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tfeex"]
 resource_local_to_scene = true
@@ -16,6 +17,12 @@ shader_parameter/cycle_opacity = 1.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vhgbe"]
 resource_local_to_scene = true
 shader = ExtResource("4_qouki")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l7ftx"]
 resource_local_to_scene = true
@@ -26,6 +33,12 @@ shader_parameter/cycle_opacity = 1.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w55a4"]
 resource_local_to_scene = true
 shader = ExtResource("4_qouki")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lck8h"]
 resource_local_to_scene = true
@@ -36,6 +49,12 @@ shader_parameter/cycle_opacity = 1.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x3dvk"]
 resource_local_to_scene = true
 shader = ExtResource("4_qouki")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ppkbp"]
 resource_local_to_scene = true
@@ -46,6 +65,12 @@ shader_parameter/cycle_opacity = 1.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sqv0m"]
 resource_local_to_scene = true
 shader = ExtResource("4_qouki")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
 
 [node name="PrototypeLevel" type="Node2D" unique_id=1182049839]
 script = ExtResource("1_xrs3t")
@@ -58,6 +83,9 @@ slot = 3
 [node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
 material = SubResource("ShaderMaterial_vhgbe")
 
+[node name="Soil_001" parent="Layer3" unique_id=1170671701 instance=ExtResource("7_tfeex")]
+position = Vector2(636, 720)
+
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("1_njsva")]
 material = SubResource("ShaderMaterial_l7ftx")
 layer_id = 2
@@ -65,6 +93,9 @@ slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
 material = SubResource("ShaderMaterial_w55a4")
+
+[node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("7_tfeex")]
+position = Vector2(636, 720)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("1_njsva")]
 material = SubResource("ShaderMaterial_lck8h")
@@ -79,12 +110,18 @@ position = Vector2(266, 304)
 [node name="House2" parent="Layer1" unique_id=719242815 instance=ExtResource("5_5eqqv")]
 position = Vector2(967, 282)
 
+[node name="Soil_001" parent="Layer1" unique_id=126668145 instance=ExtResource("7_tfeex")]
+position = Vector2(636, 720)
+
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("1_njsva")]
 material = SubResource("ShaderMaterial_ppkbp")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
 material = SubResource("ShaderMaterial_sqv0m")
+
+[node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("7_tfeex")]
+position = Vector2(636, 720)
 
 [editable path="Layer3"]
 [editable path="Layer2"]

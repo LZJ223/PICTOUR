@@ -27,6 +27,10 @@ window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/soil_baker/plugin.cfg")
+
 [input]
 
 move_left={
@@ -83,6 +87,7 @@ select_object={
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+environment/defaults/default_clear_color=Color(0.04350001, 0.70469975, 0.87, 1)
 
 [shader_globals]
 

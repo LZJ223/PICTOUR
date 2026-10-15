@@ -1,0 +1,214 @@
+[gd_scene format=3 uid="uid://c7l6w1cpnicjv"]
+
+[ext_resource type="Texture2D" uid="uid://cemd8dp4mfxfq" path="res://Texture/Player/Player_Propeller.png" id="1_l8moa"]
+[ext_resource type="Texture2D" uid="uid://5pqi0se1chlf" path="res://Texture/Player/Player_Propeller_Light.png" id="2_q01ck"]
+[ext_resource type="Texture2D" uid="uid://dd3ty0s7sr2jq" path="res://Texture/Player/Player_Head_Right.png" id="3_opcxg"]
+[ext_resource type="Texture2D" uid="uid://wao4gsk2btlk" path="res://Texture/Player/Player_Expression_01.png" id="4_4rq4y"]
+[ext_resource type="Texture2D" uid="uid://b0v4opbiu4ws" path="res://Texture/Player/Player_Flame_02.png" id="5_8tdjk"]
+[ext_resource type="Texture2D" uid="uid://b6n3etegr8eml" path="res://Texture/Player/Player_Body_Right.png" id="6_ucjfm"]
+[ext_resource type="Texture2D" uid="uid://c2kl3v6h0laly" path="res://Texture/Player/Player_Foot_Right.png" id="7_lj2wy"]
+[ext_resource type="Texture2D" uid="uid://dp6uo60yqqlic" path="res://Texture/Player/Player_Wheel.png" id="8_31q3d"]
+[ext_resource type="Texture2D" uid="uid://43wlgkhco81p" path="res://Texture/Player/Player_Head_Middle.png" id="9_gccnf"]
+[ext_resource type="Texture2D" uid="uid://2imcvpcguvrj" path="res://Texture/Player/Player_Body_Middle.png" id="10_y5jb3"]
+[ext_resource type="Texture2D" uid="uid://ctue2akkxjl1h" path="res://Texture/Player/Player_Foot_Middle.png" id="11_83nvi"]
+[ext_resource type="Texture2D" uid="uid://bsb2tlc4y4y8i" path="res://Texture/Player/Player_Head_Left.png" id="12_53imd"]
+[ext_resource type="Texture2D" uid="uid://c8pdliw0bn3p1" path="res://Texture/Player/Player_Body_Left.png" id="13_sjj2g"]
+[ext_resource type="Texture2D" uid="uid://5fcga8nwdr0" path="res://Texture/Player/Player_Foot_Left.png" id="14_pevrb"]
+
+[node name="PlayerSprite" type="Node2D" unique_id=2032340545]
+
+[node name="Right" type="Node2D" parent="." unique_id=877059833]
+visible = false
+
+[node name="PlayerPropeller" type="Sprite2D" parent="Right" unique_id=619541925]
+position = Vector2(0, -66)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_l8moa")
+region_enabled = true
+region_rect = Rect2(112, 48, 176, 64)
+
+[node name="PlayerPropellerLight" type="Sprite2D" parent="Right" unique_id=1578291067]
+position = Vector2(0, -69.5)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_q01ck")
+region_enabled = true
+region_rect = Rect2(120, 56, 160, 24)
+
+[node name="PlayerHeadRight" type="Sprite2D" parent="Right" unique_id=1848196991]
+position = Vector2(0, -45)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_opcxg")
+region_enabled = true
+region_rect = Rect2(96, 96, 208, 112)
+
+[node name="PlayerExpression" type="Sprite2D" parent="Right" unique_id=231326162]
+position = Vector2(15, -48)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("4_4rq4y")
+region_enabled = true
+region_rect = Rect2(200, 104, 96, 72)
+
+[node name="PlayerFlame" type="Sprite2D" parent="Right" unique_id=606135815]
+position = Vector2(-35, 29)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_8tdjk")
+region_enabled = true
+region_rect = Rect2(64, 360, 40, 72)
+
+[node name="PlayerBodyRight" type="Sprite2D" parent="Right" unique_id=851742919]
+position = Vector2(-5, 11)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("6_ucjfm")
+region_enabled = true
+region_rect = Rect2(56, 224, 256, 224)
+
+[node name="PlayerFootRight" type="Sprite2D" parent="Right" unique_id=1540933845]
+position = Vector2(-2, 60)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("7_lj2wy")
+region_enabled = true
+region_rect = Rect2(56, 456, 272, 88)
+
+[node name="PlayerWheel01" type="Sprite2D" parent="Right" unique_id=305128687]
+position = Vector2(-31, 60.000004)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_31q3d")
+region_enabled = true
+region_rect = Rect2(69, 472, 57, 58)
+
+[node name="PlayerWheel02" type="Sprite2D" parent="Right" unique_id=354617675]
+position = Vector2(-12, 60.000004)
+rotation = 0.6981317
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_31q3d")
+region_enabled = true
+region_rect = Rect2(69, 472, 57, 58)
+
+[node name="PlayerWheel03" type="Sprite2D" parent="Right" unique_id=1611201230]
+position = Vector2(8, 60)
+rotation = 1.3962634
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_31q3d")
+region_enabled = true
+region_rect = Rect2(69, 472, 57, 58)
+
+[node name="Middle" type="Node2D" parent="." unique_id=199205905]
+visible = false
+
+[node name="PlayerPropeller" type="Sprite2D" parent="Middle" unique_id=2076957092]
+position = Vector2(0, -66)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_l8moa")
+region_enabled = true
+region_rect = Rect2(112, 48, 176, 64)
+
+[node name="PlayerPropellerLight" type="Sprite2D" parent="Middle" unique_id=1457975343]
+position = Vector2(0, -69.5)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_q01ck")
+region_enabled = true
+region_rect = Rect2(120, 56, 160, 24)
+
+[node name="PlayerHeadMiddle" type="Sprite2D" parent="Middle" unique_id=1998903935]
+position = Vector2(-0.40000004, -45)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("9_gccnf")
+region_enabled = true
+region_rect = Rect2(112, 96, 176, 112)
+
+[node name="PlayerBodyMiddle" type="Sprite2D" parent="Middle" unique_id=1369464474]
+position = Vector2(0.2, 11)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("10_y5jb3")
+region_enabled = true
+region_rect = Rect2(120, 224, 168, 224)
+
+[node name="PlayerFootMiddle" type="Sprite2D" parent="Middle" unique_id=200538924]
+position = Vector2(-0.2, 60)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("11_83nvi")
+region_enabled = true
+region_rect = Rect2(112, 456, 184, 88)
+
+[node name="Left" type="Node2D" parent="." unique_id=1832234119]
+visible = false
+
+[node name="PlayerPropeller" type="Sprite2D" parent="Left" unique_id=1003456634]
+position = Vector2(0, -66)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_l8moa")
+region_enabled = true
+region_rect = Rect2(112, 48, 176, 64)
+
+[node name="PlayerPropellerLight" type="Sprite2D" parent="Left" unique_id=105987800]
+position = Vector2(0, -69.5)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_q01ck")
+region_enabled = true
+region_rect = Rect2(120, 56, 160, 24)
+
+[node name="PlayerHeadLeft" type="Sprite2D" parent="Left" unique_id=893829369]
+position = Vector2(0, -45)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("12_53imd")
+region_enabled = true
+region_rect = Rect2(96, 96, 208, 112)
+
+[node name="PlayerExpression" type="Sprite2D" parent="Left" unique_id=1366353163]
+position = Vector2(-14, -48)
+scale = Vector2(-0.3, 0.3)
+texture = ExtResource("4_4rq4y")
+region_enabled = true
+region_rect = Rect2(200, 104, 96, 72)
+
+[node name="PlayerFlame" type="Sprite2D" parent="Left" unique_id=1788549585]
+position = Vector2(35, 29)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_8tdjk")
+region_enabled = true
+region_rect = Rect2(64, 360, 40, 72)
+
+[node name="PlayerBodyLeft" type="Sprite2D" parent="Left" unique_id=1938591782]
+position = Vector2(4, 11)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("13_sjj2g")
+region_enabled = true
+region_rect = Rect2(88, 224, 248, 224)
+
+[node name="PlayerFootLeft" type="Sprite2D" parent="Left" unique_id=1431668205]
+position = Vector2(0, 60.000004)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("14_pevrb")
+region_enabled = true
+region_rect = Rect2(56, 456, 280, 88)
+
+[node name="PlayerWheel01" type="Sprite2D" parent="Left" unique_id=2109475227]
+position = Vector2(-10.450001, 60)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_31q3d")
+region_enabled = true
+region_rect = Rect2(69, 472, 57, 58)
+
+[node name="PlayerWheel02" type="Sprite2D" parent="Left" unique_id=1633857204]
+position = Vector2(8.549999, 60)
+rotation = 0.6981317
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_31q3d")
+region_enabled = true
+region_rect = Rect2(69, 472, 57, 58)
+
+[node name="PlayerWheel03" type="Sprite2D" parent="Left" unique_id=319362160]
+position = Vector2(28.55, 60.000004)
+rotation = 1.3962634
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_31q3d")
+region_enabled = true
+region_rect = Rect2(69, 472, 57, 58)
+
+[node name="UAV_CollisionBox" type="Polygon2D" parent="." unique_id=551333190]
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(-29, -30, 30, -30, 30, -74, -29, -74)
+
+[node name="Body_CollisionBox" type="Polygon2D" parent="." unique_id=1387655256]
+color = Color(1, 1, 1, 0)
+polygon = PackedVector2Array(38, -21, -42, -21, -42, 71, 38, 70)
