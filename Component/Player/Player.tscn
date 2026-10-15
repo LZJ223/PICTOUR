@@ -1,25 +1,16 @@
 [gd_scene format=3 uid="uid://ch17qkfauofft"]
 
 [ext_resource type="Script" uid="uid://mjogndgqblf" path="res://Component/Player/Player_Controller.gd" id="1_bmrpg"]
+[ext_resource type="PackedScene" uid="uid://c7l6w1cpnicjv" path="res://Component/Player/Player_Sprite.tscn" id="2_sprite"]
 
 [node name="Player" type="CharacterBody2D" unique_id=743403745]
 script = ExtResource("1_bmrpg")
 
 [node name="CollisionBox_UAV" type="CollisionPolygon2D" parent="." unique_id=220988333]
 visible = false
-position = Vector2(0, -46)
-polygon = PackedVector2Array(10, 5, 10, -5, -10, -5, -10, 5)
+polygon = PackedVector2Array(-24.166668, -84.166664, 25, -84.166664, 25, -120.833336, -24.166668, -120.833336)
 
 [node name="CollisionBox_Body" type="CollisionPolygon2D" parent="." unique_id=504041598]
-position = Vector2(0, -20)
-polygon = PackedVector2Array(10, 20, 10, -20, -10, -20, -10, 20)
+polygon = PackedVector2Array(31.666668, -76.666664, -35, -76.666664, -35, 0, 31.666668, -0.833333)
 
-[node name="Visual_Body" type="Polygon2D" parent="." unique_id=1032413386]
-color = Color(0.64, 1, 0.66999996, 1)
-polygon = PackedVector2Array(-10, -40, 10, -40, 10, 0, -10, 0)
-
-[node name="Visual_UAV" type="Polygon2D" parent="." unique_id=278923229]
-visible = false
-position = Vector2(0, -11)
-color = Color(0.48639998, 0.76, 0.5092, 1)
-polygon = PackedVector2Array(-10, -40, 10, -40, 10, -30, -10, -30)
+[node name="PlayerSprite" parent="." unique_id=823621594 instance=ExtResource("2_sprite")]

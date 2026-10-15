@@ -6,6 +6,7 @@ extends Node2D
 @export var layer_count: int = 4
 @export var layer_scale: float = 0.8
 @export var current_layer_index: int = 1
+@export var level_id: int = 0
 
 @export_group("图层偏移色")
 @export var foreground_tint_color: Color = Color(0.212, 0.22, 0.125, 1.0)

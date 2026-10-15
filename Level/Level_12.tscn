@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://bdc7j62m1apv1"]
+
+[ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_eyn08"]
+[ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_was4d"]
+[ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_m2xr1"]
+[ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_cfpkf"]
+[ext_resource type="PackedScene" uid="uid://btvd5akgi0dy" path="res://Component/Object/Soil/Soil_001.tscn" id="5_4agd1"]
+[ext_resource type="PackedScene" uid="uid://by6iwxwd7u6rn" path="res://Component/Object/House.tscn" id="6_tk3mn"]
+[ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/Tree/Tree_01.tscn" id="7_j6ph1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eyn08"]
+resource_local_to_scene = true
+shader = ExtResource("3_m2xr1")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_was4d"]
+resource_local_to_scene = true
+shader = ExtResource("4_cfpkf")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m2xr1"]
+resource_local_to_scene = true
+shader = ExtResource("3_m2xr1")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cfpkf"]
+resource_local_to_scene = true
+shader = ExtResource("4_cfpkf")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4agd1"]
+resource_local_to_scene = true
+shader = ExtResource("3_m2xr1")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tk3mn"]
+resource_local_to_scene = true
+shader = ExtResource("4_cfpkf")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j6ph1"]
+resource_local_to_scene = true
+shader = ExtResource("3_m2xr1")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_heruu"]
+resource_local_to_scene = true
+shader = ExtResource("4_cfpkf")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+
+[node name="Level" type="Node2D" unique_id=1182049839]
+script = ExtResource("1_eyn08")
+level_id = 12
+
+[node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_was4d")]
+material = SubResource("ShaderMaterial_eyn08")
+layer_id = 3
+slot = 3
+
+[node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
+material = SubResource("ShaderMaterial_was4d")
+
+[node name="Soil_001" parent="Layer3" unique_id=1170671701 instance=ExtResource("5_4agd1")]
+position = Vector2(636, 720)
+
+[node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_was4d")]
+material = SubResource("ShaderMaterial_m2xr1")
+layer_id = 2
+slot = 2
+
+[node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
+material = SubResource("ShaderMaterial_cfpkf")
+
+[node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("5_4agd1")]
+position = Vector2(636, 720)
+
+[node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_was4d")]
+material = SubResource("ShaderMaterial_4agd1")
+layer_id = 1
+
+[node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
+material = SubResource("ShaderMaterial_tk3mn")
+
+[node name="House" parent="Layer1" unique_id=1740520627 instance=ExtResource("6_tk3mn")]
+position = Vector2(-348, 304)
+
+[node name="Tree_01" parent="Layer1" unique_id=719242815 instance=ExtResource("7_j6ph1")]
+position = Vector2(582, 282)
+
+[node name="Soil_001" parent="Layer1" unique_id=126668145 instance=ExtResource("5_4agd1")]
+position = Vector2(636, 720)
+
+[node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_was4d")]
+material = SubResource("ShaderMaterial_j6ph1")
+slot = 0
+
+[node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
+material = SubResource("ShaderMaterial_heruu")
+
+[node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("5_4agd1")]
+position = Vector2(636, 720)
+
+[editable path="Layer3"]
+[editable path="Layer2"]
+[editable path="Layer1"]
+[editable path="Layer0"]

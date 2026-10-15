@@ -10,7 +10,7 @@ const UAV_RECALL_DURATION: float = 0.25
 
 ## 人物运动参数
 @export var move_speed: float = 260.0
-@export var jump_speed: float = 620.0
+@export var jump_speed: float = 750
 @export var UAV_move_speed: float = 350
 @export var max_falling_speed: float = 600
 @export var acceleration: float = 80
@@ -21,8 +21,7 @@ const UAV_RECALL_DURATION: float = 0.25
 ## 节点信息
 @onready var body_collision_box: CollisionPolygon2D = $CollisionBox_Body
 @onready var UAV_collision_box: CollisionPolygon2D = $CollisionBox_UAV
-@onready var body_visual: Polygon2D = $Visual_Body
-@onready var UAV_visual: Polygon2D = $Visual_UAV
+@onready var player_animation: PlayerAnimation = $PlayerSprite
 ## 状态信息
 var current_state: PlayerState = PlayerState.NORMAL
 var player_body: LayerObject = null
@@ -45,6 +44,7 @@ func _physics_process(delta: float) -> void:
 	if velocity.length() > 0.0001:
 		SignalSystem.timer_reset()
 	move_and_slide()
+	player_animation.set_motion(velocity.x, current_state == PlayerState.NORMAL and is_on_floor())
 
 ## 普通地面/空中移动
 func _update_normal(_delta: float) -> void:
@@ -57,6 +57,7 @@ func _update_normal(_delta: float) -> void:
 	velocity.x = clamp(velocity.x, -move_speed, move_speed)
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = -jump_speed
+		player_animation.play_jump_flame()
 	if not is_on_floor():
 		velocity.y += gravity_acceleration
 		velocity.y = clamp(velocity.y, jump_speed * -1, max_falling_speed)
@@ -87,9 +88,8 @@ func UAV_activate() -> void:
 		## 从普通切入无人机
 		current_state = PlayerState.UAV
 		body_collision_box.disabled = true
-		body_visual.visible = false
 		UAV_collision_box.disabled = false
-		UAV_visual.visible = true
+		player_animation.set_display_mode(PlayerAnimation.DisplayMode.HEAD_ONLY)
 		velocity = Vector2.ZERO
 		var current_layer: DepthLayer = Global.get_layer_at_slot(Global.current_layer_index)
 		player_body = player_body_type.instantiate() as LayerObject
@@ -97,12 +97,18 @@ func UAV_activate() -> void:
 		player_body.position = position
 		player_body.collision_box.scale = scale
 		player_body.update_layer_slot()
+		var body_animation := player_body.visual_root.get_node("PlayerSprite") as PlayerAnimation
+		body_animation.set_facing(player_animation.get_facing(), true)
+		body_animation.set_motion(0.0, true)
 
 ## 位置回收与图层轮换并行；两者都结束后才恢复普通状态。
 func _recall_uav() -> void:
 	current_state = PlayerState.RECALLING
 	velocity = Vector2.ZERO
 	UAV_collision_box.disabled = true
+	var body_animation := player_body.visual_root.get_node("PlayerSprite") as PlayerAnimation
+	player_animation.set_facing(body_animation.get_facing())
+	player_animation.set_motion(0.0, false)
 	var layer_controller := get_tree().get_first_node_in_group("layer_controllers") as LayerControllerSystem
 	while layer_controller.is_cycling():
 		await layer_controller.cycle_finished
@@ -119,8 +125,8 @@ func _recall_uav() -> void:
 	global_position = player_body.global_position
 	scale = player_body.collision_box.scale
 	body_collision_box.disabled = false
-	body_visual.visible = true
-	UAV_visual.visible = false
+	player_animation.set_facing(body_animation.get_facing(), true)
+	player_animation.set_display_mode(PlayerAnimation.DisplayMode.FULL)
 	current_state = PlayerState.NORMAL
 	player_body.queue_free()
 	player_body = null
