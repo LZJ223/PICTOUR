@@ -16,23 +16,21 @@ func _ready() -> void:
 	assert(_filter_material != null, "DepthLayer 需要使用图层滤镜 ShaderMaterial")
 
 ## 更新位置
-func apply_slot_state(anchor_position: Vector2) -> void:
+func apply_slot_state(anchor_position: Vector2, camera_zoom: Vector2) -> void:
 	var relative_depth: int = slot - Global.current_layer_index
 	if relative_depth != _last_relative_depth:
 		_apply_depth_filter(relative_depth)
 		_last_relative_depth = relative_depth
-
 	for child in get_children():
 		if child is LayerObject:
-			child.apply_visual_transfer(anchor_position)
+			child.apply_visual_transfer(anchor_position, camera_zoom)
 
 ## 根据图层与关卡层的距离，统一更新整层的后处理效果。
 func _apply_depth_filter(relative_depth: int) -> void:
 	if _filter_material == null:
 		return
-	var front_distance: int = maxi(-relative_depth, 0)
 	## CanvasGroup 作为整个图层的绘制单元，根节点负责层间排序。
 	z_index = (Global.layer_count - slot) * 100
-	## 只有前景模糊需要生成 mipmap，避免后景和关卡层承担无效开销。
-	use_mipmaps = front_distance > 0
+	## 前景与后景都可能采样模糊 LOD；关卡层不需要生成 mipmap。
+	use_mipmaps = relative_depth != 0
 	_filter_material.set_shader_parameter("relative_depth", float(relative_depth))

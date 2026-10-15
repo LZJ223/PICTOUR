@@ -11,6 +11,7 @@ uniform sampler2D screen_texture :
 uniform float relative_depth = 0.0;
 
 global uniform float render_foreground_blur_step;
+global uniform float render_background_blur_step;
 global uniform float render_maximum_blur_lod;
 global uniform float render_foreground_darkness_step;
 global uniform vec4 render_foreground_tint_color : source_color;
@@ -24,7 +25,8 @@ void fragment() {
 	float back_distance = max(relative_depth, 0.0);
 	float layer_distance = abs(relative_depth);
 	float blur_lod = min(
-		front_distance * render_foreground_blur_step,
+		front_distance * render_foreground_blur_step
+			+ back_distance * render_background_blur_step,
 		render_maximum_blur_lod
 	);
 	vec4 color = textureLod(screen_texture, SCREEN_UV, blur_lod);

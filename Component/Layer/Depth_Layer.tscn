@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b5ej4b6svua03"]
 
 [ext_resource type="Script" uid="uid://d2d2ky3j05054" path="res://Component/Layer/Depth_Layer.gd" id="1_jhfs8"]
-[ext_resource type="PackedScene" uid="uid://cyx33qtjbsw34" path="res://Component/Object/Ground/Ground.tscn" id="2_wjutn"]
+[ext_resource type="PackedScene" uid="uid://cyx33qtjbsw34" path="res://Component/Object/Ground.tscn" id="2_wjutn"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_filter"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_depth_filter"]

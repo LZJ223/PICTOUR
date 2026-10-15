@@ -3,8 +3,13 @@
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="1_njsva"]
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_xrs3t"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_qouki"]
-[ext_resource type="PackedScene" uid="uid://by6iwxwd7u6rn" path="res://Component/Object/StaticBox/House.tscn" id="4_xrs3t"]
-[ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/StaticBox/Tree_01.tscn" id="5_5eqqv"]
+[ext_resource type="PackedScene" uid="uid://by6iwxwd7u6rn" path="res://Component/Object/House.tscn" id="4_xrs3t"]
+[ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/Tree/Tree_01.tscn" id="5_5eqqv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5eqqv"]
+resource_local_to_scene = true
+shader = ExtResource("3_qouki")
+shader_parameter/relative_depth = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qouki"]
 resource_local_to_scene = true
@@ -21,36 +26,31 @@ resource_local_to_scene = true
 shader = ExtResource("3_qouki")
 shader_parameter/relative_depth = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l7ftx"]
-resource_local_to_scene = true
-shader = ExtResource("3_qouki")
-shader_parameter/relative_depth = 0.0
-
 [node name="PrototypeLevel" type="Node2D" unique_id=1182049839]
 script = ExtResource("1_xrs3t")
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("1_njsva")]
-material = SubResource("ShaderMaterial_qouki")
+material = SubResource("ShaderMaterial_5eqqv")
 layer_id = 3
 slot = 3
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("1_njsva")]
-material = SubResource("ShaderMaterial_tfeex")
+material = SubResource("ShaderMaterial_qouki")
 layer_id = 2
 slot = 2
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("1_njsva")]
-material = SubResource("ShaderMaterial_vhgbe")
+material = SubResource("ShaderMaterial_tfeex")
 layer_id = 1
 
 [node name="House" parent="Layer1" unique_id=1740520627 instance=ExtResource("4_xrs3t")]
 position = Vector2(266, 304)
 
 [node name="House2" parent="Layer1" unique_id=719242815 instance=ExtResource("5_5eqqv")]
-position = Vector2(967, 304)
+position = Vector2(967, 282)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("1_njsva")]
-material = SubResource("ShaderMaterial_l7ftx")
+material = SubResource("ShaderMaterial_vhgbe")
 slot = 0
 
 [editable path="Layer3"]
