@@ -118,6 +118,38 @@ render_foreground_tint_step={
 "type": "float",
 "value": 0.1
 }
+render_haze_bottom_y={
+"type": "float",
+"value": 500.0
+}
+render_haze_blur_step={
+"type": "float",
+"value": 0.8
+}
+render_haze_layer_offset={
+"type": "float",
+"value": 450.0
+}
+render_haze_maximum_blur_lod={
+"type": "float",
+"value": 4.0
+}
+render_haze_opacity={
+"type": "float",
+"value": 1.0
+}
+render_haze_speed={
+"type": "float",
+"value": 30.0
+}
+render_haze_texture={
+"type": "sampler2D",
+"value": "res://Texture/Haze.png"
+}
+render_haze_world_scale={
+"type": "float",
+"value": 0.3
+}
 render_maximum_blur_lod={
 "type": "float",
 "value": 3.0

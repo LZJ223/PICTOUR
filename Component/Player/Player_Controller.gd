@@ -4,7 +4,9 @@ class_name PlayerController
 extends CharacterBody2D
 
 ## 玩家状态机
-enum PlayerState { NORMAL, UAV }
+enum PlayerState { NORMAL, UAV, RECALLING }
+
+const UAV_RECALL_DURATION: float = 0.25
 
 ## 人物运动参数
 @export var move_speed: float = 260.0
@@ -33,6 +35,8 @@ func _ready() -> void:
 
 ## 人物移动逻辑
 func _physics_process(delta: float) -> void:
+	if current_state == PlayerState.RECALLING:
+		return
 	match current_state:
 		PlayerState.NORMAL:
 			_update_normal(delta)
@@ -73,23 +77,12 @@ func _update_uav(_delta: float) -> void:
 
 ## 无人机状态切换
 func UAV_activate() -> void:
+	if current_state == PlayerState.RECALLING:
+		return
 	if current_state == PlayerState.NORMAL and not is_on_floor():
 		return
 	if current_state == PlayerState.UAV:
-		## 从无人机切回普通
-		current_state = PlayerState.NORMAL
-		body_collision_box.disabled = false
-		body_visual.visible = true
-		UAV_collision_box.disabled = true
-		UAV_visual.visible = false
-		velocity = Vector2.ZERO
-		var player_body_layer: DepthLayer = player_body.find_owner_layer()
-		while player_body_layer.slot != Global.current_layer_index:
-			SignalSystem.layer_cycle.emit(1, false)
-		position = player_body.position
-		scale = player_body.collision_box.scale
-		player_body.queue_free()
-		player_body = null
+		_recall_uav()
 	else:
 		## 从普通切入无人机
 		current_state = PlayerState.UAV
@@ -104,6 +97,33 @@ func UAV_activate() -> void:
 		player_body.position = position
 		player_body.collision_box.scale = scale
 		player_body.update_layer_slot()
+
+## 位置回收与图层轮换并行；两者都结束后才恢复普通状态。
+func _recall_uav() -> void:
+	current_state = PlayerState.RECALLING
+	velocity = Vector2.ZERO
+	UAV_collision_box.disabled = true
+	var layer_controller := get_tree().get_first_node_in_group("layer_controllers") as LayerControllerSystem
+	while layer_controller.is_cycling():
+		await layer_controller.cycle_finished
+	var player_body_layer: DepthLayer = player_body.find_owner_layer()
+	var position_tween := create_tween().set_process_mode(Tween.TWEEN_PROCESS_IDLE)
+	position_tween.tween_property(
+		self, "global_position", player_body.global_position, UAV_RECALL_DURATION
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	while player_body_layer.slot != Global.current_layer_index:
+		layer_controller.cycle(1, false)
+		await layer_controller.cycle_finished
+	if position_tween.is_running():
+		await position_tween.finished
+	global_position = player_body.global_position
+	scale = player_body.collision_box.scale
+	body_collision_box.disabled = false
+	body_visual.visible = true
+	UAV_visual.visible = false
+	current_state = PlayerState.NORMAL
+	player_body.queue_free()
+	player_body = null
 
 ## 改变碰撞图层
 func set_collision_group(group: int) -> void:

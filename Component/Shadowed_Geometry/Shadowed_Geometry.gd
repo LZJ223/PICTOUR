@@ -16,13 +16,19 @@ func _ready() -> void:
 			add_child(shadow_temp)
 			## 影子仍按投射目标层独立排序，不被投影物体所在的 CanvasGroup 改写深度。
 			shadow_temp.z_as_relative = false
-			shadow_temp.z_index = (Global.layer_count - shadow_layer) * 100 + 50
+			shadow_temp.z_index = (
+				(Global.current_layer_index - shadow_layer) * DepthLayer.Z_INDEX_STEP
+				+ DepthLayer.Z_INDEX_STEP / 2
+			)
 			shadow_temp.visible = false
 			shadow_box.append(shadow_temp)
 			shadow_temp = shadow.duplicate()
 			add_child(shadow_temp)
 			shadow_temp.z_as_relative = false
-			shadow_temp.z_index = (Global.layer_count - shadow_layer) * 100 + 50
+			shadow_temp.z_index = (
+				(Global.current_layer_index - shadow_layer) * DepthLayer.Z_INDEX_STEP
+				+ DepthLayer.Z_INDEX_STEP / 2
+			)
 			shadow_temp.visible = false
 			shadow_visual.append(shadow_temp)
 	update_layer_slot()
@@ -34,13 +40,27 @@ func apply_visual_transfer(anchor_position: Vector2, camera_zoom: Vector2) -> vo
 		for shadow_layer in range(Global.current_layer_index + 2, Global.layer_count):
 			var index: int = shadow_layer - Global.current_layer_index - 2
 			if shadow_active[index]:
-				var owner_scale: float = Global.layer_scales[owner_layer.slot]
-				var shadow_scale: float = Global.layer_scales[shadow_layer]
+				var target_layer: DepthLayer = Global.get_layer_at_slot(shadow_layer)
+				var owner_scale: float = owner_layer.visual_scale
+				var shadow_scale: float = target_layer.visual_scale
+				var opacity: float = (
+					owner_layer.cycle_opacity * target_layer.cycle_opacity
+					* clampf((1.0 - owner_scale) * 5.0, 0.0, 1.0)
+					* clampf((1.0 - shadow_scale) * 5.0, 0.0, 1.0)
+				)
+				shadow_visual[index].visible = opacity > 0.0
+				if opacity <= 0.0:
+					continue
+				## 靠近玩家平面时限制投影倍率，避免分母趋近于零。
+				owner_scale = minf(owner_scale, 0.95)
+				shadow_scale = minf(shadow_scale, 0.95)
 				var shadow_box_scale: float = (owner_scale * (1 - shadow_scale)) / (shadow_scale * (1 - owner_scale))
 				shadow_box[index].position = (position - anchor_position) * (shadow_box_scale - 1)
 				shadow_box[index].scale = collision_box.scale * shadow_box_scale
 				shadow_visual[index].position = (anchor_position - position) * (1 - shadow_scale * shadow_box_scale)
 				shadow_visual[index].scale = shadow_box[index].scale * shadow_scale
+				shadow_visual[index].z_index = target_layer.z_index + DepthLayer.Z_INDEX_STEP / 2
+				shadow_visual[index].modulate.a = opacity
 
 ## 图层改变时更新影子激活状态
 func update_layer_slot() -> void:

@@ -5,6 +5,7 @@
 [node name="Ground" type="StaticBody2D" unique_id=1744010081]
 script = ExtResource("1_en00y")
 can_transfer = false
+front = true
 
 [node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=1077352614]
 polygon = PackedVector2Array(2000, 200, 2000, -200, -2000, -200, -2000, 200)

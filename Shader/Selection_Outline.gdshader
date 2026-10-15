@@ -6,6 +6,7 @@ global uniform vec4 render_selection_outline_color : source_color;
 global uniform float render_selection_outline_width;
 
 uniform bool selected = false;
+uniform float cycle_opacity = 1.0;
 uniform bool use_texture_alpha = false;
 uniform bool rectangular_geometry = false;
 uniform vec2 visual_center = vec2(0.0);
@@ -76,4 +77,5 @@ void fragment() {
 			render_selection_outline_color.a * outline_alpha
 		);
 	}
+	COLOR.a *= cycle_opacity;
 }

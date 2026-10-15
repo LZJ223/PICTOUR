@@ -12,6 +12,8 @@ enum TransferMotion { OUTWARD, INWARD }
 @export var can_transfer: bool = true
 @export var can_leave_shadow: bool = false
 @export var can_be_shadowed: bool = false
+## 是否在所属图层内部的普通物体之前绘制。
+@export var front: bool = false
 
 ## 动效参数
 @export_group("图层切换动效")
@@ -62,8 +64,9 @@ func transfer_to(target_layer: DepthLayer, target_transform: Transform2D, target
 
 ## 更新屏幕位置
 func apply_visual_transfer(anchor_position: Vector2, camera_zoom: Vector2) -> void:
-	var scaling: float = Global.layer_scales[owner_layer.slot]
-	var visual_offset := Vector2(_transfer_visual_offset.x / maxf(camera_zoom.x, 0.0001), _transfer_visual_offset.y / maxf(camera_zoom.y, 0.0001))
+	var scaling: float = owner_layer.visual_scale
+	var offset_pixels: Vector2 = _transfer_visual_offset + owner_layer.blocked_shake_offset
+	var visual_offset := Vector2(offset_pixels.x / maxf(camera_zoom.x, 0.0001), offset_pixels.y / maxf(camera_zoom.y, 0.0001))
 	visual_root.scale = collision_box.scale * scaling * _transfer_visual_scale
 	visual_root.position = (anchor_position - position) * (1 - scaling) + visual_offset
 	if _selected:
@@ -71,13 +74,15 @@ func apply_visual_transfer(anchor_position: Vector2, camera_zoom: Vector2) -> vo
 
 ## 更新物体所属图层状态
 func update_layer_slot() -> void:
+	## CanvasGroup 只会合成与自身处于同一 Z 的子项；层内前后关系改由兄弟顺序控制。
+	z_index = 0
+	owner_layer.update_object_draw_order()
 	collision_layer = 0
 	collision_mask = 0
 	self.set_collision_layer_value(owner_layer.layer_id + 1, true)
 	self.set_collision_mask_value(owner_layer.layer_id + 1, true)
 	if _selected:
 		_sync_selection_outlines()
-
 ## 寻找母图层
 func find_owner_layer() -> DepthLayer:
 	var current := get_parent()
@@ -233,9 +238,10 @@ func _sync_selection_outlines(sync_geometry: bool = false) -> void:
 		if not is_instance_valid(source) or not is_instance_valid(outline):
 			continue
 		outline.transform = source.transform
-		outline.z_index = (Global.layer_count - owner_layer.slot) * 100 - 1
+		outline.z_index = owner_layer.z_index - 1
 		outline.visible = _selected and source.visible
 		outline_material.set_shader_parameter("selected", _selected)
+		outline_material.set_shader_parameter("cycle_opacity", owner_layer.cycle_opacity)
 		## Sprite2D 可能正在逐帧动画；仅选中的精灵需要持续同步帧与 UV。
 		if sync_geometry or source is Sprite2D:
 			_sync_outline_geometry(source, outline, outline_material)

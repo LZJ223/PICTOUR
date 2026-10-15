@@ -3,9 +3,10 @@
 [ext_resource type="Script" uid="uid://c2uq0wqpn5y57" path="res://Component/Object/Layer_Object.gd" id="1_1edgb"]
 [ext_resource type="Texture2D" uid="uid://c0v1apejlnc15" path="res://Texture/Tree/Tree_01.png" id="2_0wwo2"]
 
-[node name="House" type="RigidBody2D" unique_id=1775670945]
+[node name="Tree_01" type="RigidBody2D" unique_id=1775670945]
 lock_rotation = true
 script = ExtResource("1_1edgb")
+front = true
 
 [node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=1376330965]
 polygon = PackedVector2Array(-86, -210, -24, -210, -24, -222, 99, -222, 99, -156, 56, -155, 56, -134, 43, -134, 43, -71, 67, -71, 67, -126, 135, -126, 135, -71, 182, -71, 182, 60, 92, 60, 92, 118, 47, 118, 47, 238, 7, 238, 7, 131, -55, 131, -55, 99, -163, 99, -163, 20, -78, 20, -78, 1, -115, 1, -115, -80, -53, -80, -53, -100, -86, -100)

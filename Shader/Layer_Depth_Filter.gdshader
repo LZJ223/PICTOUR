@@ -2,13 +2,15 @@ shader_type canvas_item;
 render_mode unshaded;
 
 // CanvasGroup 会先把整个图层绘制到后备缓冲，再执行本材质。
-// 各类效果的强度由 Renderer 统一写入全局变量，本材质只保存图层相对深度。
+// 各类效果的强度由 Renderer 统一写入全局变量，本材质只接收图层 Z 值。
 uniform sampler2D screen_texture :
 	hint_screen_texture,
 	repeat_disable,
 	filter_linear_mipmap;
 
-uniform float relative_depth = 0.0;
+uniform float layer_z_index = 0.0;
+uniform float cycle_opacity = 1.0;
+const float LAYER_Z_INDEX_STEP = 100.0;
 
 global uniform float render_foreground_blur_step;
 global uniform float render_background_blur_step;
@@ -21,9 +23,9 @@ global uniform vec4 render_background_tint_color : source_color;
 global uniform float render_background_tint_step;
 
 void fragment() {
-	float front_distance = max(-relative_depth, 0.0);
-	float back_distance = max(relative_depth, 0.0);
-	float layer_distance = abs(relative_depth);
+	float front_distance = max(layer_z_index, 0.0) / LAYER_Z_INDEX_STEP;
+	float back_distance = max(-layer_z_index, 0.0) / LAYER_Z_INDEX_STEP;
+	float layer_distance = abs(layer_z_index) / LAYER_Z_INDEX_STEP;
 	float blur_lod = min(
 		front_distance * render_foreground_blur_step
 			+ back_distance * render_background_blur_step,
@@ -68,4 +70,5 @@ void fragment() {
 
 	// 保留 CanvasGroup 原有的调制与透明度行为。
 	COLOR *= color;
+	COLOR.a *= cycle_opacity;
 }

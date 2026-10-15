@@ -3,11 +3,20 @@
 class_name LayerControllerSystem
 extends Node
 
+signal cycle_finished
+
 const COLLISION_TOLERANCE := 0.5
+@export_range(0.1, 1.0, 0.01) var cycle_duration: float = 0.18
+
+var _cycle_layers_remaining: int = 0
 
 func _ready() -> void:
+	add_to_group("layer_controllers")
 	Global.discover_scene_nodes(get_parent())
 	Renderer.apply_settings()
+	for layer in Global.layers:
+		layer.cancel_cycle()
+		layer.cycle_finished.connect(_on_layer_cycle_finished)
 	SignalSystem.layer_cycle.connect(cycle)
 	SignalSystem.layer_change.connect(transfer)
 
@@ -19,7 +28,13 @@ func _process(_delta: float) -> void:
 		layer.apply_slot_state(Global.camera.global_position, Global.camera.zoom.abs())
 
 ## 图层轮换
-func cycle(direction: int, check_collision: bool = true) -> void:
+func cycle(direction: int, check_collision: bool = true) -> bool:
+	if abs(direction) != 1:
+		return false
+	if _cycle_layers_remaining > 0:
+		return false
+	if check_collision and Global.player.current_state == PlayerController.PlayerState.RECALLING:
+		return false
 	var target_slot: int = posmod(Global.current_layer_index - direction, Global.layer_count)
 	var target_layer: DepthLayer = Global.get_layer_at_slot(target_slot)
 	if check_collision:
@@ -29,16 +44,31 @@ func cycle(direction: int, check_collision: bool = true) -> void:
 			else Global.player.body_collision_box
 		)
 		if _has_collision(Global.player, player_collision, target_layer, player_collision.global_transform):
-			return
+			target_layer.play_cycle_blocked()
+			return false
 	Global.player.set_collision_group(target_layer.layer_id + 1)
 	for layer in Global.layers:
 		layer.slot = posmod(layer.slot + direction, Global.layer_count)
 		for object in layer.get_children():
 			if object is LayerObject:
 				object.update_layer_slot()
+	_cycle_layers_remaining = Global.layers.size()
+	for layer in Global.layers:
+		layer.play_cycle(direction, cycle_duration)
+	return true
+
+func _on_layer_cycle_finished() -> void:
+	_cycle_layers_remaining -= 1
+	if _cycle_layers_remaining == 0:
+		cycle_finished.emit()
+
+func is_cycling() -> bool:
+	return _cycle_layers_remaining > 0
 
 ## 改变物体图层
 func transfer(direction: int, object: LayerObject) -> bool:
+	if _cycle_layers_remaining > 0 or Global.player.current_state == PlayerController.PlayerState.RECALLING:
+		return false
 	if not object.can_transfer:
 		object.play_transfer_blocked()
 		return false

@@ -38,7 +38,7 @@ func discover_scene_nodes(scene_root: Node) -> void:
 	camera.position_smoothing_enabled = false
 	camera.enabled = true
 	player.set_collision_group(current_layer_index + 1)
-	player.z_index = (layer_count - current_layer_index) * 100 + 1
+	player.z_index = 1
 
 ## 递归查找算法
 func _find_scene_nodes(node: Node) -> void:
