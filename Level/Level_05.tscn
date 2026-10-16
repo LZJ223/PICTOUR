@@ -7,22 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://btvd5akgi0dy" path="res://Component/Object/Soil.tscn" id="5_jb64m"]
 [ext_resource type="PackedScene" uid="uid://by6iwxwd7u6rn" path="res://Component/Object/House.tscn" id="6_b32py"]
 [ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/Tree/Tree_01.tscn" id="7_u6x2d"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7pgyd"]
-resource_local_to_scene = true
-shader = ExtResource("3_ihrg6")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tp5u0"]
-resource_local_to_scene = true
-shader = ExtResource("4_t20hn")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
+[ext_resource type="PackedScene" uid="uid://h06vmqdf8ucl" path="res://Component/Goal/Goal.tscn" id="8_tp5u0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ihrg6"]
 resource_local_to_scene = true
@@ -39,6 +24,8 @@ shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
 shader_parameter/anchor_position = Vector2(0, 0)
 shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jb64m"]
 resource_local_to_scene = true
@@ -55,6 +42,8 @@ shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
 shader_parameter/anchor_position = Vector2(0, 0)
 shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u6x2d"]
 resource_local_to_scene = true
@@ -71,39 +60,59 @@ shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
 shader_parameter/anchor_position = Vector2(0, 0)
 shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x5mob"]
+resource_local_to_scene = true
+shader = ExtResource("3_ihrg6")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ely6c"]
+resource_local_to_scene = true
+shader = ExtResource("4_t20hn")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
 
 [node name="Level" type="Node2D" unique_id=1182049839]
 script = ExtResource("1_7pgyd")
 level_id = 5
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_tp5u0")]
-material = SubResource("ShaderMaterial_7pgyd")
+material = SubResource("ShaderMaterial_ihrg6")
 layer_id = 3
 slot = 3
 
 [node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_tp5u0")
+material = SubResource("ShaderMaterial_t20hn")
 
 [node name="Soil_001" parent="Layer3" unique_id=1170671701 instance=ExtResource("5_jb64m")]
 position = Vector2(636, 720)
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_tp5u0")]
-material = SubResource("ShaderMaterial_ihrg6")
+material = SubResource("ShaderMaterial_jb64m")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_t20hn")
+material = SubResource("ShaderMaterial_b32py")
 
 [node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("5_jb64m")]
 position = Vector2(636, 720)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_tp5u0")]
-material = SubResource("ShaderMaterial_jb64m")
+material = SubResource("ShaderMaterial_u6x2d")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_b32py")
+material = SubResource("ShaderMaterial_kqvoy")
 
 [node name="House" parent="Layer1" unique_id=1740520627 instance=ExtResource("6_b32py")]
 position = Vector2(-348, 304)
@@ -115,14 +124,17 @@ position = Vector2(582, 282)
 position = Vector2(636, 720)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_tp5u0")]
-material = SubResource("ShaderMaterial_u6x2d")
+material = SubResource("ShaderMaterial_x5mob")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_kqvoy")
+material = SubResource("ShaderMaterial_ely6c")
 
 [node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("5_jb64m")]
 position = Vector2(636, 720)
+
+[node name="Goal" parent="." unique_id=1223662449 instance=ExtResource("8_tp5u0")]
+position = Vector2(1046, 522)
 
 [editable path="Layer3"]
 [editable path="Layer2"]

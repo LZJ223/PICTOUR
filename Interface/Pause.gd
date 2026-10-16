@@ -49,12 +49,17 @@ func resume() -> void:
 func _begin_hold(action: HoldAction) -> void:
 	if not visible or SceneTransition.busy:
 		return
+	_cancel_hold()
 	_hold_action = action
 	_hold_timer.start(hold_duration)
+	var button: Button = $Restart if action == HoldAction.RESTART else $Quit
+	button.start_hold(_hold_timer)
 
 func _cancel_hold() -> void:
 	_hold_timer.stop()
 	_hold_action = HoldAction.NONE
+	for button: Button in [$Restart, $Quit]:
+		button.stop_hold()
 
 func _on_hold_timeout() -> void:
 	if not visible or SceneTransition.busy or _hold_action == HoldAction.NONE:

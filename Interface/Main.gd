@@ -4,6 +4,7 @@ enum Page { MAIN, LEVEL_SELECTION, GAME_OPTION }
 
 const CAMERA_MOVE_DURATION: float = 0.45
 const EXIT_HOLD_DURATION: float = 1.0
+const DESIGN_SIZE := Vector2(1280.0, 720.0)
 
 @onready var menu_camera: Camera2D = $Camera
 @onready var main_camera_position: Marker2D = $CameraPosition01
@@ -11,18 +12,38 @@ const EXIT_HOLD_DURATION: float = 1.0
 @onready var main_menu: Control = $MainMenu
 @onready var level_selection: Control = $LevelSelection
 @onready var game_option: Control = $GameOption
-@onready var back_button: Button = $MenuUI/Back
+@onready var back_button: Button = $MenuUI/Screen/Back
+@onready var _page_controls: Array[Control] = [main_menu, level_selection, game_option]
 
 var _page: Page = Page.MAIN
 var _camera_tween: Tween
 var _exit_timer: Timer
 var _back_held: bool = false
+var _page_blend: float = 0.0
+var _main_origin: Vector2
+var _secondary_offset: Vector2
+var _logo_offset: Vector2
+var _background_offset: Vector2
+var _background_player_offset: Vector2
+var _control_offsets: Array[Vector2] = []
 
 func _ready() -> void:
 	SignalSystem.set_gameplay_active(false)
 	Global.clear_scene_nodes()
 	menu_camera.make_current()
-	menu_camera.global_position = main_camera_position.global_position
+	## 场景中的坐标仍是 1280×720 的布局参考，只缓存一次，避免累计缩放。
+	_main_origin = main_camera_position.position
+	_secondary_offset = (secondary_camera_position.position - _main_origin) / DESIGN_SIZE
+	_logo_offset = ($Logo.position - _main_origin) / DESIGN_SIZE
+	var player_position := to_local($Game/Player.global_position)
+	_background_offset = (player_position - _main_origin) / DESIGN_SIZE
+	_background_player_offset = player_position - $Game.position
+	for index in _page_controls.size():
+		var anchor := main_camera_position if index == 0 else secondary_camera_position
+		var control := _page_controls[index]
+		_control_offsets.append((control.position + control.size * 0.5 - anchor.position) / DESIGN_SIZE)
+	get_viewport().size_changed.connect(_update_layout)
+	_update_layout()
 	main_menu.visible = true
 	level_selection.visible = false
 	game_option.visible = false
@@ -35,6 +56,8 @@ func _ready() -> void:
 	back_button.pressed.connect(_on_back_pressed)
 	back_button.button_down.connect(_on_back_down)
 	back_button.button_up.connect(_on_back_up)
+	back_button.mouse_exited.connect(_on_back_up)
+	get_window().focus_exited.connect(_on_back_up)
 	_exit_timer = Timer.new()
 	_exit_timer.one_shot = true
 	_exit_timer.wait_time = EXIT_HOLD_DURATION
@@ -47,16 +70,35 @@ func _show_page(page: Page) -> void:
 		return
 	if _camera_tween != null and _camera_tween.is_valid():
 		_camera_tween.kill()
-	_exit_timer.stop()
+	_on_back_up()
 	_page = page
 	main_menu.visible = page == Page.MAIN
 	level_selection.visible = page == Page.LEVEL_SELECTION
 	game_option.visible = page == Page.GAME_OPTION
-	var target: Marker2D = main_camera_position if page == Page.MAIN else secondary_camera_position
 	_camera_tween = create_tween()
-	_camera_tween.tween_property(
-		menu_camera, "global_position", target.global_position, CAMERA_MOVE_DURATION
+	_camera_tween.tween_method(
+		_set_page_blend, _page_blend, 0.0 if page == Page.MAIN else 1.0, CAMERA_MOVE_DURATION
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+
+func _update_layout() -> void:
+	var view_size := get_viewport_rect().size / menu_camera.zoom.abs()
+	secondary_camera_position.position = _main_origin + _secondary_offset * view_size
+	$Logo.position = _main_origin + _logo_offset * view_size
+	$Game.position = _main_origin + _background_offset * view_size - _background_player_offset
+	for index in _page_controls.size():
+		var anchor := main_camera_position if index == 0 else secondary_camera_position
+		var control := _page_controls[index]
+		control.position = anchor.position + _control_offsets[index] * view_size - control.size * 0.5
+	_set_page_blend(_page_blend)
+
+func _set_page_blend(value: float) -> void:
+	_page_blend = value
+	menu_camera.global_position = main_camera_position.global_position.lerp(
+		secondary_camera_position.global_position, _page_blend
+	)
+	menu_camera.force_update_scroll()
+	## 尺寸变化和 Tween 也可能发生在暂停时，直接刷新而不等待下一帧。
+	$Game.refresh_view()
 
 func _on_back_pressed() -> void:
 	if _page != Page.MAIN:
@@ -68,13 +110,16 @@ func _on_back_down() -> void:
 	_back_held = true
 	if _page == Page.MAIN:
 		_exit_timer.start()
+		back_button.start_hold(_exit_timer)
 
 func _on_back_up() -> void:
 	_back_held = false
 	_exit_timer.stop()
+	back_button.stop_hold()
 
 func _on_exit_hold_timeout() -> void:
 	if _page == Page.MAIN and _back_held:
+		_on_back_up()
 		SceneTransition.quit_game()
 
 func _enter_level(level_id: int) -> void:

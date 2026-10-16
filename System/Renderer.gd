@@ -4,8 +4,8 @@ extends Node
 const HAZE_TEXTURE: Texture2D = preload("res://Texture/Haze.png")
 
 @export_group("图层模糊")
-@export_range(0.0, 4.0, 0.1) var foreground_blur_step: float = 1.6
-@export_range(0.0, 4.0, 0.1) var background_blur_step: float = 1.2
+@export_range(0.0, 4.0, 0.1) var foreground_blur_step: float = 1.2
+@export_range(0.0, 4.0, 0.1) var background_blur_step: float = 0.8
 @export_range(0.0, 4.0, 0.1) var maximum_blur_lod: float = 4.0
 
 @export_group("前景图层")
@@ -16,7 +16,7 @@ const HAZE_TEXTURE: Texture2D = preload("res://Texture/Haze.png")
 @export_range(0.0, 1.0, 0.01) var contrast_falloff: float = 0.15
 
 @export_group("后景图层")
-@export_range(0.0, 1.0, 0.01) var background_tint_step: float = 0.12
+@export_range(0.0, 1.0, 0.01) var background_tint_step: float = 0.1
 
 @export_group("后景雾效")
 @export_range(0.0, 4.0, 0.1) var haze_blur_step: float = 2.0

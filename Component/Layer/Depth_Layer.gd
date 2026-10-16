@@ -26,10 +26,16 @@ var _haze_material: ShaderMaterial
 var _cycle_tween: Tween
 var _blocked_shake_tween: Tween
 var _draw_order_update_queued: bool = false
+var _level: Level
+var _anchor_position: Vector2
+var _camera_zoom: Vector2 = Vector2.ONE
+var _has_view: bool = false
 
 ## 初始化
 func _ready() -> void:
 	add_to_group("depth_layers")
+	_level = get_parent() as Level
+	assert(_level != null, "DepthLayer 必须直接位于 Level 下")
 	_filter_material = material as ShaderMaterial
 	_haze_material = haze_plane.material as ShaderMaterial
 	assert(_filter_material != null, "DepthLayer 需要使用图层滤镜 ShaderMaterial")
@@ -38,6 +44,9 @@ func _ready() -> void:
 
 ## 更新位置
 func apply_slot_state(anchor_position: Vector2, camera_zoom: Vector2) -> void:
+	_anchor_position = anchor_position
+	_camera_zoom = camera_zoom
+	_has_view = true
 	_update_haze(anchor_position, camera_zoom)
 	for child in get_children():
 		if child is LayerObject:
@@ -45,10 +54,10 @@ func apply_slot_state(anchor_position: Vector2, camera_zoom: Vector2) -> void:
 
 ## 槽位负责逻辑状态；浮点视觉槽位同时驱动排序、视差与两份着色器。
 func _apply_visual_slot(visual_slot: float) -> void:
-	var depth_z_index: float = (Global.current_layer_index - visual_slot) * Z_INDEX_STEP
-	var outside: float = maxf(-visual_slot, visual_slot - (Global.layer_count - 1))
+	var depth_z_index: float = (_level.current_layer_index - visual_slot) * Z_INDEX_STEP
+	var outside: float = maxf(-visual_slot, visual_slot - (_level.layer_count - 1))
 	cycle_opacity = 1.0 - clampf(outside * 2.0, 0.0, 1.0)
-	visual_scale = Global.layer_scales[0] * pow(Global.level.layer_scale, visual_slot)
+	visual_scale = pow(_level.layer_scale, visual_slot - _level.current_layer_index)
 	z_index = roundi(depth_z_index)
 	use_mipmaps = _cycle_tween != null or z_index != 0
 	_filter_material.set_shader_parameter("layer_z_index", depth_z_index)
@@ -58,20 +67,20 @@ func _apply_visual_slot(visual_slot: float) -> void:
 	_haze_material.set_shader_parameter("layer_z_index", depth_z_index)
 	_haze_material.set_shader_parameter("cycle_opacity", cycle_opacity)
 	## Tween 在 _process 后推进，立即刷新物件以免视差落后一帧。
-	if Global.camera != null:
-		apply_slot_state(Global.camera.global_position, Global.camera.zoom.abs())
+	if _has_view:
+		apply_slot_state(_anchor_position, _camera_zoom)
 
 ## 三次位移曲线产生抛物线形速度：起止缓慢，中点最快且恰好透明跨界。
 func _set_cycle_phase(progress: float, previous_slot: int, direction: int) -> void:
 	var phase: float = progress * progress * (3.0 - 2.0 * progress)
 	var visual_slot: float = fposmod(
-		previous_slot + direction * phase + 0.5, Global.layer_count
+		previous_slot + direction * phase + 0.5, _level.layer_count
 	) - 0.5
 	_apply_visual_slot(visual_slot)
 
 func play_cycle(direction: int, duration: float) -> void:
 	cancel_cycle()
-	var previous_slot: int = posmod(slot - direction, Global.layer_count)
+	var previous_slot: int = posmod(slot - direction, _level.layer_count)
 	_cycle_tween = create_tween().set_process_mode(Tween.TWEEN_PROCESS_IDLE)
 	_cycle_tween.set_trans(Tween.TRANS_LINEAR)
 	_set_cycle_phase(0.0, previous_slot, direction)
@@ -116,8 +125,8 @@ func play_cycle_blocked() -> void:
 
 func _set_blocked_shake_offset(offset: Vector2) -> void:
 	blocked_shake_offset = offset
-	if Global.camera != null:
-		apply_slot_state(Global.camera.global_position, Global.camera.zoom.abs())
+	if _has_view:
+		apply_slot_state(_anchor_position, _camera_zoom)
 
 func _stop_blocked_shake() -> void:
 	if _blocked_shake_tween != null and _blocked_shake_tween.is_valid():
@@ -132,7 +141,7 @@ func _on_blocked_shake_finished() -> void:
 ## 雾平面独立覆盖整个视口，并在物理世界坐标中跟随所属图层产生透视视差。
 func _update_haze(anchor_position: Vector2, camera_zoom: Vector2) -> void:
 	_haze_material.set_shader_parameter("anchor_position", anchor_position)
-	_haze_material.set_shader_parameter("layer_scale", Global.level.layer_scale)
+	_haze_material.set_shader_parameter("layer_scale", _level.layer_scale)
 	_haze_material.set_shader_parameter(
 		"visual_offset",
 		Vector2(

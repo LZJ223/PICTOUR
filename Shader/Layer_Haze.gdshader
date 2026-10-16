@@ -16,6 +16,8 @@ uniform float layer_id = 0.0;
 uniform float layer_scale = 0.8;
 uniform vec2 anchor_position = vec2(0.0);
 uniform vec2 visual_offset = vec2(0.0);
+uniform mat3 world_to_space = mat3(1.0);
+uniform float scroll_offset = 0.0;
 
 const float LAYER_Z_INDEX_STEP = 100.0;
 const float MINIMUM_SCALE = 0.0001;
@@ -33,8 +35,12 @@ void fragment() {
 		render_haze_maximum_blur_lod
 	);
 	float perspective_scale = pow(max(layer_scale, MINIMUM_SCALE), depth);
-	vec2 physical_position = anchor_position
-		+ (world_position - visual_offset - anchor_position) / perspective_scale;
+	vec2 space_position = (world_to_space * vec3(world_position, 1.0)).xy;
+	vec2 space_anchor = (world_to_space * vec3(anchor_position, 1.0)).xy;
+	vec2 space_offset = (world_to_space * vec3(visual_offset, 0.0)).xy;
+	vec2 physical_position = space_anchor
+		+ (space_position - space_offset - space_anchor) / perspective_scale;
+	physical_position.x += scroll_offset;
 	vec2 texture_world_size = vec2(textureSize(render_haze_texture, 0))
 		* max(render_haze_world_scale, MINIMUM_SCALE);
 	float texture_top = render_haze_bottom_y - texture_world_size.y;

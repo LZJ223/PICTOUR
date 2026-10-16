@@ -8,6 +8,7 @@ signal cycle_finished
 const COLLISION_TOLERANCE := 0.5
 @export_range(0.1, 1.0, 0.01) var cycle_duration: float = 0.18
 @export_range(0.05, 1.0, 0.01, "or_greater") var destination_camera_duration: float = 0.35
+@export_range(0.0, 1.0, 0.01) var player_screen_height_ratio: float = 0.75
 
 var _cycle_layers_remaining: int = 0
 var _destination_blend: float = 0.0
@@ -25,6 +26,7 @@ func initialize() -> void:
 	SignalSystem.layer_cycle.connect(cycle)
 	SignalSystem.layer_change.connect(transfer)
 	SignalSystem.destination_view_changed.connect(_on_destination_view_changed)
+	get_viewport().size_changed.connect(_update_view)
 	_update_view()
 
 func _on_destination_view_changed(active: bool) -> void:
@@ -40,6 +42,9 @@ func _process(_delta: float) -> void:
 	_update_view()
 
 func _update_view() -> void:
+	Global.camera.offset.y = (0.5 - player_screen_height_ratio) * (
+		get_viewport().get_visible_rect().size.y / Global.camera.zoom.y
+	)
 	if Global.camera_fixed:
 		## 对两个实时位置做插值，回程期间玩家移动也不会导致终点跳变。
 		Global.camera.global_position = Global.player.global_position.lerp(

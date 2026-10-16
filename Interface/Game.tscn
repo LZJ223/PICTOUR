@@ -3,8 +3,10 @@
 [ext_resource type="Script" uid="uid://rkgm8luhnrbh" path="res://Interface/Game.gd" id="1_game"]
 [ext_resource type="PackedScene" uid="uid://ch17qkfauofft" path="res://Component/Player/Player.tscn" id="2_kk0wd"]
 [ext_resource type="Script" uid="uid://b07lcsdd0i6dv" path="res://System/Layer_Controller_System.gd" id="3_8d3to"]
+[ext_resource type="Texture2D" uid="uid://dp5qnqfax1xv2" path="res://Texture/Button/Back.png" id="3_t5pu8"]
 [ext_resource type="Script" uid="uid://c2t31v7eb34te" path="res://System/Shadow_Controller_System.gd" id="4_t5pu8"]
 [ext_resource type="PackedScene" uid="uid://57mr5e3qn8rm" path="res://Interface/Pause.tscn" id="5_pause"]
+[ext_resource type="Script" path="res://Interface/Icon_Button.gd" id="6_icon_button"]
 
 [node name="Game" type="Node2D" unique_id=1565919311]
 script = ExtResource("1_game")
@@ -17,18 +19,33 @@ offset = Vector2(0, -180)
 
 [node name="MenuUI" type="CanvasLayer" parent="Camera" unique_id=1654581846]
 
-[node name="Back" type="Button" parent="Camera/MenuUI" unique_id=613270347]
-anchors_preset = 1
+[node name="Screen" type="Control" parent="Camera/MenuUI" unique_id=1275458931]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Back" type="Button" parent="Camera/MenuUI/Screen" unique_id=613270347]
+script = ExtResource("6_icon_button")
+layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -80.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = 80.0
+offset_left = -105.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = 105.0
 grow_horizontal = 0
-text = "Back"
 
-[node name="Pause" parent="Camera/MenuUI" unique_id=800313544 instance=ExtResource("5_pause")]
+[node name="Icon" type="Sprite2D" parent="Camera/MenuUI/Screen/Back" unique_id=1899056426]
+position = Vector2(37.5, 37.5)
+scale = Vector2(0.27500054, 0.27500054)
+texture = ExtResource("3_t5pu8")
+
+[node name="Pause" parent="Camera/MenuUI/Screen" unique_id=800313544 instance=ExtResource("5_pause")]
+layout_mode = 1
 
 [node name="LayerControllerSystem" type="Node" parent="." unique_id=1585831549]
 script = ExtResource("3_8d3to")
@@ -36,4 +53,4 @@ script = ExtResource("3_8d3to")
 [node name="ShadowControllerSystem" type="Node" parent="." unique_id=1161260881]
 script = ExtResource("4_t5pu8")
 
-[connection signal="pressed" from="Camera/MenuUI/Back" to="Camera/MenuUI/Pause" method="open"]
+[connection signal="pressed" from="Camera/MenuUI/Screen/Back" to="Camera/MenuUI/Screen/Pause" method="open"]

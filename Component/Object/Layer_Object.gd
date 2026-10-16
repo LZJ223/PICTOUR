@@ -66,9 +66,11 @@ func transfer_to(target_layer: DepthLayer, target_transform: Transform2D, target
 func apply_visual_transfer(anchor_position: Vector2, camera_zoom: Vector2) -> void:
 	var scaling: float = owner_layer.visual_scale
 	var offset_pixels: Vector2 = _transfer_visual_offset + owner_layer.blocked_shake_offset
-	var visual_offset := Vector2(offset_pixels.x / maxf(camera_zoom.x, 0.0001), offset_pixels.y / maxf(camera_zoom.y, 0.0001))
+	var local_anchor := to_local(anchor_position)
+	var world_offset := Vector2(offset_pixels.x / maxf(camera_zoom.x, 0.0001), offset_pixels.y / maxf(camera_zoom.y, 0.0001))
+	var visual_offset := global_transform.affine_inverse().basis_xform(world_offset)
 	visual_root.scale = collision_box.scale * scaling * _transfer_visual_scale
-	visual_root.position = (anchor_position - position) * (1 - scaling) + visual_offset
+	visual_root.position = local_anchor * (1 - scaling) + visual_offset
 	if _selected:
 		_sync_selection_outlines()
 

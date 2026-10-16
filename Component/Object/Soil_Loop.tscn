@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Component/Object/Layer_Object.gd" id="1_tveeu"]
+[ext_resource type="Texture2D" path="res://Texture/Soil/Soil_Loop_Top.png" id="2_aaaao"]
+[ext_resource type="Texture2D" path="res://Texture/Soil/Soil_Loop_Bottom.png" id="3_dvsro"]
+
+[node name="Soil_Loop" type="StaticBody2D" unique_id=555250337]
+script = ExtResource("1_tveeu")
+can_transfer = false
+front = true
+metadata/loop_length = 8000.0
+metadata/texture_period = 1000.0
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=814184722]
+polygon = PackedVector2Array(4000, 1000, 4000, -200, -4000, -200, -4000, 1000)
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=994406066]
+
+[node name="SoilFill" type="Polygon2D" parent="VisualRoot" unique_id=1864185569]
+color = Color(0.07450981, 0.49019608, 0.06666667, 1)
+polygon = PackedVector2Array(4000, 1000, 4000, -200, -4000, -200, -4000, 1000)
+
+[node name="GrassAndTopOutline" type="Sprite2D" parent="VisualRoot" unique_id=1026958926]
+texture_filter = 2
+texture_repeat = 2
+position = Vector2(-4000, -206)
+texture = ExtResource("2_aaaao")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 8000, 100)
+
+[node name="BottomOutline" type="Sprite2D" parent="VisualRoot" unique_id=2107678586]
+texture_filter = 2
+texture_repeat = 2
+position = Vector2(-4000, 994)
+texture = ExtResource("3_dvsro")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 8000, 12)

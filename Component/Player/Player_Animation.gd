@@ -22,6 +22,7 @@ const EXPRESSIONS: Array[Texture2D] = [
 ]
 
 @export var display_mode: DisplayMode = DisplayMode.FULL
+@export var follow_activity_timer: bool = true
 @export_range(0.02, 0.3, 0.01) var turn_duration: float = 0.09
 @export_range(0.0, 1.0, 0.01) var expression_middle_time: float = 0.35
 
@@ -76,7 +77,7 @@ func _ready() -> void:
 	_update_expression()
 
 func _process(delta: float) -> void:
-	var resting: bool = SignalSystem.timer != null and SignalSystem.timer.is_stopped()
+	var resting: bool = follow_activity_timer and SignalSystem.timer != null and SignalSystem.timer.is_stopped()
 	var can_bob: bool = not resting and (
 		display_mode == DisplayMode.HEAD_ONLY
 		or (display_mode == DisplayMode.FULL and _grounded)
@@ -182,11 +183,13 @@ func _finish_flame() -> void:
 	_set_flame_visible(false)
 
 func _update_expression() -> void:
-	if SignalSystem.timer == null:
+	if follow_activity_timer and SignalSystem.timer == null:
 		return
-	var next_index: int = 2 if SignalSystem.timer.is_stopped() else (
-		1 if SignalSystem.timer.time_left <= expression_middle_time else 0
-	)
+	var next_index: int = 0
+	if follow_activity_timer:
+		next_index = 2 if SignalSystem.timer.is_stopped() else (
+			1 if SignalSystem.timer.time_left <= expression_middle_time else 0
+		)
 	if next_index == _expression_index:
 		return
 	_expression_index = next_index
