@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://btvd5akgi0dy"]
 
 [ext_resource type="Script" uid="uid://c2uq0wqpn5y57" path="res://Component/Object/Layer_Object.gd" id="1_h7nws"]
-[ext_resource type="Texture2D" uid="uid://b32v8qe2vupxd" path="res://Texture/Soil/Soil_001.png" id="2_patr0"]
+[ext_resource type="Texture2D" uid="uid://dxyscq5lnk8uo" path="res://Texture/Soil/Soil_001.png" id="2_patr0"]
 
 [node name="Soil_001" type="StaticBody2D" unique_id=1170671701]
 script = ExtResource("1_h7nws")

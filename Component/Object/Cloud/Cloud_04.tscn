@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://sym6edwksexy"]
+
+[ext_resource type="Script" uid="uid://c2uq0wqpn5y57" path="res://Component/Object/Layer_Object.gd" id="1_m1sxy"]
+[ext_resource type="Texture2D" uid="uid://dxxar85ua0u0g" path="res://Texture/Cloud/Cloud_04.png" id="2_m1sxy"]
+
+[node name="Cloud" type="StaticBody2D" unique_id=1820391092]
+script = ExtResource("1_m1sxy")
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=817137210]
+
+[node name="Cloud" type="Sprite2D" parent="VisualRoot" unique_id=916893329]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_m1sxy")
+
+[node name="Area2D" type="Area2D" parent="VisualRoot" unique_id=1324729838]
+monitoring = false
+monitorable = false
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="VisualRoot/Area2D" unique_id=1689027673]
+polygon = PackedVector2Array(-148, 92, 148, 92, 160, 60, 132, 40, 132, 12, 116, 0, 112, -40, 84, -64, 56, -92, 20, -76, -16, -44, -8, -8, -36, 0, -68, -4, -104, 8, -116, 32, -160, 52)
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=580489842]
+polygon = PackedVector2Array(-148, 92, 148, 92, 160, 60, 132, 40, 132, 12, 116, 0, 112, -40, 84, -64, 56, -92, 20, -76, -16, -44, -8, -8, -36, 0, -68, -4, -104, 8, -116, 32, -160, 52)

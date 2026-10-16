@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://bg4wh1daqiv2v"]
+
+[ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_8venk"]
+[ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_daf62"]
+[ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_mvmpv"]
+[ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_b2gmg"]
+[ext_resource type="PackedScene" uid="uid://btvd5akgi0dy" path="res://Component/Object/Soil.tscn" id="5_v15wp"]
+[ext_resource type="PackedScene" uid="uid://by6iwxwd7u6rn" path="res://Component/Object/House.tscn" id="6_d5jdo"]
+[ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/Tree/Tree_01.tscn" id="7_qg7p7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8venk"]
+resource_local_to_scene = true
+shader = ExtResource("3_mvmpv")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_daf62"]
+resource_local_to_scene = true
+shader = ExtResource("4_b2gmg")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mvmpv"]
+resource_local_to_scene = true
+shader = ExtResource("3_mvmpv")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b2gmg"]
+resource_local_to_scene = true
+shader = ExtResource("4_b2gmg")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v15wp"]
+resource_local_to_scene = true
+shader = ExtResource("3_mvmpv")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d5jdo"]
+resource_local_to_scene = true
+shader = ExtResource("4_b2gmg")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+
+[node name="Level" type="Node2D" unique_id=1182049839]
+script = ExtResource("1_8venk")
+layer_count = 3
+current_layer_index = 0
+
+[node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_daf62")]
+material = SubResource("ShaderMaterial_8venk")
+layer_id = 2
+slot = 2
+
+[node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
+material = SubResource("ShaderMaterial_daf62")
+
+[node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("5_v15wp")]
+position = Vector2(482, 720)
+
+[node name="Tree_01" parent="Layer2" unique_id=719242815 instance=ExtResource("7_qg7p7")]
+position = Vector2(428, 282)
+
+[node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_daf62")]
+material = SubResource("ShaderMaterial_mvmpv")
+layer_id = 1
+
+[node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
+material = SubResource("ShaderMaterial_b2gmg")
+
+[node name="Soil_001" parent="Layer1" unique_id=126668145 instance=ExtResource("5_v15wp")]
+position = Vector2(482, 720)
+
+[node name="House" parent="Layer1" unique_id=1740520627 instance=ExtResource("6_d5jdo")]
+position = Vector2(-502, 304)
+
+[node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_daf62")]
+material = SubResource("ShaderMaterial_v15wp")
+slot = 0
+
+[node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
+material = SubResource("ShaderMaterial_d5jdo")
+
+[node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("5_v15wp")]
+position = Vector2(482, 720)
+
+[editable path="Layer2"]
+[editable path="Layer1"]
+[editable path="Layer0"]

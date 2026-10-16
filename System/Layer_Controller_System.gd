@@ -7,11 +7,16 @@ signal cycle_finished
 
 const COLLISION_TOLERANCE := 0.5
 @export_range(0.1, 1.0, 0.01) var cycle_duration: float = 0.18
+@export_range(0.05, 1.0, 0.01, "or_greater") var destination_camera_duration: float = 0.35
 
 var _cycle_layers_remaining: int = 0
+var _destination_blend: float = 0.0
+var _camera_tween: Tween
 
 func _ready() -> void:
 	add_to_group("layer_controllers")
+
+func initialize() -> void:
 	Global.discover_scene_nodes(get_parent())
 	Renderer.apply_settings()
 	for layer in Global.layers:
@@ -19,16 +24,35 @@ func _ready() -> void:
 		layer.cycle_finished.connect(_on_layer_cycle_finished)
 	SignalSystem.layer_cycle.connect(cycle)
 	SignalSystem.layer_change.connect(transfer)
+	SignalSystem.destination_view_changed.connect(_on_destination_view_changed)
+	_update_view()
+
+func _on_destination_view_changed(active: bool) -> void:
+	if _camera_tween != null and _camera_tween.is_valid():
+		_camera_tween.kill()
+	_camera_tween = create_tween().set_process_mode(Tween.TWEEN_PROCESS_IDLE)
+	_camera_tween.tween_property(
+		self, "_destination_blend", 1.0 if active else 0.0, destination_camera_duration
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 
 ## 相机与位置更新
 func _process(_delta: float) -> void:
+	_update_view()
+
+func _update_view() -> void:
 	if Global.camera_fixed:
-		Global.camera.global_position = Global.player.global_position
+		## 对两个实时位置做插值，回程期间玩家移动也不会导致终点跳变。
+		Global.camera.global_position = Global.player.global_position.lerp(
+			Global.goal.global_position, _destination_blend
+		)
+	Global.camera.force_update_scroll()
 	for layer in Global.layers:
 		layer.apply_slot_state(Global.camera.global_position, Global.camera.zoom.abs())
 
 ## 图层轮换
 func cycle(direction: int, check_collision: bool = true) -> bool:
+	if SignalSystem.looking_at_destination or Global.goal.completed:
+		return false
 	if abs(direction) != 1:
 		return false
 	if _cycle_layers_remaining > 0:
@@ -67,6 +91,8 @@ func is_cycling() -> bool:
 
 ## 改变物体图层
 func transfer(direction: int, object: LayerObject) -> bool:
+	if SignalSystem.looking_at_destination or Global.goal.completed:
+		return false
 	if _cycle_layers_remaining > 0 or Global.player.current_state == PlayerController.PlayerState.RECALLING:
 		return false
 	if not object.can_transfer:

@@ -29,3 +29,4 @@ class_name SoilBakeProfile
 @export_group("Output")
 @export_range(0.25, 2.0, 0.25) var pixels_per_unit: float = 1.0
 @export_range(1, 3, 1) var supersampling: int = 2
+@export_range(256, 2048, 256) var tile_size_px: int = 1024

@@ -8,9 +8,9 @@ script = ExtResource("1_bmrpg")
 
 [node name="CollisionBox_UAV" type="CollisionPolygon2D" parent="." unique_id=220988333]
 visible = false
-polygon = PackedVector2Array(-24.166668, -84.166664, 25, -84.166664, 25, -120.833336, -24.166668, -120.833336)
+polygon = PackedVector2Array(-21.266667, -74.066667, 22, -74.066667, 22, -106.333333, -21.266667, -106.333333)
 
 [node name="CollisionBox_Body" type="CollisionPolygon2D" parent="." unique_id=504041598]
-polygon = PackedVector2Array(31.666668, -76.666664, -35, -76.666664, -35, 0, 31.666668, -0.833333)
+polygon = PackedVector2Array(27.866667, -67.466667, -30.8, -67.466667, -30.8, 0, 27.866667, -0.733333)
 
 [node name="PlayerSprite" parent="." unique_id=823621594 instance=ExtResource("2_sprite")]

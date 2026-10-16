@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://0bq088mgrfbd"]
+
+[ext_resource type="Script" uid="uid://c2uq0wqpn5y57" path="res://Component/Object/Layer_Object.gd" id="1_e3mma"]
+[ext_resource type="Texture2D" uid="uid://dhtfx7uuo8duv" path="res://Texture/Tree/Tree_03.png" id="2_e3mma"]
+
+[node name="Tree" type="RigidBody2D" unique_id=1775670945]
+lock_rotation = true
+script = ExtResource("1_e3mma")
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=285867168]
+
+[node name="Tree" type="Sprite2D" parent="VisualRoot" unique_id=2037624155]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_e3mma")
+
+[node name="Area2D" type="Area2D" parent="VisualRoot" unique_id=463868308]
+monitoring = false
+monitorable = false
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="VisualRoot/Area2D" unique_id=575377191]
+polygon = PackedVector2Array(-84, -220, 60, -220, 60, -164, 132, -164, 132, -52, 148, -52, 148, 64, 104, 64, 104, 112, 24, 112, 24, 236, -20, 236, -20, 140, -116, 140, -116, 96, -164, 96, -164, -12, -112, -12, -112, -92, -20, -92, -20, -116, -44, -116, -44, -144, -84, -144)
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=1082473387]
+polygon = PackedVector2Array(-84, -220, 60, -220, 60, -164, 132, -164, 132, -52, 148, -52, 148, 64, 104, 64, 104, 112, 24, 112, 24, 236, -20, 236, -20, 140, -116, 140, -116, 96, -164, 96, -164, -12, -112, -12, -112, -92, -20, -92, -20, -116, -44, -116, -44, -144, -84, -144)

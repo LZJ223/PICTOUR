@@ -9,10 +9,32 @@ var current_layer_index: int = 1
 var player: PlayerController = null
 var camera: Camera2D = null
 var level: Level = null
+var goal: LevelGoal = null
 var layers: Array[DepthLayer] = []
 ## 全局状态信息
 var object_selected: LayerObject = null
 var camera_fixed: bool = true
+@export_range(0.0, 2000.0, 10.0, "or_greater") var max_selection_distance: float = 1000.0
+var next_level_id: int = 1
+
+func _process(_delta: float) -> void:
+	if not is_instance_valid(object_selected):
+		object_selected = null
+		return
+	if is_instance_valid(player) and player.global_position.distance_squared_to(
+		object_selected.global_position
+	) > max_selection_distance * max_selection_distance:
+		object_selected.set_pick_condition(false)
+		object_selected = null
+
+## 离场时只释放引用，不再调用可能已退出场景树的节点。
+func clear_scene_nodes() -> void:
+	object_selected = null
+	player = null
+	camera = null
+	level = null
+	goal = null
+	layers.clear()
 
 ## 自动查找主场景中的 Player、Camera、Level 和全部 DepthLayer
 func discover_scene_nodes(scene_root: Node) -> void:
@@ -20,6 +42,7 @@ func discover_scene_nodes(scene_root: Node) -> void:
 	player = null
 	camera = null
 	level = null
+	goal = null
 	layers = []
 	_find_scene_nodes(scene_root)
 	if player == null or camera == null or level == null:
@@ -28,10 +51,14 @@ func discover_scene_nodes(scene_root: Node) -> void:
 	level.write_to_global()
 	var used := {}
 	for child in level.get_children():
+		if child is LevelGoal:
+			assert(goal == null, "每个 Level 只能有一个 Goal")
+			goal = child
 		if child is DepthLayer:
 			layers.append(child)
 			assert(not used.has(child.slot), "图层不唯一！")
 			used[child.slot] = true
+	assert(goal != null, "Level_%02d 缺少直接挂载的 Goal" % level.level_id)
 	assert(current_layer_index < layer_count, "关卡层超出图层数！")
 	assert(layers.size() == layer_count, "图层数量错误！")
 	##初始化

@@ -72,16 +72,87 @@ func _run() -> void:
 	var thumbnail := Image.create_empty(8, 8, false, Image.FORMAT_RGBA8)
 	thumbnail.fill(Color.BROWN)
 	var texture := ImageTexture.create_from_image(thumbnail)
+	var tiles: Array[Dictionary] = [{
+		"texture": texture, "origin": Vector2i.ZERO,
+		"core_size": Vector2i(8, 8), "region_offset": Vector2i.ZERO
+	}, {
+		"texture": texture, "origin": Vector2i(8, 0),
+		"core_size": Vector2i(6, 8), "region_offset": Vector2i(1, 0)
+	}]
 	var packed: PackedScene = Baker.make_scene(
-		source, result.contour, texture, result.bounds, result.density, "Soil_Smoke"
+		source, result.contour, tiles, result.bounds, result.density,
+		profile.soil_color, "Soil_Smoke"
 	)
 	if packed == null or ResourceSaver.save(packed, "res://.godot/soil_baker_smoke.tscn") != OK:
 		push_error("Generated LayerObject scene could not be packed and saved")
 		quit(1)
 		return
 	var restored: Node = packed.instantiate()
-	if restored.get_script().resource_path != "res://Component/Object/Layer_Object.gd" or restored.get_node_or_null("VisualRoot/SoilSprite") == null:
+	if restored.get_script().resource_path != "res://Component/Object/Layer_Object.gd" or restored.get_node_or_null("VisualRoot/SoilFill") == null or restored.get_node_or_null("VisualRoot/SoilTile_000") == null or restored.get_node_or_null("VisualRoot/SoilTile_001") == null:
 		push_error("Generated scene is missing its LayerObject structure")
+		quit(1)
+		return
+	var second_sprite := restored.get_node("VisualRoot/SoilTile_001") as Sprite2D
+	if second_sprite.position.x != result.bounds.position.x + 8.0 / result.density or second_sprite.region_rect.position.x != 1.0:
+		push_error("The second tile is positioned or cropped incorrectly")
+		quit(1)
+		return
+	var large_points := PackedVector2Array([
+		Vector2(0, 0), Vector2(20000, 0),
+		Vector2(20000, 1200), Vector2(0, 1200),
+	])
+	var prepared: Dictionary = Baker.prepare(large_points, profile)
+	if not prepared.error.is_empty() or prepared.size.x <= 8192:
+		push_error("Large ground preparation failed: %s" % prepared.get("error", ""))
+		quit(1)
+		return
+	var left: Dictionary = Baker.bake_tile(prepared, profile, Vector2i.ZERO)
+	var right: Dictionary = Baker.bake_tile(prepared, profile, Vector2i(profile.tile_size_px, 0))
+	if not left.error.is_empty() or not right.error.is_empty():
+		push_error("Large ground tile render failed")
+		quit(1)
+		return
+	if left.image.get_width() > profile.tile_size_px + Baker.TILE_BLEED_PX * 2:
+		push_error("A tile exceeded its size limit")
+		quit(1)
+		return
+	if right.image.get_height() >= 300:
+		push_error("Transparent tile area was not cropped")
+		quit(1)
+		return
+	var compared := 0
+	for y in range(0, 100):
+		var left_pixel: Vector2i = Vector2i(profile.tile_size_px - 1, y) - left.origin + left.region_offset
+		var right_pixel: Vector2i = Vector2i(profile.tile_size_px - 1, y) - right.origin + right.region_offset
+		if left_pixel.x < 0 or left_pixel.y < 0 or right_pixel.x < 0 or right_pixel.y < 0:
+			continue
+		if left_pixel.x >= left.image.get_width() or left_pixel.y >= left.image.get_height():
+			continue
+		if right_pixel.x >= right.image.get_width() or right_pixel.y >= right.image.get_height():
+			continue
+		var a: Color = left.image.get_pixelv(left_pixel)
+		var b: Color = right.image.get_pixelv(right_pixel)
+		if not a.is_equal_approx(b):
+			push_error("Adjacent tiles disagree at the seam: %s vs %s" % [a, b])
+			quit(1)
+			return
+		compared += 1
+	if compared < 5:
+		push_error("Too few pixels were compared across the tile seam")
+		quit(1)
+		return
+	var tall_points := PackedVector2Array([
+		Vector2(0, 0), Vector2(10000, 0),
+		Vector2(10000, 10000), Vector2(0, 10000),
+	])
+	var tall: Dictionary = Baker.prepare(tall_points, profile)
+	if Baker.tile_has_decoration(tall, profile, Vector2i(4096, 4096)):
+		push_error("Interior tile was not culled before rendering")
+		quit(1)
+		return
+	var middle: Dictionary = Baker.bake_tile(tall, profile, Vector2i(4096, 4096))
+	if not middle.error.is_empty() or middle.image != null:
+		push_error("Empty interior tiles should not be saved")
 		quit(1)
 		return
 	print("SOIL_BAKER_SMOKE_OK size=%s contour_points=%d" % [image.get_size(), result.contour.size()])

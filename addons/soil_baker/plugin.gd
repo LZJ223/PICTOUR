@@ -115,9 +115,9 @@ func _on_bake_pressed() -> void:
 	_set_busy(true)
 	var source := _selected_ground
 	var points: PackedVector2Array = Baker.source_polygon(source)
-	var result: Dictionary = Baker.bake_image(points, _profile)
-	if not result.error.is_empty():
-		_finish_with_error(result.error)
+	var prepared: Dictionary = Baker.prepare(points, _profile)
+	if not prepared.error.is_empty():
+		_finish_with_error(prepared.error)
 		return
 	var absolute_directory := ProjectSettings.globalize_path(OUTPUT_DIRECTORY)
 	var directory_error := DirAccess.make_dir_recursive_absolute(absolute_directory)
@@ -126,30 +126,57 @@ func _on_bake_pressed() -> void:
 		return
 	var scene_name := _next_soil_name()
 	var base_path := OUTPUT_DIRECTORY.path_join(scene_name)
-	var png_path := base_path + ".png"
 	var scene_path := base_path + ".tscn"
 	var profile_path := base_path + ".tres"
 	var recipe_path := base_path + ".recipe.json"
-	var save_error: Error = result.image.save_png(png_path)
-	if save_error != OK:
-		_finish_with_error("PNG 保存失败（错误 %d）。" % save_error)
-		return
-	_status_label.text = "PNG 已写入，正在等待 Godot 导入纹理……"
-	EditorInterface.get_resource_filesystem().scan()
-	var texture := await _wait_for_imported_texture(png_path)
-	if texture == null:
-		_finish_with_error("纹理导入超时。PNG 已保存：%s" % png_path)
-		return
+	var tiles: Array[Dictionary] = []
+	var output_size: Vector2i = prepared.size
+	var columns := ceili(float(output_size.x) / float(_profile.tile_size_px))
+	var rows := ceili(float(output_size.y) / float(_profile.tile_size_px))
+	for row in range(rows):
+		for column in range(columns):
+			var origin := Vector2i(column, row) * _profile.tile_size_px
+			if not Baker.tile_has_decoration(prepared, _profile, origin):
+				continue
+			var tile: Dictionary = Baker.bake_tile(prepared, _profile, origin)
+			if not tile.error.is_empty():
+				_finish_with_error(tile.error)
+				return
+			var image: Image = tile.image
+			if image == null:
+				continue
+			var path := "%s_%03d_%03d.png" % [base_path, row, column]
+			var save_error: Error = image.save_png(path)
+			if save_error != OK:
+				_finish_with_error("PNG 保存失败（错误 %d）：%s" % [save_error, path])
+				return
+			tile.erase("image")
+			tile["path"] = path
+			tiles.append(tile)
+		_status_label.text = "已渲染 %d / %d 行；保存 %d 块纹理。" % [row + 1, rows, tiles.size()]
+		await get_tree().process_frame
 	if not is_instance_valid(source):
-		_finish_with_error("源 Ground 已从编辑器场景中移除。PNG 已保存：%s" % png_path)
+		_finish_with_error("源 Ground 已从编辑器场景中移除。")
+		return
+	_status_label.text = "已保存 %d 块纹理，正在等待 Godot 导入……" % tiles.size()
+	EditorInterface.get_resource_filesystem().scan()
+	for index in range(tiles.size()):
+		var texture := await _wait_for_imported_texture(tiles[index].path)
+		if texture == null:
+			_finish_with_error("纹理导入超时：%s" % tiles[index].path)
+			return
+		tiles[index]["texture"] = texture
+	if not is_instance_valid(source):
+		_finish_with_error("源 Ground 已从编辑器场景中移除。")
 		return
 	var scene: PackedScene = Baker.make_scene(
-		source, result.contour, texture, result.bounds, result.density, scene_name
+		source, prepared.contour, tiles, prepared.bounds, prepared.density,
+		_profile.soil_color, scene_name
 	)
 	if scene == null:
-		_finish_with_error("无法打包 Soil 场景。PNG 已保存：%s" % png_path)
+		_finish_with_error("无法打包 Soil 场景。")
 		return
-	save_error = ResourceSaver.save(scene, scene_path)
+	var save_error := ResourceSaver.save(scene, scene_path)
 	if save_error != OK:
 		_finish_with_error("场景保存失败（错误 %d）。" % save_error)
 		return
@@ -159,8 +186,9 @@ func _on_bake_pressed() -> void:
 		return
 	var recipe_error := _write_recipe(recipe_path, source, points, profile_path)
 	EditorInterface.get_resource_filesystem().scan()
-	_preview.texture = ImageTexture.create_from_image(result.image)
-	_status_label.text = "完成：%s\n贴图：%s" % [scene_path, png_path]
+	_status_label.text = "完成：%s\n贴图分块：%d 张（%d×%d 区域）" % [
+		scene_path, tiles.size(), columns, rows
+	]
 	if recipe_error != OK:
 		_status_label.text += "\n生成记录保存失败（错误 %d）。" % recipe_error
 	_set_busy(false)
@@ -179,13 +207,17 @@ func _wait_for_imported_texture(path: String) -> Texture2D:
 
 func _next_soil_name() -> String:
 	var index := 1
-	while FileAccess.file_exists(
-		OUTPUT_DIRECTORY.path_join("Soil_%03d.tscn" % index)
-	) or FileAccess.file_exists(
-		OUTPUT_DIRECTORY.path_join("Soil_%03d.png" % index)
-	):
+	var files := DirAccess.get_files_at(OUTPUT_DIRECTORY)
+	while _name_is_used(files, "Soil_%03d" % index):
 		index += 1
 	return "Soil_%03d" % index
+
+
+func _name_is_used(files: PackedStringArray, name: String) -> bool:
+	for file in files:
+		if file.begins_with(name + ".") or file.begins_with(name + "_"):
+			return true
+	return false
 
 
 func _write_recipe(

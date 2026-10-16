@@ -225,7 +225,7 @@ func _create_outline_visual(source: Node2D) -> Node2D:
 
 ## 同步源节点的形状、变换与图层。缩放补偿会把描边宽度固定为屏幕像素。
 func _sync_selection_outlines(sync_geometry: bool = false) -> void:
-	if owner_layer == null:
+	if not is_inside_tree() or not is_instance_valid(owner_layer):
 		return
 	var camera_zoom := Vector2.ONE
 	var camera := get_viewport().get_camera_2d()

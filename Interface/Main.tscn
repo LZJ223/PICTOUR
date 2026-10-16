@@ -1,12 +1,218 @@
 [gd_scene format=3 uid="uid://hp7gwrwih27g"]
 
+[ext_resource type="PackedScene" uid="uid://bg4wh1daqiv2v" path="res://Level/Level_00.tscn" id="1_ctv0a"]
 [ext_resource type="Texture2D" uid="uid://p6f05hf2ctn8" path="res://Texture/Logo.png" id="1_fd6su"]
+[ext_resource type="Script" uid="uid://cnt04mflecnqa" path="res://Interface/Main.gd" id="2_main"]
 
 [node name="Main" type="Node2D" unique_id=2057756595]
+script = ExtResource("2_main")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=637993734]
+[node name="Game" type="Node2D" parent="." unique_id=221331215]
+scale = Vector2(0.75, 0.75)
+
+[node name="Level" parent="Game" unique_id=1182049839 instance=ExtResource("1_ctv0a")]
 
 [node name="Logo" type="Sprite2D" parent="." unique_id=925718396]
-position = Vector2(0, -180.00002)
+position = Vector2(0, -4.0000305)
 scale = Vector2(0.4, 0.39999995)
 texture = ExtResource("1_fd6su")
+
+[node name="Camera" type="Camera2D" parent="." unique_id=367628253]
+position = Vector2(0, 175.99998)
+
+[node name="CameraPosition01" type="Marker2D" parent="." unique_id=637993734]
+position = Vector2(0, 175.99998)
+
+[node name="CameraPosition02" type="Marker2D" parent="." unique_id=1974611559]
+position = Vector2(0, 600)
+
+[node name="LevelSelection" type="Control" parent="." unique_id=215470568]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -475.0
+offset_top = 460.0
+offset_right = 475.0
+offset_bottom = 910.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Level01" type="Button" parent="LevelSelection" unique_id=1307465103]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 100.0
+text = "1-1"
+metadata/level_id = 1
+
+[node name="Level02" type="Button" parent="LevelSelection" unique_id=590024327]
+layout_mode = 0
+offset_left = 250.0
+offset_right = 450.0
+offset_bottom = 100.0
+text = "1-2"
+metadata/level_id = 2
+
+[node name="Level03" type="Button" parent="LevelSelection" unique_id=682135069]
+layout_mode = 0
+offset_left = 500.0
+offset_right = 700.0
+offset_bottom = 100.0
+text = "1-3"
+metadata/level_id = 3
+
+[node name="Level04" type="Button" parent="LevelSelection" unique_id=907815647]
+layout_mode = 0
+offset_left = 750.0
+offset_right = 950.0
+offset_bottom = 100.0
+text = "1-4"
+metadata/level_id = 4
+
+[node name="Level05" type="Button" parent="LevelSelection" unique_id=58188507]
+layout_mode = 0
+offset_top = 175.0
+offset_right = 200.0
+offset_bottom = 275.0
+text = "1-1"
+metadata/level_id = 5
+
+[node name="Level06" type="Button" parent="LevelSelection" unique_id=995745171]
+layout_mode = 0
+offset_left = 250.0
+offset_top = 175.0
+offset_right = 450.0
+offset_bottom = 275.0
+text = "1-2"
+metadata/level_id = 6
+
+[node name="Level07" type="Button" parent="LevelSelection" unique_id=598115865]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 175.0
+offset_right = 700.0
+offset_bottom = 275.0
+text = "1-3"
+metadata/level_id = 7
+
+[node name="Level08" type="Button" parent="LevelSelection" unique_id=340596391]
+layout_mode = 0
+offset_left = 750.0
+offset_top = 175.0
+offset_right = 950.0
+offset_bottom = 275.0
+text = "1-4"
+metadata/level_id = 8
+
+[node name="Level09" type="Button" parent="LevelSelection" unique_id=2043175796]
+layout_mode = 0
+offset_top = 350.0
+offset_right = 200.0
+offset_bottom = 450.0
+text = "1-1"
+metadata/level_id = 9
+
+[node name="Level10" type="Button" parent="LevelSelection" unique_id=977138761]
+layout_mode = 0
+offset_left = 250.0
+offset_top = 350.0
+offset_right = 450.0
+offset_bottom = 450.0
+text = "1-2"
+metadata/level_id = 10
+
+[node name="Level11" type="Button" parent="LevelSelection" unique_id=1997443955]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 350.0
+offset_right = 700.0
+offset_bottom = 450.0
+text = "1-3"
+metadata/level_id = 11
+
+[node name="Level12" type="Button" parent="LevelSelection" unique_id=1308900035]
+layout_mode = 0
+offset_left = 750.0
+offset_top = 350.0
+offset_right = 950.0
+offset_bottom = 450.0
+text = "1-4"
+metadata/level_id = 12
+
+[node name="GameOption" type="Control" parent="." unique_id=1703430157]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -475.0
+offset_top = 460.0
+offset_right = 475.0
+offset_bottom = 910.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="GameOption" unique_id=1815646864]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "fortest"
+
+[node name="MainMenu" type="Control" parent="." unique_id=2004838966]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = 416.0
+offset_right = 360.0
+offset_bottom = 516.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LevelSelection" type="Button" parent="MainMenu" unique_id=1877194886]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -50.0
+offset_right = 300.0
+offset_bottom = 50.0
+grow_vertical = 2
+text = "LevelSelection"
+
+[node name="GameOption" type="Button" parent="MainMenu" unique_id=930548197]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -50.0
+offset_bottom = 50.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+text = "GameOption"
+
+[node name="MenuUI" type="CanvasLayer" parent="." unique_id=2106478354]
+
+[node name="Back" type="Button" parent="MenuUI" unique_id=157901416]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -80.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 80.0
+grow_horizontal = 0
+text = "Back"
