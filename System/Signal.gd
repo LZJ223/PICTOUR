@@ -105,7 +105,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	_update_destination_view()
-	if dialogue_active or Global.object_selected:
+	## 对话和观察目标只锁定玩家操作，期间仍保持世界物理与 Bot 巡逻运行。
+	if dialogue_active or looking_at_destination or Global.object_selected:
 		timer_reset()
 
 func _physics_process(_delta: float) -> void:
@@ -140,11 +141,17 @@ func _is_destination_key_pressed() -> bool:
 	return false
 
 func _timer_trigger() -> void:
-	if dialogue_active:
+	if dialogue_active or looking_at_destination:
 		timer_reset()
+		return
+	if not is_physics_resting():
 		return
 	PhysicsServer2D.set_active(false)
 	shadow_boolean.emit()
+
+## Player 始终跟随计时器休息，只有夜间影子关卡需要同时冻结物理世界。
+func is_physics_resting() -> bool:
+	return is_instance_valid(Global.level) and Global.level.is_night and timer != null and timer.is_stopped()
 
 func timer_reset() -> void:
 	if timer.is_stopped():

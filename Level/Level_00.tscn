@@ -7,7 +7,7 @@
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_b2gmg"]
 [ext_resource type="PackedScene" uid="uid://by6iwxwd7u6rn" path="res://Component/Object/House.tscn" id="6_d5jdo"]
 [ext_resource type="PackedScene" uid="uid://0bq088mgrfbd" path="res://Component/Object/Tree/Tree_03.tscn" id="6_v15wp"]
-[ext_resource type="PackedScene" path="res://Component/Object/Soil_Loop.tscn" id="7_8venk"]
+[ext_resource type="PackedScene" path="res://Component/Object/Soil/Soil_Loop.tscn" id="7_8venk"]
 [ext_resource type="PackedScene" uid="uid://bpq31rpppl2jc" path="res://Component/Object/Tree/Tree_05.tscn" id="7_d5jdo"]
 [ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/Tree/Tree_01.tscn" id="7_qg7p7"]
 [ext_resource type="PackedScene" uid="uid://d5c1bsw7y6jr" path="res://Component/Object/Tree/Tree_02.tscn" id="8_qg7p7"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://cj5sdomwlr4ag" path="res://Component/Object/Brush/Brush_03.tscn" id="17_kvb7q"]
 [ext_resource type="PackedScene" uid="uid://dljaeuwmwdwpv" path="res://Component/Object/Brush/Brush_06.tscn" id="18_xswjk"]
 [ext_resource type="PackedScene" uid="uid://byqu2wqmpgp36" path="res://Component/Object/Brush/Brush_02.tscn" id="19_jpvhp"]
+[ext_resource type="PackedScene" uid="uid://3n0fwxwpfsl5" path="res://Component/Bot/Bot.tscn" id="20_s4e2v"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s4e2v"]
 resource_local_to_scene = true
@@ -126,6 +127,9 @@ position = Vector2(2045, 464)
 [node name="Brush8" parent="Layer3" unique_id=1806605344 instance=ExtResource("19_jpvhp")]
 position = Vector2(916, 464)
 
+[node name="Bot" parent="Layer3" unique_id=330834349 instance=ExtResource("20_s4e2v")]
+position = Vector2(-69, 500)
+
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_daf62")]
 material = SubResource("ShaderMaterial_gykts")
 layer_id = 1
@@ -148,7 +152,7 @@ position = Vector2(3222, 288)
 [node name="House" parent="Layer2" unique_id=1740520627 instance=ExtResource("6_d5jdo")]
 position = Vector2(590, 304)
 
-[node name="Brush" parent="Layer2" unique_id=330834349 instance=ExtResource("12_3co4h")]
+[node name="Brush" parent="Layer2" unique_id=983239145 instance=ExtResource("12_3co4h")]
 position = Vector2(-135, 464)
 
 [node name="Brush4" parent="Layer2" unique_id=287867091 instance=ExtResource("13_u7dij")]
@@ -159,6 +163,9 @@ position = Vector2(2550, 464)
 
 [node name="Brush10" parent="Layer2" unique_id=1949223786 instance=ExtResource("14_s4e2v")]
 position = Vector2(2808, 464)
+
+[node name="Bot" parent="Layer2" unique_id=1078462835 instance=ExtResource("20_s4e2v")]
+position = Vector2(2138, 500)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_daf62")]
 material = SubResource("ShaderMaterial_xswjk")

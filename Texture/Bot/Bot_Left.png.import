@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byurijku3gkox"
-path="res://.godot/imported/Soil_001_000_003.png-172dc0cbdfb69f34835ccdcd2abd8b4a.ctex"
+uid="uid://bn8x7y4g2yjtr"
+path="res://.godot/imported/Bot_Left.png-0420708677d3567d3fd36c6ed14d4f71.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Generated/Soil_01/Soil_001_000_003.png"
-dest_files=["res://.godot/imported/Soil_001_000_003.png-172dc0cbdfb69f34835ccdcd2abd8b4a.ctex"]
+source_file="res://Texture/Bot/Bot_Left.png"
+dest_files=["res://.godot/imported/Bot_Left.png-0420708677d3567d3fd36c6ed14d4f71.ctex"]
 
 [params]
 

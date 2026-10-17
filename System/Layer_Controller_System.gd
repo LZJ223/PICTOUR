@@ -93,7 +93,11 @@ func _update_view() -> void:
 
 ## 图层轮换
 func cycle(direction: int, check_collision: bool = true) -> bool:
-	if SignalSystem.dialogue_active or SignalSystem.looking_at_destination or Global.goal.completed:
+	if SignalSystem.dialogue_active or Global.goal.completed:
+		return false
+	## 只放行已经开始的无人机自动收回，观察期间仍禁止玩家发起轮换。
+	var automatic_recall: bool = not check_collision and Global.player.current_state == PlayerController.PlayerState.RECALLING
+	if SignalSystem.looking_at_destination and not automatic_recall:
 		return false
 	if abs(direction) != 1:
 		return false

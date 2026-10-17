@@ -43,8 +43,8 @@ func resume() -> void:
 	if focused != null:
 		focused.release_focus()
 	get_tree().paused = false
-	## 解除场景树暂停会唤醒物理服务器；保留精神滤镜原有的休息状态。
-	PhysicsServer2D.set_active(not SignalSystem.timer.is_stopped())
+	## 仅保留夜间影子关卡的物理冻结，白天 Player 休息时世界仍继续运行。
+	PhysicsServer2D.set_active(not SignalSystem.is_physics_resting())
 
 func _begin_hold(action: HoldAction) -> void:
 	if not visible or SceneTransition.busy:

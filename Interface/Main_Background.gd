@@ -1,4 +1,4 @@
-## 菜单背景只驱动画面，不注册游戏关卡，也不运行玩家控制器。
+## 菜单背景不注册游戏关卡或玩家控制器，只保留 Bot 巡逻所需的碰撞。
 extends Node2D
 
 @export_range(0.0, 1000.0, 1.0) var scroll_speed: float = 260.0
@@ -111,11 +111,13 @@ func _get_layer_center(layer: DepthLayer) -> float:
 func _disable_interactions(node: Node) -> void:
 	if node is RigidBody2D:
 		node.freeze = true
+	if node is Bot:
+		node.enable_background_motion()
 	if node is CollisionObject2D:
-		node.collision_layer = 0
-		node.collision_mask = 0
 		node.input_pickable = false
 	if node is Area2D:
+		node.collision_layer = 0
+		node.collision_mask = 0
 		node.monitoring = false
 		node.monitorable = false
 	for child in node.get_children():

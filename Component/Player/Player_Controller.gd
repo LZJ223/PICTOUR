@@ -22,7 +22,6 @@ const UAV_RECALL_DURATION: float = 0.25
 @onready var body_collision_box: CollisionPolygon2D = $CollisionBox_Body
 @onready var UAV_collision_box: CollisionPolygon2D = $CollisionBox_UAV
 @onready var player_animation: PlayerAnimation = $PlayerSprite
-@onready var _animation_process_mode: Node.ProcessMode = player_animation.process_mode
 ## 状态信息
 var current_state: PlayerState = PlayerState.NORMAL
 var player_body: LayerObject = null
@@ -33,19 +32,6 @@ const player_body_type: PackedScene = preload("res://Component/Object/Player_Obj
 ## 准备阶段绑定信号
 func _ready() -> void:
 	SignalSystem.UAV_activate.connect(UAV_activate)
-	SignalSystem.destination_view_changed.connect(_on_destination_view_changed)
-
-func _on_destination_view_changed(active: bool) -> void:
-	player_animation.process_mode = Node.PROCESS_MODE_DISABLED if active else _animation_process_mode
-	if _recall_tween != null and _recall_tween.is_valid():
-		if active:
-			_recall_tween.pause()
-		else:
-			_recall_tween.play()
-
-func _wait_for_actions() -> void:
-	while SignalSystem.looking_at_destination:
-		await SignalSystem.destination_view_changed
 
 ## 人物移动逻辑
 func _physics_process(delta: float) -> void:
@@ -56,14 +42,16 @@ func _physics_process(delta: float) -> void:
 	if Global.goal.completed:
 		## 结算时只注入向右行走，不读取按键，保留碰撞、重力和行走动效。
 		_update_normal(1.0, false)
-	elif SignalSystem.looking_at_destination or current_state == PlayerState.RECALLING:
+	elif current_state == PlayerState.RECALLING:
 		return
 	else:
+		## 观察目标只屏蔽输入，重力、惯性、碰撞和动画仍正常更新。
+		var can_control: bool = not SignalSystem.looking_at_destination
 		match current_state:
 			PlayerState.NORMAL:
-				_update_normal(Input.get_axis("move_left", "move_right"))
+				_update_normal(Input.get_axis("move_left", "move_right") if can_control else 0.0, can_control)
 			PlayerState.UAV:
-				_update_uav(delta)
+				_update_uav(delta, can_control)
 	if velocity.length() > 0.0001:
 		SignalSystem.timer_reset()
 	move_and_slide()
@@ -85,9 +73,10 @@ func _update_normal(input_axis: float, can_jump: bool = true) -> void:
 		velocity.y = clamp(velocity.y, jump_speed * -1, max_falling_speed)
 
 ## 无人机移动
-func _update_uav(_delta: float) -> void:
-	velocity.x += Input.get_axis("move_left", "move_right") * acceleration
-	velocity.y += Input.get_axis("move_up", "move_down") * acceleration
+func _update_uav(_delta: float, can_control: bool = true) -> void:
+	if can_control:
+		velocity.x += Input.get_axis("move_left", "move_right") * acceleration
+		velocity.y += Input.get_axis("move_up", "move_down") * acceleration
 	var dist: Vector2 = position - player_body.position
 	if dist.length() > UAV_distance:
 		velocity -= dist.normalized() * (dist.length() - UAV_distance)
@@ -134,7 +123,6 @@ func _recall_uav() -> void:
 	var layer_controller := get_tree().get_first_node_in_group("layer_controllers") as LayerControllerSystem
 	while layer_controller.is_cycling():
 		await layer_controller.cycle_finished
-	await _wait_for_actions()
 	var player_body_layer: DepthLayer = player_body.find_owner_layer()
 	_recall_tween = create_tween().set_process_mode(Tween.TWEEN_PROCESS_IDLE)
 	_recall_tween.set_parallel(true)
@@ -145,12 +133,10 @@ func _recall_uav() -> void:
 		self, "scale", player_body.collision_box.scale, UAV_RECALL_DURATION
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	while player_body_layer.slot != Global.current_layer_index:
-		await _wait_for_actions()
 		layer_controller.cycle(1, false)
 		await layer_controller.cycle_finished
 	if _recall_tween.is_valid():
 		await _recall_tween.finished
-	await _wait_for_actions()
 	_recall_tween = null
 	global_position = player_body.global_position
 	scale = player_body.collision_box.scale

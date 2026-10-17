@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://3n0fwxwpfsl5"]
+
+[ext_resource type="Texture2D" uid="uid://ptxjafrgqjv2" path="res://Texture/Bot/Bot_Right.png" id="1_6707p"]
+[ext_resource type="Texture2D" uid="uid://bn8x7y4g2yjtr" path="res://Texture/Bot/Bot_Left.png" id="2_03q6s"]
+[ext_resource type="Texture2D" uid="uid://cnqm2x6w3l33x" path="res://Texture/Bot/Bot_Middle.png" id="3_8pjdo"]
+[ext_resource type="Script" uid="uid://c64muftp37g5k" path="res://Component/Bot/Bot.gd" id="4_bot"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bot"]
+friction = 0.0
+
+[node name="Bot" type="RigidBody2D" unique_id=330834349]
+physics_material_override = SubResource("PhysicsMaterial_bot")
+can_sleep = false
+lock_rotation = true
+script = ExtResource("4_bot")
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=817137210]
+
+[node name="BotSprite" type="Node2D" parent="VisualRoot" unique_id=2032125589]
+position = Vector2(-1, -2)
+
+[node name="BotRight" type="Sprite2D" parent="VisualRoot/BotSprite" unique_id=1949200309]
+position = Vector2(-1, -1)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_6707p")
+
+[node name="BotLeft" type="Sprite2D" parent="VisualRoot/BotSprite" unique_id=957885445]
+position = Vector2(-1, -1)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_03q6s")
+
+[node name="BotMiddle" type="Sprite2D" parent="VisualRoot/BotSprite" unique_id=115280541]
+position = Vector2(-1, -1)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_8pjdo")
+
+[node name="Area2D" type="Area2D" parent="VisualRoot" unique_id=1324729838]
+monitoring = false
+monitorable = false
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="VisualRoot/Area2D" unique_id=1689027673]
+polygon = PackedVector2Array(28, 12, 28, -20, -32, -20, -32, 12)
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=1594888352]
+polygon = PackedVector2Array(28, 20, 28, -20, -32, -20, -32, 20)

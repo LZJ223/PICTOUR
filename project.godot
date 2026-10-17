@@ -94,6 +94,8 @@ look_at_destination={
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
 environment/defaults/default_clear_color=Color(0.29803923, 0.85490197, 0.99215686, 1)
+environment/size/viewport_width=1280
+environment/size/viewport_height=720
 
 [shader_globals]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgqrvkllm7ns5"
-path="res://.godot/imported/Soil_001_000_000.png-5f267ff60d774d0d3b2c50e98e61e79c.ctex"
+uid="uid://bd46dco50odja"
+path="res://.godot/imported/Soil_001_000_002.png-fe630785876eb68e2da0ceb41692a6b5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Generated/Soil_01/Soil_001_000_000.png"
-dest_files=["res://.godot/imported/Soil_001_000_000.png-5f267ff60d774d0d3b2c50e98e61e79c.ctex"]
+source_file="res://Texture/Soil/Soil_001_000_002.png"
+dest_files=["res://.godot/imported/Soil_001_000_002.png-fe630785876eb68e2da0ceb41692a6b5.ctex"]
 
 [params]
 

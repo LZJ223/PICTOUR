@@ -116,8 +116,6 @@ func _finish(paused: bool) -> void:
 	_black.hide()
 	busy = false
 	get_tree().paused = paused
-	## 失败时保留原场景的休息状态；菜单没有玩家，不受休息计时影响。
-	PhysicsServer2D.set_active(not paused and (
-		not is_instance_valid(Global.player) or not SignalSystem.timer.is_stopped()
-	))
+	## 转场结束仅恢复夜间关卡的物理休眠，不把 Player 休息当成全局冻结。
+	PhysicsServer2D.set_active(not paused and not SignalSystem.is_physics_resting())
 	transition_finished.emit()
