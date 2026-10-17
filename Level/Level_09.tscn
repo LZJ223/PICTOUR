@@ -8,11 +8,34 @@
 [ext_resource type="PackedScene" uid="uid://cabe2ddgr2o0l" path="res://Component/Shadowed_Geometry/Shadowed_Geometry.tscn" id="7_2ly7o"]
 [ext_resource type="PackedScene" uid="uid://h06vmqdf8ucl" path="res://Component/Goal/Goal.tscn" id="8_y7c3s"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ly7o"]
+resource_local_to_scene = true
+shader = ExtResource("3_w1gen")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0
+shader_parameter/is_night = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y7c3s"]
+resource_local_to_scene = true
+shader = ExtResource("4_biyeo")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+shader_parameter/is_night = false
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w1gen"]
 resource_local_to_scene = true
 shader = ExtResource("3_w1gen")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0
+shader_parameter/is_night = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_biyeo"]
 resource_local_to_scene = true
@@ -25,12 +48,15 @@ shader_parameter/anchor_position = Vector2(0, 0)
 shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
+shader_parameter/is_night = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_545fr"]
 resource_local_to_scene = true
 shader = ExtResource("3_w1gen")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0
+shader_parameter/is_night = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5bmnj"]
 resource_local_to_scene = true
@@ -43,12 +69,15 @@ shader_parameter/anchor_position = Vector2(0, 0)
 shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
+shader_parameter/is_night = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_55i33"]
 resource_local_to_scene = true
 shader = ExtResource("3_w1gen")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0
+shader_parameter/is_night = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p5s07"]
 resource_local_to_scene = true
@@ -61,36 +90,20 @@ shader_parameter/anchor_position = Vector2(0, 0)
 shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jdcqs"]
-resource_local_to_scene = true
-shader = ExtResource("3_w1gen")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ahl3s"]
-resource_local_to_scene = true
-shader = ExtResource("4_biyeo")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
+shader_parameter/is_night = false
 
 [node name="Level" type="Node2D" unique_id=1182049839]
 script = ExtResource("1_2ly7o")
 level_id = 9
+is_night = true
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_y7c3s")]
-material = SubResource("ShaderMaterial_w1gen")
+material = SubResource("ShaderMaterial_2ly7o")
 layer_id = 3
 slot = 3
 
 [node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_biyeo")
+material = SubResource("ShaderMaterial_y7c3s")
 
 [node name="Soil_001" parent="Layer3" unique_id=1170671701 instance=ExtResource("5_545fr")]
 position = Vector2(636, 720)
@@ -111,12 +124,12 @@ position = Vector2(536, 500)
 position = Vector2(-576, 500)
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_y7c3s")]
-material = SubResource("ShaderMaterial_545fr")
+material = SubResource("ShaderMaterial_w1gen")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_5bmnj")
+material = SubResource("ShaderMaterial_biyeo")
 
 [node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("5_545fr")]
 position = Vector2(636, 720)
@@ -137,12 +150,12 @@ position = Vector2(-456, 500)
 position = Vector2(720, 500)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_y7c3s")]
-material = SubResource("ShaderMaterial_55i33")
+material = SubResource("ShaderMaterial_545fr")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
 visible = true
-material = SubResource("ShaderMaterial_p5s07")
+material = SubResource("ShaderMaterial_5bmnj")
 
 [node name="Soil_001" parent="Layer1" unique_id=126668145 instance=ExtResource("5_545fr")]
 position = Vector2(636, 720)
@@ -163,11 +176,11 @@ position = Vector2(-520, 500)
 position = Vector2(664, 500)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_y7c3s")]
-material = SubResource("ShaderMaterial_jdcqs")
+material = SubResource("ShaderMaterial_55i33")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_ahl3s")
+material = SubResource("ShaderMaterial_p5s07")
 
 [node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("5_545fr")]
 position = Vector2(636, 720)
@@ -194,3 +207,4 @@ position = Vector2(1024, 514)
 [editable path="Layer2"]
 [editable path="Layer1"]
 [editable path="Layer0"]
+[editable path="Layer0/ShadowedGeometry"]

@@ -84,6 +84,7 @@ shader_parameter/scroll_offset = 0.0
 [node name="Level" type="Node2D" unique_id=1182049839]
 script = ExtResource("1_bydlp")
 level_id = 11
+is_night = true
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_k0oya")]
 material = SubResource("ShaderMaterial_80x03")

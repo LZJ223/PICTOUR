@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://c2t31v7eb34te" path="res://System/Shadow_Controller_System.gd" id="4_t5pu8"]
 [ext_resource type="PackedScene" uid="uid://57mr5e3qn8rm" path="res://Interface/Pause.tscn" id="5_pause"]
 [ext_resource type="Script" path="res://Interface/Icon_Button.gd" id="6_icon_button"]
+[ext_resource type="Script" path="res://System/Night_Render_System.gd" id="7_night"]
 
 [node name="Game" type="Node2D" unique_id=1565919311]
 script = ExtResource("1_game")
@@ -52,5 +53,8 @@ script = ExtResource("3_8d3to")
 
 [node name="ShadowControllerSystem" type="Node" parent="." unique_id=1161260881]
 script = ExtResource("4_t5pu8")
+
+[node name="NightRenderSystem" type="Node" parent="."]
+script = ExtResource("7_night")
 
 [connection signal="pressed" from="Camera/MenuUI/Screen/Back" to="Camera/MenuUI/Screen/Pause" method="open"]

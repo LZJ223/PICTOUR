@@ -8,6 +8,15 @@ extends Node2D
 @export var current_layer_index: int = 1
 @export var level_id: int = 0
 
+@export_group("黑夜表现")
+@export var is_night: bool = false
+@export_range(0.0, 1.0, 0.01) var night_ambient: float = 0.38
+@export var night_light_color: Color = Color(1.0, 0.85, 0.58, 1.0)
+@export_range(100.0, 2000.0, 10.0) var night_light_radius: float = 750.0
+@export_range(1.0, 100.0, 1.0) var night_surface_width: float = 24.0
+@export_range(0.0, 6.0, 0.1) var night_surface_energy: float = 2.6
+@export_range(0.0, 1.0, 0.01) var night_ray_energy: float = 0.65
+
 @export_group("图层偏移色")
 @export var foreground_tint_color: Color = Color(0.212, 0.22, 0.125, 1.0)
 @export var background_tint_color: Color = Color(0.339, 0.852, 0.87, 1.0)

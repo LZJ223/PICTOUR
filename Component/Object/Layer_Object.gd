@@ -34,10 +34,6 @@ enum TransferMotion { OUTWARD, INWARD }
 @onready var collision_box: CollisionPolygon2D = $CollisionBox
 @onready var visual_root: Node2D = $VisualRoot
 var owner_layer: DepthLayer
-## 影子信息
-var shadow_box: Array[Polygon2D] = []
-var shadow_visual: Array[Polygon2D] = []
-var shadow_active: Array[bool] = []
 const _SELECTION_OUTLINE_SHADER := preload("res://Shader/Selection_Outline.gdshader")
 var _selected: bool = false
 var _selection_outlines: Array[Dictionary] = []

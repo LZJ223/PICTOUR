@@ -173,3 +173,71 @@ render_selection_outline_width={
 "type": "float",
 "value": 3.0
 }
+render_shadow_mask={
+"type": "sampler2D",
+"value": ""
+}
+render_shadow_tile_size={
+"type": "vec2",
+"value": Vector2(1, 1)
+}
+render_shadow_view_size={
+"type": "vec2",
+"value": Vector2(1440, 810)
+}
+render_shadow_anchor={
+"type": "vec2",
+"value": Vector2(0, 0)
+}
+render_shadow_layer_scales={
+"type": "vec4",
+"value": Vector4(1.25, 1, 0.8, 0.64)
+}
+render_shadow_screen_x={
+"type": "vec3",
+"value": Vector3(1, 0, 0)
+}
+render_shadow_screen_y={
+"type": "vec3",
+"value": Vector3(0, 1, 0)
+}
+render_night_enabled={
+"type": "bool",
+"value": false
+}
+render_night_light_uv={
+"type": "vec2",
+"value": Vector2(0, 0)
+}
+render_night_light_color={
+"type": "color",
+"value": Color(1, 0.85, 0.58, 1)
+}
+render_night_light_radius={
+"type": "float",
+"value": 1.0
+}
+render_night_ambient={
+"type": "float",
+"value": 0.38
+}
+render_night_ray_energy={
+"type": "float",
+"value": 0.65
+}
+render_night_focus={
+"type": "float",
+"value": 1.0
+}
+render_night_time={
+"type": "float",
+"value": 0.0
+}
+render_night_surface_width={
+"type": "float",
+"value": 0.03
+}
+render_night_surface_energy={
+"type": "float",
+"value": 2.6
+}

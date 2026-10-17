@@ -14,3 +14,6 @@ polygon = PackedVector2Array(-21.266667, -74.066667, 22, -74.066667, 22, -106.33
 polygon = PackedVector2Array(27.866667, -67.466667, -30.8, -67.466667, -30.8, 0, 27.866667, -0.733333)
 
 [node name="PlayerSprite" parent="." unique_id=823621594 instance=ExtResource("2_sprite")]
+
+[node name="LightOrigin" type="Marker2D" parent="."]
+position = Vector2(0, -85)

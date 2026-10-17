@@ -18,6 +18,7 @@ uniform vec2 anchor_position = vec2(0.0);
 uniform vec2 visual_offset = vec2(0.0);
 uniform mat3 world_to_space = mat3(1.0);
 uniform float scroll_offset = 0.0;
+uniform bool is_night = false;
 
 const float LAYER_Z_INDEX_STEP = 100.0;
 const float MINIMUM_SCALE = 0.0001;
@@ -59,6 +60,7 @@ void fragment() {
 		)
 	);
 	vec4 haze = textureLod(render_haze_texture, haze_uv, blur_lod);
+	if (is_night) { haze.rgb = vec3(0.0); }
 	haze.a *= render_haze_opacity * clamp(depth, 0.0, 1.0) * cycle_opacity;
 	COLOR = haze;
 }

@@ -18,24 +18,25 @@ func _ready() -> void:
 
 ## 影子布尔运算
 func shadow_boolean() -> void:
+	if not is_instance_valid(Global.level) or not Global.level.is_night:
+		return
+	var controller := get_tree().get_first_node_in_group("layer_controllers") as LayerControllerSystem
+	if controller != null and controller.is_cycling():
+		return
+	var light_position: Vector2 = Global.player.get_node("LightOrigin").global_position
 	for slot in range(Global.layer_count - 1, Global.current_layer_index + 1, -1):
 		## 影子收集
 		var shadows: Array[PackedVector2Array] = []
-		var shadow_index: int = slot - Global.current_layer_index - 2
+		var target_layer: DepthLayer = Global.get_layer_at_slot(slot)
 		for caster_slot in range(Global.current_layer_index + 1, slot):
 			var caster_layer: DepthLayer = Global.get_layer_at_slot(caster_slot)
 			for child in caster_layer.get_children():
-				if child is LayerObject:
-					if not child.can_leave_shadow:
-						continue
-					if not child.shadow_active[shadow_index]:
-						continue
-					var shadow_node: Polygon2D = child.shadow_box[shadow_index]
-					shadows.append(_polygon_to_world(shadow_node.polygon, shadow_node.global_transform))
+				if child is ShadowedGeometry and not child.is_queued_for_deletion():
+					if child.can_project_on(target_layer):
+						shadows.append(child.get_projection_polygon(target_layer, light_position))
 		if shadows.is_empty():
 			continue
 		## 承影物体收集
-		var target_layer: DepthLayer = Global.get_layer_at_slot(slot)
 		var plans: Array[CutPlan] = []
 		for child in target_layer.get_children().duplicate():
 			if child is LayerObject:
@@ -110,6 +111,7 @@ func _replace_object_with_fragments(source: LayerObject, world_pieces: Array[Pac
 		fragment.can_transfer = source.can_transfer
 		fragment.can_leave_shadow = source.can_leave_shadow
 		fragment.can_be_shadowed = source.can_be_shadowed
+		fragment.front = source.front
 		_copy_whitebox_style(source, fragment)
 		target_layer.add_child(fragment, true)
 		generated_count += 1

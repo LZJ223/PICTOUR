@@ -40,6 +40,9 @@ func _ready() -> void:
 	_haze_material = haze_plane.material as ShaderMaterial
 	assert(_filter_material != null, "DepthLayer 需要使用图层滤镜 ShaderMaterial")
 	assert(_haze_material != null, "DepthLayer 需要使用雾效 ShaderMaterial")
+	_filter_material.set_shader_parameter("layer_id", layer_id)
+	_filter_material.set_shader_parameter("is_night", _level.is_night)
+	_haze_material.set_shader_parameter("is_night", _level.is_night)
 	_haze_material.set_shader_parameter("layer_id", float(layer_id))
 
 ## 更新位置
