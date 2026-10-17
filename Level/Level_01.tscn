@@ -34,6 +34,8 @@ shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
 shader_parameter/anchor_position = Vector2(0, 0)
 shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jxlpv"]
 resource_local_to_scene = true
@@ -50,6 +52,8 @@ shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
 shader_parameter/anchor_position = Vector2(0, 0)
 shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uaa84"]
 resource_local_to_scene = true
@@ -66,6 +70,8 @@ shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
 shader_parameter/anchor_position = Vector2(0, 0)
 shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nwjy5"]
 size = Vector2(20, 1200)

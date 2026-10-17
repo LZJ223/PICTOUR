@@ -3,7 +3,7 @@ extends Button
 
 @export_range(1.0, 1.3, 0.01) var hover_scale: float = 1.08
 @export_range(0.01, 0.5, 0.01) var hover_duration: float = 0.06
-@export_range(0.0, 10.0, 0.5) var hover_rotation_degrees: float = 3.0
+@export_range(0.0, 10.0, 0.5) var hover_rotation_degrees: float = 6.0
 @export_range(0.0, 5.0, 0.1) var hold_shake_amplitude: float = 1.2
 @export_range(0.0, 10.0, 0.5) var hold_shake_rotation_degrees: float = 3.0
 @export var progress_color: Color = Color(0.08, 0.68, 0.29)
