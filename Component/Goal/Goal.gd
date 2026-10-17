@@ -35,7 +35,7 @@ func _set_preview(active: bool) -> void:
 	)
 
 func _on_body_entered(body: Node2D) -> void:
-	if completed or SceneTransition.busy or body != Global.player:
+	if completed or SceneTransition.busy or SignalSystem.dialogue_active or body != Global.player:
 		return
 	if Global.player.current_state != PlayerController.PlayerState.NORMAL:
 		return

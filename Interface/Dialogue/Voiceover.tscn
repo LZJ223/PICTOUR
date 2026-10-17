@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bbamg45bye3d3"]
+
+[ext_resource type="Script" uid="uid://h7ty0nwhe6mw" path="res://Interface/Dialogue/Dialogue_Box.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c154fefcktb66" path="res://Texture/DialogBox/DialogBox_Voiceover.png" id="2"]
+[ext_resource type="FontFile" uid="uid://detnct0v661i1" path="res://Font/CheeseFoamOolongSongLite-Bold.ttf" id="3_rdjpb"]
+
+[sub_resource type="Theme" id="Theme_rlvn4"]
+default_font = ExtResource("3_rdjpb")
+default_font_size = 30
+
+[node name="Voiceover" type="Control" unique_id=830838848]
+layout_mode = 3
+anchor_left = 0.5
+anchor_top = 0.16
+anchor_right = 0.5
+anchor_bottom = 0.16
+offset_left = -640.0
+offset_top = -240.0
+offset_right = 640.0
+offset_bottom = 240.0
+scale = Vector2(0.9, 0.9)
+mouse_filter = 2
+script = ExtResource("1")
+
+[node name="VisualRoot" type="Control" parent="." unique_id=1992398732]
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 480.0
+pivot_offset = Vector2(640, 100)
+mouse_filter = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualRoot" unique_id=534634154]
+texture = ExtResource("2")
+centered = false
+
+[node name="Text" type="RichTextLabel" parent="VisualRoot" unique_id=1096317266]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 150.0
+offset_right = 1150.0
+offset_bottom = 345.0
+mouse_filter = 2
+theme = SubResource("Theme_rlvn4")
+theme_override_colors/default_color = Color(0.06, 0.12, 0.09, 1)
+theme_override_constants/line_separation = 10
+theme_override_font_sizes/normal_font_size = 36
+scroll_active = false

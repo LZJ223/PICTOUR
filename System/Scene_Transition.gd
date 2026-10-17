@@ -1,6 +1,8 @@
 ## 持久化黑幕；场景只提出请求，加载与动画不依赖即将离场的节点。
 extends CanvasLayer
 
+signal transition_finished
+
 const MAIN_SCENE := "res://Interface/Main.tscn"
 const GAME_SCENE := "res://Interface/Game.tscn"
 const LEVEL_PATH := "res://Level/Level_%02d.tscn"
@@ -11,6 +13,12 @@ const LEVEL_PATH := "res://Level/Level_%02d.tscn"
 var busy: bool = true
 var _initial_scene: bool = true
 var _black: ColorRect
+var _next_play_dialogue: bool = true
+
+func consume_dialogue_request() -> bool:
+	var play_dialogue := _next_play_dialogue
+	_next_play_dialogue = true
+	return play_dialogue
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -35,11 +43,11 @@ func _reveal_initial_scene() -> void:
 	await _fade(0.0, fade_in_duration)
 	_finish(false)
 
-func enter_level(level_id: int, keep_scene_running: bool = false) -> Error:
+func enter_level(level_id: int, keep_scene_running: bool = false, play_dialogue: bool = true) -> Error:
 	if level_id < 1 or level_id > 12:
 		push_error("无效的关卡编号：%d" % level_id)
 		return ERR_INVALID_PARAMETER
-	return await _change_scene(GAME_SCENE, level_id, keep_scene_running)
+	return await _change_scene(GAME_SCENE, level_id, keep_scene_running, play_dialogue)
 
 func enter_main_menu(keep_scene_running: bool = false) -> Error:
 	return await _change_scene(MAIN_SCENE, 0, keep_scene_running)
@@ -52,11 +60,12 @@ func quit_game() -> void:
 	await get_tree().process_frame
 	get_tree().quit()
 
-func _change_scene(path: String, level_id: int = 0, keep_scene_running: bool = false) -> Error:
+func _change_scene(path: String, level_id: int = 0, keep_scene_running: bool = false, play_dialogue: bool = true) -> Error:
 	if busy:
 		return ERR_BUSY
 	var was_paused: bool = get_tree().paused
 	var previous_level_id: int = Global.next_level_id
+	var previous_dialogue: bool = _next_play_dialogue
 	_begin(keep_scene_running)
 	await _fade(1.0, fade_out_duration)
 	## 结算演出持续到全黑，之后与普通转场共用冻结、清理和淡入流程。
@@ -69,6 +78,7 @@ func _change_scene(path: String, level_id: int = 0, keep_scene_running: bool = f
 	var error: Error = ERR_CANT_OPEN
 	if scene != null and level_exists:
 		Global.next_level_id = level_id if level_id > 0 else 1
+		_next_play_dialogue = play_dialogue
 		error = get_tree().change_scene_to_packed(scene)
 	if error == OK:
 		await get_tree().scene_changed
@@ -77,6 +87,7 @@ func _change_scene(path: String, level_id: int = 0, keep_scene_running: bool = f
 		await get_tree().process_frame
 	else:
 		Global.next_level_id = previous_level_id
+		_next_play_dialogue = previous_dialogue
 		push_error("场景切换失败（%s，关卡 %d）：%s" % [path, level_id, error_string(error)])
 	await _fade(0.0, fade_in_duration)
 	_finish(false if error == OK else was_paused)
@@ -109,3 +120,4 @@ func _finish(paused: bool) -> void:
 	PhysicsServer2D.set_active(not paused and (
 		not is_instance_valid(Global.player) or not SignalSystem.timer.is_stopped()
 	))
+	transition_finished.emit()

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_8venk"]
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_daf62"]
+[ext_resource type="PackedScene" uid="uid://coxrbpl33shd4" path="res://Component/Background/Background.tscn" id="2_u7dij"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_mvmpv"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_b2gmg"]
 [ext_resource type="PackedScene" uid="uid://by6iwxwd7u6rn" path="res://Component/Object/House.tscn" id="6_d5jdo"]
@@ -11,17 +12,27 @@
 [ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/Tree/Tree_01.tscn" id="7_qg7p7"]
 [ext_resource type="PackedScene" uid="uid://d5c1bsw7y6jr" path="res://Component/Object/Tree/Tree_02.tscn" id="8_qg7p7"]
 [ext_resource type="PackedScene" uid="uid://bh4ec7mgfy5r8" path="res://Component/Object/Tree/Tree_04.tscn" id="10_lndnk"]
+[ext_resource type="PackedScene" uid="uid://d0ggykfyc5hdl" path="res://Component/Object/Brush/Brush_01.tscn" id="12_3co4h"]
+[ext_resource type="PackedScene" uid="uid://o5rchuow65pm" path="res://Component/Object/Brush/Brush_07.tscn" id="13_u7dij"]
+[ext_resource type="PackedScene" uid="uid://kgpq76gmn41p" path="res://Component/Object/Brush/Brush_05.tscn" id="14_s4e2v"]
+[ext_resource type="PackedScene" uid="uid://bxedf58d0q1cs" path="res://Component/Object/Brush/Brush_08.tscn" id="15_5sccf"]
+[ext_resource type="PackedScene" uid="uid://bldexpi7l0bh7" path="res://Component/Object/Brush/Brush_04.tscn" id="16_gykts"]
+[ext_resource type="PackedScene" uid="uid://cj5sdomwlr4ag" path="res://Component/Object/Brush/Brush_03.tscn" id="17_kvb7q"]
+[ext_resource type="PackedScene" uid="uid://dljaeuwmwdwpv" path="res://Component/Object/Brush/Brush_06.tscn" id="18_xswjk"]
+[ext_resource type="PackedScene" uid="uid://byqu2wqmpgp36" path="res://Component/Object/Brush/Brush_02.tscn" id="19_jpvhp"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v15wp"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s4e2v"]
 resource_local_to_scene = true
 shader = ExtResource("3_mvmpv")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_d5jdo"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5sccf"]
 resource_local_to_scene = true
 shader = ExtResource("4_b2gmg")
 shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
@@ -30,16 +41,18 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qg7p7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gykts"]
 resource_local_to_scene = true
 shader = ExtResource("3_mvmpv")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lndnk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kvb7q"]
 resource_local_to_scene = true
 shader = ExtResource("4_b2gmg")
 shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
@@ -48,16 +61,18 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_55sqo"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xswjk"]
 resource_local_to_scene = true
 shader = ExtResource("3_mvmpv")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_20wpi"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jpvhp"]
 resource_local_to_scene = true
 shader = ExtResource("4_b2gmg")
 shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
@@ -71,13 +86,18 @@ script = ExtResource("1_8venk")
 layer_count = 3
 current_layer_index = 0
 
+[node name="Background" parent="." unique_id=863386680 instance=ExtResource("2_u7dij")]
+
+[node name="Sprite" parent="Background/Frame" parent_id_path=PackedInt32Array(863386680, 1425833484) index="0" unique_id=2100582541]
+position = Vector2(0, 68)
+
 [node name="Layer3" parent="." unique_id=1112075574 instance=ExtResource("2_daf62")]
-material = SubResource("ShaderMaterial_v15wp")
+material = SubResource("ShaderMaterial_s4e2v")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_d5jdo")
+material = SubResource("ShaderMaterial_5sccf")
 
 [node name="Ground" parent="Layer3" unique_id=1744010081 instance=ExtResource("7_8venk")]
 position = Vector2(3430, 720)
@@ -94,12 +114,24 @@ position = Vector2(2199, 284)
 [node name="House" parent="Layer3" unique_id=1648197490 instance=ExtResource("6_d5jdo")]
 position = Vector2(2808, 304)
 
+[node name="Brush2" parent="Layer3" unique_id=1615444503 instance=ExtResource("17_kvb7q")]
+position = Vector2(230, 464)
+
+[node name="Brush6" parent="Layer3" unique_id=1778962215 instance=ExtResource("18_xswjk")]
+position = Vector2(1225, 464)
+
+[node name="Brush7" parent="Layer3" unique_id=1601987908 instance=ExtResource("16_gykts")]
+position = Vector2(2045, 464)
+
+[node name="Brush8" parent="Layer3" unique_id=1806605344 instance=ExtResource("19_jpvhp")]
+position = Vector2(916, 464)
+
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_daf62")]
-material = SubResource("ShaderMaterial_qg7p7")
+material = SubResource("ShaderMaterial_gykts")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_lndnk")
+material = SubResource("ShaderMaterial_kvb7q")
 
 [node name="Ground" parent="Layer2" unique_id=1218902369 instance=ExtResource("7_8venk")]
 position = Vector2(3430, 720)
@@ -116,12 +148,24 @@ position = Vector2(3222, 288)
 [node name="House" parent="Layer2" unique_id=1740520627 instance=ExtResource("6_d5jdo")]
 position = Vector2(590, 304)
 
+[node name="Brush" parent="Layer2" unique_id=330834349 instance=ExtResource("12_3co4h")]
+position = Vector2(-135, 464)
+
+[node name="Brush4" parent="Layer2" unique_id=287867091 instance=ExtResource("13_u7dij")]
+position = Vector2(1116, 464)
+
+[node name="Brush9" parent="Layer2" unique_id=745459089 instance=ExtResource("12_3co4h")]
+position = Vector2(2550, 464)
+
+[node name="Brush10" parent="Layer2" unique_id=1949223786 instance=ExtResource("14_s4e2v")]
+position = Vector2(2808, 464)
+
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_daf62")]
-material = SubResource("ShaderMaterial_55sqo")
+material = SubResource("ShaderMaterial_xswjk")
 slot = 0
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_20wpi")
+material = SubResource("ShaderMaterial_jpvhp")
 
 [node name="Ground" parent="Layer1" unique_id=2035731030 instance=ExtResource("7_8venk")]
 position = Vector2(3430, 720)
@@ -135,6 +179,19 @@ position = Vector2(1089, 288)
 [node name="Tree7" parent="Layer1" unique_id=1612907896 instance=ExtResource("6_v15wp")]
 position = Vector2(2808, 284)
 
+[node name="Brush3" parent="Layer1" unique_id=1920266629 instance=ExtResource("14_s4e2v")]
+position = Vector2(603, 464)
+
+[node name="Brush5" parent="Layer1" unique_id=1352388342 instance=ExtResource("15_5sccf")]
+position = Vector2(1814, 464)
+
+[node name="Brush11" parent="Layer1" unique_id=893588512 instance=ExtResource("13_u7dij")]
+position = Vector2(3050, 464)
+
+[node name="Brush12" parent="Layer1" unique_id=1025390624 instance=ExtResource("16_gykts")]
+position = Vector2(-443, 464)
+
+[editable path="Background"]
 [editable path="Layer3"]
 [editable path="Layer3/Ground"]
 [editable path="Layer2"]

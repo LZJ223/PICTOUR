@@ -5,8 +5,10 @@
 [ext_resource type="Script" uid="uid://cnt04mflecnqa" path="res://Interface/Main.gd" id="2_main"]
 [ext_resource type="PackedScene" uid="uid://c7l6w1cpnicjv" path="res://Component/Player/Player_Sprite.tscn" id="3_4df8p"]
 [ext_resource type="Script" uid="uid://dfsjxuki2x8dy" path="res://Interface/Main_Background.gd" id="4_background"]
+[ext_resource type="Texture2D" uid="uid://cfedxygv5oiuh" path="res://Texture/Button/Level_Selection.png" id="6_qoy6l"]
 [ext_resource type="Texture2D" uid="uid://dp5qnqfax1xv2" path="res://Texture/Button/Back.png" id="6_rac2l"]
 [ext_resource type="Script" uid="uid://dr2mkm8w1p600" path="res://Interface/Icon_Button.gd" id="7_icon_button"]
+[ext_resource type="Texture2D" uid="uid://bylqre2yyhf1n" path="res://Texture/Button/Game_Options.png" id="7_oh7kd"]
 
 [node name="Main" type="Node2D" unique_id=2057756595]
 script = ExtResource("2_main")
@@ -161,22 +163,32 @@ text = "fortest"
 
 [node name="MainMenu" type="HBoxContainer" parent="." unique_id=2004838966]
 offset_left = -360.0
-offset_top = 416.0
+offset_top = 415.0
 offset_right = 360.0
-offset_bottom = 516.0
+offset_bottom = 515.0
 theme_override_constants/separation = 120
 
 [node name="LevelSelection" type="Button" parent="MainMenu" unique_id=1877194886]
 custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "LevelSelection"
+script = ExtResource("7_icon_button")
+
+[node name="Icon" type="Sprite2D" parent="MainMenu/LevelSelection" unique_id=258493131]
+position = Vector2(155, 46)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("6_qoy6l")
 
 [node name="GameOption" type="Button" parent="MainMenu" unique_id=930548197]
 custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "GameOption"
+script = ExtResource("7_icon_button")
+
+[node name="Icon" type="Sprite2D" parent="MainMenu/GameOption" unique_id=437748719]
+position = Vector2(144, 44)
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("7_oh7kd")
 
 [node name="MenuUI" type="CanvasLayer" parent="." unique_id=2106478354]
 

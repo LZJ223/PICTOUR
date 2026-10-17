@@ -23,8 +23,8 @@ SceneTransition="*res://System/Scene_Transition.gd"
 
 [display]
 
-window/size/viewport_width=1440
-window/size/viewport_height=810
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
@@ -93,10 +93,42 @@ look_at_destination={
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
-environment/defaults/default_clear_color=Color(0.04350001, 0.70469975, 0.87, 1)
+environment/defaults/default_clear_color=Color(0.29803923, 0.85490197, 0.99215686, 1)
 
 [shader_globals]
 
+render_night_light_enabled={
+"type": "bool",
+"value": false
+}
+render_night_light_uv={
+"type": "vec2",
+"value": Vector2(0, 0)
+}
+render_night_light_radius={
+"type": "float",
+"value": 1.0
+}
+render_night_surface_width={
+"type": "float",
+"value": 0.04
+}
+render_night_ambient={
+"type": "float",
+"value": 0.86
+}
+render_receiver_mask={
+"type": "sampler2D",
+"value": ""
+}
+render_receiver_mask_enabled={
+"type": "bool",
+"value": false
+}
+render_receiver_mask_debug={
+"type": "int",
+"value": 0
+}
 render_background_blur_step={
 "type": "float",
 "value": 1.0

@@ -7,6 +7,8 @@ signal layer_change(direction: int, object: LayerObject)
 signal UAV_activate()
 signal shadow_boolean()
 signal destination_view_changed(active: bool)
+signal dialogue_advance
+var dialogue_active: bool = false
 var looking_at_destination: bool = false
 var _gameplay_active: bool = false
 ## 影子布尔计时器
@@ -33,12 +35,20 @@ func set_gameplay_active(active: bool) -> void:
 	else:
 		## 离场时只清空状态，不通知已退出场景树的节点。
 		looking_at_destination = false
+		dialogue_active = false
 		timer.stop()
 		PhysicsServer2D.set_active(true)
 
 ## 输入判定与信号触发
 func _unhandled_input(event: InputEvent) -> void:
 	_update_destination_view()
+	if SceneTransition.busy:
+		return
+	if dialogue_active:
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			get_viewport().set_input_as_handled()
+			dialogue_advance.emit()
+		return
 	if looking_at_destination or Global.goal.completed:
 		return
 	## 键盘交互
@@ -95,7 +105,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	_update_destination_view()
-	if Global.object_selected:
+	if dialogue_active or Global.object_selected:
 		timer_reset()
 
 func _physics_process(_delta: float) -> void:
@@ -106,7 +116,8 @@ func _update_destination_view() -> void:
 	if not _gameplay_active or get_tree().paused:
 		return
 	var active: bool = (
-		Input.is_action_pressed("look_at_destination")
+		not dialogue_active
+		and Input.is_action_pressed("look_at_destination")
 		and _is_destination_key_pressed()
 		and not Global.goal.completed
 	)
@@ -129,6 +140,9 @@ func _is_destination_key_pressed() -> bool:
 	return false
 
 func _timer_trigger() -> void:
+	if dialogue_active:
+		timer_reset()
+		return
 	PhysicsServer2D.set_active(false)
 	shadow_boolean.emit()
 
@@ -136,3 +150,9 @@ func timer_reset() -> void:
 	if timer.is_stopped():
 		PhysicsServer2D.set_active(true)
 	timer.start()
+
+func set_dialogue_active(active: bool) -> void:
+	dialogue_active = active
+	if _gameplay_active:
+		timer_reset()
+		_update_destination_view()

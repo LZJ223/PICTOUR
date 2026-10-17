@@ -63,7 +63,16 @@ func _ready() -> void:
 	_exit_timer.wait_time = EXIT_HOLD_DURATION
 	add_child(_exit_timer)
 	_exit_timer.timeout.connect(_on_exit_hold_timeout)
+	_set_main_buttons_presented(false, true)
+	if SceneTransition.busy:
+		SceneTransition.transition_finished.connect(_set_main_buttons_presented.bind(true), CONNECT_ONE_SHOT)
+	else:
+		_set_main_buttons_presented(true)
 	SceneTransition.scene_ready()
+
+func _set_main_buttons_presented(presented: bool, instant: bool = false) -> void:
+	for button in main_menu.get_children():
+		button.set_presented(presented, instant)
 
 func _show_page(page: Page) -> void:
 	if SceneTransition.busy:
@@ -72,13 +81,17 @@ func _show_page(page: Page) -> void:
 		_camera_tween.kill()
 	_on_back_up()
 	_page = page
-	main_menu.visible = page == Page.MAIN
+	## 离场动画完成前保留容器，缩放只影响 Icon，不参与布局。
+	main_menu.show()
+	_set_main_buttons_presented(page == Page.MAIN)
 	level_selection.visible = page == Page.LEVEL_SELECTION
 	game_option.visible = page == Page.GAME_OPTION
 	_camera_tween = create_tween()
 	_camera_tween.tween_method(
 		_set_page_blend, _page_blend, 0.0 if page == Page.MAIN else 1.0, CAMERA_MOVE_DURATION
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	if page != Page.MAIN:
+		_camera_tween.tween_callback(main_menu.hide)
 
 func _update_layout() -> void:
 	var view_size := get_viewport_rect().size / menu_camera.zoom.abs()
@@ -120,6 +133,7 @@ func _on_back_up() -> void:
 func _on_exit_hold_timeout() -> void:
 	if _page == Page.MAIN and _back_held:
 		_on_back_up()
+		_set_main_buttons_presented(false)
 		SceneTransition.quit_game()
 
 func _enter_level(level_id: int) -> void:

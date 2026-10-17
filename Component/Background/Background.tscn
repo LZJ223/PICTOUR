@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://coxrbpl33shd4"]
+
+[ext_resource type="Script" uid="uid://l640peve12l7" path="res://Component/Background/Background.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dskndm4v3spmk" path="res://Texture/Background/Forest.png" id="3_klg0y"]
+
+[node name="Background" type="CanvasLayer" unique_id=863386680]
+layer = -100
+script = ExtResource("1")
+
+[node name="Frame" type="Control" parent="." unique_id=1425833484]
+texture_filter = 2
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 2560.0
+offset_bottom = 1440.0
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+
+[node name="Sprite" type="Sprite2D" parent="Frame" unique_id=2100582541]
+texture_repeat = 1
+texture = ExtResource("3_klg0y")
+centered = false
+region_enabled = true
+region_rect = Rect2(640, 0, 2560, 1440)

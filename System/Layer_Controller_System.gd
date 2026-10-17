@@ -9,10 +9,17 @@ const COLLISION_TOLERANCE := 0.5
 @export_range(0.1, 1.0, 0.01) var cycle_duration: float = 0.18
 @export_range(0.05, 1.0, 0.01, "or_greater") var destination_camera_duration: float = 0.35
 @export_range(0.0, 1.0, 0.01) var player_screen_height_ratio: float = 0.75
+@export_group("对话镜头")
+@export_range(0.05, 2.0, 0.01) var dialogue_camera_duration: float = 0.35
+@export_range(1.0, 4.0, 0.05) var dialogue_zoom: float = 1.5
+@export_range(0.0, 1.0, 0.01) var dialogue_player_height_ratio: float = 0.6
 
 var _cycle_layers_remaining: int = 0
 var _destination_blend: float = 0.0
 var _camera_tween: Tween
+var _dialogue_tween: Tween
+var _dialogue_blend: float = 0.0
+var _dialogue_base_zoom := Vector2.ONE
 
 func _ready() -> void:
 	add_to_group("layer_controllers")
@@ -38,12 +45,35 @@ func _on_destination_view_changed(active: bool) -> void:
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 
 ## 相机与位置更新
+func set_dialogue_view(active: bool) -> Tween:
+	if active and is_zero_approx(_dialogue_blend):
+		_dialogue_base_zoom = Global.camera.zoom
+	if _dialogue_tween != null and _dialogue_tween.is_valid():
+		_dialogue_tween.kill()
+	_dialogue_tween = create_tween()
+	_dialogue_tween.tween_method(_set_dialogue_blend, _dialogue_blend,
+		1.0 if active else 0.0, dialogue_camera_duration
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	return _dialogue_tween
+
+func complete_dialogue_view(active: bool) -> void:
+	if _dialogue_tween != null and _dialogue_tween.is_valid():
+		_dialogue_tween.kill()
+	_set_dialogue_blend(1.0 if active else 0.0)
+
+func _set_dialogue_blend(value: float) -> void:
+	_dialogue_blend = value
+	Global.camera.zoom = _dialogue_base_zoom * lerpf(1.0, dialogue_zoom, value)
+	_update_view()
+
 func _process(_delta: float) -> void:
 	_update_view()
 
 func _update_view() -> void:
-	Global.camera.offset.y = (0.5 - player_screen_height_ratio) * (
-		get_viewport().get_visible_rect().size.y / Global.camera.zoom.y
+	var view_size := get_viewport().get_visible_rect().size
+	var height_ratio := lerpf(player_screen_height_ratio, dialogue_player_height_ratio, _dialogue_blend)
+	Global.camera.offset.y = (0.5 - height_ratio) * (
+		view_size.y / Global.camera.zoom.y
 	)
 	if Global.camera_fixed:
 		## 对两个实时位置做插值，回程期间玩家移动也不会导致终点跳变。
@@ -51,12 +81,19 @@ func _update_view() -> void:
 			Global.goal.global_position, _destination_blend
 		)
 	Global.camera.force_update_scroll()
+	var zoom_ratio := Vector2.ONE
+	var screen_shift := Vector2.ZERO
+	if not is_zero_approx(_dialogue_blend):
+		zoom_ratio = Global.camera.zoom / _dialogue_base_zoom
+		var normal_offset_y := (0.5 - player_screen_height_ratio) * view_size.y / _dialogue_base_zoom.y
+		screen_shift.y = (normal_offset_y - Global.camera.offset.y) * Global.camera.zoom.y
+	get_tree().call_group(&"level_backgrounds", &"set_camera_framing", zoom_ratio, screen_shift)
 	for layer in Global.layers:
 		layer.apply_slot_state(Global.camera.global_position, Global.camera.zoom.abs())
 
 ## 图层轮换
 func cycle(direction: int, check_collision: bool = true) -> bool:
-	if SignalSystem.looking_at_destination or Global.goal.completed:
+	if SignalSystem.dialogue_active or SignalSystem.looking_at_destination or Global.goal.completed:
 		return false
 	if abs(direction) != 1:
 		return false
@@ -96,7 +133,7 @@ func is_cycling() -> bool:
 
 ## 改变物体图层
 func transfer(direction: int, object: LayerObject) -> bool:
-	if SignalSystem.looking_at_destination or Global.goal.completed:
+	if SignalSystem.dialogue_active or SignalSystem.looking_at_destination or Global.goal.completed:
 		return false
 	if _cycle_layers_remaining > 0 or Global.player.current_state == PlayerController.PlayerState.RECALLING:
 		return false

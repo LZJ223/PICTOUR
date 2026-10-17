@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://b4a3ewj6mbs6n"]
+
+[ext_resource type="Script" uid="uid://h7ty0nwhe6mw" path="res://Interface/Dialogue/Dialogue_Box.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cvjmj0dyexypf" path="res://Texture/DialogBox/DialogBox_Player.png" id="2"]
+[ext_resource type="FontFile" uid="uid://ddjkxv16emctq" path="res://Font/ZLabsRoundPix_12px_M_CN.ttf" id="3_dj4yv"]
+
+[sub_resource type="Theme" id="Theme_4tavh"]
+default_font = ExtResource("3_dj4yv")
+default_font_size = 25
+
+[node name="Player" type="Control" unique_id=2084004431]
+layout_mode = 3
+anchor_left = 0.24
+anchor_top = 0.75
+anchor_right = 0.24
+anchor_bottom = 0.75
+offset_left = -640.0
+offset_top = -240.0
+offset_right = 640.0
+offset_bottom = 240.0
+scale = Vector2(0.9, 0.9)
+mouse_filter = 2
+script = ExtResource("1")
+
+[node name="VisualRoot" type="Control" parent="." unique_id=819732092]
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 480.0
+pivot_offset = Vector2(1000, 75)
+mouse_filter = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualRoot" unique_id=1364288470]
+texture = ExtResource("2")
+centered = false
+
+[node name="Text" type="RichTextLabel" parent="VisualRoot" unique_id=1101367491]
+layout_mode = 0
+offset_left = 345.0
+offset_top = 219.44446
+offset_right = 940.0
+offset_bottom = 355.0
+mouse_filter = 2
+theme = SubResource("Theme_4tavh")
+theme_override_colors/default_color = Color(0.07, 0.12, 0.15, 1)
+theme_override_constants/line_separation = 10
+theme_override_font_sizes/normal_font_size = 36
+scroll_active = false

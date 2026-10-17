@@ -7,6 +7,9 @@
 [ext_resource type="Script" uid="uid://c2t31v7eb34te" path="res://System/Shadow_Controller_System.gd" id="4_t5pu8"]
 [ext_resource type="PackedScene" uid="uid://57mr5e3qn8rm" path="res://Interface/Pause.tscn" id="5_pause"]
 [ext_resource type="Script" path="res://Interface/Icon_Button.gd" id="6_icon_button"]
+[ext_resource type="Script" path="res://System/Shadow_Mask_System.gd" id="7_shadow_mask"]
+[ext_resource type="Script" path="res://System/Night_Light_System.gd" id="8_night_light"]
+[ext_resource type="PackedScene" path="res://Interface/Dialogue/Dialogue_System.tscn" id="9_dialogue"]
 
 [node name="Game" type="Node2D" unique_id=1565919311]
 script = ExtResource("1_game")
@@ -18,6 +21,7 @@ position = Vector2(0, 520)
 offset = Vector2(0, -180)
 
 [node name="MenuUI" type="CanvasLayer" parent="Camera" unique_id=1654581846]
+layer = 2
 
 [node name="Screen" type="Control" parent="Camera/MenuUI" unique_id=1275458931]
 layout_mode = 3
@@ -52,5 +56,13 @@ script = ExtResource("3_8d3to")
 
 [node name="ShadowControllerSystem" type="Node" parent="." unique_id=1161260881]
 script = ExtResource("4_t5pu8")
+
+[node name="ShadowMaskSystem" type="Node" parent="."]
+script = ExtResource("7_shadow_mask")
+
+[node name="NightLightSystem" type="Node" parent="."]
+script = ExtResource("8_night_light")
+
+[node name="DialogueSystem" parent="." instance=ExtResource("9_dialogue")]
 
 [connection signal="pressed" from="Camera/MenuUI/Screen/Back" to="Camera/MenuUI/Screen/Pause" method="open"]

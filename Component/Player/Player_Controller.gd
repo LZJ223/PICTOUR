@@ -49,6 +49,10 @@ func _wait_for_actions() -> void:
 
 ## 人物移动逻辑
 func _physics_process(delta: float) -> void:
+	if SignalSystem.dialogue_active:
+		velocity = Vector2.ZERO
+		player_animation.set_motion(0.0, true)
+		return
 	if Global.goal.completed:
 		## 结算时只注入向右行走，不读取按键，保留碰撞、重力和行走动效。
 		_update_normal(1.0, false)
@@ -96,7 +100,7 @@ func _update_uav(_delta: float) -> void:
 
 ## 无人机状态切换
 func UAV_activate() -> void:
-	if SignalSystem.looking_at_destination or Global.goal.completed or current_state == PlayerState.RECALLING:
+	if SignalSystem.dialogue_active or SignalSystem.looking_at_destination or Global.goal.completed or current_state == PlayerState.RECALLING:
 		return
 	if current_state == PlayerState.NORMAL and not is_on_floor():
 		return

@@ -11,6 +11,7 @@ global uniform float render_haze_blur_step;
 global uniform float render_haze_maximum_blur_lod;
 
 uniform float layer_z_index = 0.0;
+uniform bool is_night = false;
 uniform float cycle_opacity = 1.0;
 uniform float layer_id = 0.0;
 uniform float layer_scale = 0.8;
@@ -59,6 +60,7 @@ void fragment() {
 		)
 	);
 	vec4 haze = textureLod(render_haze_texture, haze_uv, blur_lod);
+	if (is_night) { haze.rgb = vec3(0.0); }
 	haze.a *= render_haze_opacity * clamp(depth, 0.0, 1.0) * cycle_opacity;
 	COLOR = haze;
 }

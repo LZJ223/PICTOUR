@@ -1,5 +1,6 @@
 class_name ShadowedGeometry
 extends LayerObject
+const SHADOW_CLIP_SHADER := preload("res://Shader/Shadow_Receiver_Clip.gdshader")
 @onready var shadow: Polygon2D = $Shadow
 
 ## 准备时生成影子
@@ -13,6 +14,7 @@ func _ready() -> void:
 		for shadow_layer in range(Global.current_layer_index + 2, Global.layer_count):
 			shadow_active.append(false)
 			shadow_temp = shadow.duplicate()
+			shadow_temp.name = "ShadowBox_%d" % shadow_layer
 			add_child(shadow_temp)
 			## 影子仍按投射目标层独立排序，不被投影物体所在的 CanvasGroup 改写深度。
 			shadow_temp.z_as_relative = false
@@ -23,6 +25,10 @@ func _ready() -> void:
 			shadow_temp.visible = false
 			shadow_box.append(shadow_temp)
 			shadow_temp = shadow.duplicate()
+			shadow_temp.name = "ShadowVisual_%d" % shadow_layer
+			var clip_material := ShaderMaterial.new()
+			clip_material.shader = SHADOW_CLIP_SHADER
+			shadow_temp.material = clip_material
 			add_child(shadow_temp)
 			shadow_temp.z_as_relative = false
 			shadow_temp.z_index = (
@@ -41,6 +47,7 @@ func apply_visual_transfer(anchor_position: Vector2, camera_zoom: Vector2) -> vo
 			var index: int = shadow_layer - Global.current_layer_index - 2
 			if shadow_active[index]:
 				var target_layer: DepthLayer = Global.get_layer_at_slot(shadow_layer)
+				(shadow_visual[index].material as ShaderMaterial).set_shader_parameter("receiver_layer_id", target_layer.layer_id)
 				var owner_scale: float = owner_layer.visual_scale
 				var shadow_scale: float = target_layer.visual_scale
 				var opacity: float = (

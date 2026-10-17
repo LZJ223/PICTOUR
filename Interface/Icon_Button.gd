@@ -4,6 +4,8 @@ extends Button
 @export_range(1.0, 1.3, 0.01) var hover_scale: float = 1.08
 @export_range(0.01, 0.5, 0.01) var hover_duration: float = 0.06
 @export_range(0.0, 10.0, 0.5) var hover_rotation_degrees: float = 6.0
+@export_range(0.01, 1.0, 0.01) var appear_duration: float = 0.28
+@export_range(0.01, 1.0, 0.01) var disappear_duration: float = 0.18
 @export_range(0.0, 5.0, 0.1) var hold_shake_amplitude: float = 1.2
 @export_range(0.0, 10.0, 0.5) var hold_shake_rotation_degrees: float = 3.0
 @export var progress_color: Color = Color(0.08, 0.68, 0.29)
@@ -13,7 +15,11 @@ extends Button
 @onready var _base_scale: Vector2 = _icon.scale
 @onready var _base_position: Vector2 = _icon.position
 @onready var _base_rotation: float = _icon.rotation
+@onready var _base_disabled: bool = disabled
 var _hover_tween: Tween
+var _presentation_tween: Tween
+var _hover_scale: float = 1.0
+var _presentation_scale: float = 1.0
 var _hold_timer: Timer
 var _hold_progress: float = 0.0
 var _shake_time: float = 0.0
@@ -50,13 +56,47 @@ func _set_hover(active: bool) -> void:
 	if _hover_tween != null and _hover_tween.is_valid():
 		_hover_tween.kill()
 	_hover_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	_hover_tween.tween_property(
-		_icon, "scale", _base_scale * (hover_scale if active else 1.0), hover_duration
+	_hover_tween.tween_method(
+		_set_hover_scale, _hover_scale, hover_scale if active else 1.0, hover_duration
 	)
 	var angle: float = deg_to_rad(hover_rotation_degrees)
 	_hover_tween.tween_method(
 		_set_hover_rotation, _hover_rotation, randf_range(-angle, angle) if active else 0.0, hover_duration
 	)
+
+## 只缩放 Icon，Container 布局、按钮命中范围和 Sprite 原点均保持不变。
+func set_presented(presented: bool, instant: bool = false) -> void:
+	if _presentation_tween != null and _presentation_tween.is_valid():
+		_presentation_tween.kill()
+	disabled = _base_disabled or not presented
+	if not presented:
+		release_focus()
+		if instant:
+			_reset_visuals()
+		else:
+			stop_hold()
+			_set_hover(false)
+	var target: float = 1.0 if presented else 0.0
+	if instant:
+		_set_presentation_scale(target)
+		return
+	_presentation_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	_presentation_tween.tween_method(
+		_set_presentation_scale, _presentation_scale, target,
+		appear_duration if presented else disappear_duration
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT if presented else Tween.EASE_IN)
+
+func _set_hover_scale(value: float) -> void:
+	_hover_scale = value
+	_update_scale()
+
+func _set_presentation_scale(value: float) -> void:
+	_presentation_scale = value
+	_update_scale()
+
+func _update_scale() -> void:
+	## 两种 Tween 独立控制倍率，避免同时写入 scale 导致跳变或累计缩放。
+	_icon.scale = _base_scale * _hover_scale * _presentation_scale
 
 func _set_hover_rotation(value: float) -> void:
 	_hover_rotation = value
@@ -112,6 +152,6 @@ func _on_visibility_changed() -> void:
 func _reset_visuals() -> void:
 	if _hover_tween != null and _hover_tween.is_valid():
 		_hover_tween.kill()
-	_icon.scale = _base_scale
+	_set_hover_scale(1.0)
 	_hover_rotation = 0.0
 	stop_hold()

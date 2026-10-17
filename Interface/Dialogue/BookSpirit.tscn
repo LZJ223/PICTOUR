@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://b7ks1d57g8nst"]
+
+[ext_resource type="Script" uid="uid://h7ty0nwhe6mw" path="res://Interface/Dialogue/Dialogue_Box.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://e3b66a7pvjic" path="res://Texture/DialogBox/DialogBox_BookSpirit.png" id="2"]
+[ext_resource type="FontFile" uid="uid://dsbbfvu454pfu" path="res://Font/YomengScript.ttf" id="3_rlvn4"]
+
+[sub_resource type="Theme" id="Theme_tgbom"]
+default_font = ExtResource("3_rlvn4")
+default_font_size = 25
+
+[node name="BookSpirit" type="Control" unique_id=1635935103]
+layout_mode = 3
+anchor_left = 0.78
+anchor_top = 0.61
+anchor_right = 0.78
+anchor_bottom = 0.61
+offset_left = -640.0
+offset_top = -240.0
+offset_right = 640.0
+offset_bottom = 240.0
+scale = Vector2(0.9, 0.9)
+mouse_filter = 2
+script = ExtResource("1")
+
+[node name="VisualRoot" type="Control" parent="." unique_id=898347132]
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 480.0
+pivot_offset = Vector2(300, 50)
+mouse_filter = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="VisualRoot" unique_id=2022632013]
+texture = ExtResource("2")
+centered = false
+
+[node name="Text" type="RichTextLabel" parent="VisualRoot" unique_id=690138597]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 160.0
+offset_right = 900.0
+offset_bottom = 363.22223
+mouse_filter = 2
+theme = SubResource("Theme_tgbom")
+theme_override_colors/default_color = Color(0.16, 0.11, 0.07, 1)
+theme_override_constants/line_separation = 10
+theme_override_font_sizes/normal_font_size = 36
+scroll_active = false

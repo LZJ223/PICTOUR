@@ -67,7 +67,7 @@ func _on_hold_timeout() -> void:
 	var action: HoldAction = _hold_action
 	_cancel_hold()
 	if action == HoldAction.RESTART:
-		SceneTransition.enter_level(Global.level.level_id)
+		SceneTransition.enter_level(Global.level.level_id, false, false)
 	else:
 		SceneTransition.enter_main_menu()
 

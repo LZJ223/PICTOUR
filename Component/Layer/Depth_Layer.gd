@@ -8,6 +8,8 @@ signal cycle_finished
 const Z_INDEX_STEP: int = 100
 const HAZE_Z_OFFSET: int = 1
 const HAZE_VIEWPORT_MARGIN: float = 2.0
+## 仅图层最终合成接收夜间照明，子物体不再重复受光。
+const NIGHT_LIGHT_MASK: int = 1 << 16
 
 ## 图层信息
 @export var layer_id: int = 0
@@ -34,13 +36,17 @@ var _has_view: bool = false
 ## 初始化
 func _ready() -> void:
 	add_to_group("depth_layers")
+	visibility_layer = (visibility_layer & ~LayerObject.RECEIVER_MASK_BITS) | LayerObject.receiver_mask_bit(layer_id)
 	_level = get_parent() as Level
 	assert(_level != null, "DepthLayer 必须直接位于 Level 下")
 	_filter_material = material as ShaderMaterial
+	light_mask = NIGHT_LIGHT_MASK
 	_haze_material = haze_plane.material as ShaderMaterial
 	assert(_filter_material != null, "DepthLayer 需要使用图层滤镜 ShaderMaterial")
 	assert(_haze_material != null, "DepthLayer 需要使用雾效 ShaderMaterial")
+	_filter_material.set_shader_parameter("is_night", _level.is_night)
 	_haze_material.set_shader_parameter("layer_id", float(layer_id))
+	_haze_material.set_shader_parameter("is_night", _level.is_night)
 
 ## 更新位置
 func apply_slot_state(anchor_position: Vector2, camera_zoom: Vector2) -> void:

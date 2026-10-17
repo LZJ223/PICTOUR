@@ -5,6 +5,8 @@ extends Node
 ## 布尔运算参数
 const MIN_FRAGMENT_AREA: float = 4.0
 const BOOLEAN_AREA_EPSILON: float = 0.01
+## 只切割玩家附近的承影物体，距离使用碰撞箱所在的物理世界坐标。
+const MAX_CUT_DISTANCE: float = 1200.0
 ## 布尔运算类
 class CutPlan:
 	var source: LayerObject
@@ -18,6 +20,10 @@ func _ready() -> void:
 
 ## 影子布尔运算
 func shadow_boolean() -> void:
+	if not is_instance_valid(Global.player):
+		return
+	var player_position: Vector2 = Global.player.global_position
+	var max_distance_squared: float = MAX_CUT_DISTANCE * MAX_CUT_DISTANCE
 	for slot in range(Global.layer_count - 1, Global.current_layer_index + 1, -1):
 		## 影子收集
 		var shadows: Array[PackedVector2Array] = []
@@ -40,6 +46,8 @@ func shadow_boolean() -> void:
 		for child in target_layer.get_children().duplicate():
 			if child is LayerObject:
 				if not child.can_be_shadowed:
+					continue
+				if child.collision_box.global_position.distance_squared_to(player_position) >= max_distance_squared:
 					continue
 				var source_polygon: PackedVector2Array = _polygon_to_world(child.collision_box.polygon, child.collision_box.global_transform)
 				var pieces: Array[PackedVector2Array] = _subtract_shadows(source_polygon, shadows)

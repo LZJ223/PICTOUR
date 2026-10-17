@@ -8,6 +8,12 @@ extends PhysicsBody2D
 
 enum TransferMotion { OUTWARD, INWARD }
 
+## 位 9～12 仅供承影覆盖视口筛选，主画面仍使用原来的可见性位。
+const RECEIVER_MASK_BITS: int = 0xF00
+
+static func receiver_mask_bit(layer_id: int) -> int:
+	return 1 << (8 + layer_id)
+
 ## 物体信息
 @export var can_transfer: bool = true
 @export var can_leave_shadow: bool = false
@@ -76,6 +82,8 @@ func apply_visual_transfer(anchor_position: Vector2, camera_zoom: Vector2) -> vo
 
 ## 更新物体所属图层状态
 func update_layer_slot() -> void:
+	visibility_layer = (visibility_layer & ~RECEIVER_MASK_BITS) | receiver_mask_bit(owner_layer.layer_id)
+	_set_receiver_visual_layers(visual_root)
 	## CanvasGroup 只会合成与自身处于同一 Z 的子项；层内前后关系改由兄弟顺序控制。
 	z_index = 0
 	owner_layer.update_object_draw_order()
@@ -85,6 +93,18 @@ func update_layer_slot() -> void:
 	self.set_collision_mask_value(owner_layer.layer_id + 1, true)
 	if _selected:
 		_sync_selection_outlines()
+
+## 可见性位不由父项继承；只标记实体视觉，不标记影子、碰撞箱和选择描边。
+func _set_receiver_visual_layers(node: Node) -> void:
+	if node.get_meta(&"selection_outline_visual", false):
+		return
+	if node is CanvasItem:
+		var item := node as CanvasItem
+		item.visibility_layer = (item.visibility_layer & ~RECEIVER_MASK_BITS) | receiver_mask_bit(owner_layer.layer_id)
+	if not node.child_entered_tree.is_connected(_set_receiver_visual_layers):
+		node.child_entered_tree.connect(_set_receiver_visual_layers)
+	for child in node.get_children():
+		_set_receiver_visual_layers(child)
 ## 寻找母图层
 func find_owner_layer() -> DepthLayer:
 	var current := get_parent()
