@@ -18,6 +18,8 @@ static func receiver_mask_bit(layer_id: int) -> int:
 @export var can_transfer: bool = true
 @export var can_leave_shadow: bool = false
 @export var can_be_shadowed: bool = false
+## 换层时保持脚底不动、只向上变大。普通换层仍绕镜头缩放位置。
+@export var grow_up_from_feet: bool = false
 ## 是否在所属图层内部的普通物体之前绘制。
 @export var front: bool = false
 

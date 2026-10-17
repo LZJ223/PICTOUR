@@ -153,8 +153,16 @@ func transfer(direction: int, object: LayerObject) -> bool:
 	var target_layer: DepthLayer = Global.get_layer_at_slot(target_slot)
 	var ratio: float = Global.layer_scales[source_slot] / Global.layer_scales[target_slot]
 	var object_transform: Transform2D = object.global_transform
-	object_transform.origin = Global.camera.global_position + (object.global_position - Global.camera.global_position) * ratio
 	var collision_transform: Transform2D = object.collision_box.transform
+	if object.grow_up_from_feet:
+		var local_bottom := _polygon_bottom(object.collision_box.polygon)
+		var bottom := object.global_position.y + local_bottom * object.collision_box.scale.y
+		object_transform.origin = Vector2(
+			object.global_position.x,
+			bottom - local_bottom * object.collision_box.scale.y * ratio
+		)
+	else:
+		object_transform.origin = Global.camera.global_position + (object.global_position - Global.camera.global_position) * ratio
 	collision_transform.x *= ratio
 	collision_transform.y *= ratio
 	if _has_collision(object, object.collision_box, target_layer, object_transform * collision_transform):
@@ -194,3 +202,9 @@ func _has_collision(body: PhysicsBody2D, collision_box: CollisionPolygon2D, targ
 			if contacts[index].distance_to(contacts[index + 1]) > COLLISION_TOLERANCE:
 				return true
 	return false
+
+func _polygon_bottom(polygon: PackedVector2Array) -> float:
+	var bottom := -1.0e20
+	for point in polygon:
+		bottom = maxf(bottom, point.y)
+	return bottom
