@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://c32o5wndodr2w"]
+
+[ext_resource type="Script" uid="uid://c2uq0wqpn5y57" path="res://Component/Object/Layer_Object.gd" id="1_ewsh1"]
+[ext_resource type="Texture2D" uid="uid://brukbb1mlw0bw" path="res://Generated/Trunk/Leaf_001/Leaf_001_000_000.png" id="2_1tsyr"]
+
+[node name="Leaf_001" type="StaticBody2D" unique_id=1935919570]
+script = ExtResource("1_ewsh1")
+can_transfer = false
+front = true
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=637492185]
+polygon = PackedVector2Array(-90, -260, 90, -260, 90, 260, -90, 260)
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=389188620]
+
+[node name="TrunkTextureFrame" type="Node2D" parent="VisualRoot" unique_id=1017826803]
+position = Vector2(-90, -260)
+
+[node name="TrunkSprite" type="Sprite2D" parent="VisualRoot/TrunkTextureFrame" unique_id=502993622]
+texture_filter = 2
+position = Vector2(-6, -6)
+texture = ExtResource("2_1tsyr")
+centered = false
+region_enabled = true
+region_rect = Rect2(4, 4, 192, 532)
+
+[node name="Area2D" type="Area2D" parent="VisualRoot" unique_id=1024423832]
+collision_mask = 0
+input_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="VisualRoot/Area2D" unique_id=323474363]
+polygon = PackedVector2Array(-90, -260, 90, -260, 90, 260, -90, 260)

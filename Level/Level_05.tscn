@@ -16,16 +16,17 @@
 [ext_resource type="PackedScene" uid="uid://t0hve6h0jxqs" path="res://Component/Object/Leaf/Leaf_04/Leaf_001.tscn" id="13_u6x2d"]
 [ext_resource type="PackedScene" uid="uid://ceaqrqft5jfjv" path="res://Component/Object/House/House_Right.tscn" id="15_ely6c"]
 [ext_resource type="PackedScene" uid="uid://bldexpi7l0bh7" path="res://Component/Object/Brush/Brush_04.tscn" id="16_61ax1"]
+[ext_resource type="PackedScene" uid="uid://2tglt8u3at37" path="res://Component/Object/Leaf/Leaf_06/Leaf_001.tscn" id="16_x1d5d"]
 [ext_resource type="PackedScene" uid="uid://kgpq76gmn41p" path="res://Component/Object/Brush/Brush_05.tscn" id="17_x1d5d"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ihrg6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_er6vr"]
 resource_local_to_scene = true
 shader = ExtResource("3_ihrg6")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t20hn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_plxha"]
 resource_local_to_scene = true
 shader = ExtResource("4_t20hn")
 shader_parameter/layer_z_index = 0.0
@@ -38,14 +39,14 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jb64m"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yro6e"]
 resource_local_to_scene = true
 shader = ExtResource("3_ihrg6")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_b32py"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xu0q7"]
 resource_local_to_scene = true
 shader = ExtResource("4_t20hn")
 shader_parameter/layer_z_index = 0.0
@@ -58,14 +59,14 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_u6x2d"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qewoe"]
 resource_local_to_scene = true
 shader = ExtResource("3_ihrg6")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kqvoy"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iu1g3"]
 resource_local_to_scene = true
 shader = ExtResource("4_t20hn")
 shader_parameter/layer_z_index = 0.0
@@ -86,86 +87,83 @@ current_layer_index = 0
 level_id = 5
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_tp5u0")]
-material = SubResource("ShaderMaterial_ihrg6")
+material = SubResource("ShaderMaterial_er6vr")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_t20hn")
+material = SubResource("ShaderMaterial_plxha")
 
 [node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("5_jb64m")]
 position = Vector2(1164, 720)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_tp5u0")]
-material = SubResource("ShaderMaterial_jb64m")
+material = SubResource("ShaderMaterial_yro6e")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_b32py")
+material = SubResource("ShaderMaterial_xu0q7")
 
 [node name="Soil_001" parent="Layer1" unique_id=126668145 instance=ExtResource("5_jb64m")]
 position = Vector2(1164, 720)
 
-[node name="Ground3" parent="Layer1" unique_id=431167755 instance=ExtResource("7_7pgyd")]
-visible = false
-position = Vector2(1232, -288)
-
-[node name="CollisionBox" parent="Layer1/Ground3" index="0" unique_id=1077352614]
-polygon = PackedVector2Array(120, -16, 120, -152, -120, -152, -120, -16)
-
-[node name="Polygon2D" parent="Layer1/Ground3/VisualRoot" parent_id_path=PackedInt32Array(431167755, 817137210) index="0" unique_id=486029332]
-position = Vector2(-12, -24)
-color = Color(0.13600002, 0.85, 0.19549997, 1)
-polygon = PackedVector2Array(132, 8, 132, -128, -108, -128, -108, 8)
-
-[node name="Ground" parent="Layer1" unique_id=1744010081 instance=ExtResource("7_7pgyd")]
-position = Vector2(1948, 320)
-
-[node name="CollisionBox" parent="Layer1/Ground" index="0" unique_id=1077352614]
-polygon = PackedVector2Array(92, 200, 92, -1824, -124, -1824, -124, 200)
-
-[node name="Polygon2D" parent="Layer1/Ground/VisualRoot" parent_id_path=PackedInt32Array(1744010081, 817137210) index="0" unique_id=486029332]
-polygon = PackedVector2Array(95, 200, 95, -1824, -124, -1824, -124, 200)
-
-[node name="Leaf_001" parent="Layer1" unique_id=971688841 instance=ExtResource("10_t20hn")]
-position = Vector2(2040, -1432)
-
-[node name="Leaf_002" parent="Layer1" unique_id=1997081452 instance=ExtResource("11_b32py")]
-position = Vector2(1800, -1224)
-
-[node name="Leaf_003" parent="Layer1" unique_id=1624082615 instance=ExtResource("12_u6x2d")]
-position = Vector2(2189, -112)
-
-[node name="Leaf_005" parent="Layer1" unique_id=687477410 instance=ExtResource("12_u6x2d")]
-position = Vector2(1792, -504)
-
-[node name="Leaf_006" parent="Layer1" unique_id=601333899 instance=ExtResource("13_u6x2d")]
-position = Vector2(1880, -328)
-
-[node name="Leaf_007" parent="Layer1" unique_id=40413716 instance=ExtResource("11_x5mob")]
-position = Vector2(1736, 120)
-
-[node name="Leaf_008" parent="Layer1" unique_id=1912664697 instance=ExtResource("11_x5mob")]
-position = Vector2(2104, 408)
-
-[node name="Leaf_004" parent="Layer1" unique_id=591617474 instance=ExtResource("13_u6x2d")]
-position = Vector2(1832, 192)
-
-[node name="House" parent="Layer1" unique_id=126901171 instance=ExtResource("15_ely6c")]
-position = Vector2(2056, -696)
-
 [node name="Brush" parent="Layer1" unique_id=330834349 instance=ExtResource("16_61ax1")]
-position = Vector2(2352, 464)
+position = Vector2(1305, 464)
 
 [node name="Brush2" parent="Layer1" unique_id=1673283584 instance=ExtResource("17_x1d5d")]
 position = Vector2(496, 464)
 
+[node name="Ground" parent="Layer1" unique_id=1744010081 instance=ExtResource("7_7pgyd")]
+position = Vector2(1684, 320)
+
+[node name="CollisionBox" parent="Layer1/Ground" index="0" unique_id=1077352614]
+polygon = PackedVector2Array(28, 200, 28, -1824, -124, -1824, -124, 200)
+
+[node name="Polygon2D" parent="Layer1/Ground/VisualRoot" parent_id_path=PackedInt32Array(1744010081, 817137210) index="0" unique_id=486029332]
+polygon = PackedVector2Array(28, 200, 28, -1824, -124, -1824, -124, 200)
+
+[node name="Leaf_001" parent="Layer1" unique_id=971688841 instance=ExtResource("10_t20hn")]
+position = Vector2(1728, -1328)
+
+[node name="Leaf_002" parent="Layer1" unique_id=1997081452 instance=ExtResource("11_b32py")]
+position = Vector2(1480, -1192)
+
+[node name="Leaf_003" parent="Layer1" unique_id=1624082615 instance=ExtResource("12_u6x2d")]
+position = Vector2(1880, 56)
+
+[node name="Leaf_004" parent="Layer1" unique_id=601333899 instance=ExtResource("13_u6x2d")]
+position = Vector2(1544, 440)
+
+[node name="Leaf_005" parent="Layer1" unique_id=864731490 instance=ExtResource("12_u6x2d")]
+position = Vector2(1488, -463)
+
+[node name="Leaf_006" parent="Layer1" unique_id=992068867 instance=ExtResource("13_u6x2d")]
+position = Vector2(1584, -310)
+
+[node name="Leaf_007" parent="Layer1" unique_id=40413716 instance=ExtResource("11_x5mob")]
+position = Vector2(1800, -232)
+
+[node name="Leaf_008" parent="Layer1" unique_id=1951030083 instance=ExtResource("11_x5mob")]
+position = Vector2(1504, 161)
+
+[node name="Leaf_009" parent="Layer1" unique_id=784253893 instance=ExtResource("16_x1d5d")]
+position = Vector2(1392, -760)
+
+[node name="Leaf_010" parent="Layer1" unique_id=405740582 instance=ExtResource("16_x1d5d")]
+position = Vector2(1417, -120)
+
+[node name="Leaf_011" parent="Layer1" unique_id=675876129 instance=ExtResource("16_x1d5d")]
+position = Vector2(1650, 304)
+
+[node name="House" parent="Layer1" unique_id=126901171 instance=ExtResource("15_ely6c")]
+position = Vector2(1720, -632)
+
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_tp5u0")]
-material = SubResource("ShaderMaterial_u6x2d")
+material = SubResource("ShaderMaterial_qewoe")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_kqvoy")
+material = SubResource("ShaderMaterial_iu1g3")
 
 [node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("5_jb64m")]
 position = Vector2(1164, 720)
@@ -177,44 +175,64 @@ position = Vector2(288, 284)
 position = Vector2(1044, 320)
 
 [node name="CollisionBox" parent="Layer0/Ground" index="0" unique_id=1077352614]
-polygon = PackedVector2Array(92, 200, 92, -1824, -124, -1824, -124, 200)
+polygon = PackedVector2Array(28, 200, 28, -1824, -124, -1824, -124, 200)
 
 [node name="Polygon2D" parent="Layer0/Ground/VisualRoot" parent_id_path=PackedInt32Array(1883254644, 817137210) index="0" unique_id=486029332]
-polygon = PackedVector2Array(95, 200, 95, -1824, -124, -1824, -124, 200)
-
-[node name="House" parent="Layer0" unique_id=149779875 instance=ExtResource("9_ihrg6")]
-position = Vector2(824, -144)
+polygon = PackedVector2Array(28, 200, 28, -1824, -124, -1824, -124, 200)
 
 [node name="Leaf_001" parent="Layer0" unique_id=1904840051 instance=ExtResource("10_t20hn")]
-position = Vector2(992, -1664)
+position = Vector2(904, -1616)
 
 [node name="Leaf_002" parent="Layer0" unique_id=89600620 instance=ExtResource("11_b32py")]
-position = Vector2(1264, -1496)
+position = Vector2(1160, -1448)
 
 [node name="Leaf_003" parent="Layer0" unique_id=498913098 instance=ExtResource("12_u6x2d")]
-position = Vector2(1302, -1000)
+position = Vector2(1256, -1000)
 
 [node name="Leaf_004" parent="Layer0" unique_id=337726867 instance=ExtResource("13_u6x2d")]
-position = Vector2(1176, -856)
+position = Vector2(1144, -800)
 
 [node name="Leaf_005" parent="Layer0" unique_id=1571746984 instance=ExtResource("12_u6x2d")]
-position = Vector2(888, -608)
+position = Vector2(855, -624)
 
 [node name="Leaf_006" parent="Layer0" unique_id=7129318 instance=ExtResource("13_u6x2d")]
-position = Vector2(896, -440)
+position = Vector2(936, -448)
 
 [node name="Leaf_007" parent="Layer0" unique_id=2039839958 instance=ExtResource("11_x5mob")]
-position = Vector2(1232, -208)
+position = Vector2(1160, -328)
 
 [node name="Leaf_008" parent="Layer0" unique_id=878067980 instance=ExtResource("11_x5mob")]
-position = Vector2(856, 294)
+position = Vector2(1110, 424)
+
+[node name="Leaf_009" parent="Layer0" unique_id=764900329 instance=ExtResource("16_x1d5d")]
+position = Vector2(800, -904)
+
+[node name="Leaf_010" parent="Layer0" unique_id=11913319 instance=ExtResource("16_x1d5d")]
+position = Vector2(1056, -16)
+
+[node name="Leaf_011" parent="Layer0" unique_id=4321599 instance=ExtResource("16_x1d5d")]
+position = Vector2(824, 272)
+
+[node name="House" parent="Layer0" unique_id=149779875 instance=ExtResource("9_ihrg6")]
+position = Vector2(810, -144)
+
+[node name="Ground3" parent="Layer0" unique_id=431167755 instance=ExtResource("7_7pgyd")]
+visible = false
+position = Vector2(896, -2560)
+
+[node name="CollisionBox" parent="Layer0/Ground3" index="0" unique_id=1077352614]
+polygon = PackedVector2Array(304, 8, 304, -112, -112, -112, -112, 8)
+
+[node name="Polygon2D" parent="Layer0/Ground3/VisualRoot" parent_id_path=PackedInt32Array(431167755, 817137210) index="0" unique_id=486029332]
+color = Color(0.13600002, 0.85, 0.19549997, 1)
+polygon = PackedVector2Array(304, 8, 304, -112, -112, -112, -112, 8)
 
 [node name="Goal" parent="." unique_id=1223662449 instance=ExtResource("8_tp5u0")]
-position = Vector2(1792, -1648)
+position = Vector2(631, -1832)
 
 [editable path="Layer2"]
 [editable path="Layer1"]
-[editable path="Layer1/Ground3"]
 [editable path="Layer1/Ground"]
 [editable path="Layer0"]
 [editable path="Layer0/Ground"]
+[editable path="Layer0/Ground3"]
