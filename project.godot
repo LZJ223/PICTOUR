@@ -30,7 +30,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/soil_baker/plugin.cfg")
+enabled=PackedStringArray("res://addons/soil_baker/plugin.cfg", "res://addons/leaf_baker/plugin.cfg")
 
 [input]
 

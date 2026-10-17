@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bia263tpdupq0"]
+
+[ext_resource type="Script" uid="uid://c2uq0wqpn5y57" path="res://Component/Object/Layer_Object.gd" id="1_dsuwv"]
+[ext_resource type="Texture2D" uid="uid://csqvmw80iqg6s" path="res://Texture/House/House_Left.png" id="2_86olk"]
+
+[node name="House" type="StaticBody2D" unique_id=149779875]
+script = ExtResource("1_dsuwv")
+can_transfer = false
+front = true
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=1721576407]
+polygon = PackedVector2Array(-152, 48, 112, 200, 132, 200, 132, 176, -92, 48, 248, 48, 248, 32, 200, 32, 200, -100, 232, -100, 168, -212, -72, -212, -136, -100, -108, -100, -108, 32, -252, 32, -252, 48)
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=817137210]
+
+[node name="House" type="Sprite2D" parent="VisualRoot" unique_id=916893329]
+position = Vector2(0, -2)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_86olk")
+
+[node name="Area2D" type="Area2D" parent="VisualRoot" unique_id=1324729838]
+monitoring = false
+monitorable = false
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="VisualRoot/Area2D" unique_id=432713940]
+polygon = PackedVector2Array(-152, 48, 112, 200, 132, 200, 132, 176, -92, 48, 248, 48, 248, 32, 200, 32, 200, -100, 232, -100, 168, -212, -72, -212, -136, -100, -108, -100, -108, 32, -252, 32, -252, 48)

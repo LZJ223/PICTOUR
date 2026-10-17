@@ -17,7 +17,7 @@ const UAV_RECALL_DURATION: float = 0.25
 @export var gravity_acceleration: float =30.0
 @export var friction_deceleration: float = 40
 @export var UAV_friction_deceleration: float = 20
-@export var UAV_distance: float = 400
+@export var UAV_distance: float = 750
 ## 节点信息
 @onready var body_collision_box: CollisionPolygon2D = $CollisionBox_Body
 @onready var UAV_collision_box: CollisionPolygon2D = $CollisionBox_UAV
