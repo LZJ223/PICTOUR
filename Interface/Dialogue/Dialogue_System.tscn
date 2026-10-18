@@ -1,10 +1,10 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://Interface/Dialogue/Dialogue_System.gd" id="1"]
-[ext_resource type="PackedScene" path="res://Interface/Dialogue/Voiceover.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://Interface/Dialogue/BookSpirit.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://Interface/Dialogue/Player.tscn" id="4"]
-[ext_resource type="Texture2D" path="res://Texture/BookSpitit.png" id="5"]
+[ext_resource type="Script" uid="uid://c8dmy5ok1eifh" path="res://Interface/Dialogue/Dialogue_System.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://bbamg45bye3d3" path="res://Interface/Dialogue/Voiceover.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://b7ks1d57g8nst" path="res://Interface/Dialogue/BookSpirit.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://b4a3ewj6mbs6n" path="res://Interface/Dialogue/Player.tscn" id="4"]
+[ext_resource type="Texture2D" uid="uid://cw7kurq0m8q85" path="res://Texture/Others/BookSpitit.png" id="5"]
 
 [sub_resource type="Gradient" id="Gradient_smoke"]
 interpolation_mode = 1

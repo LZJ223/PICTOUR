@@ -3,6 +3,8 @@ extends EditorPlugin
 
 const Baker = preload("res://addons/soil_baker/soil_baker.gd")
 const Profile = preload("res://addons/soil_baker/soil_profile.gd")
+const Output = preload("res://addons/texture_baker_common/bake_output.gd")
+const OutputControls = preload("res://addons/texture_baker_common/output_controls.gd")
 const OUTPUT_DIRECTORY := "res://Generated/Soil"
 
 var _dock: VBoxContainer
@@ -11,6 +13,7 @@ var _status_label: Label
 var _preview: TextureRect
 var _preview_button: Button
 var _bake_button: Button
+var _output_controls: OutputControls
 var _profile: Profile
 var _selected_ground: StaticBody2D
 var _busy: bool = false
@@ -46,6 +49,9 @@ func _build_dock() -> void:
 	inspector.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_dock.add_child(inspector)
 	inspector.edit(_profile)
+	_output_controls = OutputControls.new()
+	_dock.add_child(_output_controls)
+	_output_controls.configure(OUTPUT_DIRECTORY, "Soil")
 	var buttons := HBoxContainer.new()
 	_dock.add_child(buttons)
 	_preview_button = Button.new()
@@ -114,38 +120,42 @@ func _on_bake_pressed() -> void:
 		return
 	_set_busy(true)
 	var source := _selected_ground
+	var profile := _profile.duplicate(true) as Profile
 	var points: PackedVector2Array = Baker.source_polygon(source)
-	var prepared: Dictionary = Baker.prepare(points, _profile)
+	var prepared: Dictionary = Baker.prepare(points, profile)
 	if not prepared.error.is_empty():
 		_finish_with_error(prepared.error)
 		return
-	var absolute_directory := ProjectSettings.globalize_path(OUTPUT_DIRECTORY)
-	var directory_error := DirAccess.make_dir_recursive_absolute(absolute_directory)
-	if directory_error != OK:
-		_finish_with_error("无法创建输出目录（错误 %d）。" % directory_error)
+	var output := Output.reserve_directory(_output_controls.directory_edit.text, _output_controls.name_edit.text, OUTPUT_DIRECTORY, "Soil")
+	if not output.error.is_empty():
+		_finish_with_error(output.error)
 		return
-	var scene_name := _next_soil_name()
-	var base_path := OUTPUT_DIRECTORY.path_join(scene_name)
+	var scene_name: String = output.name
+	var base_path: String = output.base
 	var scene_path := base_path + ".tscn"
 	var profile_path := base_path + ".tres"
 	var recipe_path := base_path + ".recipe.json"
 	var tiles: Array[Dictionary] = []
 	var output_size: Vector2i = prepared.size
-	var columns := ceili(float(output_size.x) / float(_profile.tile_size_px))
-	var rows := ceili(float(output_size.y) / float(_profile.tile_size_px))
+	var columns := ceili(float(output_size.x) / float(profile.tile_size_px))
+	var rows := ceili(float(output_size.y) / float(profile.tile_size_px))
 	for row in range(rows):
 		for column in range(columns):
-			var origin := Vector2i(column, row) * _profile.tile_size_px
-			if not Baker.tile_has_decoration(prepared, _profile, origin):
+			var origin := Vector2i(column, row) * profile.tile_size_px
+			if not Baker.tile_has_decoration(prepared, profile, origin):
 				continue
-			var tile: Dictionary = Baker.bake_tile(prepared, _profile, origin)
+			var tile: Dictionary = Baker.bake_tile(prepared, profile, origin)
 			if not tile.error.is_empty():
 				_finish_with_error(tile.error)
 				return
 			var image: Image = tile.image
 			if image == null:
 				continue
-			var path := "%s_%03d_%03d.png" % [base_path, row, column]
+			var path := Output.texture_path(output, tiles.size() + 1)
+			var conflict := Output.ensure_absent(PackedStringArray([path]))
+			if not conflict.is_empty():
+				_finish_with_error(conflict)
+				return
 			var save_error: Error = image.save_png(path)
 			if save_error != OK:
 				_finish_with_error("PNG 保存失败（错误 %d）：%s" % [save_error, path])
@@ -171,20 +181,24 @@ func _on_bake_pressed() -> void:
 		return
 	var scene: PackedScene = Baker.make_scene(
 		source, prepared.contour, tiles, prepared.bounds, prepared.density,
-		_profile.soil_color, scene_name
+		profile.soil_color, scene_name
 	)
 	if scene == null:
 		_finish_with_error("无法打包 Soil 场景。")
+		return
+	var conflict := Output.metadata_conflict(output)
+	if not conflict.is_empty():
+		_finish_with_error(conflict)
 		return
 	var save_error := ResourceSaver.save(scene, scene_path)
 	if save_error != OK:
 		_finish_with_error("场景保存失败（错误 %d）。" % save_error)
 		return
-	save_error = ResourceSaver.save(_profile.duplicate(true), profile_path)
+	save_error = ResourceSaver.save(profile, profile_path)
 	if save_error != OK:
 		_finish_with_error("场景已保存，但参数配置保存失败（错误 %d）。" % save_error)
 		return
-	var recipe_error := _write_recipe(recipe_path, source, points, profile_path)
+	var recipe_error := _write_recipe(recipe_path, source, points, profile_path, tiles)
 	EditorInterface.get_resource_filesystem().scan()
 	_status_label.text = "完成：%s\n贴图分块：%d 张（%d×%d 区域）" % [
 		scene_path, tiles.size(), columns, rows
@@ -205,32 +219,22 @@ func _wait_for_imported_texture(path: String) -> Texture2D:
 	return null
 
 
-func _next_soil_name() -> String:
-	var index := 1
-	var files := DirAccess.get_files_at(OUTPUT_DIRECTORY)
-	while _name_is_used(files, "Soil_%03d" % index):
-		index += 1
-	return "Soil_%03d" % index
-
-
-func _name_is_used(files: PackedStringArray, name: String) -> bool:
-	for file in files:
-		if file.begins_with(name + ".") or file.begins_with(name + "_"):
-			return true
-	return false
-
-
 func _write_recipe(
-	path: String, source: StaticBody2D, points: PackedVector2Array, profile_path: String
+	path: String, source: StaticBody2D, points: PackedVector2Array, profile_path: String,
+	tiles: Array[Dictionary]
 ) -> Error:
 	var coordinates: Array[Array] = []
 	for point in points:
 		coordinates.append([point.x, point.y])
+	var texture_paths: Array[String] = []
+	for tile in tiles:
+		texture_paths.append(tile.path)
 	var recipe := {
 		"source_scene": source.scene_file_path,
 		"source_node": str(source.get_path()),
 		"source_polygon_local": coordinates,
 		"profile": profile_path,
+		"textures": texture_paths,
 	}
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
@@ -242,6 +246,7 @@ func _write_recipe(
 
 func _set_busy(value: bool) -> void:
 	_busy = value
+	_output_controls.set_busy(value)
 	_preview_button.disabled = value or _selected_ground == null
 	_bake_button.disabled = value or _selected_ground == null
 

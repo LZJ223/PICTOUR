@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://h06vmqdf8ucl"]
 
-[ext_resource type="Texture2D" uid="uid://p66u8aa7l146" path="res://Texture/Goal.png" id="1_5c06f"]
-[ext_resource type="Script" path="res://Component/Goal/Goal.gd" id="2_goal"]
+[ext_resource type="Texture2D" uid="uid://p66u8aa7l146" path="res://Texture/Others/Goal.png" id="1_5c06f"]
+[ext_resource type="Script" uid="uid://bpvm5yjxrs3lp" path="res://Component/Goal/Goal.gd" id="2_goal"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nwjy5"]
 size = Vector2(150, 500)

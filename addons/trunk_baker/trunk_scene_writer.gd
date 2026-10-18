@@ -2,6 +2,7 @@
 extends RefCounted
 
 const Baker = preload("res://addons/trunk_baker/trunk_baker.gd")
+const Output = preload("res://addons/texture_baker_common/bake_output.gd")
 const LAYER_SCRIPT := "res://Component/Object/Layer_Object.gd"
 
 
@@ -28,22 +29,8 @@ static func capture_source(source: StaticBody2D) -> Dictionary:
 	}
 
 
-static func reserve_directory(output_directory: String) -> Dictionary:
-	var error := DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(output_directory))
-	if error != OK:
-		return {"error": "无法创建输出目录（错误 %d）。" % error}
-	var index := 1
-	while true:
-		var name := "Leaf_%03d" % index
-		var directory := output_directory.path_join(name)
-		if not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(directory)):
-			error = DirAccess.make_dir_absolute(ProjectSettings.globalize_path(directory))
-			if error == OK:
-				return {"error": "", "name": name, "directory": directory, "base": directory.path_join(name)}
-			if error != ERR_ALREADY_EXISTS:
-				return {"error": "无法创建素材目录（错误 %d）。" % error}
-		index += 1
-	return {"error": "无法分配素材编号。"}
+static func reserve_directory(output_directory: String = "", requested_name: String = "") -> Dictionary:
+	return Output.reserve_directory(output_directory, requested_name, "res://Generated/Trunk", "Trunk")
 
 
 ## textures must be imported external Texture2D resources; no plugin script
@@ -100,6 +87,9 @@ static func make_scene(source: Dictionary, prepared: Dictionary, tiles: Array[Di
 
 
 static func save_result(source: Dictionary, prepared: Dictionary, tiles: Array[Dictionary], output: Dictionary) -> Dictionary:
+	var conflict := Output.metadata_conflict(output)
+	if not conflict.is_empty():
+		return {"error": conflict}
 	var packed := make_scene(source, prepared, tiles, output.name)
 	if packed == null:
 		return {"error": "无法打包树干场景。"}

@@ -5,6 +5,8 @@ const Baker = preload("res://addons/leaf_baker/leaf_baker.gd")
 const Geometry = preload("res://addons/leaf_baker/leaf_geometry.gd")
 const Profile = preload("res://addons/leaf_baker/leaf_profile.gd")
 const Writer = preload("res://addons/leaf_baker/leaf_scene_writer.gd")
+const Output = preload("res://addons/texture_baker_common/bake_output.gd")
+const OutputControls = preload("res://addons/texture_baker_common/output_controls.gd")
 const OUTPUT_DIRECTORY := "res://Generated/Leaf"
 
 var _dock: VBoxContainer
@@ -18,6 +20,7 @@ var _seed_button: Button
 var _load_button: Button
 var _cancel_button: Button
 var _file_dialog: EditorFileDialog
+var _output_controls: OutputControls
 var _profile: Profile
 var _source: StaticBody2D
 var _busy := false
@@ -62,6 +65,9 @@ func _build_dock() -> void:
 	_inspector.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_dock.add_child(_inspector)
 	_inspector.edit(_profile)
+	_output_controls = OutputControls.new()
+	_dock.add_child(_output_controls)
+	_output_controls.configure(OUTPUT_DIRECTORY, "Leaf")
 	var settings := HBoxContainer.new()
 	_dock.add_child(settings)
 	_seed_button = _button(settings, "换一组变化", _new_seed)
@@ -163,7 +169,7 @@ func _save_pressed() -> void:
 		_status.text = prepared.error
 		return
 	var source := Writer.capture_source(_source)
-	var output := Writer.reserve_directory(OUTPUT_DIRECTORY)
+	var output := Writer.reserve_directory(_output_controls.directory_edit.text, _output_controls.name_edit.text)
 	if not output.error.is_empty():
 		_status.text = output.error
 		return
@@ -186,7 +192,11 @@ func _save_pressed() -> void:
 			if not tile.error.is_empty():
 				_failed(tile.error, output)
 				return
-			var path: String = "%s_%03d_%03d.png" % [output.base, row, column]
+			var path := Output.texture_path(output, tiles.size() + 1)
+			var conflict := Output.ensure_absent(PackedStringArray([path]))
+			if not conflict.is_empty():
+				_failed(conflict, output)
+				return
 			var image: Image = tile.image
 			var error := image.save_png(path)
 			if error != OK:
@@ -244,6 +254,7 @@ func _failed(message: String, output: Dictionary) -> void:
 
 func _set_busy(value: bool) -> void:
 	_busy = value
+	_output_controls.set_busy(value)
 	_preview_button.disabled = value or not is_instance_valid(_source)
 	_save_button.disabled = value or not is_instance_valid(_source)
 	_seed_button.disabled = value

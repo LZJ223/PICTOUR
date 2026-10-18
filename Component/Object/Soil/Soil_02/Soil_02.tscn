@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://cfsuke2nrlk0o"]
+
+[ext_resource type="Script" uid="uid://c2uq0wqpn5y57" path="res://Component/Object/Layer_Object.gd" id="1_x7j1j"]
+[ext_resource type="Texture2D" uid="uid://cx74qx5ptt1wq" path="res://Component/Object/Soil/Soil_02/Soil_02_001.png" id="2_0yvqf"]
+[ext_resource type="Texture2D" uid="uid://cn6s07ux6stt6" path="res://Component/Object/Soil/Soil_02/Soil_02_002.png" id="3_kyt54"]
+[ext_resource type="Texture2D" uid="uid://c207rlje3fpo0" path="res://Component/Object/Soil/Soil_02/Soil_02_003.png" id="4_p4sni"]
+[ext_resource type="Texture2D" uid="uid://s6fcqbpnmbup" path="res://Component/Object/Soil/Soil_02/Soil_02_004.png" id="5_qq0we"]
+[ext_resource type="Texture2D" uid="uid://brllqs0x1ubfk" path="res://Component/Object/Soil/Soil_02/Soil_02_005.png" id="6_6lhxe"]
+[ext_resource type="Texture2D" uid="uid://dma8n61b8ll3r" path="res://Component/Object/Soil/Soil_02/Soil_02_006.png" id="7_ehus7"]
+
+[node name="Soil_02" type="StaticBody2D" unique_id=1878224737]
+script = ExtResource("1_x7j1j")
+can_transfer = false
+front = true
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=642551100]
+polygon = PackedVector2Array(3122.0393, 192.03934, 3124.9473, 191.87177, 3127.8184, 191.37997, 3130.6165, 190.57011, 3133.3062, 189.45236, 3135.8542, 188.04074, 3138.2283, 186.35298, 3140.3987, 184.41025, 3142.3381, 182.23692, 3144.0222, 179.86032, 3145.4302, 177.31023, 3146.5437, 174.61867, 3147.3494, 171.81944, 3147.837, 168.94765, 3148, 166.03937, 3148, -470, 3147.8364, -472.91107, 3147.3481, -475.78555, 3146.541, -478.58725, 3145.4253, -481.28098, 3144.015, -483.83282, 3142.3276, -486.21072, 3140.3848, -488.38477, 3138.2107, -490.3276, 3135.8328, -492.01483, 3133.281, -493.4252, 3130.5872, -494.54095, 3127.7856, -495.3481, 3124.9111, -495.83652, 3122, -496, 798, -496, 795.0889, -495.83652, 792.2145, -495.3481, 789.4127, -494.54095, 786.719, -493.4252, 784.1672, -492.01483, 781.78925, -490.3276, 779.61523, -488.38477, 777.67236, -486.21072, 775.98517, -483.83282, 774.5748, -481.28098, 773.45905, -478.58725, 772.65186, -475.78555, 772.16345, -472.91107, 772, -470, 772, -207, 771.46716, -204.32121, 769.94977, -202.05025, 767.6788, -200.53284, 765, -200, -2106, -200, -2108.9111, -199.83652, -2111.7856, -199.34813, -2114.5872, -198.54097, -2117.281, -197.42519, -2119.8328, -196.01483, -2122.2107, -194.32762, -2124.3848, -192.38478, -2126.3276, -190.21074, -2128.015, -187.83284, -2129.4253, -185.28098, -2130.541, -182.58725, -2131.3481, -179.78554, -2131.8364, -176.91109, -2132, -174, -2132, 173.96057, -2131.8362, 176.87444, -2131.347, 179.75159, -2130.538, 182.55577, -2129.4204, 185.25166, -2128.0073, 187.8053, -2126.3171, 190.18448, -2124.3708, 192.35924, -2122.193, 194.30219, -2119.8115, 195.98883, -2117.2556, 197.39793, -2114.558, 198.51172, -2111.7527, 199.31618, -2108.8748, 199.80115, -2105.9607, 199.96054)
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=1289608357]
+
+[node name="SoilFill" type="Polygon2D" parent="VisualRoot" unique_id=489746196]
+color = Color(0.07450981, 0.49019608, 0.06666667, 1)
+antialiased = true
+polygon = PackedVector2Array(3122.0393, 192.03934, 3124.9473, 191.87177, 3127.8184, 191.37997, 3130.6165, 190.57011, 3133.3062, 189.45236, 3135.8542, 188.04074, 3138.2283, 186.35298, 3140.3987, 184.41025, 3142.3381, 182.23692, 3144.0222, 179.86032, 3145.4302, 177.31023, 3146.5437, 174.61867, 3147.3494, 171.81944, 3147.837, 168.94765, 3148, 166.03937, 3148, -470, 3147.8364, -472.91107, 3147.3481, -475.78555, 3146.541, -478.58725, 3145.4253, -481.28098, 3144.015, -483.83282, 3142.3276, -486.21072, 3140.3848, -488.38477, 3138.2107, -490.3276, 3135.8328, -492.01483, 3133.281, -493.4252, 3130.5872, -494.54095, 3127.7856, -495.3481, 3124.9111, -495.83652, 3122, -496, 798, -496, 795.0889, -495.83652, 792.2145, -495.3481, 789.4127, -494.54095, 786.719, -493.4252, 784.1672, -492.01483, 781.78925, -490.3276, 779.61523, -488.38477, 777.67236, -486.21072, 775.98517, -483.83282, 774.5748, -481.28098, 773.45905, -478.58725, 772.65186, -475.78555, 772.16345, -472.91107, 772, -470, 772, -207, 771.46716, -204.32121, 769.94977, -202.05025, 767.6788, -200.53284, 765, -200, -2106, -200, -2108.9111, -199.83652, -2111.7856, -199.34813, -2114.5872, -198.54097, -2117.281, -197.42519, -2119.8328, -196.01483, -2122.2107, -194.32762, -2124.3848, -192.38478, -2126.3276, -190.21074, -2128.015, -187.83284, -2129.4253, -185.28098, -2130.541, -182.58725, -2131.3481, -179.78554, -2131.8364, -176.91109, -2132, -174, -2132, 173.96057, -2131.8362, 176.87444, -2131.347, 179.75159, -2130.538, 182.55577, -2129.4204, 185.25166, -2128.0073, 187.8053, -2126.3171, 190.18448, -2124.3708, 192.35924, -2122.193, 194.30219, -2119.8115, 195.98883, -2117.2556, 197.39793, -2114.558, 198.51172, -2111.7527, 199.31618, -2108.8748, 199.80115, -2105.9607, 199.96054)
+
+[node name="SoilTile_000" type="Sprite2D" parent="VisualRoot" unique_id=857448965]
+texture_filter = 2
+position = Vector2(-2137, -205)
+texture = ExtResource("2_0yvqf")
+centered = false
+region_enabled = true
+region_rect = Rect2(3, 3, 1023, 410)
+
+[node name="SoilTile_001" type="Sprite2D" parent="VisualRoot" unique_id=1406005677]
+texture_filter = 2
+position = Vector2(-1114, -205)
+texture = ExtResource("3_kyt54")
+centered = false
+region_enabled = true
+region_rect = Rect2(3, 3, 1024, 409)
+
+[node name="SoilTile_002" type="Sprite2D" parent="VisualRoot" unique_id=929445125]
+texture_filter = 2
+position = Vector2(-90, -501)
+texture = ExtResource("4_p4sni")
+centered = false
+region_enabled = true
+region_rect = Rect2(3, 3, 1024, 703)
+
+[node name="SoilTile_003" type="Sprite2D" parent="VisualRoot" unique_id=284371038]
+texture_filter = 2
+position = Vector2(934, -501)
+texture = ExtResource("5_qq0we")
+centered = false
+region_enabled = true
+region_rect = Rect2(3, 3, 1024, 701)
+
+[node name="SoilTile_004" type="Sprite2D" parent="VisualRoot" unique_id=760686393]
+texture_filter = 2
+position = Vector2(1958, -501)
+texture = ExtResource("6_6lhxe")
+centered = false
+region_enabled = true
+region_rect = Rect2(3, 3, 1024, 700)
+
+[node name="SoilTile_005" type="Sprite2D" parent="VisualRoot" unique_id=876644185]
+texture_filter = 2
+position = Vector2(2982, -501)
+texture = ExtResource("7_ehus7")
+centered = false
+region_enabled = true
+region_rect = Rect2(3, 3, 171, 698)

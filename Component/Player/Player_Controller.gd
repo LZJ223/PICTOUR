@@ -27,7 +27,7 @@ var current_state: PlayerState = PlayerState.NORMAL
 var player_body: LayerObject = null
 var _recall_tween: Tween
 ## 无人机系统使用的玩家（物体）节点资源预加载
-const player_body_type: PackedScene = preload("res://Component/Object/Player_Object.tscn")
+const player_body_type: PackedScene = preload("res://Component/Object/Others/Player_Object.tscn")
 
 ## 准备阶段绑定信号
 func _ready() -> void:

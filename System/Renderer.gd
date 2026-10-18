@@ -1,7 +1,7 @@
 ## 自动挂载的全局渲染参数。所有强度参数设为 0 时，对应效果会直接关闭。
 extends Node
 
-const HAZE_TEXTURE: Texture2D = preload("res://Texture/Haze.png")
+const HAZE_TEXTURE: Texture2D = preload("res://Texture/Others/Haze.png")
 
 @export_group("图层模糊")
 @export_range(0.0, 4.0, 0.1) var foreground_blur_step: float = 1.2

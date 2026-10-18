@@ -7,10 +7,10 @@
 1. 选择挂载 `Layer_Object.gd` 的 `StaticBody2D` Ground。它需要 `CollisionBox : CollisionPolygon2D` 和 `VisualRoot : Node2D`，碰撞多边形必须为按边界顺序排列的四顶点矩形。
 2. 在右侧 **Trunk Baker** 面板调整颜色、描边、波点、阴影和输出参数，点击 **预览**。
 3. **换一组变化** 更换描边变化与波点相位。输入相同 Seed 可以重复得到相同结果，**加载参数** 可以读取已保存的 `TrunkBakeProfile .tres`。
-4. 点击 **生成并保存树干**。输出到 `res://Generated/Trunk/Leaf_001/` 等自动编号目录。
+4. 在 **素材名称** 和 **输出父目录** 中填写名称与目录，然后点击 **生成并保存树干**。留空时默认输出到 `res://Generated/Trunk/Trunk_001/` 等自动编号目录。
 5. 将生成的 `.tscn` 拖到目标 `DepthLayer` 下，按原 Ground 的位置放置。工具保留源 Ground。
 
-输出按需求保留 `Leaf_编号` 前缀，使用独立的 `Generated/Trunk/` 目录，与树叶素材分开。插件可以在 **项目设置 → 插件** 中独立启用或关闭。
+默认使用 `Trunk_编号` 前缀。每个同名素材文件夹包含 `名称.tscn`、`名称_001.png` 等连续编号的贴图、参数和生成记录。指定名称的文件夹或同名文件已存在时直接拒绝输出。完整规则见 [输出设置](../texture_baker_common/README.md)。插件可以在 **项目设置 → 插件** 中独立启用或关闭。
 
 ## 材质
 

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://by6iwxwd7u6rn"]
+
+[ext_resource type="Script" uid="uid://c2uq0wqpn5y57" path="res://Component/Object/Layer_Object.gd" id="1_1ajfq"]
+[ext_resource type="Texture2D" uid="uid://4a6mdxpk20tw" path="res://Texture/House/House.png" id="2_wh1cl"]
+
+[node name="House" type="RigidBody2D" unique_id=1648197490]
+lock_rotation = true
+script = ExtResource("1_1ajfq")
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=1354807664]
+polygon = PackedVector2Array(-211, -158, -132, -158, -132, -137, -137, -137, -137, -85, 255, -85, 333, 51, 299, 51, 299, 216, -271, 216, -271, 51, -309, 51, -231, -85, -204, -85, -204, -138, -211, -138)
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=285867168]
+
+[node name="House" type="Sprite2D" parent="VisualRoot" unique_id=2037624155]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_wh1cl")
+
+[node name="Area2D" type="Area2D" parent="VisualRoot" unique_id=463868308]
+monitoring = false
+monitorable = false
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="VisualRoot/Area2D" unique_id=575377191]
+polygon = PackedVector2Array(-211, -158, -132, -158, -132, -137, -137, -137, -137, -85, 255, -85, 333, 51, 299, 51, 299, 216, -271, 216, -271, 51, -309, 51, -231, -85, -204, -85, -204, -138, -211, -138)

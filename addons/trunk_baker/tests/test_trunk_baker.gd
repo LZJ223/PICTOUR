@@ -161,7 +161,7 @@ func _test_scene() -> void:
 	_check(instance.get_node("CollisionBox").transform == Transform2D.IDENTITY and instance.get_node("CollisionBox").polygon == prepared.root_contour, "Collision transform was applied twice")
 	_check(instance.get_node("VisualRoot/Area2D/CollisionShape2D").polygon == prepared.root_contour, "Picking shape does not match collision")
 	_check(instance.get_node("VisualRoot/TrunkTextureFrame").transform.is_equal_approx(prepared.frame), "Texture frame does not align with collision")
-	_check(str(instance.name).begins_with("Leaf_"), "Requested Leaf numbering prefix changed")
+	_check(str(instance.name).begins_with("Trunk_"), "Trunk default numbering prefix is incorrect")
 	instance.free()
 	source.free()
 
