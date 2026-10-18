@@ -1,39 +1,33 @@
-## 自动挂载的全局渲染参数。所有强度参数设为 0 时，对应效果会直接关闭。
+## 自动挂载的渲染参数运行时副本，由当前 Level 初始化写入，再同步给全局 Shader。
+## 可编辑配置位于 Level.gd；所有强度参数设为 0 时，对应效果会直接关闭。
 extends Node
 
 const HAZE_TEXTURE: Texture2D = preload("res://Texture/Others/Haze.png")
 
-@export_group("图层模糊")
-@export_range(0.0, 4.0, 0.1) var foreground_blur_step: float = 1.2
-@export_range(0.0, 4.0, 0.1) var background_blur_step: float = 0.8
-@export_range(0.0, 4.0, 0.1) var maximum_blur_lod: float = 4.0
+var foreground_blur_step: float = 1.2
+var background_blur_step: float = 0.8
+var maximum_blur_lod: float = 4.0
 
-@export_group("前景图层")
-@export_range(0.0, 1.0, 0.01) var foreground_darkness_step: float = 0.2
-@export_range(0.0, 1.0, 0.01) var foreground_tint_step: float = 0.05
+var foreground_darkness_step: float = 0.2
+var foreground_tint_step: float = 0.05
 
-@export_group("远离关卡层")
-@export_range(0.0, 1.0, 0.01) var contrast_falloff: float = 0.15
+var contrast_falloff: float = 0.15
 
-@export_group("后景图层")
-@export_range(0.0, 1.0, 0.01) var background_tint_step: float = 0.1
+var background_tint_step: float = 0.1
 
-@export_group("后景雾效")
-@export_range(0.0, 4.0, 0.1) var haze_blur_step: float = 2.0
-@export_range(0.0, 4.0, 0.1) var haze_maximum_blur_lod: float = 6.0
-@export_range(0.0, 1.0, 0.01) var haze_opacity: float = 0.75
-@export_range(0.01, 1.0, 0.01) var haze_world_scale: float = 0.4
-@export_range(-2000.0, 2000.0, 1.0) var haze_bottom_y: float = 500.0
-@export_range(-200.0, 200.0, 1.0) var haze_speed: float = 30.0
-@export_range(0.0, 6000.0, 1.0) var haze_layer_offset: float = 450.0
+var haze_blur_step: float = 2.0
+var haze_maximum_blur_lod: float = 6.0
+var haze_opacity: float = 0.75
+var haze_world_scale: float = 0.4
+var haze_bottom_y: float = 500.0
+var haze_speed: float = 30.0
+var haze_layer_offset: float = 450.0
 
-## 偏移色由当前 Level 在初始化时写入，允许每个关卡拥有独立配色。
 var foreground_tint_color: Color = Color(0.27, 0.159, 0.122, 1.0)
 var background_tint_color: Color = Color(0.339, 0.852, 0.87, 1.0)
 
-@export_group("选择描边")
-@export var selection_outline_color: Color = Color.WHITE
-@export_range(0.0, 16.0, 0.5) var selection_outline_width: float = 6.0
+var selection_outline_color: Color = Color.WHITE
+var selection_outline_width: float = 6.0
 
 ## 运行时修改参数后可再次调用，立即把当前配置同步给所有着色器。
 func apply_settings() -> void:

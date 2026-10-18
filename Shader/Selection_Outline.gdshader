@@ -9,6 +9,8 @@ uniform bool selected = false;
 uniform float cycle_opacity = 1.0;
 uniform bool use_texture_alpha = false;
 uniform bool rectangular_geometry = false;
+// 子类已生成等距轮廓时，保留 Line2D 的几何与抗锯齿 Alpha。
+uniform bool prepared_geometry = false;
 uniform vec2 visual_center = vec2(0.0);
 uniform vec2 outline_scale_compensation = vec2(1.0);
 uniform vec4 source_uv_rect = vec4(0.0, 0.0, 1.0, 1.0);
@@ -28,7 +30,7 @@ float source_alpha(vec2 uv) {
 }
 
 void vertex() {
-	if (selected && render_selection_outline_width > 0.0) {
+	if (!prepared_geometry && selected && render_selection_outline_width > 0.0) {
 		vec2 delta = VERTEX - visual_center;
 		vec2 direction = rectangular_geometry
 			? sign(delta)
@@ -43,7 +45,9 @@ void fragment() {
 	}
 
 	// 无贴图 Polygon2D 的副本本身就是扩张后的白色轮廓。
-	if (!use_texture_alpha) {
+	if (prepared_geometry) {
+		COLOR = vec4(render_selection_outline_color.rgb, render_selection_outline_color.a * COLOR.a);
+	} else if (!use_texture_alpha) {
 		COLOR = render_selection_outline_color;
 	} else {
 		// 扩张后的几何需要先把 UV 映射回原图，再从周围采样 Alpha。

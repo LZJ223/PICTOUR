@@ -9,7 +9,9 @@ var _hold_action: HoldAction = HoldAction.NONE
 
 func _ready() -> void:
 	hide()
+	SignalSystem.back_pressed.connect(toggle)
 	$Continue.pressed.connect(resume)
+	$Options.pressed.connect(_open_options)
 	$Restart.button_down.connect(_begin_hold.bind(HoldAction.RESTART))
 	$Quit.button_down.connect(_begin_hold.bind(HoldAction.QUIT))
 	for button: Button in [$Restart, $Quit]:
@@ -18,11 +20,12 @@ func _ready() -> void:
 	_hold_timer.timeout.connect(_on_hold_timeout)
 	get_window().focus_exited.connect(_cancel_hold)
 
-func _input(event: InputEvent) -> void:
-	if SceneTransition.busy or event.is_echo() or not event.is_action_pressed("ui_cancel"):
+func toggle() -> void:
+	if SceneTransition.busy:
 		return
-	get_viewport().set_input_as_handled()
-	if visible:
+	if $OptionsMenu.visible:
+		_close_options()
+	elif visible:
 		resume()
 	else:
 		open()
@@ -34,10 +37,29 @@ func open() -> void:
 	get_tree().paused = true
 	$Continue.grab_focus()
 
+func _open_options() -> void:
+	if not visible or SceneTransition.busy:
+		return
+	_cancel_hold()
+	_set_buttons_visible(false)
+	$OptionsMenu.show()
+	$OptionsMenu/SideBar/Game.grab_focus()
+
+func _close_options() -> void:
+	$OptionsMenu.hide()
+	_set_buttons_visible(true)
+	$Options.grab_focus()
+
+func _set_buttons_visible(active: bool) -> void:
+	for button: Button in [$Continue, $Options, $Restart, $Quit]:
+		button.visible = active
+
 func resume() -> void:
 	if not visible or SceneTransition.busy:
 		return
 	_cancel_hold()
+	$OptionsMenu.hide()
+	_set_buttons_visible(true)
 	hide()
 	var focused: Control = get_viewport().gui_get_focus_owner()
 	if focused != null:

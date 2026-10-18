@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dp5qnqfax1xv2" path="res://Texture/Button/Back.png" id="6_rac2l"]
 [ext_resource type="Script" uid="uid://dr2mkm8w1p600" path="res://Interface/UI/Icon_Button.gd" id="7_icon_button"]
 [ext_resource type="Texture2D" uid="uid://bylqre2yyhf1n" path="res://Texture/Button/Game_Options.png" id="7_oh7kd"]
+[ext_resource type="PackedScene" path="res://Interface/UI/Options.tscn" id="8_options"]
 
 [node name="Main" type="Node2D" unique_id=2057756595]
 script = ExtResource("2_main")
@@ -144,22 +145,13 @@ size_flags_vertical = 3
 text = "1-4"
 metadata/level_id = 12
 
-[node name="GameOption" type="Control" parent="." unique_id=1703430157]
-layout_mode = 3
+[node name="GameOption" parent="." unique_id=1703430157 instance=ExtResource("8_options")]
+layout_mode = 0
 anchors_preset = 0
 offset_left = -475.0
 offset_top = 460.0
 offset_right = 475.0
 offset_bottom = 910.0
-
-[node name="Button" type="Button" parent="GameOption" unique_id=1815646864]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "fortest"
 
 [node name="MainMenu" type="HBoxContainer" parent="." unique_id=2004838966]
 offset_left = -360.0

@@ -19,6 +19,7 @@ var _page: Page = Page.MAIN
 var _camera_tween: Tween
 var _exit_timer: Timer
 var _back_held: bool = false
+var _back_key_held: bool = false
 var _page_blend: float = 0.0
 var _main_origin: Vector2
 var _secondary_offset: Vector2
@@ -57,12 +58,14 @@ func _ready() -> void:
 	back_button.button_down.connect(_on_back_down)
 	back_button.button_up.connect(_on_back_up)
 	back_button.mouse_exited.connect(_on_back_up)
-	get_window().focus_exited.connect(_on_back_up)
+	get_window().focus_exited.connect(_cancel_back_hold)
 	_exit_timer = Timer.new()
 	_exit_timer.one_shot = true
 	_exit_timer.wait_time = EXIT_HOLD_DURATION
 	add_child(_exit_timer)
 	_exit_timer.timeout.connect(_on_exit_hold_timeout)
+	SignalSystem.back_pressed.connect(_on_back_key_pressed)
+	SignalSystem.back_released.connect(_on_back_key_released)
 	_set_main_buttons_presented(false, true)
 	if SceneTransition.busy:
 		SceneTransition.transition_finished.connect(_set_main_buttons_presented.bind(true), CONNECT_ONE_SHOT)
@@ -79,7 +82,7 @@ func _show_page(page: Page) -> void:
 		return
 	if _camera_tween != null and _camera_tween.is_valid():
 		_camera_tween.kill()
-	_on_back_up()
+	_cancel_back_hold()
 	_page = page
 	## 离场动画完成前保留容器，缩放只影响 Icon，不参与布局。
 	main_menu.show()
@@ -121,18 +124,44 @@ func _on_back_down() -> void:
 	if SceneTransition.busy:
 		return
 	_back_held = true
-	if _page == Page.MAIN:
-		_exit_timer.start()
-		back_button.start_hold(_exit_timer)
+	_update_exit_hold()
 
 func _on_back_up() -> void:
 	_back_held = false
-	_exit_timer.stop()
-	back_button.stop_hold()
+	_update_exit_hold()
+
+## Esc 直接响应全局输入信号，不模拟按钮按下或点击。
+func _on_back_key_pressed() -> void:
+	if SceneTransition.busy:
+		return
+	if _page != Page.MAIN:
+		_show_page(Page.MAIN)
+		return
+	_back_key_held = true
+	_update_exit_hold()
+
+func _on_back_key_released() -> void:
+	_back_key_held = false
+	_update_exit_hold()
+
+func _cancel_back_hold() -> void:
+	_back_held = false
+	_back_key_held = false
+	_update_exit_hold()
+
+func _update_exit_hold() -> void:
+	var holding := _page == Page.MAIN and not SceneTransition.busy and (_back_held or _back_key_held)
+	if not holding:
+		_exit_timer.stop()
+		back_button.stop_hold()
+	elif _exit_timer.is_stopped():
+		_exit_timer.start()
+		# 只复用进度环与抖动表现；计时和是否退出由菜单自身管理。
+		back_button.start_hold(_exit_timer)
 
 func _on_exit_hold_timeout() -> void:
-	if _page == Page.MAIN and _back_held:
-		_on_back_up()
+	if _page == Page.MAIN and not SceneTransition.busy and (_back_held or _back_key_held):
+		_cancel_back_hold()
 		_set_main_buttons_presented(false)
 		SceneTransition.quit_game()
 

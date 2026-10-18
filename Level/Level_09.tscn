@@ -4,8 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_y7c3s"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_w1gen"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_biyeo"]
-[ext_resource type="PackedScene" uid="uid://f3bfirgvd6bj" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_02/CloudBox_02.tscn" id="7_biyeo"]
-[ext_resource type="PackedScene" uid="uid://jp0lfaxk44gu" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_01/CloudBox_01.tscn" id="7_w1gen"]
+[ext_resource type="PackedScene" uid="uid://cabe2ddgr2o0l" path="res://Component/Shadowed_Geometry/Shadowed_Geometry.tscn" id="7_2ly7o"]
 [ext_resource type="PackedScene" uid="uid://h06vmqdf8ucl" path="res://Component/Goal/Goal.tscn" id="8_y7c3s"]
 [ext_resource type="PackedScene" path="res://Component/Background/Night_Background.tscn" id="9_night_background"]
 [ext_resource type="PackedScene" uid="uid://bd0x4ee0iqos7" path="res://Component/Shadowed_Geometry/Shadowed_Ground.tscn" id="9_w1gen"]
@@ -114,9 +113,6 @@ slot = 3
 [node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
 material = SubResource("ShaderMaterial_biyeo")
 
-[node name="CloudBox_01" parent="Layer3" unique_id=28006766 instance=ExtResource("7_w1gen")]
-position = Vector2(304, 472)
-
 [node name="Ground" parent="Layer3" unique_id=1744010081 instance=ExtResource("9_w1gen")]
 position = Vector2(1160, 720)
 can_leave_shadow = true
@@ -130,6 +126,24 @@ polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000,
 [node name="Shadow" parent="Layer3/Ground" index="2" unique_id=1397293799]
 polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
+[node name="ShadowedGeometry2" parent="Layer3" unique_id=1597360742 instance=ExtResource("7_2ly7o")]
+position = Vector2(544, 448)
+
+[node name="CollisionBox" parent="Layer3/ShadowedGeometry2" index="0" unique_id=519937963]
+polygon = PackedVector2Array(144, 72, 144, -64, 72, -64, 72, -128, -72, -128, -72, 72)
+
+[node name="Shape" parent="Layer3/ShadowedGeometry2/VisualRoot" parent_id_path=PackedInt32Array(1597360742, 817137210) index="0" unique_id=859248024]
+polygon = PackedVector2Array(144, 72, 144, -64, 72, -64, 72, -128, -72, -128, -72, 72)
+
+[node name="Outline" parent="Layer3/ShadowedGeometry2/VisualRoot" parent_id_path=PackedInt32Array(1597360742, 817137210) index="1" unique_id=70556169]
+points = PackedVector2Array(72, -128, -72, -128, -72, 72, 144, 72, 144, -64, 72, -64)
+
+[node name="CollisionBox" parent="Layer3/ShadowedGeometry2/VisualRoot/Area2D" parent_id_path=PackedInt32Array(1597360742, 1324729838) index="0" unique_id=847824507]
+polygon = PackedVector2Array(144, 72, 144, -64, 72, -64, 72, -128, -72, -128, -72, 72)
+
+[node name="Shadow" parent="Layer3/ShadowedGeometry2" index="2" unique_id=2067473628]
+polygon = PackedVector2Array(-72, -128, -72, 72, 144, 72, 144, -64, 72, -64, 72, -128)
+
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_y7c3s")]
 material = SubResource("ShaderMaterial_545fr")
 layer_id = 2
@@ -137,12 +151,6 @@ slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
 material = SubResource("ShaderMaterial_5bmnj")
-
-[node name="CloudBox_01" parent="Layer2" unique_id=1479180182 instance=ExtResource("7_w1gen")]
-position = Vector2(816, 472)
-
-[node name="CloudBox_02" parent="Layer2" unique_id=1484775712 instance=ExtResource("7_biyeo")]
-position = Vector2(184, 440)
 
 [node name="Ground" parent="Layer2" unique_id=269076015 instance=ExtResource("9_w1gen")]
 position = Vector2(1160, 720)
@@ -156,6 +164,24 @@ polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000,
 
 [node name="Shadow" parent="Layer2/Ground" index="2" unique_id=1397293799]
 polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
+
+[node name="ShadowedGeometry" parent="Layer2" unique_id=330834349 instance=ExtResource("7_2ly7o")]
+position = Vector2(136, 448)
+
+[node name="CollisionBox" parent="Layer2/ShadowedGeometry" index="0" unique_id=519937963]
+polygon = PackedVector2Array(56, 72, 56, 40, 104, 40, 104, -80, -72, -80, -72, 72)
+
+[node name="Shape" parent="Layer2/ShadowedGeometry/VisualRoot" parent_id_path=PackedInt32Array(330834349, 817137210) index="0" unique_id=859248024]
+polygon = PackedVector2Array(56, 72, 56, 40, 104, 40, 104, -80, -72, -80, -72, 72)
+
+[node name="Outline" parent="Layer2/ShadowedGeometry/VisualRoot" parent_id_path=PackedInt32Array(330834349, 817137210) index="1" unique_id=70556169]
+points = PackedVector2Array(104, -80, -72, -80, -72, 72, 56, 72, 56, 40, 104, 40)
+
+[node name="CollisionBox" parent="Layer2/ShadowedGeometry/VisualRoot/Area2D" parent_id_path=PackedInt32Array(330834349, 1324729838) index="0" unique_id=847824507]
+polygon = PackedVector2Array(56, 72, 56, 40, 104, 40, 104, -80, -72, -80, -72, 72)
+
+[node name="Shadow" parent="Layer2/ShadowedGeometry" index="2" unique_id=2067473628]
+polygon = PackedVector2Array(-72, -80, -72, 72, 56, 72, 56, 40, 104, 40, 104, -80)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_y7c3s")]
 material = SubResource("ShaderMaterial_55i33")
@@ -198,7 +224,7 @@ polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000,
 polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
 [node name="Goal" parent="." unique_id=1223662449 instance=ExtResource("8_y7c3s")]
-position = Vector2(1840, 296)
+position = Vector2(1480, 256)
 
 [node name="Barrier02" type="StaticBody2D" parent="." unique_id=2025451003]
 position = Vector2(-840, 0)
@@ -211,8 +237,10 @@ shape = SubResource("RectangleShape2D_y7c3s")
 
 [editable path="Layer3"]
 [editable path="Layer3/Ground"]
+[editable path="Layer3/ShadowedGeometry2"]
 [editable path="Layer2"]
 [editable path="Layer2/Ground"]
+[editable path="Layer2/ShadowedGeometry"]
 [editable path="Layer1"]
 [editable path="Layer1/Ground"]
 [editable path="Layer0"]

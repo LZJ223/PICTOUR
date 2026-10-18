@@ -14,6 +14,7 @@ uniform float cycle_opacity = 1.0;
 uniform bool is_night = false;
 uniform sampler2D shadow_projection : repeat_disable, filter_linear;
 uniform bool shadow_projection_enabled = false;
+global uniform float render_shadow_strength;
 global uniform bool render_night_light_enabled;
 global uniform vec2 render_night_light_uv;
 global uniform float render_night_surface_width;
@@ -32,6 +33,48 @@ global uniform float render_contrast_falloff;
 global uniform vec4 render_background_tint_color : source_color;
 global uniform float render_background_tint_step;
 
+// 联合采样预乘实体颜色与投影，先合影、后模糊；透明区域不参与颜色归一化。
+// Alpha 仍沿用 CanvasGroup 的原始 mipmap 覆盖率，避免改变实体边缘与背景混合。
+vec4 shadowed_surface(vec2 uv, vec2 pixel_size, float blur_lod, vec4 filtered) {
+	if (blur_lod <= 0.001) {
+		float visibility = 1.0 - textureLod(shadow_projection, uv, 0.0).a * render_shadow_strength;
+		return vec4(filtered.rgb / max(filtered.a, 0.0001), visibility);
+	}
+	float weights[5] = float[5](1.0, 4.0, 6.0, 4.0, 1.0);
+	float shadows[25];
+	// 与 LOD 的采样范围一起增长，并在关闭模糊时连续收敛到单点。
+	vec2 step_uv = pixel_size * sqrt((exp2(2.0 * blur_lod) - 1.0) / 6.0);
+	float minimum_shadow = 1.0;
+	float maximum_shadow = 0.0;
+	for (int y = 0; y < 5; y++) {
+		for (int x = 0; x < 5; x++) {
+			vec2 sample_uv = uv + vec2(float(x - 2), float(y - 2)) * step_uv;
+			float shadow = textureLod(shadow_projection, sample_uv, 0.0).a * render_shadow_strength;
+			shadows[y * 5 + x] = shadow;
+			minimum_shadow = min(minimum_shadow, shadow);
+			maximum_shadow = max(maximum_shadow, shadow);
+		}
+	}
+	// 遮罩恒定时保留原景深采样，且不用额外读取 25 次实体纹理。
+	if (maximum_shadow - minimum_shadow < 0.0001) {
+		return vec4(filtered.rgb / max(filtered.a, 0.0001), 1.0 - maximum_shadow);
+	}
+	vec4 lit = vec4(0.0);
+	float coverage = 0.0;
+	for (int y = 0; y < 5; y++) {
+		for (int x = 0; x < 5; x++) {
+			vec2 sample_uv = uv + vec2(float(x - 2), float(y - 2)) * step_uv;
+			vec4 surface = textureLod(screen_texture, sample_uv, 0.0);
+			float weight = weights[x] * weights[y];
+			lit += surface * ((1.0 - shadows[y * 5 + x]) * weight);
+			coverage += surface.a * weight;
+		}
+	}
+	// 返回未受影部分的平均颜色与占比。调色是线性变换，可在平均后执行一次，
+	// 再乘该占比，等价于每个采样点先调色、染黑，最后模糊。
+	return vec4(lit.rgb / max(lit.a, 0.0001), lit.a / max(coverage, 0.0001));
+}
+
 void fragment() {
 	float front_distance = max(layer_z_index, 0.0) / LAYER_Z_INDEX_STEP;
 	float back_distance = max(-layer_z_index, 0.0) / LAYER_Z_INDEX_STEP;
@@ -41,11 +84,21 @@ void fragment() {
 			+ back_distance * render_background_blur_step,
 		render_maximum_blur_lod
 	);
-	vec4 color = textureLod(screen_texture, SCREEN_UV, blur_lod);
+	vec4 filtered = textureLod(screen_texture, SCREEN_UV, blur_lod);
+	vec4 color = filtered;
 
 	// CanvasGroup 使用预乘 Alpha；混色前恢复原始 RGB，避免透明边缘发黑。
 	if (color.a > 0.0001) {
 		color.rgb /= color.a;
+	}
+	float lit_fraction = 1.0;
+	if (shadow_projection_enabled && color.a > 0.0001) {
+		vec4 surface = shadowed_surface(
+			SCREEN_UV, SCREEN_PIXEL_SIZE, blur_lod,
+			filtered
+		);
+		color.rgb = surface.rgb;
+		lit_fraction = surface.a;
 	}
 
 	// 离关卡层越远，对比度越低，逐步压缩图像细节。
@@ -77,12 +130,8 @@ void fragment() {
 	);
 	color.rgb = mix(color.rgb, render_foreground_tint_color.rgb, foreground_tint);
 	color.rgb = mix(color.rgb, render_background_tint_color.rgb, background_tint);
-	// 在层内染黑 RGB，保留抗锯齿、贴图透明度与模糊边缘的原始 Alpha。
-	// 不能在已合成的画面上再叠一层 coverage Alpha，否则会漏出亮边并压暗背景。
-	if (shadow_projection_enabled) {
-		float shadow = textureLod(shadow_projection, SCREEN_UV, 0.0).a;
-		color.rgb *= 1.0 - shadow;
-	}
+	// 联合模糊后的受光占比；覆盖强度达到 100% 时完整阴影保持纯黑，实体 Alpha 只合成一次。
+	color.rgb *= lit_fraction;
 
 	surface_albedo = COLOR.rgb * color.rgb;
 	surface_response = 0.0;

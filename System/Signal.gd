@@ -8,6 +8,8 @@ signal UAV_activate()
 signal shadow_boolean()
 signal destination_view_changed(active: bool)
 signal dialogue_advance
+signal back_pressed
+signal back_released
 var dialogue_active: bool = false
 var looking_at_destination: bool = false
 var _gameplay_active: bool = false
@@ -15,9 +17,12 @@ var _gameplay_active: bool = false
 var timer: Timer = null
 
 func _ready() -> void:
+	## 返回键在菜单和暂停期间也有效；玩法与计时器仍遵守游戏暂停状态。
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	process_priority = -100
 	process_physics_priority = -100
 	timer = Timer.new()
+	timer.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(timer)
 	timer.wait_time = 5.0
 	timer.one_shot = true
@@ -39,10 +44,22 @@ func set_gameplay_active(active: bool) -> void:
 		timer.stop()
 		PhysicsServer2D.set_active(true)
 
-## 输入判定与信号触发
+## 全局界面输入不受玩法开关、对话或观察目标的输入锁影响。
+func _input(event: InputEvent) -> void:
+	if event.is_echo():
+		return
+	## 松键也通知界面；即使已进入转场，也要结束此前的蓄力。
+	if event.is_action_released("back"):
+		get_viewport().set_input_as_handled()
+		back_released.emit()
+	elif not SceneTransition.busy and event.is_action_pressed("back"):
+		get_viewport().set_input_as_handled()
+		back_pressed.emit()
+
+## 玩法输入判定与信号触发
 func _unhandled_input(event: InputEvent) -> void:
 	_update_destination_view()
-	if SceneTransition.busy:
+	if get_tree().paused or SceneTransition.busy:
 		return
 	if dialogue_active:
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -104,6 +121,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			Global.object_selected.set_pick_condition(true)
 
 func _process(_delta: float) -> void:
+	if get_tree().paused:
+		return
 	_update_destination_view()
 	## 对话和观察目标只锁定玩家操作，期间仍保持世界物理与 Bot 巡逻运行。
 	if dialogue_active or looking_at_destination or Global.object_selected:

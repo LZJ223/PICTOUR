@@ -288,7 +288,12 @@ func _test_runtime() -> void:
 	_check(not object._selection_outlines.is_empty(), "Selection feedback was not created")
 	for entry in object._selection_outlines:
 		_check(entry.outline.visible, "Selection outline is hidden")
-		_check(entry.outline.polygon == entry.source.polygon, "Selection outline differs from rounded visual")
+		_check(entry.outline.get_child_count() > 0, "Selection contour was not generated")
+		if entry.source.name == &"Decoration":
+			var expected: PackedVector2Array = entry.source.polygon
+			for index in expected.size():
+				expected[index] += entry.source.offset
+			_check(entry.outline._contours.size() == 1 and entry.outline._contours[0] == expected, "Independent decoration used the body outline")
 	for frame in range(3):
 		await get_tree().physics_frame
 		await get_tree().process_frame

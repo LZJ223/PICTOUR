@@ -7,6 +7,8 @@ const MIN_FRAGMENT_AREA: float = 4.0
 const BOOLEAN_AREA_EPSILON: float = 0.01
 ## 只切割玩家附近的承影物体，距离使用碰撞箱所在的物理世界坐标。
 const MAX_CUT_DISTANCE: float = 1200.0
+## 消失区域仅保留短暂画面；设为 0 可关闭。
+@export_range(0.0, 1.0, 0.01) var cut_afterimage_duration: float = 0.20
 ## 布尔运算类
 class CutPlan:
 	var source: LayerObject
@@ -104,6 +106,7 @@ func _replace_object_with_fragments(source: LayerObject, world_pieces: Array[Pac
 	var source_collision: Transform2D = source.collision_box.global_transform
 	var world_to_source: Transform2D = source_collision.affine_inverse()
 	var generated_count: int = 0
+	var fragments: Array[LayerObject] = []
 	for world_polygon in world_pieces:
 		var center: Vector2 = _polygon_centroid(world_polygon)
 		var anchor_shift: Vector2 = world_to_source * center
@@ -132,9 +135,20 @@ func _replace_object_with_fragments(source: LayerObject, world_pieces: Array[Pac
 		if is_instance_valid(Global.camera):
 			fragment.apply_visual_transfer(Global.camera.global_position, Global.camera.zoom.abs())
 		generated_count += 1
+		fragments.append(fragment)
 	## 场景结构不兼容时保留原物体；完全被切除时 world_pieces 本来就为空
 	if not world_pieces.is_empty() and generated_count == 0:
 		return
+	var afterimage := ShadowCutAfterimage.create(source, fragments, cut_afterimage_duration)
+	# 碎片和残影占据原物体的兄弟顺序，保持与同层其他物体的遮挡关系。
+	var draw_index: int = source.get_index() + 1
+	for fragment in fragments:
+		target_layer.move_child(fragment, draw_index)
+		draw_index += 1
+	if afterimage != null:
+		target_layer.add_child(afterimage)
+		target_layer.move_child(afterimage, draw_index)
+	target_layer.update_object_draw_order()
 	source.queue_free()
 
 ## 在物体进入场景树前同步实体、视觉、点选与投影轮廓

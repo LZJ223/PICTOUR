@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cm8bkbrap43pj" path="res://Texture/Button/Restart.png" id="4_tw87k"]
 [ext_resource type="Texture2D" uid="uid://4w6efg0valmb" path="res://Texture/Button/Quit.png" id="5_svjvp"]
 [ext_resource type="Script" uid="uid://dr2mkm8w1p600" path="res://Interface/UI/Icon_Button.gd" id="6_icon_button"]
+[ext_resource type="PackedScene" path="res://Interface/UI/Options.tscn" id="7_options"]
 
 [node name="Pause" type="Control" unique_id=1403208455]
 process_mode = 3
@@ -64,8 +65,7 @@ offset_right = -30.0
 offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
-tooltip_text = "设置功能暂未开放"
-disabled = true
+tooltip_text = "设置"
 
 [node name="Icon" type="Sprite2D" parent="Options" unique_id=1044206695]
 position = Vector2(60, 60)
@@ -113,6 +113,21 @@ text = "Quit"
 position = Vector2(60, 60)
 scale = Vector2(0.35, 0.35)
 texture = ExtResource("5_svjvp")
+
+[node name="OptionsMenu" parent="." instance=ExtResource("7_options")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -475.0
+offset_top = -225.0
+offset_right = 475.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="HoldTimer" type="Timer" parent="." unique_id=2059852614]
 one_shot = true

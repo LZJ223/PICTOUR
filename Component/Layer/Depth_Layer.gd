@@ -55,7 +55,7 @@ func apply_slot_state(anchor_position: Vector2, camera_zoom: Vector2) -> void:
 	_has_view = true
 	_update_haze(anchor_position, camera_zoom)
 	for child in get_children():
-		if child is LayerObject:
+		if child is LayerObject or child is ShadowCutAfterimage:
 			child.apply_visual_transfer(anchor_position, camera_zoom)
 
 ## 槽位负责逻辑状态；浮点视觉槽位同时驱动排序、视差与两份着色器。
@@ -176,8 +176,8 @@ func update_object_draw_order() -> void:
 func _sort_layer_objects() -> void:
 	_draw_order_update_queued = false
 	for child in get_children():
-		if child is LayerObject and not child.front:
+		if (child is LayerObject or child is ShadowCutAfterimage) and not child.front:
 			move_child(child, get_child_count() - 1)
 	for child in get_children():
-		if child is LayerObject and child.front:
+		if (child is LayerObject or child is ShadowCutAfterimage) and child.front:
 			move_child(child, get_child_count() - 1)

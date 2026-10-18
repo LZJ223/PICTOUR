@@ -144,6 +144,11 @@ func _update_projection(layer: DepthLayer, capture: SubViewport, size: Vector2i,
 func _sync_frame() -> void:
 	if not is_instance_valid(_level):
 		return
+	# 倒计时开始时覆盖 80%，归零后覆盖 100%；直接读取计时器以同步重置与暂停。
+	var remaining: float = 0.0
+	if SignalSystem.timer != null:
+		remaining = clampf(SignalSystem.timer.time_left / maxf(SignalSystem.timer.wait_time, 0.001), 0.0, 1.0)
+	RenderingServer.global_shader_parameter_set(&"render_shadow_strength", lerpf(1.0, 0.8, remaining))
 	RenderingServer.global_shader_parameter_set(&"render_receiver_mask_debug", debug_view)
 	var enabled := _has_shadow_objects() and Global.current_layer_index + 2 < Global.layer_count
 	RenderingServer.global_shader_parameter_set(&"render_receiver_mask_enabled", enabled)
@@ -213,3 +218,4 @@ func _exit_tree() -> void:
 	RenderingServer.global_shader_parameter_set(&"render_receiver_mask_enabled", false)
 	RenderingServer.global_shader_parameter_set(&"render_receiver_mask_debug", 0)
 	RenderingServer.global_shader_parameter_set(&"render_receiver_mask", empty_texture())
+	RenderingServer.global_shader_parameter_set(&"render_shadow_strength", 1.0)

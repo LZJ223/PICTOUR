@@ -84,11 +84,14 @@ func _run() -> void:
 	sprite.hide()
 	visual.show()
 	visual.color = Color.WHITE
+	# 使用无纹理白面，并在两个不重叠的位置间移动，避开纹理暗点和初始重叠。
+	visual.texture = null
 	caster.collision_box.scale = Vector2.ONE
+	caster.position.x = 25.0
 	await _frames()
 	for index in 6:
 		var previous: Vector2 = caster.shadow_visual[0].global_position
-		caster.position.x = -30.0 if index % 2 == 0 else 30.0
+		caster.position.x = -25.0 if index % 2 == 0 else 25.0
 		await _frames(1)
 		var moved := get_viewport().get_texture().get_image()
 		_check(_pixel(moved, caster.shadow_visual[0].global_position).get_luminance() < 0.01, "移动投影第 %d 帧立即染黑新位置" % index)

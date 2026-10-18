@@ -18,8 +18,7 @@ func _ready() -> void:
 	## 背景及展示角色不随转场暂停，淡入、淡出期间也持续运动。
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_register_tile(_level)
-	Renderer.foreground_tint_color = _level.foreground_tint_color
-	Renderer.background_tint_color = _level.background_tint_color
+	_level.write_to_renderer()
 	Renderer.apply_settings()
 	_animation.set_facing(1, true)
 	_player.z_index = 1

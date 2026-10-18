@@ -3,6 +3,124 @@ extends LayerObject
 const SHADOW_CLIP_SHADER := preload("res://Shader/Shadow_Receiver_Clip.gdshader")
 @onready var shadow: Polygon2D = $Shadow
 
+## 黑描边外缘仅在形状/样式改变时重建；白色选中线在屏幕坐标中保持等宽。
+## 使用闭合线而非填满的放大多边形，保留凹口，避免把物体内部整块填白。
+class SelectionContour extends Node2D:
+	var _geometry_key: Array = []
+	var _contours: Array[PackedVector2Array] = []
+	var _lines: Array[Line2D] = []
+	var _screen_basis := Transform2D.IDENTITY
+
+	func sync(source: Polygon2D, border: Line2D) -> void:
+		var has_border := border != null and border.visible and border.closed and border.width > 0.0
+		var geometry_key: Array = [source.polygon, source.offset]
+		if has_border:
+			geometry_key.append_array([
+				border.points, border.width, border.joint_mode,
+				source.transform.affine_inverse() * border.transform,
+			])
+		var rebuild := geometry_key != _geometry_key
+		if rebuild:
+			_geometry_key = geometry_key
+			_contours.clear()
+			var boundary := source.polygon
+			for index in boundary.size():
+				boundary[index] += source.offset
+			var border_to_source := Transform2D.IDENTITY
+			if has_border:
+				border_to_source = source.transform.affine_inverse() * border.transform
+				## 装饰用 Polygon2D 也由父类收集，不能套用主体的黑描边。
+				has_border = _same_boundary(boundary, border_to_source * border.points)
+			if has_border:
+				var joint := Geometry2D.JOIN_MITER
+				if border.joint_mode == Line2D.LINE_JOINT_ROUND:
+					joint = Geometry2D.JOIN_ROUND
+				elif border.joint_mode == Line2D.LINE_JOINT_BEVEL:
+					joint = Geometry2D.JOIN_SQUARE
+				for contour in Geometry2D.offset_polygon(border.points, border.width * 0.5, joint):
+					_contours.append(border_to_source * contour)
+			else:
+				_contours.append(boundary)
+			while _lines.size() > _contours.size():
+				var line := _lines.pop_back() as Line2D
+				remove_child(line)
+				line.queue_free()
+			while _lines.size() < _contours.size():
+				var line := Line2D.new()
+				line.closed = true
+				line.antialiased = true
+				line.joint_mode = Line2D.LINE_JOINT_ROUND
+				line.round_precision = 12
+				line.use_parent_material = true
+				add_child(line)
+				_lines.append(line)
+		var screen_transform := source.get_global_transform_with_canvas()
+		var basis := Transform2D(screen_transform.x, screen_transform.y, Vector2.ZERO)
+		if absf(basis.determinant()) < 0.000001:
+			return
+		## 抵消物体/图层/相机的缩放与旋转，Line2D.width 的单位因此为屏幕像素。
+		transform = source.transform * basis.affine_inverse()
+		for index in _lines.size():
+			if rebuild or not basis.is_equal_approx(_screen_basis):
+				_lines[index].points = basis * _contours[index]
+			## 线以黑描边外缘为中心，内半边由原物体遮住，外半边就是选中宽度。
+			_lines[index].width = Renderer.selection_outline_width * 2.0
+		_screen_basis = basis
+
+	## 闭合边界允许起点不同、绕序相反，以及显式重复最后一个顶点。
+	func _same_boundary(a: PackedVector2Array, b: PackedVector2Array) -> bool:
+		var count_a := a.size()
+		var count_b := b.size()
+		if count_a > 1 and a[0].is_equal_approx(a[count_a - 1]):
+			count_a -= 1
+		if count_b > 1 and b[0].is_equal_approx(b[count_b - 1]):
+			count_b -= 1
+		if count_a < 3 or count_a != count_b:
+			return false
+		for start in count_b:
+			if not a[0].is_equal_approx(b[start]):
+				continue
+			var forward := true
+			var backward := true
+			for index in count_a:
+				forward = forward and a[index].is_equal_approx(b[(start + index) % count_b])
+				backward = backward and a[index].is_equal_approx(b[posmod(start - index, count_b)])
+			return forward or backward
+		return false
+
+
+## 复用父类的选中、显隐、材质和图层管理，只替换 Polygon2D 的轮廓几何。
+func _create_outline_visual(source: Node2D) -> Node2D:
+	if not source is Polygon2D:
+		return super(source)
+	var outline := SelectionContour.new()
+	outline.name = "%s_SelectionOutline" % source.name
+	outline.show_behind_parent = true
+	outline.z_as_relative = false
+	outline.visible = false
+	return outline
+
+
+func _sync_outline_geometry(source: Node2D, outline: Node2D, outline_material: ShaderMaterial) -> void:
+	if outline is SelectionContour:
+		outline_material.set_shader_parameter("prepared_geometry", true)
+	else:
+		super(source, outline, outline_material)
+
+
+func _sync_selection_outlines(sync_geometry: bool = false) -> void:
+	super(sync_geometry)
+	if not is_inside_tree() or not is_instance_valid(owner_layer) or (not _selected and not sync_geometry):
+		return
+	for entry in _selection_outlines:
+		if not is_instance_valid(entry.source) or not is_instance_valid(entry.outline):
+			continue
+		if entry.outline is SelectionContour:
+			var source := entry.source as Polygon2D
+			var border := source.get_parent().get_node_or_null("Outline") as Line2D
+			(entry.outline as SelectionContour).sync(source, border)
+
+
 ## 准备时生成影子
 func _ready() -> void:
 	add_to_group("layer_objects")

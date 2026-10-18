@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://btf0h3k816woy" path="res://System/Shadow_Mask_System.gd" id="7_shadow_mask"]
 [ext_resource type="Script" uid="uid://crocnbiis8gs5" path="res://System/Night_Light_System.gd" id="8_night_light"]
 [ext_resource type="PackedScene" path="res://Interface/Dialogue/Dialogue_System.tscn" id="9_dialogue"]
+[ext_resource type="Script" path="res://System/Player_Occlusion_System.gd" id="10_occlusion"]
 
 [node name="Game" type="Node2D" unique_id=1565919311]
 script = ExtResource("1_game")
@@ -32,7 +33,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="Pause" parent="Camera/MenuUI/Screen" unique_id=800313544 instance=ExtResource("5_pause")]
+layout_mode = 1
+
 [node name="Back" type="Button" parent="Camera/MenuUI/Screen" unique_id=613270347]
+process_mode = 3
 script = ExtResource("6_icon_button")
 layout_mode = 0
 anchor_left = 1.0
@@ -48,9 +53,6 @@ position = Vector2(37.5, 37.5)
 scale = Vector2(0.27500054, 0.27500054)
 texture = ExtResource("3_t5pu8")
 
-[node name="Pause" parent="Camera/MenuUI/Screen" unique_id=800313544 instance=ExtResource("5_pause")]
-layout_mode = 1
-
 [node name="LayerControllerSystem" type="Node" parent="." unique_id=1585831549]
 script = ExtResource("3_8d3to")
 
@@ -63,6 +65,9 @@ script = ExtResource("7_shadow_mask")
 [node name="NightLightSystem" type="Node" parent="."]
 script = ExtResource("8_night_light")
 
+[node name="PlayerOcclusionSystem" type="Node" parent="."]
+script = ExtResource("10_occlusion")
+
 [node name="DialogueSystem" parent="." instance=ExtResource("9_dialogue")]
 
-[connection signal="pressed" from="Camera/MenuUI/Screen/Back" to="Camera/MenuUI/Screen/Pause" method="open"]
+[connection signal="pressed" from="Camera/MenuUI/Screen/Back" to="Camera/MenuUI/Screen/Pause" method="toggle"]
