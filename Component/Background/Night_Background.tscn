@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="PackedScene" path="res://Component/Background/Background.tscn" id="1_base"]
+[ext_resource type="Script" path="res://Component/Background/Night_Background.gd" id="2_night"]
+[ext_resource type="Shader" path="res://Shader/Night_Stars.gdshader" id="3_stars"]
+
+[sub_resource type="Gradient" id="Gradient_white"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_white"]
+gradient = SubResource("Gradient_white")
+width = 2
+height = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_stars"]
+resource_local_to_scene = true
+shader = ExtResource("3_stars")
+
+[node name="NightBackground" instance=ExtResource("1_base")]
+script = ExtResource("2_night")
+
+[node name="SkyColor" type="ColorRect" parent="." index=0]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.078431375, 0.09803922, 0.14117648, 1)
+
+[node name="Sprite" parent="Frame" index=0]
+material = SubResource("ShaderMaterial_stars")
+texture = SubResource("GradientTexture2D_white")
+region_rect = Rect2(-1279, -719, 2560, 1440)

@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://dhtepbi83oamn"]
 
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_7pgyd"]
+[ext_resource type="PackedScene" uid="uid://coxrbpl33shd4" path="res://Component/Background/Background.tscn" id="2_6hae8"]
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_tp5u0"]
+[ext_resource type="Texture2D" uid="uid://cksdh05itniu1" path="res://Texture/Background/City_01.png" id="3_6cs0j"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_ihrg6"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_t20hn"]
 [ext_resource type="PackedScene" uid="uid://btvd5akgi0dy" path="res://Component/Object/Soil/Soil_00/Soil.tscn" id="5_jb64m"]
@@ -23,6 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://kgpq76gmn41p" path="res://Component/Object/Bush/Bush_05.tscn" id="17_x1d5d"]
 [ext_resource type="PackedScene" uid="uid://cgibvtj58txga" path="res://Component/Object/Cloud/Cloud_01.tscn" id="18_jo5bm"]
 [ext_resource type="PackedScene" uid="uid://cq6muhbic0ogi" path="res://Component/Object/Cloud/Cloud_02.tscn" id="19_16mcm"]
+[ext_resource type="PackedScene" uid="uid://bd2e8t8vka0ac" path="res://Component/Object/Others/Box.tscn" id="21_pvac2"]
 [ext_resource type="PackedScene" uid="uid://ca1mshktdkrj3" path="res://Component/Object/Cloud/Cloud_03.tscn" id="22_6hae8"]
 [ext_resource type="PackedScene" uid="uid://sym6edwksexy" path="res://Component/Object/Cloud/Cloud_04.tscn" id="23_pvac2"]
 [ext_resource type="PackedScene" uid="uid://dljaeuwmwdwpv" path="res://Component/Object/Bush/Bush_06.tscn" id="25_6cs0j"]
@@ -30,52 +33,13 @@
 [ext_resource type="PackedScene" uid="uid://bpq31rpppl2jc" path="res://Component/Object/Tree/Tree_05.tscn" id="27_bxr1t"]
 [ext_resource type="PackedScene" uid="uid://b5ifq7cl1godk" path="res://Component/Object/Cloud/Cloud_05.tscn" id="29_pvac2"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_16mcm"]
-resource_local_to_scene = true
-shader = ExtResource("3_ihrg6")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6hae8"]
-resource_local_to_scene = true
-shader = ExtResource("4_t20hn")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pvac2"]
-resource_local_to_scene = true
-shader = ExtResource("3_ihrg6")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6cs0j"]
-resource_local_to_scene = true
-shader = ExtResource("4_t20hn")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gi1cg"]
 resource_local_to_scene = true
 shader = ExtResource("3_ihrg6")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bxr1t"]
 resource_local_to_scene = true
@@ -90,6 +54,51 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gmbxi"]
+resource_local_to_scene = true
+shader = ExtResource("3_ihrg6")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j7gd0"]
+resource_local_to_scene = true
+shader = ExtResource("4_t20hn")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_grw22"]
+resource_local_to_scene = true
+shader = ExtResource("3_ihrg6")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rsrmu"]
+resource_local_to_scene = true
+shader = ExtResource("4_t20hn")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pvac2"]
+size = Vector2(25, 250)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gmbxi"]
 size = Vector2(20, 1840)
 
@@ -100,14 +109,19 @@ layer_scale = 0.75
 current_layer_index = 0
 level_id = 5
 
+[node name="Background" parent="." unique_id=863386680 instance=ExtResource("2_6hae8")]
+
+[node name="Sprite" parent="Background/Frame" parent_id_path=PackedInt32Array(863386680, 1425833484) index="0" unique_id=2100582541]
+texture = ExtResource("3_6cs0j")
+
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_tp5u0")]
-material = SubResource("ShaderMaterial_16mcm")
+material = SubResource("ShaderMaterial_gi1cg")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
 visible = true
-material = SubResource("ShaderMaterial_6hae8")
+material = SubResource("ShaderMaterial_bxr1t")
 
 [node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("5_jb64m")]
 position = Vector2(1164, 720)
@@ -117,25 +131,22 @@ position = Vector2(778, 360)
 front = false
 
 [node name="Leaf_001" parent="Layer2" unique_id=971688841 instance=ExtResource("10_t20hn")]
-position = Vector2(736, -712)
+position = Vector2(736, -512)
 
 [node name="Leaf_006" parent="Layer2" unique_id=601333899 instance=ExtResource("13_u6x2d")]
-position = Vector2(662, 544)
+position = Vector2(662, 584)
 
 [node name="Leaf_007" parent="Layer2" unique_id=40413716 instance=ExtResource("11_x5mob")]
-position = Vector2(608, -176)
+position = Vector2(622, -32)
 
 [node name="Leaf_008" parent="Layer2" unique_id=485044879 instance=ExtResource("11_x5mob")]
-position = Vector2(814, 400)
+position = Vector2(814, 520)
 
 [node name="Leaf_010" parent="Layer2" unique_id=784253893 instance=ExtResource("16_x1d5d")]
-position = Vector2(454, 96)
-
-[node name="Leaf_004" parent="Layer2" unique_id=904451170 instance=ExtResource("13_u6x2d")]
-position = Vector2(654, 160)
+position = Vector2(494, 333)
 
 [node name="House" parent="Layer2" unique_id=149779875 instance=ExtResource("15_ely6c")]
-position = Vector2(800, -88)
+position = Vector2(800, 110)
 
 [node name="Brush" parent="Layer2" unique_id=330834349 instance=ExtResource("12_16mcm")]
 position = Vector2(1104, 464)
@@ -144,29 +155,32 @@ position = Vector2(1104, 464)
 position = Vector2(2408, 464)
 
 [node name="Cloud" parent="Layer2" unique_id=739867783 instance=ExtResource("29_pvac2")]
-position = Vector2(1442, -383)
+position = Vector2(1442, -640)
 
 [node name="Cloud2" parent="Layer2" unique_id=1518616101 instance=ExtResource("23_pvac2")]
-position = Vector2(-104, -413)
+position = Vector2(-104, -616)
 
 [node name="Cloud3" parent="Layer2" unique_id=2009392457 instance=ExtResource("22_6hae8")]
-position = Vector2(2072, -592)
+position = Vector2(2072, -792)
 
 [node name="Cloud4" parent="Layer2" unique_id=1508146257 instance=ExtResource("18_jo5bm")]
-position = Vector2(2760, -452)
+position = Vector2(2760, -708)
 
 [node name="Tree" parent="Layer2" unique_id=1592005692 instance=ExtResource("26_gi1cg")]
-position = Vector2(-16, 284)
+position = Vector2(-208, 284)
 
 [node name="Tree2" parent="Layer2" unique_id=406633091 instance=ExtResource("17_r856b")]
 position = Vector2(2050, 280)
 
+[node name="Box" parent="Layer2" unique_id=1109522448 instance=ExtResource("21_pvac2")]
+position = Vector2(1096, 408)
+
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_tp5u0")]
-material = SubResource("ShaderMaterial_pvac2")
+material = SubResource("ShaderMaterial_gmbxi")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_6cs0j")
+material = SubResource("ShaderMaterial_j7gd0")
 
 [node name="Soil_001" parent="Layer1" unique_id=126668145 instance=ExtResource("5_jb64m")]
 position = Vector2(1164, 720)
@@ -175,146 +189,141 @@ position = Vector2(1164, 720)
 position = Vector2(2040, 464)
 
 [node name="Brush2" parent="Layer1" unique_id=1673283584 instance=ExtResource("17_x1d5d")]
-position = Vector2(-176, 464)
+position = Vector2(-376, 464)
 
 [node name="Leaf_012" parent="Layer1" unique_id=1587969358 instance=ExtResource("8_er6vr")]
 position = Vector2(1540, 384)
 front = false
 
 [node name="Leaf_013" parent="Layer1" unique_id=141236362 instance=ExtResource("8_er6vr")]
-position = Vector2(584, 384)
+position = Vector2(584, 571)
 front = false
 
 [node name="Leaf_001" parent="Layer1" unique_id=940110930 instance=ExtResource("10_t20hn")]
-position = Vector2(1592, -648)
-
-[node name="Leaf_005" parent="Layer1" unique_id=864731490 instance=ExtResource("12_u6x2d")]
-position = Vector2(1672, -400)
+position = Vector2(1592, -408)
 
 [node name="Leaf_002" parent="Layer1" unique_id=1997081452 instance=ExtResource("11_b32py")]
-position = Vector2(1360, -432)
+position = Vector2(1360, -296)
 
 [node name="Leaf_003" parent="Layer1" unique_id=1624082615 instance=ExtResource("12_u6x2d")]
-position = Vector2(1392, 240)
+position = Vector2(1392, 304)
 
 [node name="Leaf_007" parent="Layer1" unique_id=1252557140 instance=ExtResource("11_x5mob")]
-position = Vector2(1336, 24)
-
-[node name="Leaf_008" parent="Layer1" unique_id=1951030083 instance=ExtResource("11_x5mob")]
-position = Vector2(408, 80)
+position = Vector2(1336, 90)
 
 [node name="Leaf_009" parent="Layer1" unique_id=404671702 instance=ExtResource("16_x1d5d")]
-position = Vector2(552, 207)
+position = Vector2(600, 232)
 
 [node name="Leaf_010" parent="Layer1" unique_id=405740582 instance=ExtResource("16_x1d5d")]
-position = Vector2(328, 344)
+position = Vector2(328, 400)
 
 [node name="Leaf_004" parent="Layer1" unique_id=472134358 instance=ExtResource("13_u6x2d")]
-position = Vector2(1462, 344)
+position = Vector2(1462, 448)
 
 [node name="Leaf_016" parent="Layer1" unique_id=1882551074 instance=ExtResource("13_u6x2d")]
-position = Vector2(704, 552)
-
-[node name="Leaf_011" parent="Layer1" unique_id=675876129 instance=ExtResource("16_x1d5d")]
-position = Vector2(1560, 380)
-
-[node name="Leaf_006" parent="Layer1" unique_id=992068867 instance=ExtResource("13_u6x2d")]
-position = Vector2(1406, 556)
+position = Vector2(704, 592)
 
 [node name="House" parent="Layer1" unique_id=126901171 instance=ExtResource("15_ely6c")]
-position = Vector2(1576, -16)
+position = Vector2(1576, 134)
+
+[node name="Leaf_011" parent="Layer1" unique_id=675876129 instance=ExtResource("16_x1d5d")]
+position = Vector2(1560, 488)
 
 [node name="Leaf_014" parent="Layer1" unique_id=15811665 instance=ExtResource("11_b32py")]
-position = Vector2(672, -360)
+position = Vector2(672, -160)
 
 [node name="Leaf_015" parent="Layer1" unique_id=287064097 instance=ExtResource("10_t20hn")]
-position = Vector2(528, -502)
+position = Vector2(528, -288)
 
 [node name="Tree" parent="Layer1" unique_id=1775670945 instance=ExtResource("7_u6x2d")]
 position = Vector2(2376, 284)
 
 [node name="Tree2" parent="Layer1" unique_id=1347925795 instance=ExtResource("17_r856b")]
-position = Vector2(-439, 284)
+position = Vector2(-616, 284)
 
 [node name="Cloud" parent="Layer1" unique_id=1820391092 instance=ExtResource("18_jo5bm")]
-position = Vector2(-352, -293)
+position = Vector2(-280, -544)
 
 [node name="Cloud2" parent="Layer1" unique_id=1154753130 instance=ExtResource("19_16mcm")]
-position = Vector2(2448, -499)
+position = Vector2(2312, -608)
 
 [node name="Cloud3" parent="Layer1" unique_id=636873374 instance=ExtResource("22_6hae8")]
-position = Vector2(2864, -648)
+position = Vector2(2856, -680)
+
+[node name="Box" parent="Layer1" unique_id=1276605150 instance=ExtResource("21_pvac2")]
+position = Vector2(864, 488)
+
+[node name="Box2" parent="Layer1" unique_id=1504433455 instance=ExtResource("21_pvac2")]
+position = Vector2(-112, 488)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_tp5u0")]
-material = SubResource("ShaderMaterial_gi1cg")
+material = SubResource("ShaderMaterial_grw22")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_bxr1t")
+material = SubResource("ShaderMaterial_rsrmu")
 
 [node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("5_jb64m")]
 position = Vector2(1164, 720)
 
 [node name="Tree" parent="Layer0" unique_id=377116358 instance=ExtResource("7_u6x2d")]
-position = Vector2(240, 284)
+position = Vector2(176, 284)
 
 [node name="Leaf_012" parent="Layer0" unique_id=1722441525 instance=ExtResource("8_er6vr")]
-position = Vector2(1044, 360)
+position = Vector2(1044, 514)
 front = false
 
 [node name="Leaf_001" parent="Layer0" unique_id=1904840051 instance=ExtResource("10_t20hn")]
-position = Vector2(944, -768)
+position = Vector2(986, -434)
 
 [node name="Leaf_002" parent="Layer0" unique_id=89600620 instance=ExtResource("11_b32py")]
-position = Vector2(1221, -559)
-
-[node name="Leaf_006" parent="Layer0" unique_id=7129318 instance=ExtResource("13_u6x2d")]
-position = Vector2(928, 544)
-
-[node name="Leaf_007" parent="Layer0" unique_id=2039839958 instance=ExtResource("11_x5mob")]
-position = Vector2(1160, -112)
+position = Vector2(1221, -264)
 
 [node name="Leaf_008" parent="Layer0" unique_id=878067980 instance=ExtResource("11_x5mob")]
-position = Vector2(1080, 400)
+position = Vector2(1128, 608)
 
 [node name="Leaf_010" parent="Layer0" unique_id=11913319 instance=ExtResource("16_x1d5d")]
-position = Vector2(1096, 96)
+position = Vector2(1096, 224)
 
 [node name="Leaf_011" parent="Layer0" unique_id=4321599 instance=ExtResource("16_x1d5d")]
-position = Vector2(792, 278)
+position = Vector2(766, 342)
 
 [node name="Leaf_004" parent="Layer0" unique_id=337726867 instance=ExtResource("13_u6x2d")]
-position = Vector2(1120, 160)
+position = Vector2(1112, 297)
 
 [node name="House" parent="Layer0" unique_id=1639634082 instance=ExtResource("9_ihrg6")]
-position = Vector2(810, -144)
+position = Vector2(810, 192)
 
 [node name="Brush" parent="Layer0" unique_id=1828089177 instance=ExtResource("16_61ax1")]
-position = Vector2(540, 464)
+position = Vector2(352, 464)
 
 [node name="Cloud" parent="Layer0" unique_id=763731454 instance=ExtResource("22_6hae8")]
-position = Vector2(352, -363)
+position = Vector2(232, -664)
 
 [node name="Cloud2" parent="Layer0" unique_id=8743422 instance=ExtResource("23_pvac2")]
-position = Vector2(1728, -232)
+position = Vector2(1760, -576)
 
 [node name="Brush2" parent="Layer0" unique_id=1283475778 instance=ExtResource("25_6cs0j")]
-position = Vector2(2040, 464)
-
-[node name="Tree2" parent="Layer0" unique_id=1421065542 instance=ExtResource("26_gi1cg")]
-position = Vector2(1704, 284)
+position = Vector2(2088, 464)
 
 [node name="Tree3" parent="Layer0" unique_id=519021614 instance=ExtResource("27_bxr1t")]
 position = Vector2(2784, 284)
 
 [node name="Cloud3" parent="Layer0" unique_id=1928505306 instance=ExtResource("22_6hae8")]
-position = Vector2(2152, -304)
+position = Vector2(2232, -645)
 
 [node name="Cloud4" parent="Layer0" unique_id=510593552 instance=ExtResource("23_pvac2")]
-position = Vector2(2776, -305)
+position = Vector2(2824, -624)
+
+[node name="Box3" parent="Layer0" unique_id=1890651909 instance=ExtResource("21_pvac2")]
+position = Vector2(1392, 488)
 
 [node name="Goal" parent="." unique_id=1223662449 instance=ExtResource("8_tp5u0")]
-position = Vector2(1416, -848)
+position = Vector2(584, 216)
+
+[node name="DetectArea" parent="Goal" index="0" unique_id=579091495]
+position = Vector2(0, -120)
+shape = SubResource("RectangleShape2D_pvac2")
 
 [node name="Barrier01" type="StaticBody2D" parent="." unique_id=1813366130]
 position = Vector2(3168, 0)
@@ -334,6 +343,8 @@ collision_mask = 255
 position = Vector2(0, -320)
 shape = SubResource("RectangleShape2D_gmbxi")
 
+[editable path="Background"]
 [editable path="Layer2"]
 [editable path="Layer1"]
 [editable path="Layer0"]
+[editable path="Goal"]

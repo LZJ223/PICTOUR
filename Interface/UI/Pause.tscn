@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://57mr5e3qn8rm"]
 
-[ext_resource type="Script" uid="uid://bqif3dyhp7c1n" path="res://Interface/Pause.gd" id="1_pause"]
+[ext_resource type="Script" uid="uid://bqif3dyhp7c1n" path="res://Interface/UI/Pause.gd" id="1_pause"]
 [ext_resource type="Texture2D" uid="uid://dyec7erh3arc1" path="res://Texture/Button/Continue.png" id="2_83v8w"]
 [ext_resource type="Texture2D" uid="uid://cqcyjiyok4oyv" path="res://Texture/Button/Options.png" id="3_hgdeu"]
 [ext_resource type="Texture2D" uid="uid://cm8bkbrap43pj" path="res://Texture/Button/Restart.png" id="4_tw87k"]
 [ext_resource type="Texture2D" uid="uid://4w6efg0valmb" path="res://Texture/Button/Quit.png" id="5_svjvp"]
-[ext_resource type="Script" path="res://Interface/Icon_Button.gd" id="6_icon_button"]
+[ext_resource type="Script" uid="uid://dr2mkm8w1p600" path="res://Interface/UI/Icon_Button.gd" id="6_icon_button"]
 
 [node name="Pause" type="Control" unique_id=1403208455]
 process_mode = 3

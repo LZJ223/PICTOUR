@@ -62,6 +62,10 @@ func _shape(layer: DepthLayer, at: Vector2, casts: bool = false) -> ShadowedGeom
 	layer.add_child(object)
 	return object
 
+func _visual_shape(object: LayerObject) -> Polygon2D:
+	var visual := object.visual_root.get_node_or_null("Shape") as Polygon2D
+	return visual if visual != null else object.visual_root.get_node("Polygon2D") as Polygon2D
+
 func _check_disabled(message: String) -> void:
 	var probe := CanvasLayer.new()
 	probe.layer = 200
@@ -88,11 +92,17 @@ func _run() -> void:
 	get_tree().root.size = Vector2i(1440, 810)
 	Global.next_level_id = 9
 	_game = load("res://Interface/Game.tscn").instantiate() as Node2D
+	_game.play_dialogue = false
 	get_tree().root.add_child(_game)
 	get_tree().current_scene = _game
 	await get_tree().create_timer(1.1, true).timeout
 	Global.player.set_physics_process(false)
 	SignalSystem.timer.stop()
+	# 夜空底色由计时器控制；固定测试底色，使空白/镂空探针可辨认。
+	var background := Global.level.get_node_or_null("Background")
+	if background != null and background.has_node("SkyColor"):
+		background.set_process(false)
+		(background.get_node("SkyColor") as ColorRect).color = Color(0.2, 0.2, 0.2, 1.0)
 	PhysicsServer2D.set_active(false)
 	await _frames()
 	var casters := _casters()
@@ -154,7 +164,7 @@ func _run() -> void:
 	var sprite := Sprite2D.new()
 	sprite.texture = ImageTexture.create_from_image(hole_image)
 	sprite.scale = Vector2(5, 5)
-	receiving_box.visual_root.get_node("Polygon2D").hide()
+	_visual_shape(receiving_box).hide()
 	receiving_box.visual_root.add_child(sprite)
 	await _frames()
 	mask = _mask()
@@ -166,7 +176,7 @@ func _run() -> void:
 	_check(_pixel(mask, solid_point).a > 0.95, "运行时加入的 Sprite 实体区域进入覆盖纹理（保留景深边缘）")
 	_check(_pixel(hole_result, solid_point).get_luminance() < 0.01, "不能被实体切割的物体也正常接影")
 	sprite.free()
-	receiving_box.visual_root.get_node("Polygon2D").show()
+	_visual_shape(receiving_box).show()
 	await _frames()
 
 	# 摄像机观察位置、缩放和实际窗口尺寸变化。
@@ -242,7 +252,7 @@ func _run() -> void:
 	await _frames()
 	_check(_pixel(_mask(), moving_point).a < 0.01, "删除实体后覆盖自动清除")
 
-	# 静止两秒仍读取原 shadow_box 切割，碎片自动进入覆盖纹理。
+	# 静止计时器仍读取原 shadow_box 切割，碎片自动进入覆盖纹理。
 	for caster in casters:
 		caster.can_be_shadowed = false
 	var cutting_caster := _shape(Global.get_layer_at_slot(2), Vector2(-100, 410), true)
@@ -268,7 +278,7 @@ func _run() -> void:
 	var before_cut := _capture("07_before_cut")
 	_check(_pixel(before_cut, cut_point).get_luminance() < 0.01, "原 shadow_box 对应位置的视觉影子为纯黑")
 	SignalSystem.timer.start()
-	await get_tree().create_timer(2.15, true).timeout
+	await get_tree().create_timer(SignalSystem.timer.wait_time + 0.15, true).timeout
 	await _frames()
 	_check(not is_instance_id_valid(receiving_id), "保留原计时器触发的实体切割")
 	_check(_pixel(_mask(), cut_point).a < 0.01, "切除位置同步从覆盖纹理消失")

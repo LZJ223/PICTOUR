@@ -4,20 +4,25 @@
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_y7c3s"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_w1gen"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_biyeo"]
-[ext_resource type="PackedScene" uid="uid://btvd5akgi0dy" path="res://Component/Object/Soil/Soil_00/Soil.tscn" id="5_545fr"]
-[ext_resource type="PackedScene" uid="uid://cabe2ddgr2o0l" path="res://Component/Shadowed_Geometry/Shadowed_Geometry.tscn" id="7_2ly7o"]
+[ext_resource type="PackedScene" uid="uid://f3bfirgvd6bj" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_02/CloudBox_02.tscn" id="7_biyeo"]
+[ext_resource type="PackedScene" uid="uid://jp0lfaxk44gu" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_01/CloudBox_01.tscn" id="7_w1gen"]
 [ext_resource type="PackedScene" uid="uid://h06vmqdf8ucl" path="res://Component/Goal/Goal.tscn" id="8_y7c3s"]
+[ext_resource type="PackedScene" path="res://Component/Background/Night_Background.tscn" id="9_night_background"]
+[ext_resource type="PackedScene" uid="uid://bd0x4ee0iqos7" path="res://Component/Shadowed_Geometry/Shadowed_Ground.tscn" id="9_w1gen"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w1gen"]
 resource_local_to_scene = true
 shader = ExtResource("3_w1gen")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_biyeo"]
 resource_local_to_scene = true
 shader = ExtResource("4_biyeo")
 shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
@@ -31,11 +36,14 @@ resource_local_to_scene = true
 shader = ExtResource("3_w1gen")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5bmnj"]
 resource_local_to_scene = true
 shader = ExtResource("4_biyeo")
 shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
@@ -49,11 +57,14 @@ resource_local_to_scene = true
 shader = ExtResource("3_w1gen")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p5s07"]
 resource_local_to_scene = true
 shader = ExtResource("4_biyeo")
 shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
@@ -67,11 +78,14 @@ resource_local_to_scene = true
 shader = ExtResource("3_w1gen")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ahl3s"]
 resource_local_to_scene = true
 shader = ExtResource("4_biyeo")
 shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
@@ -80,10 +94,17 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y7c3s"]
+size = Vector2(20, 1840)
+
 [node name="Level" type="Node2D" unique_id=1182049839]
 script = ExtResource("1_2ly7o")
 level_id = 9
 is_night = true
+
+[node name="Background" parent="." unique_id=1624963763 instance=ExtResource("9_night_background")]
+active_color = Color(0.078431375, 0.09803922, 0.14117648, 1)
+color_reset_duration = 0.15
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_y7c3s")]
 material = SubResource("ShaderMaterial_w1gen")
@@ -93,23 +114,21 @@ slot = 3
 [node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
 material = SubResource("ShaderMaterial_biyeo")
 
-[node name="Soil_001" parent="Layer3" unique_id=1170671701 instance=ExtResource("5_545fr")]
-position = Vector2(636, 720)
+[node name="CloudBox_01" parent="Layer3" unique_id=28006766 instance=ExtResource("7_w1gen")]
+position = Vector2(304, 472)
 
-[node name="ShadowedGeometry3" parent="Layer3" unique_id=1390134615 instance=ExtResource("7_2ly7o")]
-position = Vector2(-168, 500)
+[node name="Ground" parent="Layer3" unique_id=1744010081 instance=ExtResource("9_w1gen")]
+position = Vector2(1160, 720)
+can_leave_shadow = true
 
-[node name="ShadowedGeometry4" parent="Layer3" unique_id=1333126696 instance=ExtResource("7_2ly7o")]
-position = Vector2(104, 500)
+[node name="CollisionBox" parent="Layer3/Ground" index="0" unique_id=1077352614]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
-[node name="ShadowedGeometry9" parent="Layer3" unique_id=1127424949 instance=ExtResource("7_2ly7o")]
-position = Vector2(248, 500)
+[node name="Polygon2D" parent="Layer3/Ground/VisualRoot" parent_id_path=PackedInt32Array(1744010081, 817137210) index="0" unique_id=486029332]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
-[node name="ShadowedGeometry10" parent="Layer3" unique_id=1191391556 instance=ExtResource("7_2ly7o")]
-position = Vector2(536, 500)
-
-[node name="ShadowedGeometry15" parent="Layer3" unique_id=883445560 instance=ExtResource("7_2ly7o")]
-position = Vector2(-576, 500)
+[node name="Shadow" parent="Layer3/Ground" index="2" unique_id=1397293799]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_y7c3s")]
 material = SubResource("ShaderMaterial_545fr")
@@ -119,49 +138,44 @@ slot = 2
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
 material = SubResource("ShaderMaterial_5bmnj")
 
-[node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("5_545fr")]
-position = Vector2(636, 720)
+[node name="CloudBox_01" parent="Layer2" unique_id=1479180182 instance=ExtResource("7_w1gen")]
+position = Vector2(816, 472)
 
-[node name="ShadowedGeometry2" parent="Layer2" unique_id=1456049476 instance=ExtResource("7_2ly7o")]
-position = Vector2(176, 500)
+[node name="CloudBox_02" parent="Layer2" unique_id=1484775712 instance=ExtResource("7_biyeo")]
+position = Vector2(184, 440)
 
-[node name="ShadowedGeometry5" parent="Layer2" unique_id=890332365 instance=ExtResource("7_2ly7o")]
-position = Vector2(40, 500)
+[node name="Ground" parent="Layer2" unique_id=269076015 instance=ExtResource("9_w1gen")]
+position = Vector2(1160, 720)
+can_leave_shadow = true
 
-[node name="ShadowedGeometry11" parent="Layer2" unique_id=330834349 instance=ExtResource("7_2ly7o")]
-position = Vector2(472, 500)
+[node name="CollisionBox" parent="Layer2/Ground" index="0" unique_id=1077352614]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
-[node name="ShadowedGeometry13" parent="Layer2" unique_id=364346174 instance=ExtResource("7_2ly7o")]
-position = Vector2(-456, 500)
+[node name="Polygon2D" parent="Layer2/Ground/VisualRoot" parent_id_path=PackedInt32Array(269076015, 817137210) index="0" unique_id=486029332]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
-[node name="ShadowedGeometry20" parent="Layer2" unique_id=1979870116 instance=ExtResource("7_2ly7o")]
-position = Vector2(720, 500)
+[node name="Shadow" parent="Layer2/Ground" index="2" unique_id=1397293799]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_y7c3s")]
 material = SubResource("ShaderMaterial_55i33")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-visible = true
 material = SubResource("ShaderMaterial_p5s07")
 
-[node name="Soil_001" parent="Layer1" unique_id=126668145 instance=ExtResource("5_545fr")]
-position = Vector2(636, 720)
+[node name="Ground" parent="Layer1" unique_id=848674132 instance=ExtResource("9_w1gen")]
+position = Vector2(1160, 720)
+can_leave_shadow = true
 
-[node name="ShadowedGeometry6" parent="Layer1" unique_id=688268594 instance=ExtResource("7_2ly7o")]
-position = Vector2(-92, 500)
+[node name="CollisionBox" parent="Layer1/Ground" index="0" unique_id=1077352614]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
-[node name="ShadowedGeometry7" parent="Layer1" unique_id=806739568 instance=ExtResource("7_2ly7o")]
-position = Vector2(392, 500)
+[node name="Polygon2D" parent="Layer1/Ground/VisualRoot" parent_id_path=PackedInt32Array(848674132, 817137210) index="0" unique_id=486029332]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
-[node name="ShadowedGeometry16" parent="Layer1" unique_id=878483532 instance=ExtResource("7_2ly7o")]
-position = Vector2(-328, 500)
-
-[node name="ShadowedGeometry18" parent="Layer1" unique_id=1951064124 instance=ExtResource("7_2ly7o")]
-position = Vector2(-520, 500)
-
-[node name="ShadowedGeometry19" parent="Layer1" unique_id=277621431 instance=ExtResource("7_2ly7o")]
-position = Vector2(664, 500)
+[node name="Shadow" parent="Layer1/Ground" index="2" unique_id=1397293799]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_y7c3s")]
 material = SubResource("ShaderMaterial_jdcqs")
@@ -170,28 +184,36 @@ slot = 0
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
 material = SubResource("ShaderMaterial_ahl3s")
 
-[node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("5_545fr")]
-position = Vector2(636, 720)
+[node name="Ground" parent="Layer0" unique_id=1214556593 instance=ExtResource("9_w1gen")]
+position = Vector2(1160, 720)
+can_leave_shadow = true
 
-[node name="ShadowedGeometry" parent="Layer0" unique_id=1599729592 instance=ExtResource("7_2ly7o")]
-position = Vector2(-28, 500)
+[node name="CollisionBox" parent="Layer0/Ground" index="0" unique_id=1077352614]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
-[node name="ShadowedGeometry8" parent="Layer0" unique_id=1407062731 instance=ExtResource("7_2ly7o")]
-position = Vector2(600, 500)
+[node name="Polygon2D" parent="Layer0/Ground/VisualRoot" parent_id_path=PackedInt32Array(1214556593, 817137210) index="0" unique_id=486029332]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
-[node name="ShadowedGeometry12" parent="Layer0" unique_id=1697472219 instance=ExtResource("7_2ly7o")]
-position = Vector2(320, 500)
-
-[node name="ShadowedGeometry14" parent="Layer0" unique_id=482901576 instance=ExtResource("7_2ly7o")]
-position = Vector2(-240, 500)
-
-[node name="ShadowedGeometry17" parent="Layer0" unique_id=702841417 instance=ExtResource("7_2ly7o")]
-position = Vector2(-384, 500)
+[node name="Shadow" parent="Layer0/Ground" index="2" unique_id=1397293799]
+polygon = PackedVector2Array(2000, 200, 2000, -464, -72, -464, -72, -200, -2000, -200, -2000, 200)
 
 [node name="Goal" parent="." unique_id=1223662449 instance=ExtResource("8_y7c3s")]
-position = Vector2(1024, 514)
+position = Vector2(1840, 296)
+
+[node name="Barrier02" type="StaticBody2D" parent="." unique_id=2025451003]
+position = Vector2(-840, 0)
+collision_layer = 255
+collision_mask = 255
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Barrier02" unique_id=364934477]
+position = Vector2(0, -320)
+shape = SubResource("RectangleShape2D_y7c3s")
 
 [editable path="Layer3"]
+[editable path="Layer3/Ground"]
 [editable path="Layer2"]
+[editable path="Layer2/Ground"]
 [editable path="Layer1"]
+[editable path="Layer1/Ground"]
 [editable path="Layer0"]
+[editable path="Layer0/Ground"]

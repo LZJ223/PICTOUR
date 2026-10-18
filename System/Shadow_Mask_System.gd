@@ -1,9 +1,28 @@
-## 只提供承影物体覆盖纹理。影子节点、变换、激活和实体切割仍由原系统管理。
+## 提供承影覆盖与分层投影纹理；原系统继续管理影子节点、变换、激活和实体切割。
 class_name ShadowMaskSystem
 extends Node
 
 const PACK_SHADER := preload("res://Shader/Receiver_Mask_Pack.gdshader")
 const PREVIEW_SHADER := preload("res://Shader/Receiver_Mask_Preview.gdshader")
+
+## 重绘已有视觉影子的轮廓，不复制节点、重挂节点或执行多边形布尔运算。
+class ProjectionCanvas extends Node2D:
+	var shadows: Array[Polygon2D] = []
+	var receiver_opacity: float = 1.0
+
+	func _draw() -> void:
+		for shadow in shadows:
+			if not is_instance_valid(shadow) or not shadow.is_visible_in_tree():
+				continue
+			var opacity: float = shadow.color.a * shadow.self_modulate.a
+			var ancestor: CanvasItem = shadow
+			while ancestor != null:
+				opacity *= ancestor.modulate.a
+				ancestor = ancestor.get_parent() as CanvasItem
+			# 承影层自身的透明度由最终合成统一应用，不在投影里重复使用。
+			opacity = clampf(opacity / maxf(receiver_opacity, 0.0001), 0.0, 1.0)
+			draw_set_transform_matrix(shadow.global_transform * Transform2D(0.0, shadow.offset))
+			draw_colored_polygon(shadow.polygon, Color(1, 1, 1, opacity))
 
 @export_enum("正常裁切", "完整影子", "覆盖纹理") var debug_view: int = 0
 @export_range(0, 3) var debug_layer_id: int = 3
@@ -11,6 +30,7 @@ const PREVIEW_SHADER := preload("res://Shader/Receiver_Mask_Preview.gdshader")
 static var _empty_texture: ImageTexture
 var _level: Level
 var _captures: Dictionary = {}
+var _projections: Dictionary = {}
 var _packed_viewport: SubViewport
 var _pack_quad: ColorRect
 var _pack_material: ShaderMaterial
@@ -78,6 +98,48 @@ func _create_pack() -> void:
 	_packed_viewport.add_child(_pack_quad)
 	RenderingServer.global_shader_parameter_set(&"render_receiver_mask", _packed_viewport.get_texture())
 
+## 每层投影先渲染，再由该层 Shader 染黑 RGB；实体 Alpha 始终只合成一次。
+func _update_projection(layer: DepthLayer, capture: SubViewport, size: Vector2i, canvas: Transform2D) -> void:
+	var id: int = layer.layer_id
+	if not _projections.has(id):
+		var viewport := SubViewport.new()
+		viewport.name = "ShadowProjection_%d" % id
+		viewport.world_2d = World2D.new()
+		viewport.disable_3d = true
+		viewport.transparent_bg = true
+		viewport.gui_disable_input = true
+		viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ALWAYS
+		# 层级依赖保证 投影 → 承影覆盖 → RGBA → 主画面 使用同一帧的数据。
+		capture.add_child(viewport)
+		var drawing := ProjectionCanvas.new()
+		var material := CanvasItemMaterial.new()
+		material.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
+		drawing.material = material
+		viewport.add_child(drawing)
+		_projections[id] = {"viewport": viewport, "drawing": drawing}
+		(layer.material as ShaderMaterial).set_shader_parameter("shadow_projection", viewport.get_texture())
+	var entry: Dictionary = _projections[id]
+	var viewport: SubViewport = entry.viewport
+	viewport.size = size
+	viewport.canvas_transform = canvas
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	var drawing: ProjectionCanvas = entry.drawing
+	drawing.shadows.clear()
+	drawing.receiver_opacity = layer.cycle_opacity
+	var shadow_index: int = layer.slot - Global.current_layer_index - 2
+	for caster_slot in range(Global.current_layer_index + 1, layer.slot):
+		for child in Global.get_layer_at_slot(caster_slot).get_children():
+			if not child is LayerObject or child.is_queued_for_deletion():
+				continue
+			var object := child as LayerObject
+			if object.can_leave_shadow and shadow_index < object.shadow_visual.size() and object.shadow_active[shadow_index]:
+				var shadow: Polygon2D = object.shadow_visual[shadow_index]
+				# 正常模式只绘制离屏投影，避免原节点再提交一遍无效的主画面绘制。
+				shadow.visibility_layer = 1 if debug_view == 1 else 0
+				drawing.shadows.append(shadow)
+	drawing.queue_redraw()
+	(layer.material as ShaderMaterial).set_shader_parameter("shadow_projection_enabled", debug_view != 1)
+
 ## 所有物理、物件视差、Tween 和主相机更新后，再同步离屏视角和通道对应关系。
 func _sync_frame() -> void:
 	if not is_instance_valid(_level):
@@ -89,6 +151,10 @@ func _sync_frame() -> void:
 		_preview.visible = enabled and debug_view == 2
 	for capture: SubViewport in _captures.values():
 		capture.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	for entry: Dictionary in _projections.values():
+		(entry.viewport as SubViewport).render_target_update_mode = SubViewport.UPDATE_DISABLED
+	for layer in Global.layers:
+		(layer.material as ShaderMaterial).set_shader_parameter("shadow_projection_enabled", false)
 	if not enabled:
 		if _packed_viewport != null:
 			_packed_viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
@@ -111,6 +177,7 @@ func _sync_frame() -> void:
 		capture.size = size
 		capture.canvas_transform = canvas
 		capture.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+		_update_projection(layer, capture, size, canvas)
 		active[id] = 1.0 if layer.cycle_opacity > 0.0001 else 0.0
 		opacity[id] = layer.cycle_opacity
 	_pack_material.set_shader_parameter("active_layers", active)
@@ -140,6 +207,9 @@ func _update_preview(size: Vector2) -> void:
 func _exit_tree() -> void:
 	if RenderingServer.frame_pre_draw.is_connected(_sync_frame):
 		RenderingServer.frame_pre_draw.disconnect(_sync_frame)
+	for layer in Global.layers:
+		if is_instance_valid(layer):
+			(layer.material as ShaderMaterial).set_shader_parameter("shadow_projection_enabled", false)
 	RenderingServer.global_shader_parameter_set(&"render_receiver_mask_enabled", false)
 	RenderingServer.global_shader_parameter_set(&"render_receiver_mask_debug", 0)
 	RenderingServer.global_shader_parameter_set(&"render_receiver_mask", empty_texture())

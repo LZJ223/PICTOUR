@@ -1,14 +1,12 @@
-## 黑夜关卡的柔和表面照明与空气明暗分区，不管理跨层 Shadow 节点。
+## 黑夜关卡层的柔和表面照明，不叠加全屏空气效果，不管理跨层 Shadow 节点。
 class_name NightLightSystem
 extends Node
 
-const AIR_SHADER := preload("res://Shader/Night_Air.gdshader")
 @export var enabled: bool = true
 
 var _level: Level
 var _origin: Marker2D
 var _light: PointLight2D
-var _air: Polygon2D
 var _occluders: Dictionary = {}
 
 func _ready() -> void:
@@ -23,6 +21,11 @@ func _initialize() -> void:
 	_light.name = "HeadLight"
 	_light.range_item_cull_mask = DepthLayer.NIGHT_LIGHT_MASK
 	_light.shadow_item_cull_mask = DepthLayer.NIGHT_LIGHT_MASK
+	# 仅照明主画布中 Z=0 的关卡层合成，排除其他景深层、背景和界面。
+	_light.range_z_min = 0
+	_light.range_z_max = 0
+	_light.range_layer_min = 0
+	_light.range_layer_max = 0
 	_light.shadow_enabled = true
 	_light.shadow_filter = Light2D.SHADOW_FILTER_PCF5
 	_light.shadow_filter_smooth = 0.5
@@ -38,16 +41,6 @@ func _initialize() -> void:
 	texture.gradient = gradient
 	_light.texture = texture
 	add_child(_light)
-	_air = Polygon2D.new()
-	_air.name = "NightAir"
-	_air.z_as_relative = false
-	# 空气在所有实体后合成，其他图层和纯黑跨层影子不会被重新着色。
-	_air.z_index = -1000
-	_air.light_mask = DepthLayer.NIGHT_LIGHT_MASK
-	var material := ShaderMaterial.new()
-	material.shader = AIR_SHADER
-	_air.material = material
-	add_child(_air)
 	RenderingServer.frame_pre_draw.connect(_sync_frame)
 	_sync_frame()
 
@@ -70,11 +63,6 @@ func _sync_frame() -> void:
 	RenderingServer.global_shader_parameter_set(&"render_night_light_radius", _level.night_light_radius * Global.camera.zoom.x / view_size.y)
 	RenderingServer.global_shader_parameter_set(&"render_night_surface_width", _level.night_surface_width * Global.camera.zoom.x / view_size.y)
 	RenderingServer.global_shader_parameter_set(&"render_night_ambient", _level.night_ambient)
-	var inverse := canvas.affine_inverse()
-	_air.polygon = PackedVector2Array([inverse * Vector2.ZERO, inverse * Vector2(view_size.x, 0), inverse * view_size, inverse * Vector2(0, view_size.y)])
-	_air.visible = enabled and focus > 0.001
-	(_air.material as ShaderMaterial).set_shader_parameter("opacity", _level.night_air_opacity)
-	(_air.material as ShaderMaterial).set_shader_parameter("focus", focus)
 	_sync_occluders()
 
 func _sync_occluders() -> void:

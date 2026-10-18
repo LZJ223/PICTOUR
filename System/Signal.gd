@@ -19,7 +19,7 @@ func _ready() -> void:
 	process_physics_priority = -100
 	timer = Timer.new()
 	add_child(timer)
-	timer.wait_time = 2.0
+	timer.wait_time = 5.0
 	timer.one_shot = true
 	timer.timeout.connect(_timer_trigger)
 	set_gameplay_active(false)

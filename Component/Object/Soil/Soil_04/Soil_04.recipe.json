@@ -1,0 +1,34 @@
+{
+  "profile": "res://Component/Object/Soil/Soil_04/Soil_04.tres",
+  "source_node": "/root/@EditorNode@19513/@Panel@14/@VBoxContainer@15/DockVSplitMain/DockHSplitMain/@VBoxContainer@37/DockVSplitCenter/@VSplitContainer@101/@VBoxContainer@102/@EditorMainScreen@160/MainScreen/@CanvasItemEditor@10138/@VSplitContainer@9897/@HSplitContainer@9899/@HSplitContainer@9901/@Control@9902/@SubViewportContainer@9903/@SubViewport@9904/Level/Layer0/Ground2",
+  "source_polygon_local": [
+    [
+      70.87158203125,
+      -87.4393768310547
+    ],
+    [
+      -28.54541015625,
+      -87.4393768310547
+    ],
+    [
+      -28.54541015625,
+      -214.623931884766
+    ],
+    [
+      -181.116333007813,
+      -214.623931884766
+    ],
+    [
+      -181.116333007813,
+      -7.94903564453125
+    ],
+    [
+      70.87158203125,
+      -7.94903564453125
+    ]
+  ],
+  "source_scene": "res://Component/Object/Others/Ground.tscn",
+  "textures": [
+    "res://Component/Object/Soil/Soil_04/Soil_04_001.png"
+  ]
+}

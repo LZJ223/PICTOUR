@@ -74,6 +74,7 @@ func _clear_stage() -> void:
 	_bot = null
 
 func _run() -> void:
+	var activity_timeout := SignalSystem.timer.wait_time
 	SignalSystem.shadow_boolean.connect(func() -> void: _shadow_events += 1)
 	SceneTransition.fade_in_duration = 0.01
 	SceneTransition.fade_out_duration = 0.01
@@ -230,7 +231,7 @@ func _run() -> void:
 	# 使用真正的 Game，验证输入锁与长按 Shift 不会误冻结 Bot。
 	SceneTransition.fade_in_duration = 0.01
 	SceneTransition.fade_out_duration = 0.01
-	SignalSystem.timer.wait_time = 2.0
+	SignalSystem.timer.wait_time = activity_timeout
 	var game := load("res://Interface/Game.tscn").instantiate() as Node2D
 	game.play_dialogue = false
 	get_tree().root.add_child(game)
@@ -246,7 +247,7 @@ func _run() -> void:
 	await _frames(5)
 	SignalSystem.set_dialogue_active(true)
 	origin = _bot.position
-	await get_tree().create_timer(2.2).timeout
+	await get_tree().create_timer(activity_timeout + 0.2).timeout
 	_check(_bot.position.x > origin.x + 100.0 and not SignalSystem.timer.is_stopped(), "对话超过休眠时限仍持续巡逻")
 	SignalSystem.set_dialogue_active(false)
 	var shift := InputEventKey.new()
@@ -258,7 +259,7 @@ func _run() -> void:
 	await _frames(4)
 	_check(SignalSystem.looking_at_destination, "真实 Shift 输入进入观察目标")
 	origin = _bot.position
-	await get_tree().create_timer(2.2).timeout
+	await get_tree().create_timer(activity_timeout + 0.2).timeout
 	_check(_bot.position.x > origin.x + 100.0 and not SignalSystem.timer.is_stopped(), "长按观察目标超过休眠时限仍持续巡逻")
 	shift = InputEventKey.new()
 	shift.physical_keycode = KEY_SHIFT
@@ -330,7 +331,7 @@ func _run() -> void:
 	SceneTransition._finish(false)
 	await _frames(8)
 	_check(_bot.position.is_equal_approx(origin), "夜间转场恢复继续保留物理冻结")
-	SignalSystem.timer.wait_time = 2.0
+	SignalSystem.timer.wait_time = activity_timeout
 	SignalSystem.timer_reset()
 	await _frames(8)
 	_check(_bot.position.x > origin.x + 3.0, "夜间重新操作后仍能正常唤醒物理世界")

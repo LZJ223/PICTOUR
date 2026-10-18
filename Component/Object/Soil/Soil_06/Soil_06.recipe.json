@@ -1,0 +1,47 @@
+{
+  "profile": "res://Component/Object/Soil/Soil_06/Soil_06.tres",
+  "source_node": "/root/@EditorNode@19513/@Panel@14/@VBoxContainer@15/DockVSplitMain/DockHSplitMain/@VBoxContainer@37/DockVSplitCenter/@VSplitContainer@101/@VBoxContainer@102/@EditorMainScreen@160/MainScreen/@CanvasItemEditor@10138/@VSplitContainer@9897/@HSplitContainer@9899/@HSplitContainer@9901/@Control@9902/@SubViewportContainer@9903/@SubViewport@9904/Level/Layer2/Ground2",
+  "source_polygon_local": [
+    [
+      3268.0,
+      192.0
+    ],
+    [
+      3268.0,
+      -725.677368164063
+    ],
+    [
+      1020.0,
+      -728.0
+    ],
+    [
+      1020.0,
+      -376.0
+    ],
+    [
+      1204.0,
+      -376.0
+    ],
+    [
+      1204.0,
+      -200.0
+    ],
+    [
+      -2116.0,
+      -199.361938476563
+    ],
+    [
+      -2116.0,
+      199.361877441406
+    ]
+  ],
+  "source_scene": "res://Component/Object/Others/Ground.tscn",
+  "textures": [
+    "res://Component/Object/Soil/Soil_06/Soil_06_001.png",
+    "res://Component/Object/Soil/Soil_06/Soil_06_002.png",
+    "res://Component/Object/Soil/Soil_06/Soil_06_003.png",
+    "res://Component/Object/Soil/Soil_06/Soil_06_004.png",
+    "res://Component/Object/Soil/Soil_06/Soil_06_005.png",
+    "res://Component/Object/Soil/Soil_06/Soil_06_006.png"
+  ]
+}

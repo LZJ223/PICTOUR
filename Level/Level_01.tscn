@@ -90,6 +90,7 @@ shader = ExtResource("3_qouki")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_203be"]
 resource_local_to_scene = true
@@ -110,6 +111,7 @@ shader = ExtResource("3_qouki")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gudli"]
 resource_local_to_scene = true
@@ -130,6 +132,7 @@ shader = ExtResource("3_qouki")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8my31"]
 resource_local_to_scene = true

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dc5uji80hrhud"]
 
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_bydlp"]
+[ext_resource type="PackedScene" path="res://Component/Background/Night_Background.tscn" id="9_night_background"]
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_k0oya"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_80x03"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_6p2lj"]
@@ -85,6 +86,8 @@ shader_parameter/scroll_offset = 0.0
 script = ExtResource("1_bydlp")
 level_id = 11
 is_night = true
+
+[node name="Background" parent="." instance=ExtResource("9_night_background")]
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_k0oya")]
 material = SubResource("ShaderMaterial_80x03")

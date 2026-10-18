@@ -122,7 +122,7 @@ func _run() -> void:
 	Input.action_press("move_right")
 	Input.action_press("jump")
 	Input.action_press("look_at_destination")
-	await _wait(2.15)
+	await _wait(SignalSystem.timer.wait_time + 0.15)
 	_check(Global.player.global_position.is_equal_approx(origin), "长按移动和跳跃时玩家仍不移动")
 	_check(not SignalSystem.looking_at_destination, "对话锁定 Shift 观察")
 	_check(not SignalSystem.timer.is_stopped(), "长时间阅读不会触发休眠")

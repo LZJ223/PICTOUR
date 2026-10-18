@@ -101,12 +101,15 @@ func _replace_object_with_fragments(source: LayerObject, world_pieces: Array[Pac
 		push_error("无法加载碎片场景：%s" % source.scene_file_path)
 		return
 	var target_layer: DepthLayer = source.owner_layer
+	var source_collision: Transform2D = source.collision_box.global_transform
+	var world_to_source: Transform2D = source_collision.affine_inverse()
 	var generated_count: int = 0
 	for world_polygon in world_pieces:
 		var center: Vector2 = _polygon_centroid(world_polygon)
+		var anchor_shift: Vector2 = world_to_source * center
 		var polygon: PackedVector2Array = []
 		for point in world_polygon:
-			polygon.append(point - center)
+			polygon.append(world_to_source * point - anchor_shift)
 		## 生成物体
 		var fragment: LayerObject = source_scene.instantiate() as LayerObject
 		if fragment == null or not _configure_fragment_geometry(fragment, polygon):
@@ -114,12 +117,20 @@ func _replace_object_with_fragments(source: LayerObject, world_pieces: Array[Pac
 				fragment.free()
 			continue
 		fragment.name = "%s_Fragment" % source.name
-		fragment.position = center
+		# 保留原缩放链，仅平移锚点；顶点仍使用原碰撞箱的局部单位。
+		var world_transform: Transform2D = source.global_transform
+		world_transform.origin += center - source_collision.origin
+		fragment.transform = target_layer.global_transform.affine_inverse() * world_transform
+		(fragment.get_node("CollisionBox") as CollisionPolygon2D).transform = source.collision_box.transform
 		fragment.can_transfer = source.can_transfer
 		fragment.can_leave_shadow = source.can_leave_shadow
 		fragment.can_be_shadowed = source.can_be_shadowed
-		_copy_whitebox_style(source, fragment)
+		fragment.front = source.front
+		_copy_fragment_style(source, fragment, anchor_shift)
 		target_layer.add_child(fragment, true)
+		# 新锚点有自己的视差偏移，不能复制旧 VisualRoot 的位置。
+		if is_instance_valid(Global.camera):
+			fragment.apply_visual_transfer(Global.camera.global_position, Global.camera.zoom.abs())
 		generated_count += 1
 	## 场景结构不兼容时保留原物体；完全被切除时 world_pieces 本来就为空
 	if not world_pieces.is_empty() and generated_count == 0:
@@ -130,8 +141,11 @@ func _replace_object_with_fragments(source: LayerObject, world_pieces: Array[Pac
 func _configure_fragment_geometry(fragment: LayerObject, polygon: PackedVector2Array) -> bool:
 	## 寻找节点
 	var collision: CollisionPolygon2D = fragment.get_node_or_null("CollisionBox") as CollisionPolygon2D
-	var visual: Polygon2D = fragment.get_node_or_null("VisualRoot/Polygon2D") as Polygon2D
+	var visual: Polygon2D = _fragment_shape(fragment)
+	var outline: Line2D = fragment.get_node_or_null("VisualRoot/Outline") as Line2D
 	var pick_shape: CollisionPolygon2D = fragment.get_node_or_null("VisualRoot/Area2D/CollisionShape2D") as CollisionPolygon2D
+	if pick_shape == null:
+		pick_shape = fragment.get_node_or_null("VisualRoot/Area2D/CollisionBox") as CollisionPolygon2D
 	var shadow_template: Polygon2D = fragment.get_node_or_null("Shadow") as Polygon2D
 	if collision == null or visual == null or pick_shape == null:
 		push_error("%s 缺少生成布尔碎片所需的节点！" % fragment.name)
@@ -140,17 +154,47 @@ func _configure_fragment_geometry(fragment: LayerObject, polygon: PackedVector2A
 	collision.polygon = polygon
 	visual.polygon = polygon
 	pick_shape.polygon = polygon
+	if outline != null:
+		outline.points = polygon
+		outline.closed = true
 	if shadow_template != null:
 		shadow_template.polygon = polygon
 	return true
 
-## 待完善：白模阶段只复制颜色，贴图与蒙版留给后续的 UV 系统
-func _copy_whitebox_style(source: LayerObject, target: LayerObject) -> void:
-	var source_visual: Polygon2D = source.get_node_or_null("VisualRoot/Polygon2D") as Polygon2D
-	var target_visual: Polygon2D = target.get_node_or_null("VisualRoot/Polygon2D") as Polygon2D
-	if source_visual == null or target_visual == null:
-		return
-	target_visual.color = source_visual.color
+func _fragment_shape(object: LayerObject) -> Polygon2D:
+	var shape := object.get_node_or_null("VisualRoot/Shape") as Polygon2D
+	return shape if shape != null else object.get_node_or_null("VisualRoot/Polygon2D") as Polygon2D
+
+## 复制运行时外观，纹理保持原密度；偏移累计补偿每次切割的局部锚点变化。
+func _copy_fragment_style(source: LayerObject, target: LayerObject, anchor_shift: Vector2) -> void:
+	_copy_canvas_style(source, target)
+	_copy_canvas_style(source.visual_root, target.get_node("VisualRoot") as CanvasItem)
+	var source_shape: Polygon2D = _fragment_shape(source)
+	var target_shape: Polygon2D = _fragment_shape(target)
+	_copy_canvas_style(source_shape, target_shape)
+	for property: StringName in [&"color", &"texture", &"texture_scale", &"texture_rotation", &"antialiased"]:
+		target_shape.set(property, source_shape.get(property))
+	# Polygon2D 原生纹理先旋转局部坐标，再缩放包含 offset 的整个纹理变换。
+	target_shape.texture_offset = source_shape.texture_offset + anchor_shift.rotated(source_shape.texture_rotation)
+	var source_outline := source.get_node_or_null("VisualRoot/Outline") as Line2D
+	var target_outline := target.get_node_or_null("VisualRoot/Outline") as Line2D
+	if source_outline != null and target_outline != null:
+		_copy_canvas_style(source_outline, target_outline)
+		for property: StringName in [
+			&"width", &"default_color", &"width_curve", &"gradient", &"joint_mode",
+			&"sharp_limit", &"round_precision", &"antialiased", &"texture", &"texture_mode",
+		]:
+			target_outline.set(property, source_outline.get(property))
+
+func _copy_canvas_style(source: CanvasItem, target: CanvasItem) -> void:
+	target.visible = source.visible
+	target.modulate = source.modulate
+	target.self_modulate = source.self_modulate
+	target.texture_filter = source.texture_filter
+	target.texture_repeat = source.texture_repeat
+	target.use_parent_material = source.use_parent_material
+	# 各碎片独立保存材质参数，底层 Shader 和纹理资源仍共享。
+	target.material = source.material.duplicate() as Material if source.material != null else null
 
 func _polygon_to_world(polygon: PackedVector2Array, transform: Transform2D) -> PackedVector2Array:
 	var result: PackedVector2Array = []

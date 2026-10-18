@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_7lje2"]
 [ext_resource type="PackedScene" uid="uid://coxrbpl33shd4" path="res://Component/Background/Background.tscn" id="2_l3bwp"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_l3bwp"]
+[ext_resource type="Texture2D" uid="uid://chondg2dc7qfx" path="res://Texture/Background/Forest_02.png" id="3_rx4xp"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_e3fay"]
 [ext_resource type="PackedScene" uid="uid://bh4ec7mgfy5r8" path="res://Component/Object/Tree/Tree_04.tscn" id="7_gxayn"]
 [ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/Tree/Tree_01.tscn" id="7_ricaw"]
@@ -26,14 +27,15 @@
 [ext_resource type="PackedScene" uid="uid://sym6edwksexy" path="res://Component/Object/Cloud/Cloud_04.tscn" id="20_lkl8c"]
 [ext_resource type="PackedScene" uid="uid://cq6muhbic0ogi" path="res://Component/Object/Cloud/Cloud_02.tscn" id="24_70ech"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7lje2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b2uan"]
 resource_local_to_scene = true
 shader = ExtResource("3_l3bwp")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l3bwp"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mg0o3"]
 resource_local_to_scene = true
 shader = ExtResource("4_e3fay")
 shader_parameter/layer_z_index = 0.0
@@ -46,14 +48,15 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_e3fay"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lkl8c"]
 resource_local_to_scene = true
 shader = ExtResource("3_l3bwp")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6hmpv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_70ech"]
 resource_local_to_scene = true
 shader = ExtResource("4_e3fay")
 shader_parameter/layer_z_index = 0.0
@@ -66,14 +69,15 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_w31js"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k2gbx"]
 resource_local_to_scene = true
 shader = ExtResource("3_l3bwp")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ricaw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ex0ra"]
 resource_local_to_scene = true
 shader = ExtResource("4_e3fay")
 shader_parameter/layer_z_index = 0.0
@@ -97,13 +101,16 @@ level_id = 3
 
 [node name="Background" parent="." unique_id=863386680 instance=ExtResource("2_l3bwp")]
 
+[node name="Sprite" parent="Background/Frame" parent_id_path=PackedInt32Array(863386680, 1425833484) index="0" unique_id=2100582541]
+texture = ExtResource("3_rx4xp")
+
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_7lje2")]
-material = SubResource("ShaderMaterial_7lje2")
+material = SubResource("ShaderMaterial_b2uan")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_l3bwp")
+material = SubResource("ShaderMaterial_mg0o3")
 
 [node name="Tree3" parent="Layer2" unique_id=1775670945 instance=ExtResource("7_gxayn")]
 position = Vector2(-156, 284)
@@ -136,11 +143,11 @@ position = Vector2(3424, -627)
 position = Vector2(636, 720)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_7lje2")]
-material = SubResource("ShaderMaterial_e3fay")
+material = SubResource("ShaderMaterial_lkl8c")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_6hmpv")
+material = SubResource("ShaderMaterial_70ech")
 
 [node name="Tree" parent="Layer1" unique_id=620908010 instance=ExtResource("8_6b76s")]
 position = Vector2(-979, 284)
@@ -176,11 +183,11 @@ position = Vector2(2141, -646)
 position = Vector2(636, 720)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_7lje2")]
-material = SubResource("ShaderMaterial_w31js")
+material = SubResource("ShaderMaterial_k2gbx")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_ricaw")
+material = SubResource("ShaderMaterial_ex0ra")
 
 [node name="Tree_01" parent="Layer0" unique_id=719242815 instance=ExtResource("7_ricaw")]
 position = Vector2(-1265, 284)
@@ -226,6 +233,7 @@ collision_mask = 255
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Barrier01" unique_id=1676140624]
 shape = SubResource("RectangleShape2D_7lje2")
 
+[editable path="Background"]
 [editable path="Layer2"]
 [editable path="Layer1"]
 [editable path="Layer0"]

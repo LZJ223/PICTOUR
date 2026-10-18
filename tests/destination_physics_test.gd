@@ -102,7 +102,7 @@ func _run() -> void:
 	_action(&"jump", false)
 	_action(&"move_right", false)
 	Global.level.is_night = true
-	await get_tree().create_timer(2.2).timeout
+	await get_tree().create_timer(SignalSystem.timer.wait_time + 0.2).timeout
 	_check(SignalSystem.looking_at_destination and not SignalSystem.timer.is_stopped(), "夜间长按 Shift 不触发休眠冻结")
 	falling = _falling_body()
 	await _frames(8)

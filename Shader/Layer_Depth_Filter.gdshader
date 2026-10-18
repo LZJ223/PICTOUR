@@ -12,6 +12,8 @@ uniform sampler2D screen_texture :
 uniform float layer_z_index = 0.0;
 uniform float cycle_opacity = 1.0;
 uniform bool is_night = false;
+uniform sampler2D shadow_projection : repeat_disable, filter_linear;
+uniform bool shadow_projection_enabled = false;
 global uniform bool render_night_light_enabled;
 global uniform vec2 render_night_light_uv;
 global uniform float render_night_surface_width;
@@ -75,6 +77,12 @@ void fragment() {
 	);
 	color.rgb = mix(color.rgb, render_foreground_tint_color.rgb, foreground_tint);
 	color.rgb = mix(color.rgb, render_background_tint_color.rgb, background_tint);
+	// 在层内染黑 RGB，保留抗锯齿、贴图透明度与模糊边缘的原始 Alpha。
+	// 不能在已合成的画面上再叠一层 coverage Alpha，否则会漏出亮边并压暗背景。
+	if (shadow_projection_enabled) {
+		float shadow = textureLod(shadow_projection, SCREEN_UV, 0.0).a;
+		color.rgb *= 1.0 - shadow;
+	}
 
 	surface_albedo = COLOR.rgb * color.rgb;
 	surface_response = 0.0;

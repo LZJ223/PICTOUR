@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://coxrbpl33shd4"]
 
 [ext_resource type="Script" uid="uid://l640peve12l7" path="res://Component/Background/Background.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://dskndm4v3spmk" path="res://Texture/Background/Forest.png" id="3_klg0y"]
+[ext_resource type="Texture2D" uid="uid://dskndm4v3spmk" path="res://Texture/Background/Forest_01.png" id="3_klg0y"]
 
 [node name="Background" type="CanvasLayer" unique_id=863386680]
 layer = -100

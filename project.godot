@@ -30,7 +30,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/soil_baker/plugin.cfg", "res://addons/leaf_baker/plugin.cfg", "res://addons/trunk_baker/plugin.cfg")
+enabled=PackedStringArray("res://addons/soil_baker/plugin.cfg", "res://addons/leaf_baker/plugin.cfg", "res://addons/trunk_baker/plugin.cfg", "res://addons/cloud_box_rounder/plugin.cfg")
 
 [input]
 
@@ -189,7 +189,7 @@ render_haze_speed={
 }
 render_haze_texture={
 "type": "sampler2D",
-"value": "res://Texture/Haze.png"
+"value": "res://Texture/Others/Haze.png"
 }
 render_haze_world_scale={
 "type": "float",

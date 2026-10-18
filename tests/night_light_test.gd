@@ -34,6 +34,42 @@ func _check_disabled(message: String) -> void:
 	_check(color.g > 0.99 and color.r < 0.01, message)
 	probe.free()
 
+## 在真实背景场景中换贴图，对照灯光开关；透明区域和背景不能发生颜色变化。
+func _check_background_isolation(surface: LayerObject, reference: Color) -> void:
+	var original := Global.level.get_node("Background") as CanvasLayer
+	original.hide()
+	var background := load("res://Component/Background/Background.tscn").instantiate() as CanvasLayer
+	_game.add_child(background)
+	var sprite := background.get_node("Frame/Sprite") as Sprite2D
+	var previous := Color.TRANSPARENT
+	for color: Color in [Color(0.05, 0.1, 0.2), Color(0.9, 0.85, 0.7), Color(0.4, 0.1, 0.3)]:
+		var texture := Image.create(8, 8, false, Image.FORMAT_RGBA8)
+		texture.fill(color)
+		sprite.texture = ImageTexture.create_from_image(texture)
+		_night().enabled = false
+		await _frames()
+		var unlit := get_viewport().get_texture().get_image()
+		_night().enabled = true
+		await _frames()
+		var lit := get_viewport().get_texture().get_image()
+		for at: Vector2 in [Vector2(350, 350), Vector2(350, 435), Vector2(-250, 200)]:
+			var before := _pixel(unlit, at)
+			var after := _pixel(lit, at)
+			_check(_color_difference(before, after) < 0.005, "更换背景后，透明区域不受灯光开关影响：%s" % color)
+		var surface_color := _pixel(lit, surface.global_position + Vector2(-18, 0))
+		_check(_color_difference(surface_color, reference) < 0.005, "背景贴图不会混入关卡层实体照明")
+		var background_color := _pixel(lit, Vector2(350, 350))
+		if previous.a > 0.0:
+			_check(_color_difference(previous, background_color) > 0.1, "背景替换确实显示不同颜色")
+		previous = background_color
+	background.free()
+	original.show()
+	await _frames()
+	_capture("04_background_isolated")
+
+func _color_difference(a: Color, b: Color) -> float:
+	return maxf(absf(a.r - b.r), maxf(absf(a.g - b.g), absf(a.b - b.b)))
+
 func _run() -> void:
 	if DisplayServer.get_name() == "headless":
 		push_error("夜间照明测试需要真实 GPU 渲染器")
@@ -43,6 +79,7 @@ func _run() -> void:
 	get_tree().root.size = Vector2i(1440, 810)
 	Global.next_level_id = 9
 	_game = load("res://Interface/Game.tscn").instantiate() as Node2D
+	_game.play_dialogue = false
 	get_tree().root.add_child(_game)
 	get_tree().current_scene = _game
 	await get_tree().create_timer(1.1, true).timeout
@@ -51,6 +88,9 @@ func _run() -> void:
 	PhysicsServer2D.set_active(false)
 	await _frames()
 	_check(_night()._light is PointLight2D and _night()._light.shadow_enabled, "使用带原生阴影的 PointLight2D")
+	_check(_night()._light.range_z_min == 0 and _night()._light.range_z_max == 0, "灯光仅作用于关卡层的 Z=0")
+	_check(_night()._light.range_layer_min == 0 and _night()._light.range_layer_max == 0, "灯光不跨 CanvasLayer 影响背景和界面")
+	_check(_night().get_node_or_null("NightAir") == null, "不再创建覆盖背景的全屏空气面")
 	_check(is_equal_approx(_night()._light.energy, 0.28), "默认光强为 0.28")
 	_check(is_equal_approx(_level_radius(), 1600.0), "默认照明半径为 1600")
 	_check(_night()._light.global_position.is_equal_approx(Global.player.global_position + Vector2(0, -85)), "光源位于玩家头部")
@@ -65,7 +105,7 @@ func _run() -> void:
 	_metrics["light_sync_cpu_p95_ms"] = sync_samples[floori(sync_samples.size() * 0.95)]
 	_metrics["level09_draw_calls"] = Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)
 
-	# 所有原始箱子和地面仅在内存中隐藏，让表面和空气探针独立可见。
+	# 所有原始箱子和地面仅在内存中隐藏，让照明和背景探针独立可见。
 	for layer in Global.layers:
 		layer.haze_plane.hide()
 		for child in layer.get_children():
@@ -81,7 +121,7 @@ func _run() -> void:
 	var receiver := _shape(Global.get_layer_at_slot(3), casting.shadow_box[0].global_position)
 	receiver.collision_box.scale = Vector2(3, 2)
 	await _frames()
-	var illuminated := _capture("02_surface_and_air")
+	var illuminated := _capture("02_surface_only")
 	var facing := _pixel(illuminated, lit.global_position + Vector2(-18, 0))
 	var away := _pixel(illuminated, lit.global_position + Vector2(18, 0))
 	var occluded := _pixel(illuminated, blocked.global_position + Vector2(-18, 0))
@@ -90,20 +130,8 @@ func _run() -> void:
 	_metrics["occluded_luminance"] = occluded.get_luminance()
 	_check(facing.get_luminance() > away.get_luminance() * 1.06, "朝光面温和地亮于背光面")
 	_check(facing.get_luminance() > occluded.get_luminance() * 1.1, "原生阴影阻止光穿过前一个实体")
-	var air_lit := _pixel(illuminated, Vector2(350, 350))
-	var air_shadow := _pixel(illuminated, Vector2(350, 435))
-	_metrics["air_lit_luminance"] = air_lit.get_luminance()
-	_metrics["air_shadow_luminance"] = air_shadow.get_luminance()
-	_check(air_lit.get_luminance() > air_shadow.get_luminance() + 0.04, "透明区域有可辨认的受光和遮光分界")
-	var min_air: float = 1.0
-	var max_air: float = 0.0
-	for at in [Vector2(-250, 200), Vector2(0, 200), Vector2(250, 200), Vector2(0, 100)]:
-		var luminance := _pixel(illuminated, at).get_luminance()
-		min_air = minf(min_air, luminance)
-		max_air = maxf(max_air, luminance)
-	_check(max_air - min_air < 0.01, "通光空气区域均匀，没有射线条纹")
 	var pure_black := _pixel(illuminated, _projected(receiver.global_position, receiver.owner_layer))
-	_check(maxf(pure_black.r, maxf(pure_black.g, pure_black.b)) < 0.01, "新的空气照明不会把跨层纯黑影子照灰")
+	_check(maxf(pure_black.r, maxf(pure_black.g, pure_black.b)) < 0.01, "关卡层照明不会把跨层纯黑影子照灰")
 	_night().enabled = false
 	await _frames()
 	var baseline := _capture("03_lighting_disabled")
@@ -114,17 +142,19 @@ func _run() -> void:
 	for object: LayerObject in [foreground, rear]:
 		var at := _projected(object.global_position, object.owner_layer)
 		_check(absf(_pixel(illuminated, at).get_luminance() - _pixel(baseline, at).get_luminance()) < 0.01, "非关卡层 %d 保持原亮度" % object.owner_layer.layer_id)
+	await _check_background_isolation(lit, facing)
 	_night().enabled = true
 	Global.camera.zoom = Vector2(0.5, 0.5)
+	var far_surface := _shape(current, Vector2(1100, 100))
 	await _frames()
 	var wide := _capture("04_wide_range")
-	var far_light := _pixel(wide, Vector2(1100, 100))
+	var far_light := _pixel(wide, far_surface.global_position + Vector2(-18, 0))
 	_night().enabled = false
 	await _frames()
 	var wide_baseline := get_viewport().get_texture().get_image()
-	var far_original := _pixel(wide_baseline, Vector2(1100, 100))
-	_metrics["far_air_color_change"] = absf(far_light.r - far_original.r) + absf(far_light.g - far_original.g) + absf(far_light.b - far_original.b)
-	_check(_metrics["far_air_color_change"] > 0.03, "距光源超过 1100 单位仍有照明影响")
+	var far_original := _pixel(wide_baseline, far_surface.global_position + Vector2(-18, 0))
+	_metrics["far_surface_color_change"] = _color_difference(far_light, far_original)
+	_check(far_light.get_luminance() > far_original.get_luminance() * 1.01, "距光源超过 1100 单位的关卡层表面仍能受光")
 	_night().enabled = true
 	Global.camera.zoom = Vector2.ONE
 	await _frames()
