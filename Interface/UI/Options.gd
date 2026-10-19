@@ -1,4 +1,4 @@
-## 游戏偏好、键位和重置接入 SaveSystem；音频页暂保留原有预览交互。
+## 游戏偏好、键位、音量和重置接入 SaveSystem。
 extends Control
 
 const RELEASED := preload("res://Texture/Button/Button_released.png")
@@ -42,8 +42,10 @@ func _ready() -> void:
 		if row.has_node("Slider"):
 			var slider: HSlider = row.get_node("Slider")
 			var value: Label = row.get_node("Value")
-			slider.value_changed.connect(_update_percentage.bind(value))
+			slider.set_value_no_signal(SaveSystem.get_audio_volume(row.name))
+			slider.value_changed.connect(_on_audio_changed.bind(row.name, value))
 			_update_percentage(slider.value, value)
+	SaveSystem.audio_changed.connect(_sync_audio_sliders)
 	for row in $Content/Control.get_children():
 		if not row.has_node("Key"):
 			continue
@@ -78,7 +80,20 @@ func _on_preference_toggled(pressed: bool, key: String) -> void:
 
 func _on_tab_toggled(pressed: bool, index: int) -> void:
 	if pressed:
+		SoundPlayer.play(&"ui_press")
 		_select_page(index)
+
+func _on_audio_changed(value: float, channel: String, label: Label) -> void:
+	_update_percentage(value, label)
+	SaveSystem.set_audio_volume(channel, value)
+
+func _sync_audio_sliders() -> void:
+	for row in $Content/Audio.get_children():
+		if not row.has_node("Slider"):
+			continue
+		var slider: HSlider = row.get_node("Slider")
+		slider.set_value_no_signal(SaveSystem.get_audio_volume(row.name))
+		_update_percentage(slider.value, row.get_node("Value"))
 
 func _select_page(index: int) -> void:
 	_cancel_interactions()
@@ -137,6 +152,7 @@ func _input(event: InputEvent) -> void:
 		_binding_hint.text = "保存失败，请重新输入..." if error != ERR_INVALID_PARAMETER else "请输入按键..."
 		return
 	_cancel_listening()
+	SoundPlayer.play(&"ui_press")
 
 func _key_name(event: InputEventKey) -> String:
 	var code := event.physical_keycode if event.physical_keycode != 0 else event.keycode
@@ -197,6 +213,7 @@ func _finish_clear_hold() -> void:
 	set_process(false)
 	_reset_clear_visual()
 	if SaveSystem.reset_progress() == OK:
+		SoundPlayer.play(&"ui_press")
 		_clear_progress.value = 1.0
 	else:
 		_cancel_clear_hold()

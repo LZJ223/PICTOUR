@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_1pg6c"]
 [ext_resource type="PackedScene" uid="uid://coxrbpl33shd4" path="res://Component/Background/Background.tscn" id="2_2pqib"]
 [ext_resource type="Script" uid="uid://ctimfmygmqfa3" path="res://Interface/Dialogue/Dialogue_Line.gd" id="2_83wbu"]
-[ext_resource type="Texture2D" uid="uid://do787mt8ttvmv" path="res://tests/City_03.png" id="3_0pf68"]
+[ext_resource type="Texture2D" uid="uid://bdhuogal8gqbc" path="res://Texture/Background/City_03.png" id="3_0pf68"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_6bptr"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_2pqib"]
 [ext_resource type="PackedScene" uid="uid://btvd5akgi0dy" path="res://Component/Object/Soil/Soil_00/Soil.tscn" id="5_0pf68"]
