@@ -22,6 +22,7 @@ SignalSystem="*res://System/Signal.gd"
 Renderer="*res://System/Renderer.gd"
 SceneTransition="*res://System/Scene_Transition.gd"
 MusicPlayer="*res://System/Music_Player.gd"
+SoundPlayer="*res://System/Sound_Player.gd"
 
 [display]
 

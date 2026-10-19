@@ -114,11 +114,14 @@ func _unhandled_input(event: InputEvent) -> void:
 					best_z = layer_z
 					best = object
 		## 更新选取状态
-		if Global.object_selected:
-			Global.object_selected.set_pick_condition(false)
+		var previous: LayerObject = Global.object_selected
+		if previous:
+			previous.set_pick_condition(false)
 		Global.object_selected = best
 		if Global.object_selected:
 			Global.object_selected.set_pick_condition(true)
+			if Global.object_selected != previous:
+				SoundPlayer.play(&"select")
 
 func _process(_delta: float) -> void:
 	if get_tree().paused:
@@ -146,6 +149,10 @@ func _update_destination_view() -> void:
 	looking_at_destination = active
 	## 观察切换也属于玩家操作，长按进入休息后松开时重新唤醒游戏。
 	timer_reset()
+	if active:
+		SoundPlayer.play_for(&"destination", &"destination_in")
+	else:
+		SoundPlayer.stop(&"destination")
 	destination_view_changed.emit(active)
 
 func _is_destination_key_pressed() -> bool:

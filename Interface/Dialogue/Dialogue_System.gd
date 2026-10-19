@@ -64,8 +64,9 @@ func _process(delta: float) -> void:
 		_spirit_visual.position.y = sin(_float_time * TAU / maxf(spirit_float_period, 0.01)) * spirit_float_amplitude
 
 func advance() -> void:
-	if get_tree().paused or SceneTransition.busy:
+	if get_tree().paused or SceneTransition.busy or _state == State.IDLE:
 		return
+	SoundPlayer.play(&"ui_press")
 	match _state:
 		State.CAMERA_IN:
 			_controller.complete_dialogue_view(true)
@@ -76,6 +77,7 @@ func advance() -> void:
 		State.PRESENTING:
 			_box.complete_presentation()
 		State.WAITING:
+			SoundPlayer.stop(&"dialogue")
 			_state = State.BOX_OUT
 			_box.dismiss()
 		State.BOX_OUT:
@@ -113,6 +115,7 @@ func _show_current() -> void:
 func _present_current() -> void:
 	_state = State.PRESENTING
 	var line := _lines[_index]
+	SoundPlayer.play_dialogue(line.speaker)
 	_box = _boxes[line.speaker]
 	_box.show_line(line.text)
 
@@ -143,6 +146,7 @@ func _stop_spirit_tween() -> void:
 	_spirit_tween = null
 
 func _end_dialogue() -> void:
+	SoundPlayer.stop(&"dialogue")
 	_state = State.FINISHING
 	_controller.set_dialogue_view(false)
 	var duration := _controller.dialogue_camera_duration
@@ -154,6 +158,7 @@ func _end_dialogue() -> void:
 	_finish_tween.tween_callback(_finish)
 
 func _finish() -> void:
+	SoundPlayer.stop(&"dialogue")
 	_state = State.IDLE
 	_spirit_shown = false
 	_spirit.hide()

@@ -55,6 +55,7 @@ func _on_level_pressed(button: Button) -> void:
 	var level_id: int = button.get_meta(&"level_id")
 	if not is_visible_in_tree() or button.disabled or SceneTransition.busy or not is_level_available(level_id):
 		return
+	SoundPlayer.play(&"ui_press")
 	level_selected.emit(level_id)
 
 ## 两张贴图共用一个倾斜角；按钮本身的变换和命中范围始终保持原样。

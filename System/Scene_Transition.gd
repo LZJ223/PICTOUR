@@ -57,6 +57,7 @@ func quit_game() -> void:
 	if busy:
 		return
 	_begin()
+	SoundPlayer.stop_actions()
 	MusicPlayer.begin_transition()
 	await _fade(1.0, fade_out_duration)
 	await get_tree().process_frame
@@ -69,6 +70,7 @@ func _change_scene(path: String, level_id: int = 0, keep_scene_running: bool = f
 	var previous_level_id: int = Global.next_level_id
 	var previous_dialogue: bool = _next_play_dialogue
 	_begin(keep_scene_running)
+	SoundPlayer.stop_actions()
 	MusicPlayer.begin_transition()
 	await _fade(1.0, fade_out_duration)
 	## 结算演出持续到全黑，之后与普通转场共用冻结、清理和淡入流程。

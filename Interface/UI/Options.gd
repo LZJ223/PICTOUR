@@ -60,6 +60,7 @@ func _ready() -> void:
 
 func _on_tab_toggled(pressed: bool, index: int) -> void:
 	if pressed:
+		SoundPlayer.play(&"ui_press")
 		_select_page(index)
 
 func _select_page(index: int) -> void:
@@ -100,6 +101,7 @@ func _input(event: InputEvent) -> void:
 		return
 	_listening_button.text = _key_name(event)
 	_listening_button = null
+	SoundPlayer.play(&"ui_press")
 	_hint.text = "按键已更新（仅界面预览） · Esc 返回"
 	get_viewport().set_input_as_handled()
 
@@ -140,6 +142,7 @@ func _cancel_clear_hold() -> void:
 	set_process(false)
 
 func _finish_clear_hold() -> void:
+	SoundPlayer.play(&"ui_press")
 	set_process(false)
 	_clear_progress.value = 1.0
 	_clear_button.text = "已完成（预览）"
