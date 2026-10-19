@@ -21,6 +21,7 @@ Global="*uid://dl63g7i2u2byx"
 SignalSystem="*res://System/Signal.gd"
 Renderer="*res://System/Renderer.gd"
 SceneTransition="*res://System/Scene_Transition.gd"
+MusicPlayer="*res://System/Music_Player.gd"
 
 [display]
 

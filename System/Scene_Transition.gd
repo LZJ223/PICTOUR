@@ -40,6 +40,7 @@ func scene_ready() -> void:
 func _reveal_initial_scene() -> void:
 	PhysicsServer2D.set_active(false)
 	await get_tree().process_frame
+	MusicPlayer.play_main_menu()
 	await _fade(0.0, fade_in_duration)
 	_finish(false)
 
@@ -56,6 +57,7 @@ func quit_game() -> void:
 	if busy:
 		return
 	_begin()
+	MusicPlayer.begin_transition()
 	await _fade(1.0, fade_out_duration)
 	await get_tree().process_frame
 	get_tree().quit()
@@ -67,6 +69,7 @@ func _change_scene(path: String, level_id: int = 0, keep_scene_running: bool = f
 	var previous_level_id: int = Global.next_level_id
 	var previous_dialogue: bool = _next_play_dialogue
 	_begin(keep_scene_running)
+	MusicPlayer.begin_transition()
 	await _fade(1.0, fade_out_duration)
 	## 结算演出持续到全黑，之后与普通转场共用冻结、清理和淡入流程。
 	get_tree().paused = true
@@ -89,6 +92,13 @@ func _change_scene(path: String, level_id: int = 0, keep_scene_running: bool = f
 		Global.next_level_id = previous_level_id
 		_next_play_dialogue = previous_dialogue
 		push_error("场景切换失败（%s，关卡 %d）：%s" % [path, level_id, error_string(error)])
+	if error == OK:
+		if level_id == 0:
+			MusicPlayer.play_main_menu()
+		else:
+			MusicPlayer.play_level(level_id)
+	else:
+		MusicPlayer.restore()
 	await _fade(0.0, fade_in_duration)
 	_finish(false if error == OK else was_paused)
 	return error
