@@ -71,6 +71,7 @@ func _on_body_entered(body: Node2D) -> void:
 ## 子类可以先播放结尾演出，再调用此方法正式结算。
 func _on_reached() -> void:
 	completed = true
+	SoundPlayer.play(&"goal")
 	SaveSystem.complete_level((get_parent() as Level).level_id)
 	_complete_level.call_deferred()
 

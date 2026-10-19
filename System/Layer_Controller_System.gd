@@ -115,6 +115,7 @@ func cycle(direction: int, check_collision: bool = true) -> bool:
 		)
 		if _has_collision(Global.player, player_collision, target_layer, player_collision.global_transform):
 			target_layer.play_cycle_blocked()
+			SoundPlayer.play(&"layer_cycle_fail")
 			return false
 	Global.player.set_collision_group(target_layer.layer_id + 1)
 	for layer in Global.layers:
@@ -125,6 +126,7 @@ func cycle(direction: int, check_collision: bool = true) -> bool:
 	_cycle_layers_remaining = Global.layers.size()
 	for layer in Global.layers:
 		layer.play_cycle(direction, cycle_duration)
+	SoundPlayer.play(&"layer_cycle")
 	return true
 
 func _on_layer_cycle_finished() -> void:
@@ -143,12 +145,14 @@ func transfer(direction: int, object: LayerObject) -> bool:
 		return false
 	if not object.can_transfer:
 		object.play_transfer_blocked()
+		SoundPlayer.play(&"transfer_fail")
 		return false
 	var source_layer: DepthLayer = object.find_owner_layer()
 	var source_slot: int = source_layer.slot
 	var target_slot: int = source_slot - direction
 	if target_slot < 0 or target_slot >= Global.layer_count or target_slot == source_slot:
 		object.play_transfer_blocked()
+		SoundPlayer.play(&"transfer_fail")
 		return false
 	var target_layer: DepthLayer = Global.get_layer_at_slot(target_slot)
 	var ratio: float = Global.layer_scales[source_slot] / Global.layer_scales[target_slot]
@@ -159,6 +163,7 @@ func transfer(direction: int, object: LayerObject) -> bool:
 	collision_transform.y *= ratio
 	if _has_collision(object, object.collision_box, target_layer, object_transform * collision_transform):
 		object.play_transfer_blocked()
+		SoundPlayer.play(&"transfer_fail")
 		return false
 	object.transfer_to(target_layer, object_transform, collision_transform)
 	## 先按目标层重算基础画面，再叠加短促的拉拽动画。
@@ -169,6 +174,7 @@ func transfer(direction: int, object: LayerObject) -> bool:
 		else LayerObject.TransferMotion.INWARD
 	)
 	object.play_transfer_success(motion)
+	SoundPlayer.play_transfer(object)
 	return true
 
 ## 检测候选碰撞箱是否与目标图层中的物理体重叠
