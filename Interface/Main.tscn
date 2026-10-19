@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://dr2mkm8w1p600" path="res://Interface/UI/Icon_Button.gd" id="7_icon_button"]
 [ext_resource type="Texture2D" uid="uid://bylqre2yyhf1n" path="res://Texture/Button/Game_Options.png" id="7_oh7kd"]
 [ext_resource type="PackedScene" uid="uid://buwo7k6abaqv2" path="res://Interface/UI/Options.tscn" id="8_options"]
-[ext_resource type="PackedScene" path="res://Interface/UI/Levels.tscn" id="9_levels"]
+[ext_resource type="PackedScene" uid="uid://c7cne4gaptwgg" path="res://Interface/UI/Levels.tscn" id="9_levels"]
 
 [node name="Main" type="Node2D" unique_id=2057756595]
 script = ExtResource("2_main")
@@ -42,8 +42,6 @@ position = Vector2(0, 175.99998)
 position = Vector2(0, 600)
 
 [node name="LevelSelection" parent="." unique_id=215470568 instance=ExtResource("9_levels")]
-layout_mode = 0
-anchors_preset = 0
 offset_left = -475.0
 offset_top = 460.0
 offset_right = 475.0
