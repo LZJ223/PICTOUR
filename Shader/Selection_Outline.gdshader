@@ -9,7 +9,7 @@ uniform bool selected = false;
 uniform float cycle_opacity = 1.0;
 uniform bool use_texture_alpha = false;
 uniform bool rectangular_geometry = false;
-// 子类已生成等距轮廓时，保留 Line2D 的几何与抗锯齿 Alpha。
+// 子类已生成等距轮廓时，保留轮廓几何与 draw_polyline 的抗锯齿 Alpha。
 uniform bool prepared_geometry = false;
 uniform vec2 visual_center = vec2(0.0);
 uniform vec2 outline_scale_compensation = vec2(1.0);

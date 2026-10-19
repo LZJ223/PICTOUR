@@ -6,7 +6,7 @@ uniform sampler2D player_front : repeat_disable, filter_linear;
 uniform sampler2D body_mask : repeat_disable, filter_linear;
 uniform sampler2D body_front : repeat_disable, filter_linear;
 uniform sampler2D body_same_layer : repeat_disable, filter_linear;
-uniform vec4 xray_color : source_color = vec4(0.48, 0.56, 0.64, 0.55);
+uniform vec4 xray_color : source_color = vec4(0.48, 0.56, 0.64, 0.6);
 uniform bool player_active = false;
 uniform bool body_active = false;
 uniform bool has_player = false;

@@ -30,13 +30,14 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/soil_baker/plugin.cfg", "res://addons/leaf_baker/plugin.cfg", "res://addons/trunk_baker/plugin.cfg", "res://addons/cloud_box_rounder/plugin.cfg")
+enabled=PackedStringArray("res://addons/soil_baker/plugin.cfg", "res://addons/leaf_baker/plugin.cfg", "res://addons/trunk_baker/plugin.cfg", "res://addons/cloud_box_rounder/plugin.cfg", "res://addons/cloud_ground_baker/plugin.cfg")
 
 [input]
 
 back={
 "deadzone": 0.2,
-"events": [Object(InputEventKey,"physical_keycode":4194305)]
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
 }
 move_left={
 "deadzone": 0.2,
@@ -111,6 +112,10 @@ render_night_light_uv={
 "type": "vec2",
 "value": Vector2(0, 0)
 }
+render_night_world_per_uv={
+"type": "vec4",
+"value": Vector4(1, 0, 0, 1)
+}
 render_night_light_radius={
 "type": "float",
 "value": 1.0
@@ -122,6 +127,34 @@ render_night_surface_width={
 render_night_ambient={
 "type": "float",
 "value": 0.86
+}
+render_night_foreground_enabled={
+"type": "bool",
+"value": true
+}
+render_night_foreground_surface_width={
+"type": "float",
+"value": 4.0
+}
+render_night_foreground_fade_width={
+"type": "float",
+"value": 2.0
+}
+render_night_foreground_max_brightness={
+"type": "float",
+"value": 0.75
+}
+render_night_foreground_near_distance={
+"type": "float",
+"value": 100.0
+}
+render_night_foreground_far_distance={
+"type": "float",
+"value": 700.0
+}
+render_night_foreground_darkness={
+"type": "float",
+"value": 0.8
 }
 render_receiver_mask={
 "type": "sampler2D",

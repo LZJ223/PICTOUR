@@ -11,6 +11,14 @@ var maximum_blur_lod: float = 4.0
 var foreground_darkness_step: float = 0.2
 var foreground_tint_step: float = 0.05
 
+var night_foreground_enabled: bool = true
+var night_foreground_surface_width: float = 4.0
+var night_foreground_fade_width: float = 2.0
+var night_foreground_max_brightness: float = 0.75
+var night_foreground_near_distance: float = 100.0
+var night_foreground_far_distance: float = 700.0
+var night_foreground_darkness: float = 0.8
+
 var contrast_falloff: float = 0.15
 
 var background_tint_step: float = 0.1
@@ -31,6 +39,13 @@ var selection_outline_width: float = 6.0
 
 ## 运行时修改参数后可再次调用，立即把当前配置同步给所有着色器。
 func apply_settings() -> void:
+	RenderingServer.global_shader_parameter_set(&"render_night_foreground_enabled", night_foreground_enabled)
+	RenderingServer.global_shader_parameter_set(&"render_night_foreground_surface_width", night_foreground_surface_width)
+	RenderingServer.global_shader_parameter_set(&"render_night_foreground_fade_width", night_foreground_fade_width)
+	RenderingServer.global_shader_parameter_set(&"render_night_foreground_max_brightness", night_foreground_max_brightness)
+	RenderingServer.global_shader_parameter_set(&"render_night_foreground_near_distance", night_foreground_near_distance)
+	RenderingServer.global_shader_parameter_set(&"render_night_foreground_far_distance", night_foreground_far_distance)
+	RenderingServer.global_shader_parameter_set(&"render_night_foreground_darkness", night_foreground_darkness)
 	RenderingServer.global_shader_parameter_set(
 		&"render_foreground_blur_step", foreground_blur_step
 	)

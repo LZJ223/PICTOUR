@@ -1,0 +1,256 @@
+{
+  "bindings": [
+    {
+      "path": "CollisionBox",
+      "property": "polygon"
+    },
+    {
+      "path": "VisualRoot/Shape",
+      "property": "polygon"
+    },
+    {
+      "path": "VisualRoot/Area2D/CollisionBox",
+      "property": "polygon"
+    },
+    {
+      "path": "Shadow",
+      "property": "polygon"
+    },
+    {
+      "path": "VisualRoot/Outline",
+      "property": "points"
+    }
+  ],
+  "center_offset_local": [
+    0.0,
+    -1.0
+  ],
+  "corners": [
+    {
+      "effective_radius": 16.0,
+      "is_outer": true,
+      "requested_radius": 16.0,
+      "vertex": [
+        112.0,
+        31.0
+      ]
+    },
+    {
+      "effective_radius": 16.0,
+      "is_outer": true,
+      "requested_radius": 16.0,
+      "vertex": [
+        112.0,
+        -33.0
+      ]
+    },
+    {
+      "effective_radius": 16.0,
+      "is_outer": true,
+      "requested_radius": 16.0,
+      "vertex": [
+        -112.0,
+        -33.0
+      ]
+    },
+    {
+      "effective_radius": 16.0,
+      "is_outer": true,
+      "requested_radius": 16.0,
+      "vertex": [
+        -112.0,
+        31.0
+      ]
+    }
+  ],
+  "corners_coordinate_space": "source_collision_local",
+  "profile": "res://Component/Shadowed_Geometry/CloudBox/CloudBox_11/CloudBox_11.tres",
+  "radius_scale": 1.0,
+  "root_transform_cleared": true,
+  "rounded_polygon": [
+    [
+      96.0,
+      32.0
+    ],
+    [
+      102.122932434082,
+      30.7820720672607
+    ],
+    [
+      107.313705444336,
+      27.3137092590332
+    ],
+    [
+      110.782073974609,
+      22.1229362487793
+    ],
+    [
+      112.0,
+      16.0
+    ],
+    [
+      112.0,
+      -16.0
+    ],
+    [
+      110.782073974609,
+      -22.1229362487793
+    ],
+    [
+      107.313705444336,
+      -27.3137092590332
+    ],
+    [
+      102.122932434082,
+      -30.7820720672607
+    ],
+    [
+      96.0,
+      -32.0
+    ],
+    [
+      -96.0,
+      -32.0
+    ],
+    [
+      -102.122932434082,
+      -30.7820739746094
+    ],
+    [
+      -107.313705444336,
+      -27.3137092590332
+    ],
+    [
+      -110.782073974609,
+      -22.1229362487793
+    ],
+    [
+      -112.0,
+      -16.0
+    ],
+    [
+      -112.0,
+      16.0
+    ],
+    [
+      -110.782073974609,
+      22.122932434082
+    ],
+    [
+      -107.313705444336,
+      27.3137092590332
+    ],
+    [
+      -102.122940063477,
+      30.7820720672607
+    ],
+    [
+      -96.0,
+      32.0
+    ]
+  ],
+  "rounded_polygon_before_centering": [
+    [
+      96.0,
+      31.0
+    ],
+    [
+      102.122932434082,
+      29.7820720672607
+    ],
+    [
+      107.313705444336,
+      26.3137092590332
+    ],
+    [
+      110.782073974609,
+      21.1229362487793
+    ],
+    [
+      112.0,
+      15.0
+    ],
+    [
+      112.0,
+      -17.0
+    ],
+    [
+      110.782073974609,
+      -23.1229362487793
+    ],
+    [
+      107.313705444336,
+      -28.3137092590332
+    ],
+    [
+      102.122932434082,
+      -31.7820720672607
+    ],
+    [
+      96.0,
+      -33.0
+    ],
+    [
+      -96.0,
+      -33.0
+    ],
+    [
+      -102.122932434082,
+      -31.7820739746094
+    ],
+    [
+      -107.313705444336,
+      -28.3137092590332
+    ],
+    [
+      -110.782073974609,
+      -23.1229362487793
+    ],
+    [
+      -112.0,
+      -17.0
+    ],
+    [
+      -112.0,
+      15.0
+    ],
+    [
+      -110.782073974609,
+      21.122932434082
+    ],
+    [
+      -107.313705444336,
+      26.3137092590332
+    ],
+    [
+      -102.122940063477,
+      29.7820720672607
+    ],
+    [
+      -96.0,
+      31.0
+    ]
+  ],
+  "source_node": "/root/@EditorNode@19513/@Panel@14/@VBoxContainer@15/DockVSplitMain/DockHSplitMain/@VBoxContainer@37/DockVSplitCenter/@VSplitContainer@101/@VBoxContainer@102/@EditorMainScreen@160/MainScreen/@CanvasItemEditor@10138/@VSplitContainer@9897/@HSplitContainer@9899/@HSplitContainer@9901/@Control@9902/@SubViewportContainer@9903/@SubViewport@9904/Level/Layer2/ShadowedGeometry3",
+  "source_polygon": [
+    [
+      112.0,
+      31.0
+    ],
+    [
+      112.0,
+      -33.0
+    ],
+    [
+      -112.0,
+      -33.0
+    ],
+    [
+      -112.0,
+      31.0
+    ]
+  ],
+  "source_scene": "res://Component/Shadowed_Geometry/shadowed_geometry_Static.tscn",
+  "version": 2,
+  "warnings": []
+}

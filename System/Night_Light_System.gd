@@ -60,6 +60,11 @@ func _sync_frame() -> void:
 	_light.enabled = enabled and focus > 0.001
 	RenderingServer.global_shader_parameter_set(&"render_night_light_enabled", enabled)
 	RenderingServer.global_shader_parameter_set(&"render_night_light_uv", (canvas * _origin.global_position) / view_size)
+	# 将屏幕 UV 的差值还原为世界距离，前景衰减范围不随缩放、旋转或窗口比例改变。
+	var inverse_canvas := canvas.affine_inverse()
+	var uv_x := inverse_canvas.x * view_size.x
+	var uv_y := inverse_canvas.y * view_size.y
+	RenderingServer.global_shader_parameter_set(&"render_night_world_per_uv", Vector4(uv_x.x, uv_x.y, uv_y.x, uv_y.y))
 	RenderingServer.global_shader_parameter_set(&"render_night_light_radius", _level.night_light_radius * Global.camera.zoom.x / view_size.y)
 	RenderingServer.global_shader_parameter_set(&"render_night_surface_width", _level.night_surface_width * Global.camera.zoom.x / view_size.y)
 	RenderingServer.global_shader_parameter_set(&"render_night_ambient", _level.night_ambient)

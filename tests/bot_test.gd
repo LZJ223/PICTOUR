@@ -123,6 +123,26 @@ func _run() -> void:
 	_check(_bot.position.x > origin.x + 3.0, "唤醒后恢复巡逻")
 	await _clear_stage()
 
+	# 使用默认摩擦材质的动态刚体，验证承载来自真实接触而不是位置绑定。
+	for direction in [-1, 1]:
+		_new_stage(Rect2(-800, 100, 1600, 80), Vector2(0, 72), direction)
+		await _frames(6)
+		var cargo := RigidBody2D.new()
+		cargo.lock_rotation = true
+		cargo.position = _bot.position + Vector2(0, -35)
+		var cargo_shape := RectangleShape2D.new()
+		cargo_shape.size = Vector2(32, 20)
+		var cargo_collision := CollisionShape2D.new()
+		cargo_collision.shape = cargo_shape
+		cargo.add_child(cargo_collision)
+		_layers[0].add_child(cargo)
+		var cargo_origin := cargo.position
+		await _frames(60)
+		_check((cargo.position.x - cargo_origin.x) * direction > 30.0, "摩擦带动上方刚体向巡逻方向移动：%s" % direction)
+		_check(absf(cargo.position.x - _bot.position.x) < 20.0, "承载一秒后刚体仍位于 Bot 顶部：%s" % direction)
+		_check(absf(cargo.position.y + 10.0 - (_bot.position.y - 24.0)) < 1.0, "承载不改变刚体站立高度：%s" % direction)
+		await _clear_stage()
+
 	# 墙体、低矮台阶和悬空障碍都必须在碰撞之前转向。
 	for obstacle in [Rect2(160, -100, 40, 200), Rect2(160, 97, 40, 3), Rect2(160, 50, 40, 10)]:
 		_new_stage(Rect2(-800, 100, 1600, 80), Vector2(95, 72))

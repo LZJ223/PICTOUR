@@ -30,6 +30,19 @@ const DialogueLine = preload("res://Interface/Dialogue/Dialogue_Line.gd")
 @export_range(0.0, 1.0, 0.01) var foreground_darkness_step: float = 0.2
 @export_range(0.0, 1.0, 0.01) var foreground_tint_step: float = 0.05
 
+@export_group("黑夜前景表面")
+@export var night_foreground_enabled: bool = true
+## 亮带与过渡宽度以屏幕像素计；按图层 Alpha 近似识别外轮廓及透明洞口。
+@export_range(0.0, 128.0, 1.0, "or_greater") var night_foreground_surface_width: float = 4.0
+@export_range(1.0, 128.0, 1.0, "or_greater") var night_foreground_fade_width: float = 2.0
+## 表面相对正常景深配色的最高亮度；不影响透明度或背景。
+@export_range(0.0, 1.0, 0.01) var night_foreground_max_brightness: float = 0.75
+## 到玩家头部的距离，单位为世界单位；近处保持最高亮度，远处降至内部暗区亮度。
+@export_range(0.0, 3000.0, 10.0, "or_greater") var night_foreground_near_distance: float = 100.0
+@export_range(0.0, 6000.0, 10.0, "or_greater") var night_foreground_far_distance: float = 700.0
+## 最暗亮度 = 1 - 此值；0.8 表示内部及远处轮廓保留 20%，并且不超过最高亮度。
+@export_range(0.0, 1.0, 0.01) var night_foreground_darkness: float = 0.8
+
 @export_group("远离关卡层")
 @export_range(0.0, 1.0, 0.01) var contrast_falloff: float = 0.15
 
@@ -70,6 +83,13 @@ func write_to_renderer() -> void:
 	Renderer.maximum_blur_lod = maximum_blur_lod
 	Renderer.foreground_darkness_step = foreground_darkness_step
 	Renderer.foreground_tint_step = foreground_tint_step
+	Renderer.night_foreground_enabled = night_foreground_enabled
+	Renderer.night_foreground_surface_width = night_foreground_surface_width
+	Renderer.night_foreground_fade_width = night_foreground_fade_width
+	Renderer.night_foreground_max_brightness = night_foreground_max_brightness
+	Renderer.night_foreground_near_distance = night_foreground_near_distance
+	Renderer.night_foreground_far_distance = night_foreground_far_distance
+	Renderer.night_foreground_darkness = night_foreground_darkness
 	Renderer.contrast_falloff = contrast_falloff
 	Renderer.background_tint_step = background_tint_step
 	Renderer.haze_blur_step = haze_blur_step

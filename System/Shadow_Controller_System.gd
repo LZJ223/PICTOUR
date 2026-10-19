@@ -7,6 +7,8 @@ const MIN_FRAGMENT_AREA: float = 4.0
 const BOOLEAN_AREA_EPSILON: float = 0.01
 ## 只切割玩家附近的承影物体，距离使用碰撞箱所在的物理世界坐标。
 const MAX_CUT_DISTANCE: float = 1200.0
+## 第十二关保留玩家周围的实体；沿用同一物理世界距离，不受视差或相机缩放影响。
+const LEVEL_12_SAFE_DISTANCE: float = 200.0
 ## 消失区域仅保留短暂画面；设为 0 可关闭。
 @export_range(0.0, 1.0, 0.01) var cut_afterimage_duration: float = 0.20
 ## 布尔运算类
@@ -26,6 +28,7 @@ func shadow_boolean() -> void:
 		return
 	var player_position: Vector2 = Global.player.global_position
 	var max_distance_squared: float = MAX_CUT_DISTANCE * MAX_CUT_DISTANCE
+	var protect_nearby: bool = is_instance_valid(Global.level) and Global.level.level_id == 12
 	for slot in range(Global.layer_count - 1, Global.current_layer_index + 1, -1):
 		## 影子收集
 		var shadows: Array[PackedVector2Array] = []
@@ -49,7 +52,10 @@ func shadow_boolean() -> void:
 			if child is LayerObject:
 				if not child.can_be_shadowed:
 					continue
-				if child.collision_box.global_position.distance_squared_to(player_position) >= max_distance_squared:
+				var distance_squared: float = child.collision_box.global_position.distance_squared_to(player_position)
+				if distance_squared >= max_distance_squared:
+					continue
+				if protect_nearby and distance_squared <= LEVEL_12_SAFE_DISTANCE * LEVEL_12_SAFE_DISTANCE:
 					continue
 				var source_polygon: PackedVector2Array = _polygon_to_world(child.collision_box.polygon, child.collision_box.global_transform)
 				var pieces: Array[PackedVector2Array] = _subtract_shadows(source_polygon, shadows)

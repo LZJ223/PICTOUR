@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CloudGroundProfile" format=3 uid="uid://btd7y31jnqedt"]
+
+[ext_resource type="Script" uid="uid://dnsuo6sid7ur8" path="res://addons/cloud_ground_baker/cloud_ground_profile.gd" id="1_rc31v"]
+
+[resource]
+script = ExtResource("1_rc31v")
+base_color = Color(0.5058824, 0.93333334, 0.8745098, 1)
+dot_color = Color(0.32156864, 0.61960787, 0.5803922, 1)
+cloud_depth = 120.0
+dot_spacing = 6.0

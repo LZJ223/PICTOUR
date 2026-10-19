@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://b5qg53ujgms22"]
+
+[ext_resource type="Script" uid="uid://b0voj1n1u8lhf" path="res://Component/Shadowed_Geometry/Shadowed_Geometry.gd" id="1_d0gn5"]
+[ext_resource type="Texture2D" uid="uid://difaksqdk470m" path="res://Texture/Others/Gray_Dots_Seamless.png" id="2_w8631"]
+
+[node name="CloudBox_10" type="RigidBody2D" unique_id=1193742606]
+script = ExtResource("1_d0gn5")
+can_transfer = null
+can_leave_shadow = true
+can_be_shadowed = true
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="." unique_id=2090673552]
+polygon = PackedVector2Array(92, 108, 98.12293, 106.782074, 103.313705, 103.313705, 106.782074, 98.12293, 108, 92, 108, -92, 106.782074, -98.12293, 103.313705, -103.313705, 98.12293, -106.782074, 92, -108, -92, -108, -98.12293, -106.782074, -103.313705, -103.313705, -106.782074, -98.12293, -108, -92, -108, 92, -106.782074, 98.12293, -103.313705, 103.313705, -98.12294, 106.782074, -92, 108)
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=1350416428]
+
+[node name="Shape" type="Polygon2D" parent="VisualRoot" unique_id=329626010]
+texture_repeat = 2
+color = Color(0.81, 0.78516, 0.74520004, 1)
+texture = ExtResource("2_w8631")
+texture_offset = Vector2(-4, 28)
+texture_scale = Vector2(2, 2)
+polygon = PackedVector2Array(92, 108, 98.12293, 106.782074, 103.313705, 103.313705, 106.782074, 98.12293, 108, 92, 108, -92, 106.782074, -98.12293, 103.313705, -103.313705, 98.12293, -106.782074, 92, -108, -92, -108, -98.12293, -106.782074, -103.313705, -103.313705, -106.782074, -98.12293, -108, -92, -108, 92, -106.782074, 98.12293, -103.313705, 103.313705, -98.12294, 106.782074, -92, 108)
+
+[node name="Outline" type="Line2D" parent="VisualRoot" unique_id=808691320]
+points = PackedVector2Array(92, 108, 98.12293, 106.782074, 103.313705, 103.313705, 106.782074, 98.12293, 108, 92, 108, -92, 106.782074, -98.12293, 103.313705, -103.313705, 98.12293, -106.782074, 92, -108, -92, -108, -98.12293, -106.782074, -103.313705, -103.313705, -106.782074, -98.12293, -108, -92, -108, 92, -106.782074, 98.12293, -103.313705, 103.313705, -98.12294, 106.782074, -92, 108)
+closed = true
+width = 1.0
+default_color = Color(0.05, 0.05, 0.05, 1)
+
+[node name="Area2D" type="Area2D" parent="VisualRoot" unique_id=1873293853]
+monitoring = false
+monitorable = false
+
+[node name="CollisionBox" type="CollisionPolygon2D" parent="VisualRoot/Area2D" unique_id=343877029]
+polygon = PackedVector2Array(92, 108, 98.12293, 106.782074, 103.313705, 103.313705, 106.782074, 98.12293, 108, 92, 108, -92, 106.782074, -98.12293, 103.313705, -103.313705, 98.12293, -106.782074, 92, -108, -92, -108, -98.12293, -106.782074, -103.313705, -103.313705, -106.782074, -98.12293, -108, -92, -108, 92, -106.782074, 98.12293, -103.313705, 103.313705, -98.12294, 106.782074, -92, 108)
+
+[node name="Shadow" type="Polygon2D" parent="." unique_id=886877060]
+visible = false
+color = Color(0, 0, 0, 1)
+texture_offset = Vector2(-4, 28)
+polygon = PackedVector2Array(92, 108, 98.12293, 106.782074, 103.313705, 103.313705, 106.782074, 98.12293, 108, 92, 108, -92, 106.782074, -98.12293, 103.313705, -103.313705, 98.12293, -106.782074, 92, -108, -92, -108, -98.12293, -106.782074, -103.313705, -103.313705, -106.782074, -98.12293, -108, -92, -108, 92, -106.782074, 98.12293, -103.313705, 103.313705, -98.12294, 106.782074, -92, 108)

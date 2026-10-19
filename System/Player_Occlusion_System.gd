@@ -9,7 +9,7 @@ const SAME_LAYER_BIT: int = 1 << 14
 const MASK_BITS: int = PLAYER_BIT | BODY_BIT | SAME_LAYER_BIT
 
 @export var enabled: bool = true
-@export var xray_color := Color(0.48, 0.56, 0.64, 0.55)
+@export var xray_color := Color(0.48, 0.56, 0.64, 0.6)
 
 var _player: PlayerController
 var _captures: Dictionary[StringName, SubViewport] = {}

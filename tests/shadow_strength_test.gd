@@ -21,7 +21,7 @@ func _transition(lod: float, label: String) -> float:
 		else:
 			timer.stop()
 		await _frames()
-		var strength: float = lerpf(1.0, 0.8, remaining)
+		var strength: float = lerpf(1.0, 0.7, remaining)
 		var image := _capture(label + "_strength_%d" % roundi(strength * 100.0))
 		var error := _blend_error(image, clear, full, strength)
 		_metrics[label + "_strength_%d_error" % roundi(strength * 100.0)] = error
@@ -40,7 +40,7 @@ func _transition(lod: float, label: String) -> float:
 	PhysicsServer2D.set_active(false)
 	await _frames()
 	var reset := _capture(label + "_translucent_reset")
-	_check(_blend_error(reset, translucent_clear, translucent_full, 0.8) < 0.012, label + " 重置立即回到 80%，保留半透明边缘")
+	_check(_blend_error(reset, translucent_clear, translucent_full, 0.7) < 0.012, label + " 重置立即回到 70%，保留半透明边缘")
 	_receiver.visual_root.modulate.a = 1.0
 	if label == "01_sharp":
 		timer.start(duration * 0.5)

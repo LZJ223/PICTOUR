@@ -1,0 +1,177 @@
+{
+  "can_be_shadowed": false,
+  "can_leave_shadow": true,
+  "center_offset_local": [
+    352.768432617188,
+    -161.941253662109
+  ],
+  "profile": "res://Component/Shadowed_Geometry/CloudGround/CloudGround_02/CloudGround_02.tres",
+  "radius_scale": 1.0,
+  "root_transform_cleared": true,
+  "rounded_polygon": [
+    [
+      1623.23156738281,
+      361.941253662109
+    ],
+    [
+      1632.416015625,
+      360.114379882813
+    ],
+    [
+      1640.2021484375,
+      354.911804199219
+    ],
+    [
+      1645.40466308594,
+      347.125671386719
+    ],
+    [
+      1647.23156738281,
+      337.941253662109
+    ],
+    [
+      1647.23156738281,
+      -470.058746337891
+    ],
+    [
+      1645.40466308594,
+      -479.243133544922
+    ],
+    [
+      1640.2021484375,
+      -487.029327392578
+    ],
+    [
+      1632.416015625,
+      -492.231842041016
+    ],
+    [
+      1623.23156738281,
+      -494.058746337891
+    ],
+    [
+      -464.768432617188,
+      -494.058746337891
+    ],
+    [
+      -473.952819824219,
+      -492.231842041016
+    ],
+    [
+      -481.739013671875,
+      -487.029327392578
+    ],
+    [
+      -486.941528320313,
+      -479.243133544922
+    ],
+    [
+      -488.768432617188,
+      -470.058746337891
+    ],
+    [
+      -488.768432617188,
+      -46.0587463378906
+    ],
+    [
+      -489.377380371094,
+      -42.9972839355469
+    ],
+    [
+      -491.111572265625,
+      -40.4018859863281
+    ],
+    [
+      -493.706970214844,
+      -38.6677093505859
+    ],
+    [
+      -496.768432617188,
+      -38.0587463378906
+    ],
+    [
+      -2328.7685546875,
+      -38.0587463378906
+    ],
+    [
+      -2337.95288085938,
+      -36.2318572998047
+    ],
+    [
+      -2345.73901367188,
+      -31.0293121337891
+    ],
+    [
+      -2350.94140625,
+      -23.2431488037109
+    ],
+    [
+      -2352.7685546875,
+      -14.0587463378906
+    ],
+    [
+      -2352.7685546875,
+      337.941253662109
+    ],
+    [
+      -2350.94140625,
+      347.125671386719
+    ],
+    [
+      -2345.73901367188,
+      354.911804199219
+    ],
+    [
+      -2337.95288085938,
+      360.114379882813
+    ],
+    [
+      -2328.7685546875,
+      361.941253662109
+    ]
+  ],
+  "source_node": "/root/@EditorNode@19513/@Panel@14/@VBoxContainer@15/DockVSplitMain/DockHSplitMain/@VBoxContainer@37/DockVSplitCenter/@VSplitContainer@101/@VBoxContainer@102/@EditorMainScreen@160/MainScreen/@CanvasItemEditor@10138/@VSplitContainer@9897/@HSplitContainer@9899/@HSplitContainer@9901/@Control@9902/@SubViewportContainer@9903/@SubViewport@9904/Level/Layer0/Ground",
+  "source_polygon": [
+    [
+      2000.0,
+      200.0
+    ],
+    [
+      2000.0,
+      -656.0
+    ],
+    [
+      -136.0,
+      -656.0
+    ],
+    [
+      -136.0,
+      -200.0
+    ],
+    [
+      -2000.0,
+      -200.0
+    ],
+    [
+      -2000.0,
+      200.0
+    ]
+  ],
+  "source_scene": "res://Component/Shadowed_Geometry/Shadowed_Ground.tscn",
+  "suggested_placement_transform": [
+    1.0,
+    0.0,
+    0.0,
+    1.0,
+    1512.76843261719,
+    558.058715820313
+  ],
+  "textures": [
+    "res://Component/Shadowed_Geometry/CloudGround/CloudGround_02/CloudGround_02_001.png",
+    "res://Component/Shadowed_Geometry/CloudGround/CloudGround_02/CloudGround_02_002.png",
+    "res://Component/Shadowed_Geometry/CloudGround/CloudGround_02/CloudGround_02_003.png",
+    "res://Component/Shadowed_Geometry/CloudGround/CloudGround_02/CloudGround_02_004.png"
+  ],
+  "version": 1,
+  "warnings": []
+}

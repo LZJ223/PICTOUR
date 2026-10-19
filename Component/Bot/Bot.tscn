@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://c64muftp37g5k" path="res://Component/Bot/Bot.gd" id="4_bot"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bot"]
-friction = 0.0
+friction = 0.4
 
 [node name="Bot" type="RigidBody2D" unique_id=330834349]
 physics_material_override = SubResource("PhysicsMaterial_bot")

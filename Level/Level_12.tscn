@@ -5,14 +5,23 @@
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_m2xr1"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_cfpkf"]
 [ext_resource type="Texture2D" uid="uid://dcew2j84jxvtr" path="res://Texture/Background/Moon.png" id="4_tk3mn"]
-[ext_resource type="PackedScene" uid="uid://btvd5akgi0dy" path="res://Component/Object/Soil/Soil_00/Soil.tscn" id="5_4agd1"]
-[ext_resource type="PackedScene" uid="uid://by6iwxwd7u6rn" path="res://Component/Object/Others/House.tscn" id="6_tk3mn"]
-[ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/Tree/Tree_01.tscn" id="7_j6ph1"]
+[ext_resource type="PackedScene" uid="uid://bd0x4ee0iqos7" path="res://Component/Shadowed_Geometry/Shadowed_Ground.tscn" id="8_baw0o"]
 [ext_resource type="PackedScene" uid="uid://h06vmqdf8ucl" path="res://Component/Goal/Goal.tscn" id="8_was4d"]
 [ext_resource type="PackedScene" path="res://Component/Background/Night_Background.tscn" id="9_night_background"]
+[ext_resource type="PackedScene" uid="uid://dht31p48lp8xe" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_11/CloudBox_11.tscn" id="10_cav3p"]
 [ext_resource type="Script" uid="uid://0m733qe8nho2" path="res://Component/Background/Moon.gd" id="10_moon"]
+[ext_resource type="PackedScene" uid="uid://b5qg53ujgms22" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_10/CloudBox_10.tscn" id="11_xewky"]
+[ext_resource type="PackedScene" uid="uid://bxccfxbo6pc1d" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_09/CloudBox_09.tscn" id="12_w1ap6"]
+[ext_resource type="PackedScene" uid="uid://dfjvk0uv1v31u" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_08/CloudBox_08.tscn" id="13_bbs3t"]
+[ext_resource type="PackedScene" uid="uid://c1s7dlkpldpvt" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_07/CloudBox_07.tscn" id="14_p1smg"]
+[ext_resource type="PackedScene" uid="uid://c3apq57fgwnl3" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_06/CloudBox_06.tscn" id="15_dmi4s"]
+[ext_resource type="PackedScene" uid="uid://bw6dextuki8ga" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_05/CloudBox_05.tscn" id="16_svnbj"]
+[ext_resource type="PackedScene" uid="uid://bqpjpgonkllgk" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_04/CloudBox_04.tscn" id="17_wrla2"]
+[ext_resource type="PackedScene" uid="uid://vjyb1oi56acb" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_03/CloudBox_03.tscn" id="18_akhyu"]
+[ext_resource type="PackedScene" uid="uid://f3bfirgvd6bj" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_02/CloudBox_02.tscn" id="19_4u4ni"]
+[ext_resource type="PackedScene" uid="uid://4igoourqsqy7" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_01/CloudBox_01.tscn" id="20_rm1mo"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4agd1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yxdl5"]
 resource_local_to_scene = true
 shader = ExtResource("3_m2xr1")
 shader_parameter/layer_z_index = 0.0
@@ -20,7 +29,7 @@ shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tk3mn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ggsb1"]
 resource_local_to_scene = true
 shader = ExtResource("4_cfpkf")
 shader_parameter/layer_z_index = 0.0
@@ -33,7 +42,7 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_j6ph1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l0ri5"]
 resource_local_to_scene = true
 shader = ExtResource("3_m2xr1")
 shader_parameter/layer_z_index = 0.0
@@ -41,7 +50,7 @@ shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_heruu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1dlip"]
 resource_local_to_scene = true
 shader = ExtResource("4_cfpkf")
 shader_parameter/layer_z_index = 0.0
@@ -54,7 +63,7 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jias6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0uhoc"]
 resource_local_to_scene = true
 shader = ExtResource("3_m2xr1")
 shader_parameter/layer_z_index = 0.0
@@ -62,7 +71,7 @@ shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gs4q6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lk5mc"]
 resource_local_to_scene = true
 shader = ExtResource("4_cfpkf")
 shader_parameter/layer_z_index = 0.0
@@ -75,7 +84,7 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_041yl"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f16h3"]
 resource_local_to_scene = true
 shader = ExtResource("3_m2xr1")
 shader_parameter/layer_z_index = 0.0
@@ -83,7 +92,7 @@ shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dg6tf"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dae58"]
 resource_local_to_scene = true
 shader = ExtResource("4_cfpkf")
 shader_parameter/layer_z_index = 0.0
@@ -95,14 +104,17 @@ shader_parameter/anchor_position = Vector2(0, 0)
 shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ecdgv"]
+size = Vector2(20, 1840)
 
 [node name="Level" type="Node2D" unique_id=1182049839]
+position = Vector2(0, 6)
 script = ExtResource("1_eyn08")
 level_id = 12
 is_night = true
 background_blur_step = 0.4
-foreground_darkness_step = 0.8
-background_tint_step = 0.2
+background_tint_step = 0.25
 background_tint_color = Color(0.06429333, 0.030399999, 0.08, 1)
 
 [node name="Background" parent="." unique_id=1300063200 instance=ExtResource("9_night_background")]
@@ -113,7 +125,7 @@ color_reset_duration = 0.15
 z_index = -4096
 z_as_relative = false
 texture_repeat = 1
-position = Vector2(0, 272)
+position = Vector2(0, 400)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_tk3mn")
 centered = false
@@ -121,61 +133,181 @@ offset = Vector2(-180, -180)
 region_enabled = true
 region_rect = Rect2(1736, 576, 360, 360)
 script = ExtResource("10_moon")
-initial_position = Vector2(0, 272)
-parallax_ratio = 0.2
+initial_position = Vector2(0, 400)
+parallax_ratio_x = 0.075
+parallax_ratio_y = 0.15
+sample_distance = 10.0
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_4agd1")
+material = SubResource("ShaderMaterial_yxdl5")
 layer_id = 3
 slot = 3
 
 [node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_tk3mn")
+material = SubResource("ShaderMaterial_ggsb1")
 
-[node name="Soil_001" parent="Layer3" unique_id=1170671701 instance=ExtResource("5_4agd1")]
-position = Vector2(636, 720)
+[node name="Ground" parent="Layer3" unique_id=1744010081 instance=ExtResource("8_baw0o")]
+position = Vector2(0, 720)
+
+[node name="Ground2" parent="Layer3" unique_id=2061960134 instance=ExtResource("8_baw0o")]
+position = Vector2(0, -70)
+
+[node name="CollisionBox" parent="Layer3/Ground2" index="0" unique_id=1077352614]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="Polygon2D" parent="Layer3/Ground2/VisualRoot" parent_id_path=PackedInt32Array(2061960134, 817137210) index="0" unique_id=486029332]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="Shadow" parent="Layer3/Ground2" index="2" unique_id=1397293799]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="CloudBox_10" parent="Layer3" unique_id=1193742606 instance=ExtResource("11_xewky")]
+position = Vector2(-584, 410)
+
+[node name="CloudBox_07" parent="Layer3" unique_id=2091723453 instance=ExtResource("14_p1smg")]
+position = Vector2(544, 424)
+
+[node name="CloudBox_16" parent="Layer3" unique_id=1124360574 instance=ExtResource("10_cav3p")]
+position = Vector2(-952, 166)
+
+[node name="CloudBox_14" parent="Layer3" unique_id=1316468939 instance=ExtResource("10_cav3p")]
+position = Vector2(1320, -54)
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_j6ph1")
+material = SubResource("ShaderMaterial_l0ri5")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_heruu")
+material = SubResource("ShaderMaterial_1dlip")
 
-[node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("5_4agd1")]
-position = Vector2(636, 720)
+[node name="Ground" parent="Layer2" unique_id=1569343589 instance=ExtResource("8_baw0o")]
+position = Vector2(0, 720)
+
+[node name="Ground2" parent="Layer2" unique_id=556999390 instance=ExtResource("8_baw0o")]
+position = Vector2(0, -70)
+
+[node name="CollisionBox" parent="Layer2/Ground2" index="0" unique_id=1077352614]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="Polygon2D" parent="Layer2/Ground2/VisualRoot" parent_id_path=PackedInt32Array(556999390, 817137210) index="0" unique_id=486029332]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="Shadow" parent="Layer2/Ground2" index="2" unique_id=1397293799]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="CloudBox_06" parent="Layer2" unique_id=2057848590 instance=ExtResource("15_dmi4s")]
+position = Vector2(-61, 426)
+
+[node name="CloudBox_01" parent="Layer2" unique_id=732337770 instance=ExtResource("20_rm1mo")]
+position = Vector2(344, 439)
+
+[node name="CloudBox_15" parent="Layer2" unique_id=1231980844 instance=ExtResource("10_cav3p")]
+position = Vector2(-120, 162)
+
+[node name="CloudBox_11" parent="Layer2" unique_id=151661789 instance=ExtResource("10_cav3p")]
+position = Vector2(-720, -62)
+
+[node name="CloudBox_08" parent="Layer2" unique_id=105407467 instance=ExtResource("13_bbs3t")]
+position = Vector2(-674, -130)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_jias6")
+material = SubResource("ShaderMaterial_0uhoc")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_gs4q6")
+material = SubResource("ShaderMaterial_lk5mc")
 
-[node name="House" parent="Layer1" unique_id=1740520627 instance=ExtResource("6_tk3mn")]
-position = Vector2(-348, 304)
+[node name="Ground" parent="Layer1" unique_id=651531451 instance=ExtResource("8_baw0o")]
+position = Vector2(0, 720)
 
-[node name="Tree_01" parent="Layer1" unique_id=719242815 instance=ExtResource("7_j6ph1")]
-position = Vector2(582, 282)
+[node name="Ground2" parent="Layer1" unique_id=84096130 instance=ExtResource("8_baw0o")]
+position = Vector2(0, -70)
 
-[node name="Soil_001" parent="Layer1" unique_id=126668145 instance=ExtResource("5_4agd1")]
-position = Vector2(636, 720)
+[node name="CollisionBox" parent="Layer1/Ground2" index="0" unique_id=1077352614]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="Polygon2D" parent="Layer1/Ground2/VisualRoot" parent_id_path=PackedInt32Array(84096130, 817137210) index="0" unique_id=486029332]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="Shadow" parent="Layer1/Ground2" index="2" unique_id=1397293799]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="CloudBox_09" parent="Layer1" unique_id=151841160 instance=ExtResource("12_w1ap6")]
+position = Vector2(-800, 450)
+
+[node name="CloudBox_02" parent="Layer1" unique_id=992581010 instance=ExtResource("19_4u4ni")]
+position = Vector2(1464, 437)
+
+[node name="CloudBox_17" parent="Layer1" unique_id=1454126872 instance=ExtResource("10_cav3p")]
+position = Vector2(1040, 197)
+
+[node name="CloudBox_18" parent="Layer1" unique_id=305469036 instance=ExtResource("13_bbs3t")]
+position = Vector2(1008, 129)
+
+[node name="CloudBox_12" parent="Layer1" unique_id=2039101372 instance=ExtResource("10_cav3p")]
+position = Vector2(-1360, 2)
+
+[node name="CloudBox_03" parent="Layer1" unique_id=1078374008 instance=ExtResource("18_akhyu")]
+position = Vector2(-1352, -90)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_041yl")
+material = SubResource("ShaderMaterial_f16h3")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_dg6tf")
+material = SubResource("ShaderMaterial_dae58")
 
-[node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("5_4agd1")]
-position = Vector2(636, 720)
+[node name="Ground" parent="Layer0" unique_id=898303227 instance=ExtResource("8_baw0o")]
+position = Vector2(0, 720)
+
+[node name="Ground2" parent="Layer0" unique_id=531137106 instance=ExtResource("8_baw0o")]
+position = Vector2(0, -70)
+
+[node name="CollisionBox" parent="Layer0/Ground2" index="0" unique_id=1077352614]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="Polygon2D" parent="Layer0/Ground2/VisualRoot" parent_id_path=PackedInt32Array(531137106, 817137210) index="0" unique_id=486029332]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="Shadow" parent="Layer0/Ground2" index="2" unique_id=1397293799]
+polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+
+[node name="CloudBox_05" parent="Layer0" unique_id=1175901663 instance=ExtResource("16_svnbj")]
+position = Vector2(936, 426)
+
+[node name="CloudBox_04" parent="Layer0" unique_id=1972980970 instance=ExtResource("17_wrla2")]
+position = Vector2(-1184, 434)
+
+[node name="CloudBox_13" parent="Layer0" unique_id=436926319 instance=ExtResource("10_cav3p")]
+position = Vector2(600, -6)
 
 [node name="Goal" parent="." unique_id=1223662449 instance=ExtResource("8_was4d")]
-position = Vector2(879, 522)
+position = Vector2(0, -134)
+
+[node name="Barrier02" type="StaticBody2D" parent="." unique_id=421905338]
+position = Vector2(2000, -6)
+collision_layer = 255
+collision_mask = 255
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Barrier02" unique_id=1955377100]
+position = Vector2(0, -320)
+shape = SubResource("RectangleShape2D_ecdgv")
+
+[node name="Barrier03" type="StaticBody2D" parent="." unique_id=1687198472]
+position = Vector2(-2000, -6)
+collision_layer = 255
+collision_mask = 255
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Barrier03" unique_id=1602037723]
+position = Vector2(0, -320)
+shape = SubResource("RectangleShape2D_ecdgv")
 
 [editable path="Layer3"]
+[editable path="Layer3/Ground2"]
 [editable path="Layer2"]
+[editable path="Layer2/Ground2"]
 [editable path="Layer1"]
+[editable path="Layer1/Ground2"]
 [editable path="Layer0"]
+[editable path="Layer0/Ground2"]

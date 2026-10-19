@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SoilBakeProfile" format=3 uid="uid://bbqyt4u401t42"]
+
+[ext_resource type="Script" uid="uid://ckwvktk7idnw3" path="res://addons/soil_baker/soil_profile.gd" id="1_cxykj"]
+
+[resource]
+script = ExtResource("1_cxykj")
+soil_color = Color(0.07450981, 0.49019608, 0.06666667, 1)
+grass_color = Color(0.011764706, 0.9019608, 0.13725491, 1)
+dot_spacing = 4.0

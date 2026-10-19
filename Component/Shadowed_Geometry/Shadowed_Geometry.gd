@@ -8,8 +8,9 @@ const SHADOW_CLIP_SHADER := preload("res://Shader/Shadow_Receiver_Clip.gdshader"
 class SelectionContour extends Node2D:
 	var _geometry_key: Array = []
 	var _contours: Array[PackedVector2Array] = []
-	var _lines: Array[Line2D] = []
+	var _screen_contours: Array[PackedVector2Array] = []
 	var _screen_basis := Transform2D.IDENTITY
+	var _width: float = -1.0
 
 	func sync(source: Polygon2D, border: Line2D) -> void:
 		var has_border := border != null and border.visible and border.closed and border.width > 0.0
@@ -41,31 +42,35 @@ class SelectionContour extends Node2D:
 					_contours.append(border_to_source * contour)
 			else:
 				_contours.append(boundary)
-			while _lines.size() > _contours.size():
-				var line := _lines.pop_back() as Line2D
-				remove_child(line)
-				line.queue_free()
-			while _lines.size() < _contours.size():
-				var line := Line2D.new()
-				line.closed = true
-				line.antialiased = true
-				line.joint_mode = Line2D.LINE_JOINT_ROUND
-				line.round_precision = 12
-				line.use_parent_material = true
-				add_child(line)
-				_lines.append(line)
 		var screen_transform := source.get_global_transform_with_canvas()
 		var basis := Transform2D(screen_transform.x, screen_transform.y, Vector2.ZERO)
 		if absf(basis.determinant()) < 0.000001:
 			return
-		## 抵消物体/图层/相机的缩放与旋转，Line2D.width 的单位因此为屏幕像素。
+		## 抵消物体/图层/相机的缩放与旋转，线宽和抗锯齿边带保持屏幕像素大小。
 		transform = source.transform * basis.affine_inverse()
-		for index in _lines.size():
-			if rebuild or not basis.is_equal_approx(_screen_basis):
-				_lines[index].points = basis * _contours[index]
-			## 线以黑描边外缘为中心，内半边由原物体遮住，外半边就是选中宽度。
-			_lines[index].width = Renderer.selection_outline_width * 2.0
+		var update_points := rebuild or not basis.is_equal_approx(_screen_basis)
+		if update_points:
+			_screen_contours.clear()
+			for contour in _contours:
+				if contour.size() < 3:
+					continue
+				var points := basis * contour
+				if not points[0].is_equal_approx(points[points.size() - 1]):
+					points.append(points[0])
+				_screen_contours.append(points)
+		## 线以黑描边外缘为中心，内半边由原物体遮住，外半边就是选中宽度。
+		var width := Renderer.selection_outline_width * 2.0
+		if update_points or not is_equal_approx(_width, width):
+			_width = width
+			queue_redraw()
 		_screen_basis = basis
+
+	func _draw() -> void:
+		if _width <= 0.0:
+			return
+		for points in _screen_contours:
+			## draw_polyline 实际生成渐变 Alpha 边带；选中材质必须保留 COLOR.a。
+			draw_polyline(points, Color.WHITE, _width, true)
 
 	## 闭合边界允许起点不同、绕序相反，以及显式重复最后一个顶点。
 	func _same_boundary(a: PackedVector2Array, b: PackedVector2Array) -> bool:

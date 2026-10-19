@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CloudRoundProfile" format=3 uid="uid://b75yv3275mcqc"]
+
+[ext_resource type="Script" uid="uid://c8eec77qe2j2h" path="res://addons/cloud_box_rounder/cloud_round_profile.gd" id="1_k2mb8"]
+
+[resource]
+script = ExtResource("1_k2mb8")
+outer_radius = 16.0

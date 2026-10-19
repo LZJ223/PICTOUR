@@ -17,6 +17,7 @@ uniform bool shadow_projection_enabled = false;
 global uniform float render_shadow_strength;
 global uniform bool render_night_light_enabled;
 global uniform vec2 render_night_light_uv;
+global uniform vec4 render_night_world_per_uv;
 global uniform float render_night_surface_width;
 global uniform float render_night_ambient;
 varying vec3 surface_albedo;
@@ -32,6 +33,70 @@ global uniform float render_foreground_tint_step;
 global uniform float render_contrast_falloff;
 global uniform vec4 render_background_tint_color : source_color;
 global uniform float render_background_tint_step;
+global uniform bool render_night_foreground_enabled;
+global uniform float render_night_foreground_surface_width;
+global uniform float render_night_foreground_fade_width;
+global uniform float render_night_foreground_max_brightness;
+global uniform float render_night_foreground_near_distance;
+global uniform float render_night_foreground_far_distance;
+global uniform float render_night_foreground_darkness;
+
+// 只比较 Alpha：不把纹理花纹当轮廓，不依赖物体类型或切割后的顶点数量。
+float foreground_brightness(vec2 uv, vec2 pixel_size, float alpha, float blend) {
+	float maximum_brightness = clamp(render_night_foreground_max_brightness, 0.0, 1.0);
+	float minimum_brightness = min(maximum_brightness, clamp(1.0 - render_night_foreground_darkness, 0.0, 1.0));
+	vec2 delta_uv = uv - render_night_light_uv;
+	vec2 world_offset = delta_uv.x * render_night_world_per_uv.xy + delta_uv.y * render_night_world_per_uv.zw;
+	float near_distance = max(render_night_foreground_near_distance, 0.0);
+	float far_distance = max(render_night_foreground_far_distance, near_distance + 1.0);
+	float edge_brightness = mix(maximum_brightness, minimum_brightness, smoothstep(near_distance, far_distance, length(world_offset)));
+	float fade = max(render_night_foreground_fade_width, 1.0);
+	float edge_lod = max(log2(fade * 2.0), 0.0);
+	vec2 radius = pixel_size * render_night_foreground_surface_width;
+	float nearest_alpha = textureLod(screen_texture, uv, max(log2(fade), 0.0)).a;
+	// 原始 Alpha 低于邻域均值时处在抗锯齿/渐变外缘，不能把它归一化成内部。
+	if (alpha + 0.0001 < nearest_alpha) {
+		return mix(1.0, edge_brightness, blend);
+	}
+	for (int index = 0; index < 8; index++) {
+		float angle = float(index) * 0.78539816339;
+		vec2 direction = vec2(cos(angle), sin(angle));
+		nearest_alpha = min(nearest_alpha, textureLod(screen_texture, uv + direction * radius, edge_lod).a);
+	}
+	// 以局部原始 Alpha 归一化，半透明物体不会整块被误认为轮廓。
+	float interior = smoothstep(0.5, 0.98, nearest_alpha / max(alpha, 0.0001));
+	return mix(1.0, mix(edge_brightness, minimum_brightness, interior), blend);
+}
+
+// 先处理表面亮度再卷积颜色；最终覆盖率继续沿用原 mipmap Alpha。
+vec4 foreground_surface(vec2 uv, vec2 pixel_size, float blur_lod, vec4 filtered, float blend) {
+	if (blur_lod <= 0.001) {
+		return vec4(filtered.rgb / max(filtered.a, 0.0001),
+			foreground_brightness(uv, pixel_size, filtered.a, blend));
+	}
+	float weights[3] = float[3](1.0, 2.0, 1.0);
+	vec2 step_uv = pixel_size * sqrt((exp2(2.0 * blur_lod) - 1.0) / 3.0);
+	vec4 lit = vec4(0.0);
+	float coverage = 0.0;
+	float minimum_brightness = 1.0;
+	float maximum_brightness = 0.0;
+	for (int y = 0; y < 3; y++) {
+		for (int x = 0; x < 3; x++) {
+			vec2 sample_uv = uv + vec2(float(x - 1), float(y - 1)) * step_uv;
+			vec4 surface = textureLod(screen_texture, sample_uv, 0.0);
+			float brightness = foreground_brightness(sample_uv, pixel_size, surface.a, blend);
+			float weight = weights[x] * weights[y];
+			lit += surface * (brightness * weight);
+			coverage += surface.a * weight;
+			minimum_brightness = min(minimum_brightness, brightness);
+			maximum_brightness = max(maximum_brightness, brightness);
+		}
+	}
+	if (maximum_brightness - minimum_brightness < 0.0001) {
+		return vec4(filtered.rgb / max(filtered.a, 0.0001), maximum_brightness);
+	}
+	return vec4(lit.rgb / max(lit.a, 0.0001), lit.a / max(coverage, 0.0001));
+}
 
 // 联合采样预乘实体颜色与投影，先合影、后模糊；透明区域不参与颜色归一化。
 // Alpha 仍沿用 CanvasGroup 的原始 mipmap 覆盖率，避免改变实体边缘与背景混合。
@@ -92,7 +157,15 @@ void fragment() {
 		color.rgb /= color.a;
 	}
 	float lit_fraction = 1.0;
-	if (shadow_projection_enabled && color.a > 0.0001) {
+	float foreground_blend = 0.0;
+	if (is_night && render_night_foreground_enabled) {
+		foreground_blend = smoothstep(0.0, 1.0, front_distance);
+	}
+	if (foreground_blend > 0.0001 && color.a > 0.0001) {
+		vec4 surface = foreground_surface(SCREEN_UV, SCREEN_PIXEL_SIZE, blur_lod, filtered, foreground_blend);
+		color.rgb = surface.rgb;
+		lit_fraction = surface.a;
+	} else if (shadow_projection_enabled && color.a > 0.0001) {
 		vec4 surface = shadowed_surface(
 			SCREEN_UV, SCREEN_PIXEL_SIZE, blur_lod,
 			filtered
@@ -115,6 +188,8 @@ void fragment() {
 		0.0,
 		1.0
 	);
+	// 黑夜前景使用表面规则替代统一压暗；跨越关卡层时平滑过渡。
+	darkness *= 1.0 - foreground_blend;
 	color.rgb *= 1.0 - darkness;
 
 	// 前景与后景分别向独立基准色偏移；强度为 0 时不会改变颜色。

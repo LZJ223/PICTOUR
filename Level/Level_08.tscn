@@ -2,23 +2,53 @@
 
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_2110m"]
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_1pg6c"]
+[ext_resource type="PackedScene" uid="uid://coxrbpl33shd4" path="res://Component/Background/Background.tscn" id="2_2pqib"]
+[ext_resource type="Texture2D" uid="uid://do787mt8ttvmv" path="res://tests/City_03.png" id="3_0pf68"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_6bptr"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_2pqib"]
 [ext_resource type="PackedScene" uid="uid://btvd5akgi0dy" path="res://Component/Object/Soil/Soil_00/Soil.tscn" id="5_0pf68"]
-[ext_resource type="PackedScene" uid="uid://by6iwxwd7u6rn" path="res://Component/Object/Others/House.tscn" id="6_ueb6w"]
 [ext_resource type="PackedScene" uid="uid://bc8g6556lcqeo" path="res://Component/Object/Tree/Tree_01.tscn" id="7_qt120"]
 [ext_resource type="PackedScene" uid="uid://h06vmqdf8ucl" path="res://Component/Goal/Goal.tscn" id="8_1pg6c"]
+[ext_resource type="PackedScene" uid="uid://d0ggykfyc5hdl" path="res://Component/Object/Bush/Bush_01.tscn" id="8_b8hun"]
+[ext_resource type="PackedScene" uid="uid://b5ifq7cl1godk" path="res://Component/Object/Cloud/Cloud_05.tscn" id="9_83wbu"]
+[ext_resource type="PackedScene" uid="uid://sym6edwksexy" path="res://Component/Object/Cloud/Cloud_04.tscn" id="10_4ep2d"]
+[ext_resource type="PackedScene" uid="uid://ca1mshktdkrj3" path="res://Component/Object/Cloud/Cloud_03.tscn" id="11_j50mr"]
+[ext_resource type="PackedScene" uid="uid://cgibvtj58txga" path="res://Component/Object/Cloud/Cloud_01.tscn" id="12_t5s17"]
+[ext_resource type="PackedScene" uid="uid://bh4ec7mgfy5r8" path="res://Component/Object/Tree/Tree_04.tscn" id="13_u8cjl"]
+[ext_resource type="PackedScene" uid="uid://d5c1bsw7y6jr" path="res://Component/Object/Tree/Tree_02.tscn" id="14_wgplf"]
+[ext_resource type="PackedScene" uid="uid://dljaeuwmwdwpv" path="res://Component/Object/Bush/Bush_06.tscn" id="16_0djxi"]
+[ext_resource type="PackedScene" uid="uid://dkuht36rgvnfn" path="res://Component/Object/Soil/Soil_09/Soil_09.tscn" id="17_s18ex"]
+[ext_resource type="PackedScene" uid="uid://bldexpi7l0bh7" path="res://Component/Object/Bush/Bush_04.tscn" id="19_0h3wt"]
+[ext_resource type="PackedScene" uid="uid://kgpq76gmn41p" path="res://Component/Object/Bush/Bush_05.tscn" id="20_0yghl"]
+[ext_resource type="PackedScene" uid="uid://ceaqrqft5jfjv" path="res://Component/Object/House/House_Right.tscn" id="21_b8hun"]
+[ext_resource type="PackedScene" uid="uid://d3eiwifat7uqb" path="res://Component/Object/Trunk/Trunk_01/Trunk_01.tscn" id="21_rui0j"]
+[ext_resource type="PackedScene" uid="uid://po7jcjm06omn" path="res://Component/Object/Leaf/Leaf_02/Leaf_02.tscn" id="22_samj1"]
+[ext_resource type="PackedScene" uid="uid://c0vp30rili1dn" path="res://Component/Object/Leaf/Leaf_01/Leaf_01.tscn" id="23_wl838"]
+[ext_resource type="PackedScene" uid="uid://cv8qtxnr2xt7o" path="res://Component/Object/Leaf/Leaf_03/Leaf_03.tscn" id="24_432a5"]
+[ext_resource type="PackedScene" uid="uid://cq0c5wvq16uij" path="res://Component/Object/Leaf/Leaf_05/Leaf_05.tscn" id="25_eag5m"]
+[ext_resource type="PackedScene" uid="uid://t0hve6h0jxqs" path="res://Component/Object/Leaf/Leaf_04/Leaf_04.tscn" id="26_d1eky"]
+[ext_resource type="PackedScene" uid="uid://2tglt8u3at37" path="res://Component/Object/Leaf/Leaf_06/Leaf_06.tscn" id="27_342d4"]
+[ext_resource type="PackedScene" uid="uid://cq6muhbic0ogi" path="res://Component/Object/Cloud/Cloud_02.tscn" id="29_pqpl2"]
+[ext_resource type="PackedScene" uid="uid://bd2e8t8vka0ac" path="res://Component/Object/Others/Box.tscn" id="30_pciwq"]
+[ext_resource type="PackedScene" uid="uid://3n0fwxwpfsl5" path="res://Component/Bot/Bot.tscn" id="31_83wbu"]
+[ext_resource type="PackedScene" uid="uid://bia263tpdupq0" path="res://Component/Object/House/House_Left.tscn" id="31_sj8fr"]
+[ext_resource type="PackedScene" uid="uid://0bq088mgrfbd" path="res://Component/Object/Tree/Tree_03.tscn" id="32_i3ehf"]
+[ext_resource type="PackedScene" uid="uid://bpq31rpppl2jc" path="res://Component/Object/Tree/Tree_05.tscn" id="33_0dag2"]
+[ext_resource type="PackedScene" uid="uid://rg14rqeqbckn" path="res://Component/Shadowed_Geometry/CloudGround/CloudGround_04/CloudGround_04.tscn" id="35_4ep2d"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6bptr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b8hun"]
 resource_local_to_scene = true
 shader = ExtResource("3_6bptr")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2pqib"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_83wbu"]
 resource_local_to_scene = true
 shader = ExtResource("4_2pqib")
 shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
@@ -27,16 +57,19 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0pf68"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ep2d"]
 resource_local_to_scene = true
 shader = ExtResource("3_6bptr")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ueb6w"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j50mr"]
 resource_local_to_scene = true
 shader = ExtResource("4_2pqib")
 shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
@@ -45,16 +78,19 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qt120"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t5s17"]
 resource_local_to_scene = true
 shader = ExtResource("3_6bptr")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fngj8"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u8cjl"]
 resource_local_to_scene = true
 shader = ExtResource("4_2pqib")
 shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/layer_id = 0.0
 shader_parameter/layer_scale = 0.8
@@ -63,80 +99,254 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_i2kuw"]
-resource_local_to_scene = true
-shader = ExtResource("3_6bptr")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_o3bio"]
-resource_local_to_scene = true
-shader = ExtResource("4_2pqib")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ktj4"]
+size = Vector2(20, 1840)
 
 [node name="Level" type="Node2D" unique_id=1182049839]
 script = ExtResource("1_2110m")
+layer_count = 3
+layer_scale = 0.75
+current_layer_index = 0
 level_id = 8
+foreground_tint_color = Color(0.0836, 0.09269333, 0.22, 1)
+background_tint_color = Color(0.87, 0.74675, 0.13049997, 1)
 
-[node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_1pg6c")]
-material = SubResource("ShaderMaterial_6bptr")
-layer_id = 3
-slot = 3
+[node name="Background" parent="." unique_id=863386680 instance=ExtResource("2_2pqib")]
 
-[node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_2pqib")
+[node name="Frame" parent="Background" index="0" unique_id=1425833484]
+metadata/_edit_use_anchors_ = true
 
-[node name="Soil_001" parent="Layer3" unique_id=1170671701 instance=ExtResource("5_0pf68")]
-position = Vector2(636, 720)
+[node name="Sprite" parent="Background/Frame" index="0" unique_id=2100582541]
+texture = ExtResource("3_0pf68")
 
-[node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_1pg6c")]
-material = SubResource("ShaderMaterial_0pf68")
+[node name="Layer2" parent="." unique_id=1112075574 instance=ExtResource("2_1pg6c")]
+material = SubResource("ShaderMaterial_b8hun")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_ueb6w")
+visible = true
+material = SubResource("ShaderMaterial_83wbu")
 
-[node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("5_0pf68")]
-position = Vector2(636, 720)
+[node name="Soil_001" parent="Layer2" unique_id=1170671701 instance=ExtResource("5_0pf68")]
+position = Vector2(1164, 720)
 
-[node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_1pg6c")]
-material = SubResource("ShaderMaterial_qt120")
+[node name="Brush2" parent="Layer2" unique_id=330834349 instance=ExtResource("8_b8hun")]
+position = Vector2(2408, 464)
+
+[node name="Cloud" parent="Layer2" unique_id=1820391092 instance=ExtResource("9_83wbu")]
+position = Vector2(1442, -640)
+
+[node name="Cloud2" parent="Layer2" unique_id=432767433 instance=ExtResource("10_4ep2d")]
+position = Vector2(-448, -583)
+
+[node name="Cloud3" parent="Layer2" unique_id=950719141 instance=ExtResource("11_j50mr")]
+position = Vector2(-48, -828)
+
+[node name="Cloud4" parent="Layer2" unique_id=583073172 instance=ExtResource("12_t5s17")]
+position = Vector2(-596, -913)
+
+[node name="Tree" parent="Layer2" unique_id=1775670945 instance=ExtResource("13_u8cjl")]
+position = Vector2(1622, 289)
+
+[node name="Tree2" parent="Layer2" unique_id=1428250845 instance=ExtResource("14_wgplf")]
+position = Vector2(2485, 280)
+
+[node name="Tree3" parent="Layer2" unique_id=1962486200 instance=ExtResource("14_wgplf")]
+position = Vector2(-604, 284)
+
+[node name="Leaf_013" parent="Layer2" unique_id=879652130 instance=ExtResource("21_rui0j")]
+position = Vector2(701, 319)
+front = false
+
+[node name="Leaf_003" parent="Layer2" unique_id=971688841 instance=ExtResource("22_samj1")]
+position = Vector2(679, -744)
+
+[node name="Leaf_005" parent="Layer2" unique_id=1997081452 instance=ExtResource("23_wl838")]
+position = Vector2(515, -580)
+
+[node name="Leaf_015" parent="Layer2" unique_id=40413716 instance=ExtResource("25_eag5m")]
+position = Vector2(565, 528)
+
+[node name="Leaf_016" parent="Layer2" unique_id=784253893 instance=ExtResource("27_342d4")]
+position = Vector2(785, 260)
+
+[node name="Leaf_018" parent="Layer2" unique_id=601333899 instance=ExtResource("26_d1eky")]
+position = Vector2(632, 116)
+
+[node name="House" parent="Layer2" unique_id=149779875 instance=ExtResource("21_b8hun")]
+position = Vector2(735, -156)
+
+[node name="Leaf_019" parent="Layer2" unique_id=431476848 instance=ExtResource("26_d1eky")]
+position = Vector2(565, 44)
+
+[node name="Leaf_017" parent="Layer2" unique_id=595733928 instance=ExtResource("27_342d4")]
+position = Vector2(312, -156)
+
+[node name="Box2" parent="Layer2" unique_id=1923245120 instance=ExtResource("30_pciwq")]
+position = Vector2(515, -302)
+
+[node name="Bot" parent="Layer2" unique_id=1755002922 instance=ExtResource("31_83wbu")]
+position = Vector2(282, 499)
+
+[node name="Bot2" parent="Layer2" unique_id=1321956462 instance=ExtResource("31_83wbu")]
+position = Vector2(410, -965)
+
+[node name="Layer1" parent="." unique_id=1671271915 instance=ExtResource("2_1pg6c")]
+material = SubResource("ShaderMaterial_4ep2d")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_fngj8")
+material = SubResource("ShaderMaterial_j50mr")
 
-[node name="House" parent="Layer1" unique_id=1740520627 instance=ExtResource("6_ueb6w")]
-position = Vector2(-348, 304)
+[node name="Soil_001" parent="Layer1" unique_id=835610952 instance=ExtResource("5_0pf68")]
+position = Vector2(1164, 720)
 
-[node name="Tree_01" parent="Layer1" unique_id=719242815 instance=ExtResource("7_qt120")]
-position = Vector2(582, 282)
+[node name="Brush" parent="Layer1" unique_id=555554533 instance=ExtResource("19_0h3wt")]
+position = Vector2(2129, 464)
 
-[node name="Soil_001" parent="Layer1" unique_id=126668145 instance=ExtResource("5_0pf68")]
-position = Vector2(636, 720)
+[node name="Brush2" parent="Layer1" unique_id=1398886107 instance=ExtResource("20_0yghl")]
+position = Vector2(-367, 464)
 
-[node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_1pg6c")]
-material = SubResource("ShaderMaterial_i2kuw")
+[node name="Leaf_012" parent="Layer1" unique_id=24892531 instance=ExtResource("21_rui0j")]
+position = Vector2(1418, 360)
+front = false
+
+[node name="Leaf_001" parent="Layer1" unique_id=2089490989 instance=ExtResource("22_samj1")]
+position = Vector2(1288, -720)
+
+[node name="Leaf_002" parent="Layer1" unique_id=1575077970 instance=ExtResource("23_wl838")]
+position = Vector2(1112, -574)
+
+[node name="Leaf_003" parent="Layer1" unique_id=1624082615 instance=ExtResource("24_432a5")]
+position = Vector2(1592, 16)
+
+[node name="Leaf_007" parent="Layer1" unique_id=417598006 instance=ExtResource("25_eag5m")]
+position = Vector2(1384, 556)
+
+[node name="Leaf_004" parent="Layer1" unique_id=1534457851 instance=ExtResource("26_d1eky")]
+position = Vector2(1338, 236)
+
+[node name="Leaf_011" parent="Layer1" unique_id=1477786676 instance=ExtResource("27_342d4")]
+position = Vector2(1022, 289)
+
+[node name="Tree" parent="Layer1" unique_id=268903198 instance=ExtResource("7_qt120")]
+position = Vector2(1963, 288)
+
+[node name="Tree2" parent="Layer1" unique_id=23431845 instance=ExtResource("14_wgplf")]
+position = Vector2(-160, 284)
+
+[node name="Cloud" parent="Layer1" unique_id=1733908968 instance=ExtResource("12_t5s17")]
+position = Vector2(0, -481)
+
+[node name="Cloud2" parent="Layer1" unique_id=2025805406 instance=ExtResource("29_pqpl2")]
+position = Vector2(2144, -482)
+
+[node name="Cloud3" parent="Layer1" unique_id=857801512 instance=ExtResource("11_j50mr")]
+position = Vector2(2760, -482)
+
+[node name="House2" parent="Layer1" unique_id=509812774 instance=ExtResource("31_sj8fr")]
+position = Vector2(1192, -10)
+
+[node name="Tree3" parent="Layer1" unique_id=1088134865 instance=ExtResource("32_i3ehf")]
+position = Vector2(2905, 288)
+
+[node name="Brush3" parent="Layer1" unique_id=11587434 instance=ExtResource("16_0djxi")]
+position = Vector2(3040, 463)
+
+[node name="Bot2" parent="Layer1" unique_id=1356275055 instance=ExtResource("31_83wbu")]
+position = Vector2(1055, -941)
+
+[node name="Bot3" parent="Layer1" unique_id=1765841515 instance=ExtResource("31_83wbu")]
+position = Vector2(167, 499)
+
+[node name="Box" parent="Layer1" unique_id=607985041 instance=ExtResource("30_pciwq")]
+position = Vector2(1492, -112)
+
+[node name="CloudGround_04" parent="Layer1" unique_id=389399207 instance=ExtResource("35_4ep2d")]
+position = Vector2(2656, -872)
+can_leave_shadow = false
+
+[node name="Layer0" parent="." unique_id=231200680 instance=ExtResource("2_1pg6c")]
+material = SubResource("ShaderMaterial_t5s17")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_o3bio")
+material = SubResource("ShaderMaterial_u8cjl")
 
-[node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("5_0pf68")]
-position = Vector2(636, 720)
+[node name="Soil_001" parent="Layer0" unique_id=493057751 instance=ExtResource("5_0pf68")]
+position = Vector2(1164, 720)
+
+[node name="Tree" parent="Layer0" unique_id=727868904 instance=ExtResource("7_qt120")]
+position = Vector2(180, 284)
+
+[node name="Brush" parent="Layer0" unique_id=370530007 instance=ExtResource("19_0h3wt")]
+position = Vector2(352, 464)
+
+[node name="Cloud" parent="Layer0" unique_id=1281530598 instance=ExtResource("11_j50mr")]
+position = Vector2(995, -703)
+
+[node name="Cloud2" parent="Layer0" unique_id=1154880457 instance=ExtResource("10_4ep2d")]
+position = Vector2(271, -685)
+
+[node name="Brush2" parent="Layer0" unique_id=677974363 instance=ExtResource("16_0djxi")]
+position = Vector2(2088, 464)
+
+[node name="Tree3" parent="Layer0" unique_id=553478309 instance=ExtResource("33_0dag2")]
+position = Vector2(2784, 284)
+
+[node name="Cloud3" parent="Layer0" unique_id=244984819 instance=ExtResource("11_j50mr")]
+position = Vector2(2144, -658)
+
+[node name="Cloud4" parent="Layer0" unique_id=1592340319 instance=ExtResource("10_4ep2d")]
+position = Vector2(2976, -538)
+
+[node name="Box3" parent="Layer0" unique_id=1098733710 instance=ExtResource("30_pciwq")]
+position = Vector2(1392, 488)
+
+[node name="Tree2" parent="Layer0" unique_id=1389106903 instance=ExtResource("33_0dag2")]
+position = Vector2(-367, 284)
+
+[node name="Brush3" parent="Layer0" unique_id=2129803291 instance=ExtResource("16_0djxi")]
+position = Vector2(-660, 463)
+
+[node name="Soil_09" parent="Layer0" unique_id=386287575 instance=ExtResource("17_s18ex")]
+position = Vector2(1192, 236)
+
+[node name="Soil_10" parent="Layer0" unique_id=202602538 instance=ExtResource("17_s18ex")]
+position = Vector2(674, -56)
+
+[node name="Bot" parent="Layer0" unique_id=1904334323 instance=ExtResource("31_83wbu")]
+position = Vector2(986, -149)
+
+[node name="Bot2" parent="Layer0" unique_id=1234007117 instance=ExtResource("31_83wbu")]
+position = Vector2(1105, 145)
+
+[node name="Bot3" parent="Layer0" unique_id=1970042109 instance=ExtResource("31_83wbu")]
+position = Vector2(-134, 497)
 
 [node name="Goal" parent="." unique_id=1223662449 instance=ExtResource("8_1pg6c")]
-position = Vector2(880, 522)
+position = Vector2(1904, -968)
 
-[editable path="Layer3"]
+[node name="Barrier01" type="StaticBody2D" parent="." unique_id=163958884]
+position = Vector2(3168, 0)
+collision_layer = 255
+collision_mask = 255
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Barrier01" unique_id=1846886244]
+position = Vector2(0, -368)
+shape = SubResource("RectangleShape2D_1ktj4")
+
+[node name="Barrier02" type="StaticBody2D" parent="." unique_id=1592195106]
+position = Vector2(-840, 0)
+collision_layer = 255
+collision_mask = 255
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Barrier02" unique_id=465140952]
+position = Vector2(0, -320)
+shape = SubResource("RectangleShape2D_1ktj4")
+
+[editable path="Background"]
 [editable path="Layer2"]
 [editable path="Layer1"]
 [editable path="Layer0"]

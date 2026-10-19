@@ -170,6 +170,8 @@ func _run() -> void:
 	await _frames()
 	baseline = get_viewport().get_texture().get_image()
 	var former_at := _projected(lit.global_position, lit.owner_layer)
+	_metrics["former_layer_light_on"] = str(_pixel(cycled, former_at))
+	_metrics["former_layer_light_off"] = str(_pixel(baseline, former_at))
 	_check(absf(_pixel(cycled, former_at).get_luminance() - _pixel(baseline, former_at).get_luminance()) < 0.01, "退出关卡层后恢复原景深亮度")
 	_night().enabled = true
 	_check(controller.transfer(1, lit), "单物体进入关卡层")

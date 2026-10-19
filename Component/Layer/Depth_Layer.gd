@@ -50,6 +50,7 @@ func _ready() -> void:
 
 ## 更新位置
 func apply_slot_state(anchor_position: Vector2, camera_zoom: Vector2) -> void:
+	_update_filter_margin()
 	_anchor_position = anchor_position
 	_camera_zoom = camera_zoom
 	_has_view = true
@@ -57,6 +58,19 @@ func apply_slot_state(anchor_position: Vector2, camera_zoom: Vector2) -> void:
 	for child in get_children():
 		if child is LayerObject or child is ShadowCutAfterimage:
 			child.apply_visual_transfer(anchor_position, camera_zoom)
+
+## 扩展 CanvasGroup 的清空区，保证宽亮带的 Alpha 采样不会越界读到其他图层。
+func _update_filter_margin() -> void:
+	var margin: float = 32.0
+	if _level.is_night and Renderer.night_foreground_enabled and z_index > 0:
+		margin = maxf(margin, Renderer.night_foreground_surface_width
+			+ Renderer.night_foreground_fade_width * 2.0
+			+ pow(2.0, Renderer.maximum_blur_lod) * 2.0 + 4.0)
+		# 与原 32px 留白对齐，保持 mipmap 采样相位，避免开关滤镜时外缘跳变。
+		margin = ceilf(margin / 32.0) * 32.0
+	if not is_equal_approx(fit_margin, margin):
+		fit_margin = margin
+		clear_margin = margin
 
 ## 槽位负责逻辑状态；浮点视觉槽位同时驱动排序、视差与两份着色器。
 func _apply_visual_slot(visual_slot: float) -> void:
