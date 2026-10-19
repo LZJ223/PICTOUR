@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://dr2mkm8w1p600" path="res://Interface/UI/Icon_Button.gd" id="7_icon_button"]
 [ext_resource type="Texture2D" uid="uid://bylqre2yyhf1n" path="res://Texture/Button/Game_Options.png" id="7_oh7kd"]
 [ext_resource type="PackedScene" path="res://Interface/UI/Options.tscn" id="8_options"]
+[ext_resource type="PackedScene" path="res://Interface/UI/Levels.tscn" id="9_levels"]
 
 [node name="Main" type="Node2D" unique_id=2057756595]
 script = ExtResource("2_main")
@@ -40,110 +41,13 @@ position = Vector2(0, 175.99998)
 [node name="CameraPosition02" type="Marker2D" parent="." unique_id=1974611559]
 position = Vector2(0, 600)
 
-[node name="LevelSelection" type="GridContainer" parent="." unique_id=215470568]
+[node name="LevelSelection" parent="." unique_id=215470568 instance=ExtResource("9_levels")]
+layout_mode = 0
+anchors_preset = 0
 offset_left = -475.0
 offset_top = 460.0
 offset_right = 475.0
 offset_bottom = 910.0
-theme_override_constants/h_separation = 50
-theme_override_constants/v_separation = 75
-columns = 4
-
-[node name="Level01" type="Button" parent="LevelSelection" unique_id=1307465103]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-1"
-metadata/level_id = 1
-
-[node name="Level02" type="Button" parent="LevelSelection" unique_id=590024327]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-2"
-metadata/level_id = 2
-
-[node name="Level03" type="Button" parent="LevelSelection" unique_id=682135069]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-3"
-metadata/level_id = 3
-
-[node name="Level04" type="Button" parent="LevelSelection" unique_id=907815647]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-4"
-metadata/level_id = 4
-
-[node name="Level05" type="Button" parent="LevelSelection" unique_id=58188507]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-1"
-metadata/level_id = 5
-
-[node name="Level06" type="Button" parent="LevelSelection" unique_id=995745171]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-2"
-metadata/level_id = 6
-
-[node name="Level07" type="Button" parent="LevelSelection" unique_id=598115865]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-3"
-metadata/level_id = 7
-
-[node name="Level08" type="Button" parent="LevelSelection" unique_id=340596391]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-4"
-metadata/level_id = 8
-
-[node name="Level09" type="Button" parent="LevelSelection" unique_id=2043175796]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-1"
-metadata/level_id = 9
-
-[node name="Level10" type="Button" parent="LevelSelection" unique_id=977138761]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-2"
-metadata/level_id = 10
-
-[node name="Level11" type="Button" parent="LevelSelection" unique_id=1997443955]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-3"
-metadata/level_id = 11
-
-[node name="Level12" type="Button" parent="LevelSelection" unique_id=1308900035]
-custom_minimum_size = Vector2(200, 100)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "1-4"
-metadata/level_id = 12
 
 [node name="GameOption" parent="." unique_id=1703430157 instance=ExtResource("8_options")]
 layout_mode = 0

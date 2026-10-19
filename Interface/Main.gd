@@ -2,6 +2,7 @@ extends Node2D
 
 enum Page { MAIN, LEVEL_SELECTION, GAME_OPTION }
 
+const LevelsMenu = preload("res://Interface/UI/Levels.gd")
 const CAMERA_MOVE_DURATION: float = 0.45
 const EXIT_HOLD_DURATION: float = 1.0
 const DESIGN_SIZE := Vector2(1280.0, 720.0)
@@ -10,7 +11,7 @@ const DESIGN_SIZE := Vector2(1280.0, 720.0)
 @onready var main_camera_position: Marker2D = $CameraPosition01
 @onready var secondary_camera_position: Marker2D = $CameraPosition02
 @onready var main_menu: Control = $MainMenu
-@onready var level_selection: Control = $LevelSelection
+@onready var level_selection: LevelsMenu = $LevelSelection
 @onready var game_option: Control = $GameOption
 @onready var back_button: Button = $MenuUI/Screen/Back
 @onready var _page_controls: Array[Control] = [main_menu, level_selection, game_option]
@@ -50,10 +51,7 @@ func _ready() -> void:
 	game_option.visible = false
 	$MainMenu/LevelSelection.pressed.connect(_show_page.bind(Page.LEVEL_SELECTION))
 	$MainMenu/GameOption.pressed.connect(_show_page.bind(Page.GAME_OPTION))
-	for child in level_selection.get_children():
-		if child is Button:
-			var level_id: int = child.get_meta(&"level_id", 0)
-			child.pressed.connect(_enter_level.bind(level_id))
+	level_selection.level_selected.connect(_enter_level)
 	back_button.pressed.connect(_on_back_pressed)
 	back_button.button_down.connect(_on_back_down)
 	back_button.button_up.connect(_on_back_up)

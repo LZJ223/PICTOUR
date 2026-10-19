@@ -1,0 +1,372 @@
+[gd_scene format=3 uid="uid://c7cne4gaptwgg"]
+
+[ext_resource type="FontFile" uid="uid://p6fsq772f7ud" path="res://Font/WenYuanRoundedSC-Regular.ttf" id="1_t3ihj"]
+[ext_resource type="Texture2D" uid="uid://c78n4cbswx2ml" path="res://Texture/Button/Level_Selection_Interface.png" id="2_ij6xh"]
+[ext_resource type="Texture2D" uid="uid://cbrefo84oj3eo" path="res://Texture/Level_Icon/Level_Lock.png" id="3_7kdqt"]
+[ext_resource type="Texture2D" uid="uid://ug3xasoblhdy" path="res://Texture/Level_Icon/Level_Icon_01.png" id="4_fahvu"]
+[ext_resource type="Texture2D" uid="uid://bs320qoqu8m1h" path="res://Texture/Level_Icon/Level_Icon_02.png" id="5_5q45o"]
+[ext_resource type="Texture2D" uid="uid://prk5e2c5tqj5" path="res://Texture/Level_Icon/Level_Icon_03.png" id="6_xdgxv"]
+[ext_resource type="Texture2D" uid="uid://xbsgibomh78q" path="res://Texture/Level_Icon/Level_Icon_04.png" id="7_wym4b"]
+[ext_resource type="Texture2D" uid="uid://biae35av6daqm" path="res://Texture/Level_Icon/Level_Icon_05.png" id="8_6if2n"]
+[ext_resource type="Texture2D" uid="uid://cnxbxwb61cy08" path="res://Texture/Level_Icon/Level_Icon_06.png" id="9_xal25"]
+[ext_resource type="Texture2D" uid="uid://c0474bbggwoul" path="res://Texture/Level_Icon/Level_Icon_07.png" id="10_ln8oc"]
+[ext_resource type="Texture2D" uid="uid://dlbryq7siql52" path="res://Texture/Level_Icon/Level_Icon_08.png" id="11_1xhl8"]
+[ext_resource type="Texture2D" uid="uid://3kdnslca01ib" path="res://Texture/Level_Icon/Level_Icon_09.png" id="12_cdt5e"]
+[ext_resource type="Texture2D" uid="uid://dwvtfhdsemlnb" path="res://Texture/Level_Icon/Level_Icon_10.png" id="13_eullp"]
+[ext_resource type="Texture2D" uid="uid://dtakyh40ekjr" path="res://Texture/Level_Icon/Level_Icon_11.png" id="14_nypo6"]
+[ext_resource type="Texture2D" uid="uid://qehfpyjuaax0" path="res://Texture/Level_Icon/Level_Icon_12.png" id="15_p5hqp"]
+[ext_resource type="Script" path="res://Interface/UI/Levels.gd" id="16_levels"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_focus"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.01, 0.45, 0.25, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_hover"]
+content_margin_left = 12.0
+content_margin_top = 5.0
+content_margin_right = 12.0
+content_margin_bottom = 5.0
+bg_color = Color(0.9, 1, 0.95, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.01, 0.4, 0.23, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_button"]
+content_margin_left = 12.0
+content_margin_top = 5.0
+content_margin_right = 12.0
+content_margin_bottom = 5.0
+bg_color = Color(0.75, 1, 0.87, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.01, 0.3, 0.18, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_pressed"]
+content_margin_left = 12.0
+content_margin_top = 5.0
+content_margin_right = 12.0
+content_margin_bottom = 5.0
+bg_color = Color(0.05, 0.78, 0.4, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.01, 0.3, 0.18, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBox_empty"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_fill"]
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.01, 0.54, 0.27, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_track"]
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.02, 0.35, 0.19, 0.25)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="Theme" id="Theme_options"]
+default_font = ExtResource("1_t3ihj")
+default_font_size = 22
+Button/colors/font_color = Color(0.008, 0.2, 0.1232, 1)
+Button/colors/font_focus_color = Color(0.008, 0.2, 0.1232, 1)
+Button/colors/font_hover_color = Color(0.008, 0.2, 0.1232, 1)
+Button/colors/font_pressed_color = Color(0.008, 0.2, 0.1232, 1)
+Button/styles/focus = SubResource("StyleBox_focus")
+Button/styles/hover = SubResource("StyleBox_hover")
+Button/styles/normal = SubResource("StyleBox_button")
+Button/styles/pressed = SubResource("StyleBox_pressed")
+CheckBox/colors/icon_hover_color = Color(0.008, 0.3, 0.17, 1)
+CheckBox/colors/icon_normal_color = Color(0.008, 0.2, 0.1232, 1)
+CheckBox/colors/icon_pressed_color = Color(0.008, 0.2, 0.1232, 1)
+CheckBox/styles/focus = SubResource("StyleBox_focus")
+CheckBox/styles/hover = SubResource("StyleBox_empty")
+CheckBox/styles/hover_pressed = SubResource("StyleBox_empty")
+CheckBox/styles/normal = SubResource("StyleBox_empty")
+CheckBox/styles/pressed = SubResource("StyleBox_empty")
+HSlider/styles/grabber_area = SubResource("StyleBox_fill")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBox_fill")
+HSlider/styles/slider = SubResource("StyleBox_track")
+Label/colors/font_color = Color(0.008, 0.2, 0.1232, 1)
+ProgressBar/styles/background = SubResource("StyleBox_track")
+ProgressBar/styles/fill = SubResource("StyleBox_fill")
+
+[node name="Levels" type="Control" unique_id=320740776]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 950.0
+offset_bottom = 450.0
+theme = SubResource("Theme_options")
+script = ExtResource("16_levels")
+
+[node name="OptionsInterface" type="Sprite2D" parent="." unique_id=764244915]
+position = Vector2(475, 225)
+scale = Vector2(0.51, 0.51)
+texture = ExtResource("2_ij6xh")
+
+[node name="Level" type="Control" parent="OptionsInterface" unique_id=1770681101]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Level01" type="Button" parent="OptionsInterface/Level" unique_id=447018393]
+metadata/level_id = 1
+layout_mode = 0
+offset_left = -758.8231
+offset_top = -345.09772
+offset_right = -488.23486
+offset_bottom = -192.15656
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level01" unique_id=1701571690]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level01" unique_id=795840853]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("4_fahvu")
+
+[node name="Level02" type="Button" parent="OptionsInterface/Level" unique_id=1083471047]
+metadata/level_id = 2
+layout_mode = 0
+offset_left = -358.82343
+offset_top = -345.09772
+offset_right = -88.23517
+offset_bottom = -192.15656
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level02" unique_id=1862027283]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level02" unique_id=1319720513]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("5_5q45o")
+
+[node name="Level03" type="Button" parent="OptionsInterface/Level" unique_id=564421989]
+metadata/level_id = 3
+layout_mode = 0
+offset_left = 41.176453
+offset_top = -345.09772
+offset_right = 311.7647
+offset_bottom = -192.15656
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level03" unique_id=721133551]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level03" unique_id=685891830]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("6_xdgxv")
+
+[node name="Level04" type="Button" parent="OptionsInterface/Level" unique_id=803448384]
+metadata/level_id = 4
+layout_mode = 0
+offset_left = 441.17648
+offset_top = -345.09772
+offset_right = 711.76465
+offset_bottom = -192.15656
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level04" unique_id=1606724479]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level04" unique_id=700188566]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("7_wym4b")
+
+[node name="Level05" type="Button" parent="OptionsInterface/Level" unique_id=134925633]
+metadata/level_id = 5
+layout_mode = 0
+offset_left = -758.8231
+offset_top = -105.09802
+offset_right = -488.23486
+offset_bottom = 47.84314
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level05" unique_id=729759035]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level05" unique_id=1390735909]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("8_6if2n")
+
+[node name="Level06" type="Button" parent="OptionsInterface/Level" unique_id=380473028]
+metadata/level_id = 6
+layout_mode = 0
+offset_left = -358.82343
+offset_top = -105.09802
+offset_right = -88.23517
+offset_bottom = 47.84314
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level06" unique_id=174305277]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level06" unique_id=1715812703]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("9_xal25")
+
+[node name="Level07" type="Button" parent="OptionsInterface/Level" unique_id=1868232363]
+metadata/level_id = 7
+layout_mode = 0
+offset_left = 41.176453
+offset_top = -105.09802
+offset_right = 311.7647
+offset_bottom = 47.84314
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level07" unique_id=1203083345]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level07" unique_id=1188192354]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("10_ln8oc")
+
+[node name="Level08" type="Button" parent="OptionsInterface/Level" unique_id=571446117]
+metadata/level_id = 8
+layout_mode = 0
+offset_left = 441.17648
+offset_top = -105.09802
+offset_right = 711.76465
+offset_bottom = 47.84314
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level08" unique_id=1000818509]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level08" unique_id=491303439]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("11_1xhl8")
+
+[node name="Level09" type="Button" parent="OptionsInterface/Level" unique_id=18364464]
+metadata/level_id = 9
+layout_mode = 0
+offset_left = -758.8231
+offset_top = 134.90196
+offset_right = -488.23486
+offset_bottom = 287.84314
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level09" unique_id=2015923941]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level09" unique_id=1345501646]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("12_cdt5e")
+
+[node name="Level10" type="Button" parent="OptionsInterface/Level" unique_id=1592751887]
+metadata/level_id = 10
+layout_mode = 0
+offset_left = -358.82343
+offset_top = 134.90196
+offset_right = -88.23517
+offset_bottom = 287.84314
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level10" unique_id=1532413817]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level10" unique_id=1855741674]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("13_eullp")
+
+[node name="Level11" type="Button" parent="OptionsInterface/Level" unique_id=1306146264]
+metadata/level_id = 11
+layout_mode = 0
+offset_left = 41.176453
+offset_top = 134.90196
+offset_right = 311.7647
+offset_bottom = 287.84314
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level11" unique_id=359594876]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level11" unique_id=1912326987]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("14_nypo6")
+
+[node name="Level12" type="Button" parent="OptionsInterface/Level" unique_id=1695836367]
+metadata/level_id = 12
+layout_mode = 0
+offset_left = 441.17648
+offset_top = 134.90196
+offset_right = 711.76465
+offset_bottom = 287.84314
+scale = Vector2(1.2, 1.2)
+
+[node name="LevelIconBackground" type="Sprite2D" parent="OptionsInterface/Level/Level12" unique_id=293588130]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("3_7kdqt")
+
+[node name="LevelIcon" type="Sprite2D" parent="OptionsInterface/Level/Level12" unique_id=2016940624]
+position = Vector2(135.29413, 76.47055)
+scale = Vector2(0.9803922, 0.9803922)
+texture = ExtResource("15_p5hqp")

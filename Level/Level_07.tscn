@@ -34,7 +34,7 @@
 [ext_resource type="PackedScene" uid="uid://cgibvtj58txga" path="res://Component/Object/Cloud/Cloud_01.tscn" id="31_7k4ni"]
 [ext_resource type="PackedScene" uid="uid://cq6muhbic0ogi" path="res://Component/Object/Cloud/Cloud_02.tscn" id="32_t3543"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8kbcs"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_07su8"]
 resource_local_to_scene = true
 shader = ExtResource("3_dg5gg")
 shader_parameter/layer_z_index = 0.0
@@ -42,7 +42,7 @@ shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ymqxg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bj315"]
 resource_local_to_scene = true
 shader = ExtResource("4_h80j7")
 shader_parameter/layer_z_index = 0.0
@@ -55,7 +55,7 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hv1dj"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ab0gm"]
 resource_local_to_scene = true
 shader = ExtResource("3_dg5gg")
 shader_parameter/layer_z_index = 0.0
@@ -63,7 +63,7 @@ shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_itgox"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y3u0n"]
 resource_local_to_scene = true
 shader = ExtResource("4_h80j7")
 shader_parameter/layer_z_index = 0.0
@@ -76,7 +76,7 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wmnpb"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6g6uo"]
 resource_local_to_scene = true
 shader = ExtResource("3_dg5gg")
 shader_parameter/layer_z_index = 0.0
@@ -84,7 +84,7 @@ shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ndo8t"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sy1uu"]
 resource_local_to_scene = true
 shader = ExtResource("4_h80j7")
 shader_parameter/layer_z_index = 0.0
@@ -116,13 +116,12 @@ metadata/_edit_use_anchors_ = true
 texture = ExtResource("3_07su8")
 
 [node name="Layer2" parent="." unique_id=1112075574 instance=ExtResource("2_tmmjt")]
-visible = false
-material = SubResource("ShaderMaterial_8kbcs")
+material = SubResource("ShaderMaterial_07su8")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_ymqxg")
+material = SubResource("ShaderMaterial_bj315")
 
 [node name="Soil_001" parent="Layer2" unique_id=1170671701 instance=ExtResource("5_6gyjs")]
 position = Vector2(1245, 720)
@@ -208,11 +207,11 @@ position = Vector2(940, -224)
 position = Vector2(2688, -680)
 
 [node name="Layer1" parent="." unique_id=1850598842 instance=ExtResource("2_tmmjt")]
-material = SubResource("ShaderMaterial_hv1dj")
+material = SubResource("ShaderMaterial_ab0gm")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_itgox")
+material = SubResource("ShaderMaterial_y3u0n")
 
 [node name="Soil_001" parent="Layer1" unique_id=985987528 instance=ExtResource("5_6gyjs")]
 position = Vector2(1245, 720)
@@ -270,12 +269,11 @@ position = Vector2(3000, -248)
 position = Vector2(365, -309)
 
 [node name="Layer0" parent="." unique_id=1681459362 instance=ExtResource("2_tmmjt")]
-visible = false
-material = SubResource("ShaderMaterial_wmnpb")
+material = SubResource("ShaderMaterial_6g6uo")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_ndo8t")
+material = SubResource("ShaderMaterial_sy1uu")
 
 [node name="Soil_001" parent="Layer0" unique_id=1257156308 instance=ExtResource("5_6gyjs")]
 position = Vector2(1245, 720)
