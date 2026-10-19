@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://7gmjeoywptch"]
 
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_yt7mp"]
+[ext_resource type="Script" uid="uid://ctimfmygmqfa3" path="res://Interface/Dialogue/Dialogue_Line.gd" id="2_g3ba4"]
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_jp3vx"]
 [ext_resource type="PackedScene" uid="uid://coxrbpl33shd4" path="res://Component/Background/Background.tscn" id="2_lnqoe"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_8xjsh"]
@@ -34,26 +35,23 @@
 [ext_resource type="PackedScene" uid="uid://0eltboikjrks" path="res://Component/Object/Soil/Soil_08/Soil_08.tscn" id="32_g3ba4"]
 [ext_resource type="PackedScene" uid="uid://dkuht36rgvnfn" path="res://Component/Object/Soil/Soil_09/Soil_09.tscn" id="34_n35f2"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_aihxx"]
-resource_local_to_scene = true
-shader = ExtResource("3_8xjsh")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-shader_parameter/shadow_projection_enabled = false
+[sub_resource type="Resource" id="Resource_jm0gw"]
+script = ExtResource("2_g3ba4")
+speaker = 1
+text = "哇，这里真高！[color=#1B5E20]感觉都能碰到云朵了[/color]！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g3ba4"]
-resource_local_to_scene = true
-shader = ExtResource("4_dln1f")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
+[sub_resource type="Resource" id="Resource_6g5bd"]
+script = ExtResource("2_g3ba4")
+speaker = 1
+text = "你说，他们住这么高是怎么上去的呢？[color=#1B5E20]总不会是驾着云朵上去的吧[/color]！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_38ofg"]
+script = ExtResource("2_g3ba4")
+speaker = 2
+text = "哈哈哈......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n35f2"]
 resource_local_to_scene = true
@@ -97,6 +95,27 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gsn4g"]
+resource_local_to_scene = true
+shader = ExtResource("3_8xjsh")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8md1k"]
+resource_local_to_scene = true
+shader = ExtResource("4_dln1f")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jtyau"]
 size = Vector2(20, 1840)
 
@@ -106,6 +125,7 @@ layer_count = 3
 layer_scale = 0.75
 current_layer_index = 0
 level_id = 6
+dialogue = Array[ExtResource("2_g3ba4")]([SubResource("Resource_jm0gw"), SubResource("Resource_6g5bd"), SubResource("Resource_38ofg")])
 
 [node name="Background" parent="." unique_id=863386680 instance=ExtResource("2_lnqoe")]
 
@@ -116,12 +136,12 @@ metadata/_edit_use_anchors_ = true
 texture = ExtResource("3_aihxx")
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_jp3vx")]
-material = SubResource("ShaderMaterial_aihxx")
+material = SubResource("ShaderMaterial_n35f2")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_g3ba4")
+material = SubResource("ShaderMaterial_vwd6t")
 
 [node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("5_l755y")]
 position = Vector2(1245, 720)
@@ -170,11 +190,11 @@ position = Vector2(2168, -680)
 position = Vector2(671, -75)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_jp3vx")]
-material = SubResource("ShaderMaterial_n35f2")
+material = SubResource("ShaderMaterial_5amqd")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_vwd6t")
+material = SubResource("ShaderMaterial_wpflu")
 
 [node name="Soil_001" parent="Layer1" unique_id=126668145 instance=ExtResource("5_l755y")]
 position = Vector2(1245, 720)
@@ -232,11 +252,11 @@ position = Vector2(264, -309)
 position = Vector2(1376, -248)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_jp3vx")]
-material = SubResource("ShaderMaterial_5amqd")
+material = SubResource("ShaderMaterial_gsn4g")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_wpflu")
+material = SubResource("ShaderMaterial_8md1k")
 
 [node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("5_l755y")]
 position = Vector2(1245, 720)
