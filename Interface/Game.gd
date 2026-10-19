@@ -7,7 +7,7 @@ const DialogueLine = preload("res://Interface/Dialogue/Dialogue_Line.gd")
 
 func _enter_tree() -> void:
 	var requested_dialogue := SceneTransition.consume_dialogue_request()
-	play_dialogue = play_dialogue and requested_dialogue
+	play_dialogue = play_dialogue and requested_dialogue and not SaveSystem.skip_dialogue
 	var level_id: int = Global.next_level_id
 	Global.next_level_id = 1
 	assert(level_id >= 1 and level_id <= 12, "关卡编号必须在 1 到 12 之间")

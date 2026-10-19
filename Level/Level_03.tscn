@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_g70j6"]
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_7lje2"]
+[ext_resource type="Script" uid="uid://ctimfmygmqfa3" path="res://Interface/Dialogue/Dialogue_Line.gd" id="2_b2uan"]
 [ext_resource type="PackedScene" uid="uid://coxrbpl33shd4" path="res://Component/Background/Background.tscn" id="2_l3bwp"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_l3bwp"]
 [ext_resource type="Texture2D" uid="uid://chondg2dc7qfx" path="res://Texture/Background/Forest_02.png" id="3_rx4xp"]
@@ -26,6 +27,42 @@
 [ext_resource type="PackedScene" uid="uid://3n0fwxwpfsl5" path="res://Component/Bot/Bot.tscn" id="20_k2gbx"]
 [ext_resource type="PackedScene" uid="uid://sym6edwksexy" path="res://Component/Object/Cloud/Cloud_04.tscn" id="20_lkl8c"]
 [ext_resource type="PackedScene" uid="uid://cq6muhbic0ogi" path="res://Component/Object/Cloud/Cloud_02.tscn" id="24_70ech"]
+
+[sub_resource type="Resource" id="Resource_s0341"]
+script = ExtResource("2_b2uan")
+text = "一路上，小机器人遇到了很多阻碍，但也会有愿意帮助他的小小伙伴。
+所以，虽然有许多的艰难险阻，但是他都一一克服了......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_203be"]
+script = ExtResource("2_b2uan")
+speaker = 1
+text = "又见面了！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_np0hi"]
+script = ExtResource("2_b2uan")
+speaker = 1
+text = "右边似乎有你的...呃...同伴？"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_dbj7n"]
+script = ExtResource("2_b2uan")
+speaker = 2
+text = "我是最新的型号。"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_tylnt"]
+script = ExtResource("2_b2uan")
+speaker = 1
+text = "不然说你是主角呢！我在想，他们虽然看起来不聪明[color=#1B5E20]但是搬搬东西因该还是很在行的吧[/color]！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_kjhld"]
+script = ExtResource("2_b2uan")
+speaker = 2
+text = "我想他们生来就是干这个的吧......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b2uan"]
 resource_local_to_scene = true
@@ -98,6 +135,7 @@ script = ExtResource("1_g70j6")
 layer_count = 3
 current_layer_index = 0
 level_id = 3
+dialogue = Array[ExtResource("2_b2uan")]([SubResource("Resource_s0341"), SubResource("Resource_203be"), SubResource("Resource_np0hi"), SubResource("Resource_dbj7n"), SubResource("Resource_tylnt"), SubResource("Resource_kjhld")])
 
 [node name="Background" parent="." unique_id=863386680 instance=ExtResource("2_l3bwp")]
 

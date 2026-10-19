@@ -99,6 +99,16 @@ func _run() -> void:
 		_line(DialogueLine.Speaker.PLAYER, "玩家测试：这是一段用于检查暂停恢复的较长台词。".repeat(3)),
 		_line(DialogueLine.Speaker.BOOK_SPIRIT, "同一书灵第二次对话，不重复播放出现动画。"),
 	]
+	SaveSystem.set_preference("skip_dialogue", true)
+	_create_game(lines)
+	await _frames()
+	_check(not _game.play_dialogue and not SignalSystem.dialogue_active and _dialogue()._state == DialogueSystem.State.IDLE,
+		"勾选跳过对话后，有台词的关卡也不启动开场对话")
+	SaveSystem.set_preference("skip_dialogue", false)
+	await _frames()
+	_check(not SignalSystem.dialogue_active, "更改偏好仅在下次进入关卡时生效")
+	_game.queue_free()
+	await _frames()
 	_create_game(lines)
 	_check(SignalSystem.dialogue_active, "Game 初始化时已经锁定输入")
 	await _wait(0.08)
@@ -191,9 +201,13 @@ func _run() -> void:
 	_check(await SceneTransition.enter_main_menu() == OK, "可返回主菜单")
 	await _frames()
 	_check(not SignalSystem.dialogue_active and Global.player == null, "离场清理对话锁与玩家引用")
-	_check(await SceneTransition.enter_level(1) == OK, "空对话关卡可以正常进入")
+	_check(await SceneTransition.enter_level(1) == OK, "可以重新进入真实第一关")
 	_game = get_tree().current_scene as Node2D
-	_check(not SignalSystem.dialogue_active and _dialogue()._state == DialogueSystem.State.IDLE, "空数组跳过对话")
+	_check(_game.play_dialogue and SignalSystem.dialogue_active, "取消跳过对话后，第一关正常播放实际剧情")
 	_check(SceneTransition.consume_dialogue_request(), "重开参数不会污染后续启动请求")
+	_game.queue_free()
+	await _frames()
+	_create_game([])
+	_check(not SignalSystem.dialogue_active and _dialogue()._state == DialogueSystem.State.IDLE, "空数组跳过对话")
 	print("DIALOGUE_TEST_RESULT ", JSON.stringify({"checks": _checks, "failures": _failures}))
 	get_tree().quit(0 if _failures.is_empty() else 1)

@@ -31,11 +31,13 @@ func _ready() -> void:
 		button.pressed.connect(_on_level_pressed.bind(button))
 	visibility_changed.connect(_on_visibility_changed)
 	get_window().focus_exited.connect(_reset_hover)
+	SaveSystem.progress_changed.connect(refresh_progress)
+	SaveSystem.preferences_changed.connect(refresh_progress)
 	refresh_progress()
 
 func is_level_available(level_id: int) -> bool:
 	return level_id >= 1 and level_id <= SaveSystem.LEVEL_COUNT and (
-		level_id == 1 or SaveSystem.is_level_completed(level_id)
+		not SaveSystem.progress_limit_enabled or level_id == 1 or SaveSystem.is_level_completed(level_id)
 		or SaveSystem.is_level_completed(level_id - 1)
 	)
 

@@ -85,19 +85,33 @@ PICTOUR/
 
 ## 通关存档
 
-`SaveSystem` 自动加载并维护 `user://progress.json`，文件内容只有十二个布尔值，依次对应第 1～12 关。启动时读取已有进度；文件不存在时创建全为 `false` 的初始存档。
+`SaveSystem` 自动加载并维护 `user://progress.json`。`completed_levels` 为十二个布尔值，依次对应第 1～12 关；`preferences` 保存 `fullscreen`（默认 `false`）、`skip_dialogue`（默认 `false`）、`progress_limit_enabled`（默认 `true`）；`key_bindings` 保存九项操作的物理键码和左右位置。启动时读取已有进度、偏好和键位，文件不存在时创建初始存档。旧的十二布尔数组和未含键位的旧存档会自动迁移，保留已有数据并补齐默认项。
 
-正常玩家触发 Goal 后，立即将该关标记为 `true` 并写盘，随后执行原有通关转场。重复通关保留已有进度。其他系统可通过 `SaveSystem.is_level_completed(level_id)` 查询通关状态，编号范围为 1～12。设置界面的“清除存档”仍为预览交互。
+正常玩家触发 Goal 后，立即将该关标记为 `true` 并写盘，随后执行原有通关转场。重复通关保留已有进度。其他系统可通过 `SaveSystem.is_level_completed(level_id)` 查询通关状态，编号范围为 1～12。偏好修改使用 `SaveSystem.set_preference(key, value)`；改键使用 `SaveSystem.set_key_binding(action, event)`；重置使用 `SaveSystem.reset_progress()`，清空十二关记录并保留用户偏好和键位。写入采用临时文件替换，非法数据不会部分覆盖内存状态。
 
 存档回归入口为 `tests/save_system_test.tscn`，应在隔离的用户目录中运行；第二次启动追加 `-- --verify-persisted` 可验证跨进程读取。
 
 ## 选关界面
 
-主菜单的 `LevelSelection` 实例化 `Interface/UI/Levels.tscn`，保留场景中十二个按钮的布局和关卡图标。每次打开时刷新存档：已完成关卡使用完成背景；第一关或前一关已完成的关卡使用解锁背景；其他关卡使用锁定背景，屏蔽悬停与点击。
+主菜单的 `LevelSelection` 实例化 `Interface/UI/Levels.tscn`，保留场景中十二个按钮的布局和关卡图标。每次打开或存档改变时刷新：已完成关卡使用完成背景；第一关或前一关已完成的关卡使用解锁背景；其他关卡使用锁定背景，屏蔽悬停与点击。取消“进度限制”后所有未完成关卡均解锁，不改动通关记录；重新勾选后恢复按进度锁定。
 
 可用按钮的两张贴图同步播放悬停放大与随机倾斜，按钮命中范围保持原样。`Levels.gd` 默认放大至 `1.06` 倍，倾斜范围为 `±4°`，移出、关闭菜单或窗口失焦后复原。
 
 选关回归入口为 `tests/levels_menu_test.tscn`，应在隔离的用户目录中运行；覆盖真实鼠标输入、进度刷新和对应关卡加载，带画面运行时会输出 `.godot/levels_menu_qa/` 截图。
+
+## 设置界面
+
+`Interface/UI/Options.tscn` 的三个子菜单和各行均为手动定位的 `Control`，可直接在编辑器调整位置；内容默认字号为 26，控件页为 24。标签和操作控件向中间收拢，间距较大的行使用绿色虚线连接；`Setting_Connector.gd` 会随文字尺寸和控件位置自动重绘，编辑器中也可预览。控件页使用九项按键的两列五行布局，标签在左、按钮在右，Esc 保留为全局返回键。
+
+游戏页的“全屏”立即切换窗口模式，重启后恢复；“跳过对话”默认不勾选，勾选后下次进入关卡不启动开场对话，并尊重 Game 原有的 `play_dialogue` 参数；“进度限制”默认勾选。三项偏好修改立即保存，主菜单与暂停菜单中的设置实例同步显示。
+
+Godot 编辑器的嵌入式游戏窗口不支持全屏切换，此时仅保存全屏偏好。测试全屏时，在 Game 面板右上角菜单取消“Embed Game on Next Play”，停止后重新运行；独立窗口和导出游戏会应用该偏好。
+
+每个按键的文字位于 `Content/Control/动作名/Key/Text`，不使用 Button.text。点击后等待一个键盘按键，期间清空当前键位文字，在 `Content/Control/BindingHint` 显示“请输入按键...”。有效输入立即保存并更新 InputMap，主菜单和暂停菜单实例同步显示；重启后恢复。重复使用的按键会交换两项操作的键位，左右 Shift / Ctrl / Alt / Meta 分别记录。Esc 保留为返回键，鼠标和按键重复不会参与绑定；切页、关闭或失焦取消未完成的改键，不改变已保存的设置。
+
+键位回归入口为 `tests/key_bindings_test.tscn`，应在隔离的用户目录中运行。覆盖真实玩家移动、跳跃、无人机、图层与预览输入，以及冲突交换、旧存档迁移、损坏数据和写入失败；第二次启动追加 `-- --verify-persisted` 检查跨进程恢复。
+
+重置按钮不显示文字，按住时 `Content/Game/Clear/Action/VisualRoot` 的位移和旋转抖动逐渐增强，默认最大位移幅度为 2 像素、旋转为 0.75°，下方的 `Clear/Progress` 显示绿色蓄力条。按住五秒蓄满后清空通关存档，保留偏好和当前运行关卡。按钮命中范围固定，松开、移出、切页或窗口失焦均会取消并复原。蓄力时长与抖动幅度可在 Options 根节点的检查器调整。
 
 ## 影子承影遮罩
 

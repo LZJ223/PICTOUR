@@ -138,6 +138,19 @@ func _run() -> void:
 		)
 		_check(button.get_node("LevelIconBackground").texture.resource_path.ends_with(expected), "再次打开按存档刷新关卡 %d 的背景" % (index + 1))
 		_check(button.disabled == (not expected_available.has(index + 1)), "已完成关卡可重玩，仅解锁紧邻的下一关")
+	var progress_before := FileAccess.get_file_as_string(SaveSystem.SAVE_PATH)
+	_check(SaveSystem.set_preference("progress_limit_enabled", false) == OK, "可以取消进度限制")
+	for index in 12:
+		var button: Button = buttons[index]
+		var expected := "Level_Completed.png" if [2, 6, 12].has(index + 1) else "Leve_Unlock.png"
+		_check(not button.disabled and levels.is_level_available(index + 1), "取消进度限制后所有关卡可交互")
+		_check(button.get_node("LevelIconBackground").texture.resource_path.ends_with(expected), "仅锁定关卡改为解锁，已完成关卡保留完成背景")
+		_check(SaveSystem.is_level_completed(index + 1) == [2, 6, 12].has(index + 1), "取消限制不伪造通关记录")
+	_check(not levels.is_level_available(0) and not levels.is_level_available(13), "取消限制仍拒绝越界编号")
+	_check(SaveSystem.load_progress() == OK and not SaveSystem.progress_limit_enabled, "重读存档保持取消进度限制")
+	SaveSystem.set_preference("progress_limit_enabled", true)
+	_check(FileAccess.get_file_as_string(SaveSystem.SAVE_PATH) == progress_before, "重新勾选恢复原存档，进度没有变化")
+	_check((buttons[3] as Button).disabled, "重新开启限制立即恢复锁定")
 	_move(Vector2(3, 3))
 	await _wait()
 	_snapshot("03_progress")

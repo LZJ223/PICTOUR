@@ -6,6 +6,11 @@
 [ext_resource type="Script" uid="uid://bmw5qs7ms1go" path="res://Interface/UI/Options.gd" id="4_options"]
 [ext_resource type="FontFile" uid="uid://p6fsq772f7ud" path="res://Font/WenYuanRoundedSC-Regular.ttf" id="5_font"]
 
+[ext_resource type="Script" path="res://Interface/UI/Setting_Connector.gd" id="6_connector"]
+
+[ext_resource type="Texture2D" path="res://Texture/Button/Checkbox_Checked.svg" id="7_checked"]
+[ext_resource type="Texture2D" path="res://Texture/Button/Checkbox_Unchecked.svg" id="8_unchecked"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBox_focus"]
 bg_color = Color(0, 0, 0, 0)
 border_width_left = 2
@@ -86,9 +91,16 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBox_clear_fill"]
+bg_color = Color(0.05, 0.67, 0.32, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [sub_resource type="Theme" id="Theme_options"]
 default_font = ExtResource("5_font")
-default_font_size = 22
+default_font_size = 26
 Button/colors/font_color = Color(0.008, 0.2, 0.1232, 1)
 Button/colors/font_focus_color = Color(0.008, 0.2, 0.1232, 1)
 Button/colors/font_hover_color = Color(0.008, 0.2, 0.1232, 1)
@@ -97,9 +109,11 @@ Button/styles/focus = SubResource("StyleBox_focus")
 Button/styles/hover = SubResource("StyleBox_hover")
 Button/styles/normal = SubResource("StyleBox_button")
 Button/styles/pressed = SubResource("StyleBox_pressed")
-CheckBox/colors/icon_hover_color = Color(0.008, 0.3, 0.17, 1)
-CheckBox/colors/icon_normal_color = Color(0.008, 0.2, 0.1232, 1)
-CheckBox/colors/icon_pressed_color = Color(0.008, 0.2, 0.1232, 1)
+CheckBox/colors/icon_hover_color = Color(1, 1, 1, 1)
+CheckBox/colors/icon_normal_color = Color(1, 1, 1, 1)
+CheckBox/colors/icon_pressed_color = Color(1, 1, 1, 1)
+CheckBox/icons/checked = ExtResource("7_checked")
+CheckBox/icons/unchecked = ExtResource("8_unchecked")
 CheckBox/styles/focus = SubResource("StyleBox_focus")
 CheckBox/styles/hover = SubResource("StyleBox_empty")
 CheckBox/styles/hover_pressed = SubResource("StyleBox_empty")
@@ -214,102 +228,154 @@ label_settings = SubResource("LabelSettings_nwjy5")
 
 [node name="Content" type="Control" parent="." unique_id=574505313]
 anchors_preset = 0
-offset_left = 276.0
-offset_top = 55.0
-offset_right = 876.0
-offset_bottom = 378.0
+offset_left = 268.0
+offset_top = 60.0
+offset_right = 868.0
+offset_bottom = 384.0
 mouse_filter = 2
 
-[node name="Game" type="VBoxContainer" parent="Content" unique_id=210120526]
+[node name="Game" type="Control" parent="Content" unique_id=210120526]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 13.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Fullscreen" type="Control" parent="Content/Game" unique_id=1044517462]
+anchors_preset = 0
+offset_top = 18.0
+offset_right = 600.0
+offset_bottom = 68.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Content/Game/Fullscreen" unique_id=1928190276]
+layout_mode = 0
+offset_right = 276.0
+offset_bottom = 46.0
+text = "全屏"
+vertical_alignment = 1
+offset_left = 56.0
+
+[node name="Toggle" type="CheckBox" parent="Content/Game/Fullscreen" unique_id=1414851775]
+layout_mode = 0
+offset_left = 496.0
+offset_right = 544.0
+offset_bottom = 46.0
+
+[node name="Dialogue" type="Control" parent="Content/Game" unique_id=1871981513]
+anchors_preset = 0
+offset_top = 90.0
+offset_right = 600.0
+offset_bottom = 140.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Content/Game/Dialogue" unique_id=670706767]
+layout_mode = 0
+offset_right = 276.0
+offset_bottom = 46.0
+text = "跳过对话"
+vertical_alignment = 1
+offset_left = 56.0
+
+[node name="Toggle" type="CheckBox" parent="Content/Game/Dialogue" unique_id=1078601819]
+layout_mode = 0
+offset_left = 496.0
+offset_right = 544.0
+offset_bottom = 46.0
+
+[node name="Progress" type="Control" parent="Content/Game" unique_id=1154246101]
+anchors_preset = 0
+offset_top = 162.0
+offset_right = 600.0
+offset_bottom = 212.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Content/Game/Progress" unique_id=103951786]
+layout_mode = 0
+offset_right = 276.0
+offset_bottom = 46.0
+text = "进度限制"
+vertical_alignment = 1
+offset_left = 56.0
+
+[node name="Toggle" type="CheckBox" parent="Content/Game/Progress" unique_id=764077517]
+layout_mode = 0
+offset_left = 496.0
+offset_right = 544.0
+offset_bottom = 46.0
+button_pressed = true
+
+[node name="Clear" type="Control" parent="Content/Game" unique_id=652083390]
+anchors_preset = 0
+offset_top = 234.0
+offset_right = 600.0
+offset_bottom = 304.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Content/Game/Clear" unique_id=575137531]
+layout_mode = 0
+offset_right = 276.0
+offset_bottom = 46.0
+text = "重置存档"
+vertical_alignment = 1
+offset_left = 56.0
+
+[node name="Action" type="Button" parent="Content/Game/Clear" unique_id=1639661034]
+layout_mode = 0
+offset_left = 372.0
+offset_right = 544.0
+offset_bottom = 46.0
+theme_override_styles/normal = SubResource("StyleBox_empty")
+theme_override_styles/pressed = SubResource("StyleBox_empty")
+theme_override_styles/hover = SubResource("StyleBox_empty")
+theme_override_styles/hover_pressed = SubResource("StyleBox_empty")
+theme_override_styles/disabled = SubResource("StyleBox_empty")
+theme_override_styles/focus = SubResource("StyleBox_empty")
+
+[node name="VisualRoot" type="Panel" parent="Content/Game/Clear/Action" unique_id=521939155]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 14
+pivot_offset = Vector2(86, 23)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_button")
 
-[node name="Title" type="Label" parent="Content/Game" unique_id=308536337]
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "游戏设置"
-
-[node name="Fullscreen" type="HBoxContainer" parent="Content/Game" unique_id=1664592051]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Content/Game/Fullscreen" unique_id=75835038]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "全屏"
-
-[node name="Toggle" type="CheckBox" parent="Content/Game/Fullscreen" unique_id=183941240]
-custom_minimum_size = Vector2(48, 44)
-layout_mode = 2
-tooltip_text = "仅预览勾选状态，不改变窗口模式"
-
-[node name="Dialogue" type="HBoxContainer" parent="Content/Game" unique_id=1679175347]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Content/Game/Dialogue" unique_id=507372569]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "教程／剧情对话"
-
-[node name="Toggle" type="CheckBox" parent="Content/Game/Dialogue" unique_id=1223077002]
-custom_minimum_size = Vector2(48, 44)
-layout_mode = 2
-tooltip_text = "仅预览勾选状态，不改变对话系统"
-button_pressed = true
-
-[node name="Progress" type="HBoxContainer" parent="Content/Game" unique_id=1716526234]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Content/Game/Progress" unique_id=1619892435]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "解除关卡进度限制"
-
-[node name="Toggle" type="CheckBox" parent="Content/Game/Progress" unique_id=801775879]
-custom_minimum_size = Vector2(48, 44)
-layout_mode = 2
-tooltip_text = "仅预览勾选状态，不改变关卡解锁状态"
-
-[node name="Clear" type="HBoxContainer" parent="Content/Game" unique_id=652083390]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Content/Game/Clear" unique_id=120989427]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "清除存档"
-
-[node name="Action" type="Button" parent="Content/Game/Clear" unique_id=1639661034]
-custom_minimum_size = Vector2(196, 46)
-layout_mode = 2
-tooltip_text = "长按 5 秒预览，不会实际删除任何存档"
-text = "长按 5 秒"
-
-[node name="Progress" type="ProgressBar" parent="Content/Game/Clear/Action" unique_id=1417098354]
-visible = false
+[node name="Text" type="Label" parent="Content/Game/Clear/Action/VisualRoot" unique_id=974127844]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 12.0
-offset_top = -10.0
-offset_right = -12.0
-offset_bottom = -5.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Progress" type="ProgressBar" parent="Content/Game/Clear/Action/VisualRoot" unique_id=1417098354]
+visible = false
+layout_mode = 1
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
 mouse_filter = 2
 max_value = 1.0
 show_percentage = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBox_empty")
+theme_override_styles/fill = SubResource("StyleBox_clear_fill")
 
-[node name="Audio" type="VBoxContainer" parent="Content" unique_id=296682674]
+[node name="Audio" type="Control" parent="Content" unique_id=296682674]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -317,102 +383,139 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 14
+mouse_filter = 2
+offset_top = 13.0
+offset_bottom = 13.0
 
-[node name="Title" type="Label" parent="Content/Audio" unique_id=684581095]
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "音频设置"
+[node name="Master" type="Control" parent="Content/Audio" unique_id=1915521753]
+anchors_preset = 0
+offset_top = 18.0
+offset_right = 600.0
+offset_bottom = 68.0
+mouse_filter = 2
 
-[node name="Master" type="HBoxContainer" parent="Content/Audio" unique_id=841183699]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="Content/Audio/Master" unique_id=765558191]
-custom_minimum_size = Vector2(144, 0)
-layout_mode = 2
+[node name="Label" type="Label" parent="Content/Audio/Master" unique_id=2088898144]
+layout_mode = 0
+offset_right = 230.0
+offset_bottom = 46.0
 text = "主音量"
+vertical_alignment = 1
+offset_left = 50.0
 
-[node name="Slider" type="HSlider" parent="Content/Audio/Master" unique_id=1944931418]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
+[node name="Slider" type="HSlider" parent="Content/Audio/Master" unique_id=840755268]
+layout_mode = 0
+offset_left = 254.0
+offset_top = 9.0
+offset_right = 450.0
+offset_bottom = 37.0
 value = 100.0
 
-[node name="Value" type="Label" parent="Content/Audio/Master" unique_id=1268692440]
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
+[node name="Value" type="Label" parent="Content/Audio/Master" unique_id=1988826067]
+layout_mode = 0
+offset_left = 466.0
+offset_right = 550.0
+offset_bottom = 46.0
 text = "100%"
 horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="Music" type="HBoxContainer" parent="Content/Audio" unique_id=829409681]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_constants/separation = 16
+[node name="Music" type="Control" parent="Content/Audio" unique_id=1338481465]
+anchors_preset = 0
+offset_top = 90.0
+offset_right = 600.0
+offset_bottom = 140.0
+mouse_filter = 2
 
-[node name="Label" type="Label" parent="Content/Audio/Music" unique_id=473175273]
-custom_minimum_size = Vector2(144, 0)
-layout_mode = 2
+[node name="Label" type="Label" parent="Content/Audio/Music" unique_id=1782087912]
+layout_mode = 0
+offset_right = 230.0
+offset_bottom = 46.0
 text = "音乐音量"
+vertical_alignment = 1
+offset_left = 50.0
 
-[node name="Slider" type="HSlider" parent="Content/Audio/Music" unique_id=1845460071]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
+[node name="Slider" type="HSlider" parent="Content/Audio/Music" unique_id=1307963854]
+layout_mode = 0
+offset_left = 254.0
+offset_top = 9.0
+offset_right = 450.0
+offset_bottom = 37.0
 value = 100.0
 
-[node name="Value" type="Label" parent="Content/Audio/Music" unique_id=775807659]
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
+[node name="Value" type="Label" parent="Content/Audio/Music" unique_id=1744023676]
+layout_mode = 0
+offset_left = 466.0
+offset_right = 550.0
+offset_bottom = 46.0
 text = "100%"
 horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="SFX" type="HBoxContainer" parent="Content/Audio" unique_id=1648407145]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_constants/separation = 16
+[node name="SFX" type="Control" parent="Content/Audio" unique_id=1512108564]
+anchors_preset = 0
+offset_top = 162.0
+offset_right = 600.0
+offset_bottom = 212.0
+mouse_filter = 2
 
-[node name="Label" type="Label" parent="Content/Audio/SFX" unique_id=2038584984]
-custom_minimum_size = Vector2(144, 0)
-layout_mode = 2
+[node name="Label" type="Label" parent="Content/Audio/SFX" unique_id=98025630]
+layout_mode = 0
+offset_right = 230.0
+offset_bottom = 46.0
 text = "音效音量"
+vertical_alignment = 1
+offset_left = 50.0
 
-[node name="Slider" type="HSlider" parent="Content/Audio/SFX" unique_id=1740642222]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
+[node name="Slider" type="HSlider" parent="Content/Audio/SFX" unique_id=324675157]
+layout_mode = 0
+offset_left = 254.0
+offset_top = 9.0
+offset_right = 450.0
+offset_bottom = 37.0
 value = 100.0
 
-[node name="Value" type="Label" parent="Content/Audio/SFX" unique_id=1015517705]
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
+[node name="Value" type="Label" parent="Content/Audio/SFX" unique_id=1007293990]
+layout_mode = 0
+offset_left = 466.0
+offset_right = 550.0
+offset_bottom = 46.0
 text = "100%"
 horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="Ambient" type="HBoxContainer" parent="Content/Audio" unique_id=449277878]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_constants/separation = 16
+[node name="Ambient" type="Control" parent="Content/Audio" unique_id=605524358]
+anchors_preset = 0
+offset_top = 234.0
+offset_right = 600.0
+offset_bottom = 284.0
+mouse_filter = 2
 
-[node name="Label" type="Label" parent="Content/Audio/Ambient" unique_id=913213636]
-custom_minimum_size = Vector2(144, 0)
-layout_mode = 2
+[node name="Label" type="Label" parent="Content/Audio/Ambient" unique_id=1394466372]
+layout_mode = 0
+offset_right = 230.0
+offset_bottom = 46.0
 text = "环境音效音量"
+vertical_alignment = 1
+offset_left = 50.0
 
-[node name="Slider" type="HSlider" parent="Content/Audio/Ambient" unique_id=519809988]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
+[node name="Slider" type="HSlider" parent="Content/Audio/Ambient" unique_id=2007644296]
+layout_mode = 0
+offset_left = 254.0
+offset_top = 9.0
+offset_right = 450.0
+offset_bottom = 37.0
 value = 100.0
 
-[node name="Value" type="Label" parent="Content/Audio/Ambient" unique_id=1559075063]
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
+[node name="Value" type="Label" parent="Content/Audio/Ambient" unique_id=1107655236]
+layout_mode = 0
+offset_left = 466.0
+offset_right = 550.0
+offset_bottom = 46.0
 text = "100%"
 horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="Control" type="VBoxContainer" parent="Content" unique_id=887931555]
+[node name="Control" type="Control" parent="Content" unique_id=887931555]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -420,206 +523,565 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 14
+mouse_filter = 2
 
-[node name="Title" type="Label" parent="Content/Control" unique_id=110220805]
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "控件设置"
+[node name="Up" type="Control" parent="Content/Control" unique_id=1980083097]
+anchors_preset = 0
+offset_right = 282.0
+offset_bottom = 80.0
+mouse_filter = 2
+offset_left = 12.0
+offset_top = 36.0
 
-[node name="Columns" type="HBoxContainer" parent="Content/Control" unique_id=1793745989]
-layout_mode = 2
-theme_override_constants/separation = 28
-
-[node name="Left" type="VBoxContainer" parent="Content/Control/Columns" unique_id=1539958070]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 10
-
-[node name="Up" type="HBoxContainer" parent="Content/Control/Columns/Left" unique_id=1128824527]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Label" type="Label" parent="Content/Control/Columns/Left/Up" unique_id=2022096133]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+[node name="Label" type="Label" parent="Content/Control/Up" unique_id=813156761]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 24
 text = "向上"
+horizontal_alignment = 0
+vertical_alignment = 1
+offset_left = 8.0
+offset_top = 0.0
 
-[node name="Key" type="Button" parent="Content/Control/Columns/Left/Up" unique_id=961748467]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
+[node name="Key" type="Button" parent="Content/Control/Up" unique_id=1181827542]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 0.0
+offset_right = 270.0
+offset_bottom = 44.0
 metadata/action = &"move_up"
 
-[node name="Down" type="HBoxContainer" parent="Content/Control/Columns/Left" unique_id=1461474463]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="Text" type="Label" parent="Content/Control/Up/Key" unique_id=1380187502]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "W"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
 
-[node name="Label" type="Label" parent="Content/Control/Columns/Left/Down" unique_id=1826772522]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+[node name="Down" type="Control" parent="Content/Control" unique_id=925158627]
+anchors_preset = 0
+offset_left = 310.0
+offset_right = 580.0
+offset_bottom = 80.0
+mouse_filter = 2
+offset_top = 36.0
+
+[node name="Label" type="Label" parent="Content/Control/Down" unique_id=568225301]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 24
 text = "向下"
+horizontal_alignment = 0
+vertical_alignment = 1
+offset_left = 8.0
+offset_top = 0.0
 
-[node name="Key" type="Button" parent="Content/Control/Columns/Left/Down" unique_id=1785239013]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
+[node name="Key" type="Button" parent="Content/Control/Down" unique_id=1864508629]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 0.0
+offset_right = 270.0
+offset_bottom = 44.0
 metadata/action = &"move_down"
 
-[node name="Left" type="HBoxContainer" parent="Content/Control/Columns/Left" unique_id=1481726441]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="Text" type="Label" parent="Content/Control/Down/Key" unique_id=780343819]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "S"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
 
-[node name="Label" type="Label" parent="Content/Control/Columns/Left/Left" unique_id=1523145437]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+[node name="Left" type="Control" parent="Content/Control" unique_id=290809401]
+anchors_preset = 0
+offset_left = 12.0
+offset_right = 282.0
+offset_bottom = 132.0
+mouse_filter = 2
+offset_top = 88.0
+
+[node name="Label" type="Label" parent="Content/Control/Left" unique_id=1131645561]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 24
 text = "向左"
+horizontal_alignment = 0
+vertical_alignment = 1
+offset_left = 8.0
+offset_top = 0.0
 
-[node name="Key" type="Button" parent="Content/Control/Columns/Left/Left" unique_id=289587553]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
+[node name="Key" type="Button" parent="Content/Control/Left" unique_id=1779606754]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 0.0
+offset_right = 270.0
+offset_bottom = 44.0
 metadata/action = &"move_left"
 
-[node name="Right" type="HBoxContainer" parent="Content/Control/Columns/Left" unique_id=1065244970]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="Text" type="Label" parent="Content/Control/Left/Key" unique_id=422886326]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
 
-[node name="Label" type="Label" parent="Content/Control/Columns/Left/Right" unique_id=1906632102]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+[node name="Right" type="Control" parent="Content/Control" unique_id=681911047]
+anchors_preset = 0
+offset_top = 88.0
+offset_right = 580.0
+offset_bottom = 132.0
+mouse_filter = 2
+offset_left = 310.0
+
+[node name="Label" type="Label" parent="Content/Control/Right" unique_id=1371782628]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 24
 text = "向右"
+horizontal_alignment = 0
+vertical_alignment = 1
+offset_left = 8.0
+offset_top = 0.0
 
-[node name="Key" type="Button" parent="Content/Control/Columns/Left/Right" unique_id=897974182]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
+[node name="Key" type="Button" parent="Content/Control/Right" unique_id=1525436067]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 0.0
+offset_right = 270.0
+offset_bottom = 44.0
 metadata/action = &"move_right"
 
-[node name="Jump" type="HBoxContainer" parent="Content/Control/Columns/Left" unique_id=176642530]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="Text" type="Label" parent="Content/Control/Right/Key" unique_id=1361662795]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "D"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
 
-[node name="Label" type="Label" parent="Content/Control/Columns/Left/Jump" unique_id=335140074]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+[node name="Jump" type="Control" parent="Content/Control" unique_id=380162511]
+anchors_preset = 0
+offset_left = 12.0
+offset_top = 140.0
+offset_right = 282.0
+offset_bottom = 184.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Content/Control/Jump" unique_id=667359047]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 24
 text = "跳跃"
+horizontal_alignment = 0
+vertical_alignment = 1
+offset_left = 8.0
+offset_top = 0.0
 
-[node name="Key" type="Button" parent="Content/Control/Columns/Left/Jump" unique_id=189312068]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
+[node name="Key" type="Button" parent="Content/Control/Jump" unique_id=483053845]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 0.0
+offset_right = 270.0
+offset_bottom = 44.0
 metadata/action = &"jump"
 
-[node name="Right" type="VBoxContainer" parent="Content/Control/Columns" unique_id=1508395693]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 10
+[node name="Text" type="Label" parent="Content/Control/Jump/Key" unique_id=396683826]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "空格"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
 
-[node name="UAV" type="HBoxContainer" parent="Content/Control/Columns/Right" unique_id=1351922317]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="UAV" type="Control" parent="Content/Control" unique_id=574107677]
+anchors_preset = 0
+offset_left = 310.0
+offset_top = 140.0
+offset_right = 580.0
+offset_bottom = 184.0
+mouse_filter = 2
 
-[node name="Label" type="Label" parent="Content/Control/Columns/Right/UAV" unique_id=523771604]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+[node name="Label" type="Label" parent="Content/Control/UAV" unique_id=1690152773]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 24
 text = "唤起无人机"
+horizontal_alignment = 0
+vertical_alignment = 1
+offset_left = 8.0
+offset_top = 0.0
 
-[node name="Key" type="Button" parent="Content/Control/Columns/Right/UAV" unique_id=519592786]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
+[node name="Key" type="Button" parent="Content/Control/UAV" unique_id=865121857]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 0.0
+offset_right = 270.0
+offset_bottom = 44.0
 metadata/action = &"UAV"
 
-[node name="Forward" type="HBoxContainer" parent="Content/Control/Columns/Right" unique_id=1481868039]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="Text" type="Label" parent="Content/Control/UAV/Key" unique_id=2022631676]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "F"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
 
-[node name="Label" type="Label" parent="Content/Control/Columns/Right/Forward" unique_id=1623841536]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+[node name="Forward" type="Control" parent="Content/Control" unique_id=1993638333]
+anchors_preset = 0
+offset_top = 192.0
+offset_right = 282.0
+offset_bottom = 236.0
+mouse_filter = 2
+offset_left = 12.0
+
+[node name="Label" type="Label" parent="Content/Control/Forward" unique_id=2045451301]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 24
 text = "向前转换图层"
+horizontal_alignment = 0
+vertical_alignment = 1
+offset_left = 8.0
+offset_top = 0.0
 
-[node name="Key" type="Button" parent="Content/Control/Columns/Right/Forward" unique_id=458276041]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
+[node name="Key" type="Button" parent="Content/Control/Forward" unique_id=465884442]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 0.0
+offset_right = 270.0
+offset_bottom = 44.0
 metadata/action = &"forward"
 
-[node name="Backward" type="HBoxContainer" parent="Content/Control/Columns/Right" unique_id=2057144847]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="Text" type="Label" parent="Content/Control/Forward/Key" unique_id=1336027801]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "Q"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
 
-[node name="Label" type="Label" parent="Content/Control/Columns/Right/Backward" unique_id=2047258277]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+[node name="Backward" type="Control" parent="Content/Control" unique_id=1028972406]
+anchors_preset = 0
+offset_left = 310.0
+offset_top = 192.0
+offset_right = 580.0
+offset_bottom = 236.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Content/Control/Backward" unique_id=94702014]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 24
 text = "向后转换图层"
+horizontal_alignment = 0
+vertical_alignment = 1
+offset_left = 8.0
+offset_top = 0.0
 
-[node name="Key" type="Button" parent="Content/Control/Columns/Right/Backward" unique_id=678986310]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
+[node name="Key" type="Button" parent="Content/Control/Backward" unique_id=178319253]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 0.0
+offset_right = 270.0
+offset_bottom = 44.0
 metadata/action = &"backward"
 
-[node name="Destination" type="HBoxContainer" parent="Content/Control/Columns/Right" unique_id=2002152596]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="Text" type="Label" parent="Content/Control/Backward/Key" unique_id=1103482798]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "E"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
 
-[node name="Label" type="Label" parent="Content/Control/Columns/Right/Destination" unique_id=451236533]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
+[node name="Destination" type="Control" parent="Content/Control" unique_id=2082810108]
+anchors_preset = 0
+offset_left = 12.0
+offset_top = 244.0
+offset_right = 588.0
+offset_bottom = 288.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Content/Control/Destination" unique_id=401012187]
+layout_mode = 0
+offset_right = 309.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 24
 text = "预览目的地"
+horizontal_alignment = 0
+vertical_alignment = 1
+offset_left = 157.0
+offset_top = 0.0
 
-[node name="Key" type="Button" parent="Content/Control/Columns/Right/Destination" unique_id=1325540672]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
+[node name="Key" type="Button" parent="Content/Control/Destination" unique_id=974863069]
+layout_mode = 0
+offset_left = 315.0
+offset_top = 0.0
+offset_right = 419.0
+offset_bottom = 44.0
 metadata/action = &"look_at_destination"
 
-[node name="Pause" type="HBoxContainer" parent="Content/Control/Columns/Right" unique_id=1395126309]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="Text" type="Label" parent="Content/Control/Destination/Key" unique_id=741260430]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "左 Shift"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
 
-[node name="Label" type="Label" parent="Content/Control/Columns/Right/Pause" unique_id=280414999]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
-text = "暂停"
-
-[node name="Key" type="Button" parent="Content/Control/Columns/Right/Pause" unique_id=1949459104]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-metadata/action = &"back"
-
-[node name="Hint" type="Label" parent="." unique_id=968669147]
+[node name="BindingHint" type="Label" parent="Content/Control" unique_id=219227336]
+visible = false
 layout_mode = 0
-offset_left = 276.0
-offset_top = 365.0
-offset_right = 876.0
-offset_bottom = 390.0
-theme_override_colors/font_color = Color(0.03, 0.37, 0.24, 1)
-theme_override_font_sizes/font_size = 16
-text = "界面预览 · 暂不应用或保存设置"
+offset_top = 292.0
+offset_right = 600.0
+offset_bottom = 322.0
+theme_override_font_sizes/font_size = 22
+text = "请输入按键..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Connector" type="Control" parent="Content/Game/Fullscreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Toggle")
+
+[node name="Connector" type="Control" parent="Content/Game/Dialogue"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Toggle")
+
+[node name="Connector" type="Control" parent="Content/Game/Progress"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Toggle")
+
+[node name="Connector" type="Control" parent="Content/Game/Clear"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Action")
+
+[node name="Connector" type="Control" parent="Content/Audio/Master"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Slider")
+
+[node name="Connector" type="Control" parent="Content/Audio/Music"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Slider")
+
+[node name="Connector" type="Control" parent="Content/Audio/SFX"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Slider")
+
+[node name="Connector" type="Control" parent="Content/Audio/Ambient"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Slider")
+
+[node name="Connector" type="Control" parent="Content/Control/Up"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Key")
+
+[node name="Connector" type="Control" parent="Content/Control/Down"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Key")
+
+[node name="Connector" type="Control" parent="Content/Control/Left"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Key")
+
+[node name="Connector" type="Control" parent="Content/Control/Right"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Key")
+
+[node name="Connector" type="Control" parent="Content/Control/Jump"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Key")
+
+[node name="Connector" type="Control" parent="Content/Control/UAV"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Key")
+
+[node name="Connector" type="Control" parent="Content/Control/Forward"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Key")
+
+[node name="Connector" type="Control" parent="Content/Control/Backward"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Key")
+
+[node name="Connector" type="Control" parent="Content/Control/Destination"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Key")
 
 [node name="ClearTimer" type="Timer" parent="." unique_id=1234005643]
 wait_time = 5.0

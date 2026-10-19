@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_5xqdg"]
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_4xnap"]
+[ext_resource type="Script" uid="uid://ctimfmygmqfa3" path="res://Interface/Dialogue/Dialogue_Line.gd" id="2_jnu60"]
 [ext_resource type="PackedScene" uid="uid://coxrbpl33shd4" path="res://Component/Background/Background.tscn" id="2_yktrg"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_6tod5"]
 [ext_resource type="Texture2D" uid="uid://chondg2dc7qfx" path="res://Texture/Background/Forest_02.png" id="3_ey2cu"]
@@ -37,36 +38,60 @@
 [ext_resource type="PackedScene" uid="uid://b5ifq7cl1godk" path="res://Component/Object/Cloud/Cloud_05.tscn" id="34_8chm7"]
 [ext_resource type="PackedScene" uid="uid://vsycllqti4ov" path="res://Component/Object/Soil/Soil_04/Soil_04.tscn" id="35_8chm7"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jnu60"]
-resource_local_to_scene = true
-shader = ExtResource("3_6tod5")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-shader_parameter/shadow_projection_enabled = false
+[sub_resource type="Resource" id="Resource_ubige"]
+script = ExtResource("2_jnu60")
+speaker = 1
+text = "再往前走，就要到神奇的森林之城了！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_q12b3"]
+script = ExtResource("2_jnu60")
+speaker = 2
+text = "但是前面是一个很高的悬崖......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_e1vn8"]
+script = ExtResource("2_jnu60")
+speaker = 1
+text = "你可是主角！相信你有办法过去的！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_mv5yj"]
+script = ExtResource("2_jnu60")
+speaker = 1
+text = "悬崖上似乎有什么东西，[color=#1B5E20]小心不要被砸到了哦[/color]！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_25tbq"]
 resource_local_to_scene = true
-shader = ExtResource("4_ap3h2")
+shader = ExtResource("3_6tod5")
 shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8chm7"]
 resource_local_to_scene = true
+shader = ExtResource("4_ap3h2")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gdtx1"]
+resource_local_to_scene = true
 shader = ExtResource("3_6tod5")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gdtx1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kgoc7"]
 resource_local_to_scene = true
 shader = ExtResource("4_ap3h2")
 shader_parameter/layer_z_index = 0.0
@@ -79,7 +104,7 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kgoc7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sa43k"]
 resource_local_to_scene = true
 shader = ExtResource("3_6tod5")
 shader_parameter/layer_z_index = 0.0
@@ -87,7 +112,7 @@ shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sa43k"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xcu06"]
 resource_local_to_scene = true
 shader = ExtResource("4_ap3h2")
 shader_parameter/layer_z_index = 0.0
@@ -108,6 +133,7 @@ script = ExtResource("1_5xqdg")
 layer_count = 3
 current_layer_index = 0
 level_id = 4
+dialogue = Array[ExtResource("2_jnu60")]([SubResource("Resource_ubige"), SubResource("Resource_q12b3"), SubResource("Resource_e1vn8"), SubResource("Resource_mv5yj")])
 
 [node name="Background" parent="." unique_id=863386680 instance=ExtResource("2_yktrg")]
 
@@ -115,12 +141,12 @@ level_id = 4
 texture = ExtResource("3_ey2cu")
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_4xnap")]
-material = SubResource("ShaderMaterial_jnu60")
+material = SubResource("ShaderMaterial_25tbq")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_25tbq")
+material = SubResource("ShaderMaterial_8chm7")
 
 [node name="Leaf_012" parent="Layer2" unique_id=879652130 instance=ExtResource("6_x3mhy")]
 position = Vector2(2919, -204)
@@ -187,11 +213,11 @@ position = Vector2(2170, -659)
 position = Vector2(632, 721)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_4xnap")]
-material = SubResource("ShaderMaterial_8chm7")
+material = SubResource("ShaderMaterial_gdtx1")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_gdtx1")
+material = SubResource("ShaderMaterial_kgoc7")
 
 [node name="Tree2" parent="Layer1" unique_id=871842747 instance=ExtResource("12_wht7k")]
 position = Vector2(128, 284)
@@ -227,11 +253,11 @@ position = Vector2(1280, 464)
 position = Vector2(616, 721)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_4xnap")]
-material = SubResource("ShaderMaterial_kgoc7")
+material = SubResource("ShaderMaterial_sa43k")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_sa43k")
+material = SubResource("ShaderMaterial_xcu06")
 
 [node name="Tree_01" parent="Layer0" unique_id=719242815 instance=ExtResource("7_h16dl")]
 position = Vector2(-1176, 284)

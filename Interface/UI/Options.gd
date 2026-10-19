@@ -1,25 +1,30 @@
-## 设置界面原型：交互只保存在本节点，不写配置、InputMap 或存档。
+## 游戏偏好、键位和重置接入 SaveSystem；音频页暂保留原有预览交互。
 extends Control
 
 const RELEASED := preload("res://Texture/Button/Button_released.png")
 const PRESSED := preload("res://Texture/Button/Button_Pressed.png")
-const PREVIEW_HINT := "界面预览 · 暂不应用或保存设置"
 
 @export_range(1.0, 1.2, 0.01) var sidebar_hover_scale: float = 1.06
 @export_range(0.01, 0.5, 0.01) var sidebar_hover_duration: float = 0.08
 @export_range(0.1, 10.0, 0.1) var clear_hold_duration: float = 5.0
+@export_range(0.0, 20.0, 0.5) var clear_shake_amplitude: float = 2.0
+@export_range(0.0, 10.0, 0.25) var clear_shake_rotation_degrees: float = 0.75
 
 @onready var _tabs: Array[Button] = [$SideBar/Game, $SideBar/Audio, $SideBar/Control]
 @onready var _pages: Array[Control] = [$Content/Game, $Content/Audio, $Content/Control]
 @onready var _clear_button: Button = $Content/Game/Clear/Action
-@onready var _clear_progress: ProgressBar = $Content/Game/Clear/Action/Progress
+@onready var _clear_visual: Control = $Content/Game/Clear/Action/VisualRoot
+@onready var _clear_visual_position: Vector2 = _clear_visual.position
+@onready var _clear_visual_rotation: float = _clear_visual.rotation
+@onready var _clear_progress: ProgressBar = $Content/Game/Clear/Action/VisualRoot/Progress
 @onready var _clear_timer: Timer = $ClearTimer
-@onready var _hint: Label = $Hint
+@onready var _binding_hint: Label = $Content/Control/BindingHint
 
 var _label_scales: Dictionary[Label, Vector2] = {}
 var _label_tweens: Dictionary[Label, Tween] = {}
 var _listening_button: Button
-var _previous_key_text: String
+var _binding_buttons: Dictionary[StringName, Button] = {}
+var _clear_shake_time: float = 0.0
 
 func _ready() -> void:
 	var empty := StyleBoxEmpty.new()
@@ -34,29 +39,42 @@ func _ready() -> void:
 		button.mouse_entered.connect(_hover_label.bind(label, true))
 		button.mouse_exited.connect(_hover_label.bind(label, false))
 	for row in $Content/Audio.get_children():
-		if row is HBoxContainer:
+		if row.has_node("Slider"):
 			var slider: HSlider = row.get_node("Slider")
 			var value: Label = row.get_node("Value")
 			slider.value_changed.connect(_update_percentage.bind(value))
 			_update_percentage(slider.value, value)
-	for column in $Content/Control/Columns.get_children():
-		for row in column.get_children():
-			var button: Button = row.get_node("Key")
-			var action: StringName = button.get_meta(&"action")
-			button.text = "未绑定"
-			for event in InputMap.action_get_events(action):
-				if event is InputEventKey:
-					button.text = _key_name(event)
-					break
-			button.pressed.connect(_listen_for_key.bind(button))
+	for row in $Content/Control.get_children():
+		if not row.has_node("Key"):
+			continue
+		var button: Button = row.get_node("Key")
+		var action: StringName = button.get_meta(&"action")
+		_binding_buttons[action] = button
+		button.pressed.connect(_listen_for_key.bind(button))
+	SaveSystem.key_bindings_changed.connect(_sync_key_bindings)
+	_sync_key_bindings()
 	_clear_button.button_down.connect(_begin_clear_hold)
 	_clear_button.button_up.connect(_cancel_clear_hold)
 	_clear_button.mouse_exited.connect(_cancel_clear_hold)
 	_clear_timer.timeout.connect(_finish_clear_hold)
+	$Content/Game/Fullscreen/Toggle.toggled.connect(_on_preference_toggled.bind("fullscreen"))
+	$Content/Game/Dialogue/Toggle.toggled.connect(_on_preference_toggled.bind("skip_dialogue"))
+	$Content/Game/Progress/Toggle.toggled.connect(_on_preference_toggled.bind("progress_limit_enabled"))
+	SaveSystem.preferences_changed.connect(_sync_game_settings)
+	_sync_game_settings()
 	visibility_changed.connect(_on_visibility_changed)
 	get_window().focus_exited.connect(_cancel_interactions)
 	_select_page(0)
 	set_process(false)
+
+func _sync_game_settings() -> void:
+	$Content/Game/Fullscreen/Toggle.set_pressed_no_signal(SaveSystem.fullscreen)
+	$Content/Game/Dialogue/Toggle.set_pressed_no_signal(SaveSystem.skip_dialogue)
+	$Content/Game/Progress/Toggle.set_pressed_no_signal(SaveSystem.progress_limit_enabled)
+
+func _on_preference_toggled(pressed: bool, key: String) -> void:
+	SaveSystem.set_preference(key, pressed)
+	_sync_game_settings()
 
 func _on_tab_toggled(pressed: bool, index: int) -> void:
 	if pressed:
@@ -86,22 +104,40 @@ func _update_percentage(value: float, label: Label) -> void:
 func _listen_for_key(button: Button) -> void:
 	_cancel_listening()
 	_listening_button = button
-	_previous_key_text = button.text
-	button.text = "按键…"
-	_hint.text = "请按下新按键 · Esc 返回"
+	_key_label(button).text = ""
+	_binding_hint.text = "请输入按键..."
+	_binding_hint.show()
+
+func _sync_key_bindings() -> void:
+	for action in _binding_buttons:
+		var button := _binding_buttons[action]
+		if button == _listening_button:
+			continue
+		var key := SaveSystem.get_key_binding(action)
+		_key_label(button).text = _key_name(key) if key != null else "未绑定"
+
+func _key_label(button: Button) -> Label:
+	return button.get_node("Text") as Label
 
 func _input(event: InputEvent) -> void:
 	if not is_visible_in_tree() or _listening_button == null or SceneTransition.busy:
 		return
 	## 返回仍由 Main / Pause 处理，监听不会吞掉 Esc；鼠标和重复键不参与绑定。
-	if not event is InputEventKey or not event.pressed or event.echo or event.is_action("back"):
+	if not event is InputEventKey or event.is_action("back"):
+		return
+	get_viewport().set_input_as_handled()
+	if not event.pressed or event.echo:
 		return
 	if event.keycode == KEY_NONE and event.physical_keycode == KEY_NONE:
 		return
-	_listening_button.text = _key_name(event)
+	var action: StringName = _listening_button.get_meta(&"action")
+	var error := SaveSystem.set_key_binding(action, event)
+	if error != OK:
+		_binding_hint.text = "保存失败，请重新输入..." if error != ERR_INVALID_PARAMETER else "请输入按键..."
+		return
 	_listening_button = null
-	_hint.text = "按键已更新（仅界面预览） · Esc 返回"
-	get_viewport().set_input_as_handled()
+	_sync_key_bindings()
+	_binding_hint.hide()
 
 func _key_name(event: InputEventKey) -> String:
 	var code := event.physical_keycode if event.physical_keycode != 0 else event.keycode
@@ -110,40 +146,60 @@ func _key_name(event: InputEventKey) -> String:
 			return "空格"
 		KEY_ESCAPE:
 			return "Esc"
-		KEY_SHIFT:
-			return "右 Shift" if event.location == KEY_LOCATION_RIGHT else "左 Shift"
+		KEY_SHIFT, KEY_CTRL, KEY_ALT, KEY_META:
+			var side := "右 " if event.location == KEY_LOCATION_RIGHT else "左 " if event.location == KEY_LOCATION_LEFT else ""
+			return side + OS.get_keycode_string(code)
 	return OS.get_keycode_string(code)
 
 func _cancel_listening() -> void:
 	if _listening_button != null:
-		_listening_button.text = _previous_key_text
 		_listening_button = null
-	_hint.text = PREVIEW_HINT
+		_sync_key_bindings()
+	_binding_hint.hide()
 
 func _begin_clear_hold() -> void:
-	if not is_visible_in_tree() or SceneTransition.busy:
+	if not _clear_button.is_visible_in_tree() or SceneTransition.busy:
 		return
+	_cancel_clear_hold()
 	_clear_timer.start(clear_hold_duration)
-	_clear_progress.value = 0.0
 	_clear_progress.show()
 	set_process(true)
 
-func _process(_delta: float) -> void:
-	_clear_progress.value = 1.0 - _clear_timer.time_left / _clear_timer.wait_time
-	_clear_button.text = "按住 %.1f 秒" % _clear_timer.time_left
+func _process(delta: float) -> void:
+	if not _clear_button.is_visible_in_tree() or SceneTransition.busy:
+		_cancel_clear_hold()
+		return
+	var progress := clampf(1.0 - _clear_timer.time_left / _clear_timer.wait_time, 0.0, 1.0)
+	_clear_progress.value = progress
+	_clear_shake_time += delta
+	var strength := lerpf(0.1, 1.0, progress * progress)
+	_clear_visual.position = _clear_visual_position + Vector2(
+		sin(_clear_shake_time * 61.0), sin(_clear_shake_time * 47.0) * 0.7
+	) * clear_shake_amplitude * strength
+	_clear_visual.rotation = _clear_visual_rotation + sin(_clear_shake_time * 73.0) * deg_to_rad(clear_shake_rotation_degrees) * strength
 
 func _cancel_clear_hold() -> void:
 	_clear_timer.stop()
 	_clear_progress.value = 0.0
 	_clear_progress.hide()
-	_clear_button.text = "长按 %s 秒" % str(clear_hold_duration).trim_suffix(".0")
+	_reset_clear_visual()
 	set_process(false)
 
 func _finish_clear_hold() -> void:
+	if not _clear_button.is_visible_in_tree() or SceneTransition.busy:
+		_cancel_clear_hold()
+		return
 	set_process(false)
-	_clear_progress.value = 1.0
-	_clear_button.text = "已完成（预览）"
-	_hint.text = "长按完成 · 当前仅预览，不会删除存档"
+	_reset_clear_visual()
+	if SaveSystem.reset_progress() == OK:
+		_clear_progress.value = 1.0
+	else:
+		_cancel_clear_hold()
+
+func _reset_clear_visual() -> void:
+	_clear_shake_time = 0.0
+	_clear_visual.position = _clear_visual_position
+	_clear_visual.rotation = _clear_visual_rotation
 
 func _cancel_interactions() -> void:
 	_cancel_clear_hold()

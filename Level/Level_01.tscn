@@ -27,7 +27,8 @@
 
 [sub_resource type="Resource" id="Resource_bbxq7"]
 script = ExtResource("2_tgbom")
-text = "很久很久以前，森林里有一个小机器人。他听说云端有珍贵的宝藏，于是踏上了冒险的旅途......"
+text = "很久很久以前，森林里有一个小机器人,他听说遥远的云端有珍贵的宝藏。
+于是小机器人离开了自己的家，踏上了冒险的旅途......"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="Resource" id="Resource_cb7gd"]
@@ -63,22 +64,46 @@ metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 [sub_resource type="Resource" id="Resource_8my31"]
 script = ExtResource("2_tgbom")
 speaker = 1
-text = "作为主角，当然有不可一世的能力啦！按下 W A S D 移动，按下 Space 跳跃，按下 F 唤出无人机，按住 Shift 可以预览目的地哦。"
+text = "作为主角，你应该还知道怎么行动吧。"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_tylnt"]
+script = ExtResource("2_tgbom")
+speaker = 2
+text = "当然了！[color=#1B5E20]按下 W A S D 可以进行移动，按下 F 可以启动或者关闭飞行模式[/color]！"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="Resource" id="Resource_tgbom"]
 script = ExtResource("2_tgbom")
 speaker = 2
-text = "叽里咕噜说什么呢......"
+text = "如果不知道接下来要去哪的话，[color=#1B5E20]长按 Shift [/color]就可以啦！"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="Resource" id="Resource_jxlpv"]
 script = ExtResource("2_tgbom")
 speaker = 1
-text = "还有还有，按 左键 可以选中物体，按下 Q E 可以在选中物体时切换物体的图层，没有选中物体时可以切换自己的图层，快去试试吧！"
+text = "说的不错，不过你应该不知道，你身上还有一个神奇的能力吧......"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="Resource" id="Resource_2uycx"]
+script = ExtResource("2_tgbom")
+speaker = 2
+text = "什么能力？"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_ykc7h"]
+script = ExtResource("2_tgbom")
+speaker = 1
+text = "操纵图层的神奇能力！[color=#1B5E20]按下 左键 可以选中物体，此时按下 Q E 就可以切换物体的图层[/color]！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_3jlwl"]
+script = ExtResource("2_tgbom")
+speaker = 1
+text = "[color=#1B5E20]如果在没有选中物体时按下 Q E 的话，就可以切换自己的图层[/color]，快去试试吧！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_rojdq"]
 script = ExtResource("2_tgbom")
 speaker = 2
 text = "图层......是个什么东西......"
@@ -155,7 +180,7 @@ script = ExtResource("1_xrs3t")
 layer_count = 3
 current_layer_index = 0
 level_id = 1
-dialogue = Array[ExtResource("2_tgbom")]([SubResource("Resource_bbxq7"), SubResource("Resource_cb7gd"), SubResource("Resource_237ks"), SubResource("Resource_np0hi"), SubResource("Resource_gudli"), SubResource("Resource_dbj7n"), SubResource("Resource_8my31"), SubResource("Resource_tgbom"), SubResource("Resource_jxlpv"), SubResource("Resource_2uycx")])
+dialogue = Array[ExtResource("2_tgbom")]([SubResource("Resource_bbxq7"), SubResource("Resource_cb7gd"), SubResource("Resource_237ks"), SubResource("Resource_np0hi"), SubResource("Resource_gudli"), SubResource("Resource_dbj7n"), SubResource("Resource_8my31"), SubResource("Resource_tylnt"), SubResource("Resource_tgbom"), SubResource("Resource_jxlpv"), SubResource("Resource_2uycx"), SubResource("Resource_ykc7h"), SubResource("Resource_3jlwl"), SubResource("Resource_rojdq")])
 
 [node name="Background" parent="." unique_id=416017262 instance=ExtResource("24_background")]
 

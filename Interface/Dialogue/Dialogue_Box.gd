@@ -17,6 +17,7 @@ var _visual_scale: Vector2
 var _tween: Tween
 
 func _ready() -> void:
+	_text.bbcode_enabled = true
 	_base_scale = scale
 	_visual_scale = _visual.scale
 	pivot_offset = size * 0.5
