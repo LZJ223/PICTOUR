@@ -38,19 +38,19 @@
 [sub_resource type="Resource" id="Resource_jm0gw"]
 script = ExtResource("2_g3ba4")
 speaker = 1
-text = "哇，这里真高！[color=#1B5E20]感觉都能碰到云朵了[/color]！"
+text = "哇，这里有两棵紧挨着的参天大树！"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="Resource" id="Resource_6g5bd"]
 script = ExtResource("2_g3ba4")
 speaker = 1
-text = "你说，他们住这么高是怎么上去的呢？[color=#1B5E20]总不会是驾着云朵上去的吧[/color]！"
+text = "[color=#1B5E20]你说住在这里的人会天天串门吗[/color]？"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="Resource" id="Resource_38ofg"]
 script = ExtResource("2_g3ba4")
 speaker = 2
-text = "哈哈哈......"
+text = "不知道，机器人应该没有串门的需要吧。"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n35f2"]
