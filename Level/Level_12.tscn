@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://bdc7j62m1apv1"]
 
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_eyn08"]
+[ext_resource type="Script" uid="uid://ctimfmygmqfa3" path="res://Interface/Dialogue/Dialogue_Line.gd" id="2_cav3p"]
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_was4d"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_m2xr1"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_cfpkf"]
 [ext_resource type="Texture2D" uid="uid://dcew2j84jxvtr" path="res://Texture/Background/Moon.png" id="4_tk3mn"]
 [ext_resource type="PackedScene" uid="uid://bd0x4ee0iqos7" path="res://Component/Shadowed_Geometry/Shadowed_Ground.tscn" id="8_baw0o"]
 [ext_resource type="PackedScene" uid="uid://h06vmqdf8ucl" path="res://Component/Goal/Goal.tscn" id="8_was4d"]
+[ext_resource type="Script" uid="uid://dkrugggjxfldo" path="res://Component/Goal/Ending_Goal.gd" id="9_ending_goal"]
 [ext_resource type="PackedScene" path="res://Component/Background/Night_Background.tscn" id="9_night_background"]
 [ext_resource type="PackedScene" uid="uid://dht31p48lp8xe" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_11/CloudBox_11.tscn" id="10_cav3p"]
 [ext_resource type="Script" uid="uid://0m733qe8nho2" path="res://Component/Background/Moon.gd" id="10_moon"]
@@ -20,6 +22,106 @@
 [ext_resource type="PackedScene" uid="uid://vjyb1oi56acb" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_03/CloudBox_03.tscn" id="18_akhyu"]
 [ext_resource type="PackedScene" uid="uid://f3bfirgvd6bj" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_02/CloudBox_02.tscn" id="19_4u4ni"]
 [ext_resource type="PackedScene" uid="uid://4igoourqsqy7" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_01/CloudBox_01.tscn" id="20_rm1mo"]
+[ext_resource type="PackedScene" uid="uid://dd0gav0mrddtb" path="res://Component/Shadowed_Geometry/CloudGround/CloudGround_06/CloudGround_06.tscn" id="21_bbs3t"]
+[ext_resource type="PackedScene" uid="uid://bq87d4hlccooy" path="res://Component/Shadowed_Geometry/CloudGround/CloudGround_05/CloudGround_05.tscn" id="22_p1smg"]
+
+[sub_resource type="Resource" id="Resource_wrla2"]
+script = ExtResource("2_cav3p")
+text = "小机器人爬到了高高的云端，这里谁也不在，只有星星一眨一眨，陪着孤单的他......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_akhyu"]
+script = ExtResource("2_cav3p")
+speaker = 1
+text = "谁说的，这不还有我嘛！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_4u4ni"]
+script = ExtResource("2_cav3p")
+speaker = 2
+text = "月亮......升起来了......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_rm1mo"]
+script = ExtResource("2_cav3p")
+speaker = 1
+text = "是啊，[color=#1B5E20]月光之下，影子都变得淡淡的了[/color]。"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_yxdl5"]
+script = ExtResource("2_cav3p")
+speaker = 1
+text = "总有种预感我们要分别了。"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_l0ri5"]
+script = ExtResource("2_cav3p")
+speaker = 2
+text = "在月光下分别也挺好的......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dmi4s"]
+resource_local_to_scene = true
+shader = ExtResource("3_m2xr1")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_svnbj"]
+resource_local_to_scene = true
+shader = ExtResource("4_cfpkf")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wrla2"]
+resource_local_to_scene = true
+shader = ExtResource("3_m2xr1")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_akhyu"]
+resource_local_to_scene = true
+shader = ExtResource("4_cfpkf")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4u4ni"]
+resource_local_to_scene = true
+shader = ExtResource("3_m2xr1")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rm1mo"]
+resource_local_to_scene = true
+shader = ExtResource("4_cfpkf")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yxdl5"]
 resource_local_to_scene = true
@@ -42,77 +144,68 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l0ri5"]
-resource_local_to_scene = true
-shader = ExtResource("3_m2xr1")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-shader_parameter/shadow_projection_enabled = false
+[sub_resource type="Resource" id="Resource_bbs3t"]
+script = ExtResource("2_cav3p")
+text = "最后，小机器人爬到了遥远的云端，这里有圆圆的月亮。他看到了这样的景色，忽然明白了自己一直在寻找的宝藏是什么......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1dlip"]
-resource_local_to_scene = true
-shader = ExtResource("4_cfpkf")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
+[sub_resource type="Resource" id="Resource_svnbj"]
+script = ExtResource("2_cav3p")
+speaker = 1
+text = "所以是什么？"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0uhoc"]
-resource_local_to_scene = true
-shader = ExtResource("3_m2xr1")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-shader_parameter/shadow_projection_enabled = false
+[sub_resource type="Resource" id="Resource_ggsb1"]
+script = ExtResource("2_cav3p")
+speaker = 2
+text = "。。。"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lk5mc"]
-resource_local_to_scene = true
-shader = ExtResource("4_cfpkf")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
+[sub_resource type="Resource" id="Resource_1dlip"]
+script = ExtResource("2_cav3p")
+speaker = 1
+text = "我想我们该说再见了。"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f16h3"]
-resource_local_to_scene = true
-shader = ExtResource("3_m2xr1")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-shader_parameter/shadow_projection_enabled = false
+[sub_resource type="Resource" id="Resource_0uhoc"]
+script = ExtResource("2_cav3p")
+speaker = 2
+text = "是啊......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dae58"]
-resource_local_to_scene = true
-shader = ExtResource("4_cfpkf")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
+[sub_resource type="Resource" id="Resource_p1smg"]
+script = ExtResource("2_cav3p")
+text = "这就是今天全部的故事了。"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_dmi4s"]
+script = ExtResource("2_cav3p")
+text = "晚安，宝贝。"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_lk5mc"]
+script = ExtResource("2_cav3p")
+speaker = 1
+text = "晚安。"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_f16h3"]
+script = ExtResource("2_cav3p")
+speaker = 2
+text = "晚安。"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bbs3t"]
+size = Vector2(50, 500)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ecdgv"]
 size = Vector2(20, 1840)
 
 [node name="Level" type="Node2D" unique_id=1182049839]
-position = Vector2(0, 6)
 script = ExtResource("1_eyn08")
 level_id = 12
 is_night = true
+dialogue = Array[ExtResource("2_cav3p")]([SubResource("Resource_wrla2"), SubResource("Resource_akhyu"), SubResource("Resource_4u4ni"), SubResource("Resource_rm1mo"), SubResource("Resource_yxdl5"), SubResource("Resource_l0ri5")])
 background_blur_step = 0.4
 background_tint_step = 0.25
 background_tint_color = Color(0.06429333, 0.030399999, 0.08, 1)
@@ -134,17 +227,17 @@ region_enabled = true
 region_rect = Rect2(1736, 576, 360, 360)
 script = ExtResource("10_moon")
 initial_position = Vector2(0, 400)
-parallax_ratio_x = 0.075
-parallax_ratio_y = 0.15
+parallax_ratio_x = 0.05
+parallax_ratio_y = 0.1
 sample_distance = 10.0
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_yxdl5")
+material = SubResource("ShaderMaterial_dmi4s")
 layer_id = 3
 slot = 3
 
 [node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_ggsb1")
+material = SubResource("ShaderMaterial_svnbj")
 
 [node name="Ground" parent="Layer3" unique_id=1744010081 instance=ExtResource("8_baw0o")]
 position = Vector2(0, 720)
@@ -173,13 +266,19 @@ position = Vector2(-952, 166)
 [node name="CloudBox_14" parent="Layer3" unique_id=1316468939 instance=ExtResource("10_cav3p")]
 position = Vector2(1320, -54)
 
+[node name="CloudGround_06" parent="Layer3" unique_id=979900788 instance=ExtResource("21_bbs3t")]
+position = Vector2(0, 720)
+
+[node name="CloudGround_05" parent="Layer3" unique_id=206324954 instance=ExtResource("22_p1smg")]
+position = Vector2(0, -72)
+
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_l0ri5")
+material = SubResource("ShaderMaterial_wrla2")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_1dlip")
+material = SubResource("ShaderMaterial_akhyu")
 
 [node name="Ground" parent="Layer2" unique_id=1569343589 instance=ExtResource("8_baw0o")]
 position = Vector2(0, 720)
@@ -211,12 +310,18 @@ position = Vector2(-720, -62)
 [node name="CloudBox_08" parent="Layer2" unique_id=105407467 instance=ExtResource("13_bbs3t")]
 position = Vector2(-674, -130)
 
+[node name="CloudGround_06" parent="Layer2" unique_id=650390321 instance=ExtResource("21_bbs3t")]
+position = Vector2(0, 720)
+
+[node name="CloudGround_05" parent="Layer2" unique_id=742954324 instance=ExtResource("22_p1smg")]
+position = Vector2(0, -72)
+
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_0uhoc")
+material = SubResource("ShaderMaterial_4u4ni")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_lk5mc")
+material = SubResource("ShaderMaterial_rm1mo")
 
 [node name="Ground" parent="Layer1" unique_id=651531451 instance=ExtResource("8_baw0o")]
 position = Vector2(0, 720)
@@ -251,27 +356,18 @@ position = Vector2(-1360, 2)
 [node name="CloudBox_03" parent="Layer1" unique_id=1078374008 instance=ExtResource("18_akhyu")]
 position = Vector2(-1352, -90)
 
+[node name="CloudGround_06" parent="Layer1" unique_id=475042113 instance=ExtResource("21_bbs3t")]
+position = Vector2(0, 720)
+
+[node name="CloudGround_05" parent="Layer1" unique_id=1485214106 instance=ExtResource("22_p1smg")]
+position = Vector2(0, -72)
+
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_f16h3")
+material = SubResource("ShaderMaterial_yxdl5")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_dae58")
-
-[node name="Ground" parent="Layer0" unique_id=898303227 instance=ExtResource("8_baw0o")]
-position = Vector2(0, 720)
-
-[node name="Ground2" parent="Layer0" unique_id=531137106 instance=ExtResource("8_baw0o")]
-position = Vector2(0, -70)
-
-[node name="CollisionBox" parent="Layer0/Ground2" index="0" unique_id=1077352614]
-polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
-
-[node name="Polygon2D" parent="Layer0/Ground2/VisualRoot" parent_id_path=PackedInt32Array(531137106, 817137210) index="0" unique_id=486029332]
-polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
-
-[node name="Shadow" parent="Layer0/Ground2" index="2" unique_id=1397293799]
-polygon = PackedVector2Array(416, 64, 416, -64, -416, -64, -416, 64)
+material = SubResource("ShaderMaterial_ggsb1")
 
 [node name="CloudBox_05" parent="Layer0" unique_id=1175901663 instance=ExtResource("16_svnbj")]
 position = Vector2(936, 426)
@@ -282,8 +378,19 @@ position = Vector2(-1184, 434)
 [node name="CloudBox_13" parent="Layer0" unique_id=436926319 instance=ExtResource("10_cav3p")]
 position = Vector2(600, -6)
 
+[node name="CloudGround_06" parent="Layer0" unique_id=1089923913 instance=ExtResource("21_bbs3t")]
+position = Vector2(0, 720)
+
+[node name="CloudGround_05" parent="Layer0" unique_id=1052351421 instance=ExtResource("22_p1smg")]
+position = Vector2(0, -72)
+
 [node name="Goal" parent="." unique_id=1223662449 instance=ExtResource("8_was4d")]
 position = Vector2(0, -134)
+script = ExtResource("9_ending_goal")
+ending_dialogue = Array[ExtResource("2_cav3p")]([SubResource("Resource_bbs3t"), SubResource("Resource_svnbj"), SubResource("Resource_ggsb1"), SubResource("Resource_1dlip"), SubResource("Resource_0uhoc"), SubResource("Resource_p1smg"), SubResource("Resource_dmi4s"), SubResource("Resource_lk5mc"), SubResource("Resource_f16h3")])
+
+[node name="DetectArea" parent="Goal" index="0" unique_id=579091495]
+shape = SubResource("RectangleShape2D_bbs3t")
 
 [node name="Barrier02" type="StaticBody2D" parent="." unique_id=421905338]
 position = Vector2(2000, -6)
@@ -310,4 +417,4 @@ shape = SubResource("RectangleShape2D_ecdgv")
 [editable path="Layer1"]
 [editable path="Layer1/Ground2"]
 [editable path="Layer0"]
-[editable path="Layer0/Ground2"]
+[editable path="Goal"]

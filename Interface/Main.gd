@@ -7,6 +7,8 @@ const CAMERA_MOVE_DURATION: float = 0.45
 const EXIT_HOLD_DURATION: float = 1.0
 const DESIGN_SIZE := Vector2(1280.0, 720.0)
 
+@export_range(0.05, 0.5, 0.01) var submenu_slide_duration: float = 0.22
+
 @onready var menu_camera: Camera2D = $Camera
 @onready var main_camera_position: Marker2D = $CameraPosition01
 @onready var secondary_camera_position: Marker2D = $CameraPosition02
@@ -28,6 +30,8 @@ var _logo_offset: Vector2
 var _background_offset: Vector2
 var _background_player_offset: Vector2
 var _control_offsets: Array[Vector2] = []
+var _submenu_progress: Array[float] = [0.0, 1.0, 1.0]
+var _submenu_tweens: Dictionary[int, Tween] = {}
 
 func _ready() -> void:
 	SignalSystem.set_gameplay_active(false)
@@ -44,6 +48,8 @@ func _ready() -> void:
 		var anchor := main_camera_position if index == 0 else secondary_camera_position
 		var control := _page_controls[index]
 		_control_offsets.append((control.position + control.size * 0.5 - anchor.position) / DESIGN_SIZE)
+		if index != Page.MAIN:
+			_set_submenu_input(control, false)
 	get_viewport().size_changed.connect(_update_layout)
 	_update_layout()
 	main_menu.visible = true
@@ -76,7 +82,7 @@ func _set_main_buttons_presented(presented: bool, instant: bool = false) -> void
 		button.set_presented(presented, instant)
 
 func _show_page(page: Page) -> void:
-	if SceneTransition.busy:
+	if SceneTransition.busy or page == _page:
 		return
 	if _camera_tween != null and _camera_tween.is_valid():
 		_camera_tween.kill()
@@ -85,8 +91,8 @@ func _show_page(page: Page) -> void:
 	## 离场动画完成前保留容器，缩放只影响 Icon，不参与布局。
 	main_menu.show()
 	_set_main_buttons_presented(page == Page.MAIN)
-	level_selection.visible = page == Page.LEVEL_SELECTION
-	game_option.visible = page == Page.GAME_OPTION
+	for submenu: Page in [Page.LEVEL_SELECTION, Page.GAME_OPTION]:
+		_animate_submenu(submenu, page == submenu)
 	_camera_tween = create_tween()
 	_camera_tween.tween_method(
 		_set_page_blend, _page_blend, 0.0 if page == Page.MAIN else 1.0, CAMERA_MOVE_DURATION
@@ -94,15 +100,64 @@ func _show_page(page: Page) -> void:
 	if page != Page.MAIN:
 		_camera_tween.tween_callback(main_menu.hide)
 
+func _set_submenu_input(control: Control, enabled: bool) -> void:
+	control.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_INHERITED if enabled else Control.MOUSE_BEHAVIOR_DISABLED
+	control.focus_behavior_recursive = Control.FOCUS_BEHAVIOR_INHERITED if enabled else Control.FOCUS_BEHAVIOR_DISABLED
+
+func _animate_submenu(page: Page, presented: bool) -> void:
+	var previous: Tween = _submenu_tweens.get(page)
+	if previous != null and previous.is_valid():
+		previous.kill()
+	_submenu_tweens.erase(page)
+	var control := _page_controls[page]
+	_set_submenu_input(control, false)
+	if not presented:
+		if page == Page.LEVEL_SELECTION:
+			level_selection._reset_hover()
+		else:
+			game_option._cancel_interactions()
+		if not control.visible:
+			return
+	elif not control.visible:
+		_submenu_progress[page] = 1.0
+		_position_submenu(page)
+		control.show()
+	var target: float = 0.0 if presented else 1.0
+	var duration := submenu_slide_duration * absf(target - _submenu_progress[page])
+	var tween := create_tween()
+	_submenu_tweens[page] = tween
+	tween.tween_method(_set_submenu_progress.bind(page), _submenu_progress[page], target, duration
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT if presented else Tween.EASE_IN)
+	tween.tween_callback(_finish_submenu_animation.bind(page, presented))
+
+func _set_submenu_progress(value: float, page: Page) -> void:
+	_submenu_progress[page] = value
+	_position_submenu(page)
+
+func _position_submenu(page: Page) -> void:
+	var control := _page_controls[page]
+	var view_size := get_viewport_rect().size / menu_camera.zoom.abs()
+	var target_offset := _control_offsets[page] * view_size - control.size * 0.5
+	# 隐藏时整个面板位于视口下方；使用进度计算位置，窗口缩放不会覆盖动画。
+	var slide_distance := maxf(view_size.y, view_size.y * 0.5 - target_offset.y) + 64.0
+	# 在场景中原本的布局位置上叠加滑动，不补偿镜头位移。
+	control.position = secondary_camera_position.position + target_offset + Vector2.DOWN * slide_distance * _submenu_progress[page]
+
+func _finish_submenu_animation(page: Page, presented: bool) -> void:
+	_submenu_tweens.erase(page)
+	if presented:
+		_set_submenu_input(_page_controls[page], true)
+	else:
+		_page_controls[page].hide()
+
 func _update_layout() -> void:
 	var view_size := get_viewport_rect().size / menu_camera.zoom.abs()
 	secondary_camera_position.position = _main_origin + _secondary_offset * view_size
 	$Logo.position = _main_origin + _logo_offset * view_size
 	$Game.position = _main_origin + _background_offset * view_size - _background_player_offset
-	for index in _page_controls.size():
-		var anchor := main_camera_position if index == 0 else secondary_camera_position
-		var control := _page_controls[index]
-		control.position = anchor.position + _control_offsets[index] * view_size - control.size * 0.5
+	main_menu.position = main_camera_position.position + _control_offsets[Page.MAIN] * view_size - main_menu.size * 0.5
+	for page: Page in [Page.LEVEL_SELECTION, Page.GAME_OPTION]:
+		_position_submenu(page)
 	_set_page_blend(_page_blend)
 
 func _set_page_blend(value: float) -> void:
@@ -164,6 +219,6 @@ func _on_exit_hold_timeout() -> void:
 		SceneTransition.quit_game()
 
 func _enter_level(level_id: int) -> void:
-	if SceneTransition.busy or (_camera_tween != null and _camera_tween.is_running()):
+	if SceneTransition.busy or _page != Page.LEVEL_SELECTION or _submenu_tweens.has(Page.LEVEL_SELECTION):
 		return
 	SceneTransition.enter_level(level_id)

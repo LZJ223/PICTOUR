@@ -13,6 +13,8 @@ signal back_released
 var dialogue_active: bool = false
 var looking_at_destination: bool = false
 var _gameplay_active: bool = false
+# 设置界面等待改键时，键盘输入（包括当前返回键）交由该界面处理。
+var key_binding_listener: Control
 ## 影子布尔计时器
 var timer: Timer = null
 
@@ -46,6 +48,8 @@ func set_gameplay_active(active: bool) -> void:
 
 ## 全局界面输入不受玩法开关、对话或观察目标的输入锁影响。
 func _input(event: InputEvent) -> void:
+	if is_instance_valid(key_binding_listener) and key_binding_listener.is_visible_in_tree():
+		return
 	if event.is_echo():
 		return
 	## 松键也通知界面；即使已进入转场，也要结束此前的蓄力。

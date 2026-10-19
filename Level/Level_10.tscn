@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_dcn26"]
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_2e1wr"]
+[ext_resource type="Script" uid="uid://ctimfmygmqfa3" path="res://Interface/Dialogue/Dialogue_Line.gd" id="2_lt157"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_p1vo7"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_7w3cb"]
 [ext_resource type="PackedScene" uid="uid://co01p1qag32oj" path="res://Component/Shadowed_Geometry/CloudGround/CloudGround_02/CloudGround_02.tscn" id="7_8hb5c"]
@@ -14,26 +15,29 @@
 [ext_resource type="PackedScene" uid="uid://c1s7dlkpldpvt" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_07/CloudBox_07.tscn" id="12_eaaec"]
 [ext_resource type="PackedScene" uid="uid://bqpjpgonkllgk" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_04/CloudBox_04.tscn" id="14_ft6x7"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8hb5c"]
-resource_local_to_scene = true
-shader = ExtResource("3_p1vo7")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-shader_parameter/shadow_projection_enabled = false
+[sub_resource type="Resource" id="Resource_55i33"]
+script = ExtResource("2_lt157")
+speaker = 1
+text = "这里有好多云朵！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lt157"]
-resource_local_to_scene = true
-shader = ExtResource("4_7w3cb")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
+[sub_resource type="Resource" id="Resource_p5s07"]
+script = ExtResource("2_lt157")
+speaker = 2
+text = "而且形状也都不一样......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_jdcqs"]
+script = ExtResource("2_lt157")
+speaker = 1
+text = "让我想起了小时候经常玩的影子游戏，[color=#1B5E20]拿各种奇形怪状的东西拼出奇形怪状的影子[/color]......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_ahl3s"]
+script = ExtResource("2_lt157")
+speaker = 2
+text = "有时会羡慕你们有如此天真的人生时期......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8i4kf"]
 resource_local_to_scene = true
@@ -98,6 +102,27 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ldfqn"]
+resource_local_to_scene = true
+shader = ExtResource("3_p1vo7")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ft6x7"]
+resource_local_to_scene = true
+shader = ExtResource("4_7w3cb")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ltnd5"]
 size = Vector2(20, 1840)
 
@@ -105,6 +130,7 @@ size = Vector2(20, 1840)
 script = ExtResource("1_dcn26")
 level_id = 10
 is_night = true
+dialogue = Array[ExtResource("2_lt157")]([SubResource("Resource_55i33"), SubResource("Resource_p5s07"), SubResource("Resource_jdcqs"), SubResource("Resource_ahl3s")])
 background_blur_step = 0.4
 background_tint_step = 0.25
 background_tint_color = Color(0.040799998, 0.040799998, 0.08, 1)
@@ -114,12 +140,12 @@ active_color = Color(0.078431375, 0.09803922, 0.14117648, 1)
 color_reset_duration = 0.15
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_2e1wr")]
-material = SubResource("ShaderMaterial_8hb5c")
+material = SubResource("ShaderMaterial_8i4kf")
 layer_id = 3
 slot = 3
 
 [node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_lt157")
+material = SubResource("ShaderMaterial_ltnd5")
 
 [node name="CloudBox_06" parent="Layer3" unique_id=2057848590 instance=ExtResource("10_00dc3")]
 position = Vector2(-512, 427)
@@ -128,22 +154,22 @@ position = Vector2(-512, 427)
 position = Vector2(1512, 558)
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_2e1wr")]
-material = SubResource("ShaderMaterial_8i4kf")
+material = SubResource("ShaderMaterial_2jd1w")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_ltnd5")
+material = SubResource("ShaderMaterial_00dc3")
 
 [node name="CloudGround_02" parent="Layer2" unique_id=906326867 instance=ExtResource("7_8hb5c")]
 position = Vector2(1512, 558)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_2e1wr")]
-material = SubResource("ShaderMaterial_2jd1w")
+material = SubResource("ShaderMaterial_hrdkx")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_00dc3")
+material = SubResource("ShaderMaterial_eaaec")
 
 [node name="CloudBox_07" parent="Layer1" unique_id=2091723453 instance=ExtResource("12_eaaec")]
 position = Vector2(776, 424)
@@ -158,11 +184,11 @@ position = Vector2(1512, 558)
 position = Vector2(1104, 28)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_2e1wr")]
-material = SubResource("ShaderMaterial_hrdkx")
+material = SubResource("ShaderMaterial_ldfqn")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_eaaec")
+material = SubResource("ShaderMaterial_ft6x7")
 
 [node name="CloudBox_09" parent="Layer0" unique_id=151841160 instance=ExtResource("11_8hb5c")]
 position = Vector2(184, 450)

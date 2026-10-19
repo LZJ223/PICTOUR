@@ -1,0 +1,126 @@
+{
+  "can_be_shadowed": false,
+  "can_leave_shadow": true,
+  "center_offset_local": [
+    0.0,
+    0.0
+  ],
+  "profile": "res://Component/Shadowed_Geometry/CloudGround/CloudGround_05/CloudGround_05.tres",
+  "radius_scale": 1.0,
+  "root_transform_cleared": true,
+  "rounded_polygon": [
+    [
+      390.0,
+      64.0
+    ],
+    [
+      399.949768066406,
+      62.020866394043
+    ],
+    [
+      408.384765625,
+      56.3847732543945
+    ],
+    [
+      414.020874023438,
+      47.9497680664063
+    ],
+    [
+      416.0,
+      38.0
+    ],
+    [
+      416.0,
+      -38.0
+    ],
+    [
+      414.020874023438,
+      -47.9497680664063
+    ],
+    [
+      408.384765625,
+      -56.3847732543945
+    ],
+    [
+      399.949768066406,
+      -62.020866394043
+    ],
+    [
+      390.0,
+      -64.0
+    ],
+    [
+      -390.0,
+      -64.0
+    ],
+    [
+      -399.949768066406,
+      -62.020866394043
+    ],
+    [
+      -408.384765625,
+      -56.3847732543945
+    ],
+    [
+      -414.020874023438,
+      -47.9497718811035
+    ],
+    [
+      -416.0,
+      -38.0
+    ],
+    [
+      -416.0,
+      38.0
+    ],
+    [
+      -414.020874023438,
+      47.949764251709
+    ],
+    [
+      -408.384765625,
+      56.3847732543945
+    ],
+    [
+      -399.949768066406,
+      62.020866394043
+    ],
+    [
+      -390.0,
+      64.0
+    ]
+  ],
+  "source_node": "/root/@EditorNode@19513/@Panel@14/@VBoxContainer@15/DockVSplitMain/DockHSplitMain/@VBoxContainer@37/DockVSplitCenter/@VSplitContainer@101/@VBoxContainer@102/@EditorMainScreen@160/MainScreen/@CanvasItemEditor@10138/@VSplitContainer@9897/@HSplitContainer@9899/@HSplitContainer@9901/@Control@9902/@SubViewportContainer@9903/@SubViewport@9904/Level/Layer0/Ground2",
+  "source_polygon": [
+    [
+      416.0,
+      64.0
+    ],
+    [
+      416.0,
+      -64.0
+    ],
+    [
+      -416.0,
+      -64.0
+    ],
+    [
+      -416.0,
+      64.0
+    ]
+  ],
+  "source_scene": "res://Component/Shadowed_Geometry/Shadowed_Ground.tscn",
+  "suggested_placement_transform": [
+    1.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    -70.0
+  ],
+  "textures": [
+    "res://Component/Shadowed_Geometry/CloudGround/CloudGround_05/CloudGround_05_001.png"
+  ],
+  "version": 1,
+  "warnings": []
+}

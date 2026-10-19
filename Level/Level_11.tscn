@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://5bmlk8dfo5uf" path="res://Level/Level.gd" id="1_bydlp"]
 [ext_resource type="PackedScene" uid="uid://b5ej4b6svua03" path="res://Component/Layer/Depth_Layer.tscn" id="2_k0oya"]
+[ext_resource type="Script" uid="uid://ctimfmygmqfa3" path="res://Interface/Dialogue/Dialogue_Line.gd" id="2_wv7h7"]
 [ext_resource type="Shader" uid="uid://bpirhpvanl2p1" path="res://Shader/Layer_Depth_Filter.gdshader" id="3_80x03"]
 [ext_resource type="Shader" uid="uid://bgttu7be2j8tq" path="res://Shader/Layer_Haze.gdshader" id="4_6p2lj"]
 [ext_resource type="PackedScene" uid="uid://vjyb1oi56acb" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_03/CloudBox_03.tscn" id="8_go74a"]
@@ -16,57 +17,60 @@
 [ext_resource type="PackedScene" uid="uid://dfjvk0uv1v31u" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_08/CloudBox_08.tscn" id="11_3chyc"]
 [ext_resource type="PackedScene" uid="uid://bxccfxbo6pc1d" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_09/CloudBox_09.tscn" id="12_dpg28"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_go74a"]
-resource_local_to_scene = true
-shader = ExtResource("3_80x03")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-shader_parameter/shadow_projection_enabled = false
+[sub_resource type="Resource" id="Resource_ufpb4"]
+script = ExtResource("2_wv7h7")
+speaker = 1
+text = "你看，这里有些飘在空中的云！"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2rc0m"]
-resource_local_to_scene = true
-shader = ExtResource("4_6p2lj")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
+[sub_resource type="Resource" id="Resource_jyfwt"]
+script = ExtResource("2_wv7h7")
+speaker = 2
+text = "[color=#1B5E20]它们的影子也空荡荡的飘着呢[/color]......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wv7h7"]
-resource_local_to_scene = true
-shader = ExtResource("3_80x03")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-shader_parameter/shadow_projection_enabled = false
+[sub_resource type="Resource" id="Resource_tl2un"]
+script = ExtResource("2_wv7h7")
+speaker = 1
+text = "你说，为什么有的云是飘起来的，有的云不是呢？"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="Resource" id="Resource_4o8pc"]
+script = ExtResource("2_wv7h7")
+speaker = 2
+text = "不知道，也许是有的云吃的太胖了吧......"
+metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3chyc"]
 resource_local_to_scene = true
-shader = ExtResource("4_6p2lj")
+shader = ExtResource("3_80x03")
 shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
 shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dpg28"]
 resource_local_to_scene = true
+shader = ExtResource("4_6p2lj")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hsfdo"]
+resource_local_to_scene = true
 shader = ExtResource("3_80x03")
 shader_parameter/layer_z_index = 0.0
 shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hsfdo"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gbj2k"]
 resource_local_to_scene = true
 shader = ExtResource("4_6p2lj")
 shader_parameter/layer_z_index = 0.0
@@ -79,7 +83,7 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gbj2k"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jwa40"]
 resource_local_to_scene = true
 shader = ExtResource("3_80x03")
 shader_parameter/layer_z_index = 0.0
@@ -87,7 +91,28 @@ shader_parameter/cycle_opacity = 1.0
 shader_parameter/is_night = false
 shader_parameter/shadow_projection_enabled = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jwa40"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_knd4t"]
+resource_local_to_scene = true
+shader = ExtResource("4_6p2lj")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_apqxh"]
+resource_local_to_scene = true
+shader = ExtResource("3_80x03")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qun14"]
 resource_local_to_scene = true
 shader = ExtResource("4_6p2lj")
 shader_parameter/layer_z_index = 0.0
@@ -107,6 +132,7 @@ size = Vector2(20, 1840)
 script = ExtResource("1_bydlp")
 level_id = 11
 is_night = true
+dialogue = Array[ExtResource("2_wv7h7")]([SubResource("Resource_ufpb4"), SubResource("Resource_jyfwt"), SubResource("Resource_tl2un"), SubResource("Resource_4o8pc")])
 background_blur_step = 0.4
 background_tint_step = 0.25
 background_tint_color = Color(0.05, 0.064166665, 0.1, 1)
@@ -116,12 +142,12 @@ active_color = Color(0.078431375, 0.09803922, 0.14117648, 1)
 color_reset_duration = 0.15
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_k0oya")]
-material = SubResource("ShaderMaterial_go74a")
+material = SubResource("ShaderMaterial_3chyc")
 layer_id = 3
 slot = 3
 
 [node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_2rc0m")
+material = SubResource("ShaderMaterial_dpg28")
 
 [node name="CloudBox_07" parent="Layer3" unique_id=2091723453 instance=ExtResource("10_wv7h7")]
 position = Vector2(-576, 32)
@@ -139,12 +165,12 @@ position = Vector2(-568, 596)
 position = Vector2(540, -272)
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_k0oya")]
-material = SubResource("ShaderMaterial_wv7h7")
+material = SubResource("ShaderMaterial_hsfdo")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_3chyc")
+material = SubResource("ShaderMaterial_gbj2k")
 
 [node name="CloudBox_09" parent="Layer2" unique_id=151841160 instance=ExtResource("12_dpg28")]
 position = Vector2(-1192, 56)
@@ -165,11 +191,11 @@ position = Vector2(-568, 596)
 position = Vector2(540, -272)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_k0oya")]
-material = SubResource("ShaderMaterial_dpg28")
+material = SubResource("ShaderMaterial_jwa40")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_hsfdo")
+material = SubResource("ShaderMaterial_knd4t")
 
 [node name="CloudBox_04" parent="Layer1" unique_id=1147012066 instance=ExtResource("8_go74a")]
 position = Vector2(312, 459)
@@ -187,11 +213,11 @@ position = Vector2(-568, 596)
 position = Vector2(540, -272)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_k0oya")]
-material = SubResource("ShaderMaterial_gbj2k")
+material = SubResource("ShaderMaterial_apqxh")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_jwa40")
+material = SubResource("ShaderMaterial_qun14")
 
 [node name="CloudBox_03" parent="Layer0" unique_id=1078374008 instance=ExtResource("8_go74a")]
 position = Vector2(-952, 67)

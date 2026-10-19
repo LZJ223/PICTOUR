@@ -10,6 +10,7 @@ extends Area2D
 @onready var _indicator_position: Vector2 = _indicator.position
 @onready var _indicator_scale: Vector2 = _indicator.scale
 var completed: bool = false
+var _triggered: bool = false
 var _float_tween: Tween
 var _scale_tween: Tween
 
@@ -60,10 +61,15 @@ func _start_floating() -> void:
 	)
 
 func _on_body_entered(body: Node2D) -> void:
-	if completed or SceneTransition.busy or SignalSystem.dialogue_active or body != Global.player:
+	if _triggered or completed or SceneTransition.busy or SignalSystem.dialogue_active or body != Global.player:
 		return
 	if Global.player.current_state != PlayerController.PlayerState.NORMAL:
 		return
+	_triggered = true
+	_on_reached()
+
+## 子类可以先播放结尾演出，再调用此方法正式结算。
+func _on_reached() -> void:
 	completed = true
 	SaveSystem.complete_level((get_parent() as Level).level_id)
 	_complete_level.call_deferred()
@@ -78,3 +84,4 @@ func _complete_level() -> void:
 		error = await SceneTransition.enter_main_menu(true)
 	if error != OK:
 		completed = false
+		_triggered = false

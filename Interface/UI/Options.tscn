@@ -849,26 +849,26 @@ text_overrun_behavior = 3
 anchors_preset = 0
 offset_left = 12.0
 offset_top = 244.0
-offset_right = 588.0
+offset_right = 282.0
 offset_bottom = 288.0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Control/Destination" unique_id=401012187]
 layout_mode = 0
-offset_right = 309.0
+offset_right = 160.0
 offset_bottom = 44.0
 theme_override_font_sizes/font_size = 24
 text = "预览目的地"
 horizontal_alignment = 0
 vertical_alignment = 1
-offset_left = 157.0
+offset_left = 8.0
 offset_top = 0.0
 
 [node name="Key" type="Button" parent="Content/Control/Destination" unique_id=974863069]
 layout_mode = 0
-offset_left = 315.0
+offset_left = 166.0
 offset_top = 0.0
-offset_right = 419.0
+offset_right = 270.0
 offset_bottom = 44.0
 metadata/action = &"look_at_destination"
 
@@ -881,6 +881,43 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 24
 text = "左 Shift"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Back" type="Control" parent="Content/Control"]
+anchors_preset = 0
+offset_left = 310.0
+offset_top = 244.0
+offset_right = 580.0
+offset_bottom = 288.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Content/Control/Back"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 160.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 24
+text = "返回/暂停"
+vertical_alignment = 1
+
+[node name="Key" type="Button" parent="Content/Control/Back"]
+layout_mode = 0
+offset_left = 166.0
+offset_right = 270.0
+offset_bottom = 44.0
+metadata/action = &"back"
+
+[node name="Text" type="Label" parent="Content/Control/Back/Key"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "Esc"
 horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3

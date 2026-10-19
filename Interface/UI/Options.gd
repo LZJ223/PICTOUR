@@ -104,6 +104,7 @@ func _update_percentage(value: float, label: Label) -> void:
 func _listen_for_key(button: Button) -> void:
 	_cancel_listening()
 	_listening_button = button
+	SignalSystem.key_binding_listener = self
 	_key_label(button).text = ""
 	_binding_hint.text = "请输入按键..."
 	_binding_hint.show()
@@ -122,8 +123,8 @@ func _key_label(button: Button) -> Label:
 func _input(event: InputEvent) -> void:
 	if not is_visible_in_tree() or _listening_button == null or SceneTransition.busy:
 		return
-	## 返回仍由 Main / Pause 处理，监听不会吞掉 Esc；鼠标和重复键不参与绑定。
-	if not event is InputEventKey or event.is_action("back"):
+	## 等待输入时也接收返回键；鼠标和重复键不参与绑定。
+	if not event is InputEventKey:
 		return
 	get_viewport().set_input_as_handled()
 	if not event.pressed or event.echo:
@@ -135,9 +136,7 @@ func _input(event: InputEvent) -> void:
 	if error != OK:
 		_binding_hint.text = "保存失败，请重新输入..." if error != ERR_INVALID_PARAMETER else "请输入按键..."
 		return
-	_listening_button = null
-	_sync_key_bindings()
-	_binding_hint.hide()
+	_cancel_listening()
 
 func _key_name(event: InputEventKey) -> String:
 	var code := event.physical_keycode if event.physical_keycode != 0 else event.keycode
@@ -152,10 +151,16 @@ func _key_name(event: InputEventKey) -> String:
 	return OS.get_keycode_string(code)
 
 func _cancel_listening() -> void:
+	if SignalSystem.key_binding_listener == self:
+		SignalSystem.key_binding_listener = null
 	if _listening_button != null:
 		_listening_button = null
 		_sync_key_bindings()
 	_binding_hint.hide()
+
+func _exit_tree() -> void:
+	if SignalSystem.key_binding_listener == self:
+		SignalSystem.key_binding_listener = null
 
 func _begin_clear_hold() -> void:
 	if not _clear_button.is_visible_in_tree() or SceneTransition.busy:

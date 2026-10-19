@@ -9,7 +9,7 @@ const LEVEL_COUNT: int = 12
 const SAVE_PATH: String = "user://progress.json"
 const REBINDABLE_ACTIONS: Array[StringName] = [
 	&"move_up", &"move_down", &"move_left", &"move_right", &"jump",
-	&"UAV", &"forward", &"backward", &"look_at_destination",
+	&"UAV", &"forward", &"backward", &"look_at_destination", &"back",
 ]
 const DEFAULT_PREFERENCES := {
 	"fullscreen": false,
@@ -67,6 +67,7 @@ func load_progress() -> Error:
 	var levels: Variant = data if legacy else data.get("completed_levels") if data is Dictionary else null
 	var preferences: Dictionary = DEFAULT_PREFERENCES.duplicate()
 	var bindings: Dictionary[StringName, InputEventKey] = _default_key_bindings.duplicate()
+	var migrate_bindings: bool = false
 	if not levels is Array or levels.size() != LEVEL_COUNT:
 		push_warning("通关存档必须包含十二个布尔值：%s" % SAVE_PATH)
 		return ERR_FILE_CORRUPT
@@ -89,6 +90,10 @@ func load_progress() -> Error:
 			if not stored_bindings is Dictionary:
 				return ERR_FILE_CORRUPT
 			for action in REBINDABLE_ACTIONS:
+				# 九项键位的旧存档补上默认返回键，其余缺项仍视为损坏。
+				if action == &"back" and not stored_bindings.has("back"):
+					migrate_bindings = true
+					continue
 				var stored: Variant = stored_bindings.get(String(action))
 				if not stored is Dictionary:
 					return ERR_FILE_CORRUPT
@@ -108,7 +113,7 @@ func load_progress() -> Error:
 	_completed_levels.assign(levels)
 	_preferences = preferences
 	_key_bindings = bindings
-	return _publish_loaded_state(save_progress() if legacy or not data.has("key_bindings") else OK)
+	return _publish_loaded_state(save_progress() if legacy or not data.has("key_bindings") or migrate_bindings else OK)
 
 func _publish_loaded_state(error: Error) -> Error:
 	_apply_fullscreen()
@@ -126,7 +131,7 @@ func _normalize_key(event: InputEventKey) -> InputEventKey:
 	if event == null:
 		return null
 	var code := event.physical_keycode if event.physical_keycode != KEY_NONE else event.keycode
-	if code <= KEY_NONE or code >= KEY_UNKNOWN or code == KEY_ESCAPE or OS.get_keycode_string(code).is_empty():
+	if code <= KEY_NONE or code >= KEY_UNKNOWN or OS.get_keycode_string(code).is_empty():
 		return null
 	if event.location < KEY_LOCATION_UNSPECIFIED or event.location > KEY_LOCATION_RIGHT:
 		return null
@@ -181,7 +186,7 @@ func set_key_binding(action: StringName, event: InputEventKey) -> Error:
 
 func _apply_key_bindings() -> void:
 	for action in REBINDABLE_ACTIONS:
-		## 清理改键前的长按状态；保留非键盘输入，不影响 Esc 和鼠标选取。
+		## 清理改键前的长按状态；保留非键盘输入和鼠标选取。
 		Input.action_release(action)
 		for event in InputMap.action_get_events(action):
 			if event is InputEventKey:
