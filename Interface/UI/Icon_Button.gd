@@ -44,6 +44,7 @@ func _ready() -> void:
 	text = ""
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_set_hover.bind(false))
+	pressed.connect(func() -> void: SoundPlayer.play(&"ui_press"))
 	visibility_changed.connect(_on_visibility_changed)
 	get_window().focus_exited.connect(_reset_visuals)
 	set_process(false)

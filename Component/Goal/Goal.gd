@@ -65,6 +65,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if Global.player.current_state != PlayerController.PlayerState.NORMAL:
 		return
 	completed = true
+	SoundPlayer.play(&"goal")
 	SaveSystem.complete_level((get_parent() as Level).level_id)
 	_complete_level.call_deferred()
 

@@ -159,6 +159,8 @@ func _update_exit_hold() -> void:
 
 func _on_exit_hold_timeout() -> void:
 	if _page == Page.MAIN and not SceneTransition.busy and (_back_held or _back_key_held):
+		if _back_key_held and not _back_held:
+			SoundPlayer.play(&"ui_press")
 		_cancel_back_hold()
 		_set_main_buttons_presented(false)
 		SceneTransition.quit_game()

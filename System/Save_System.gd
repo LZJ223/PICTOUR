@@ -4,6 +4,7 @@ extends Node
 signal progress_changed
 signal preferences_changed
 signal key_bindings_changed
+signal audio_changed
 
 const LEVEL_COUNT: int = 12
 const SAVE_PATH: String = "user://progress.json"
@@ -16,9 +17,17 @@ const DEFAULT_PREFERENCES := {
 	"skip_dialogue": false,
 	"progress_limit_enabled": true,
 }
+const AUDIO_CHANNELS: Array[String] = ["Master", "Music", "SFX", "Ambient"]
+const DEFAULT_AUDIO := {
+	"Master": 100.0,
+	"Music": 100.0,
+	"SFX": 100.0,
+	"Ambient": 100.0,
+}
 
 var _completed_levels: Array[bool] = []
 var _preferences: Dictionary = DEFAULT_PREFERENCES.duplicate()
+var _audio: Dictionary = DEFAULT_AUDIO.duplicate()
 var _default_key_bindings: Dictionary[StringName, InputEventKey] = {}
 var _key_bindings: Dictionary[StringName, InputEventKey] = {}
 
@@ -54,6 +63,7 @@ func load_progress() -> Error:
 	if not FileAccess.file_exists(SAVE_PATH):
 		_completed_levels.fill(false)
 		_preferences = DEFAULT_PREFERENCES.duplicate()
+		_audio = DEFAULT_AUDIO.duplicate()
 		_key_bindings = _default_key_bindings.duplicate()
 		return _publish_loaded_state(save_progress())
 	var file := FileAccess.open(SAVE_PATH, FileAccess.READ)
@@ -66,6 +76,7 @@ func load_progress() -> Error:
 	var legacy := data is Array
 	var levels: Variant = data if legacy else data.get("completed_levels") if data is Dictionary else null
 	var preferences: Dictionary = DEFAULT_PREFERENCES.duplicate()
+	var audio: Dictionary = DEFAULT_AUDIO.duplicate()
 	var bindings: Dictionary[StringName, InputEventKey] = _default_key_bindings.duplicate()
 	if not levels is Array or levels.size() != LEVEL_COUNT:
 		push_warning("通关存档必须包含十二个布尔值：%s" % SAVE_PATH)
@@ -104,19 +115,83 @@ func load_progress() -> Error:
 					return ERR_FILE_CORRUPT
 			if not _bindings_are_unique(bindings):
 				return ERR_FILE_CORRUPT
-	## 全部验证通过后再更新内存；旧存档自动补齐偏好和键位并迁移。
+		var stored_audio: Variant = _read_audio(data)
+		if stored_audio == null:
+			return ERR_FILE_CORRUPT
+		audio = stored_audio
+	## 全部验证通过后再更新内存；旧存档自动补齐偏好、音量和键位并迁移。
 	_completed_levels.assign(levels)
 	_preferences = preferences
+	_audio = audio
 	_key_bindings = bindings
-	return _publish_loaded_state(save_progress() if legacy or not data.has("key_bindings") else OK)
+	return _publish_loaded_state(save_progress() if legacy or not data.has("key_bindings") or not data.has("audio") else OK)
 
 func _publish_loaded_state(error: Error) -> Error:
 	_apply_fullscreen()
 	_apply_key_bindings()
+	apply_audio_volumes()
 	progress_changed.emit()
 	preferences_changed.emit()
 	key_bindings_changed.emit()
+	audio_changed.emit()
 	return error
+
+func _read_audio(data: Dictionary) -> Variant:
+	var audio := DEFAULT_AUDIO.duplicate()
+	if not data.has("audio"):
+		return audio
+	var stored: Variant = data.audio
+	if not stored is Dictionary:
+		return null
+	for channel in AUDIO_CHANNELS:
+		if not stored.has(channel):
+			continue
+		var value: Variant = stored[channel]
+		if not (value is float or value is int) or value < 0.0 or value > 100.0:
+			return null
+		audio[channel] = float(value)
+	return audio
+
+func get_audio_volume(channel: String) -> float:
+	return float(_audio.get(channel, 100.0))
+
+## 百分比 100 为原音量。立刻改总线，并写入存档。
+func set_audio_volume(channel: String, percent: float) -> Error:
+	if not DEFAULT_AUDIO.has(channel):
+		return ERR_INVALID_PARAMETER
+	percent = clampf(percent, 0.0, 100.0)
+	var previous := float(_audio[channel])
+	if is_equal_approx(previous, percent):
+		_apply_audio_channel(channel)
+		return OK
+	_audio[channel] = percent
+	var error := save_progress()
+	if error != OK:
+		_audio[channel] = previous
+		return error
+	_apply_audio_channel(channel)
+	audio_changed.emit()
+	return OK
+
+func apply_audio_volumes() -> void:
+	for channel in AUDIO_CHANNELS:
+		_apply_audio_channel(channel)
+
+func _apply_audio_channel(channel: String) -> void:
+	var index := _ensure_audio_bus(channel)
+	var linear := maxf(float(_audio[channel]) / 100.0, 0.0001)
+	AudioServer.set_bus_volume_db(index, linear_to_db(linear))
+
+func _ensure_audio_bus(channel: String) -> int:
+	var index := AudioServer.get_bus_index(channel)
+	if index != -1:
+		return index
+	AudioServer.add_bus()
+	index = AudioServer.bus_count - 1
+	AudioServer.set_bus_name(index, channel)
+	if channel != "Master":
+		AudioServer.set_bus_send(index, &"Master")
+	return index
 
 func _is_integer_in_range(value: Variant, minimum: int, maximum: int) -> bool:
 	return (value is int or value is float) and value >= minimum and value <= maximum and value == floor(value)
@@ -252,6 +327,7 @@ func save_progress() -> Error:
 		"version": 2,
 		"completed_levels": _completed_levels,
 		"preferences": _preferences,
+		"audio": _audio,
 		"key_bindings": bindings,
 	}))
 	file.flush()

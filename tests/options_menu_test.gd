@@ -64,6 +64,12 @@ func _select(options: Control, index: int) -> void:
 		var expected := "Button_Pressed.png" if tab_index == index else "Button_released.png"
 		_check(tab.get_node("Icon").texture.resource_path.ends_with(expected), "侧栏纹理跟随选中状态")
 
+func _bus_matches(bus_name: String, percent: float) -> bool:
+	var index := AudioServer.get_bus_index(bus_name)
+	if index < 0:
+		return false
+	return is_equal_approx(AudioServer.get_bus_volume_db(index), linear_to_db(percent / 100.0))
+
 func _snapshot(name: String) -> void:
 	if DisplayServer.get_name() == "headless":
 		return
@@ -86,7 +92,6 @@ func _sample_clear_motion(options: Control) -> float:
 func _run() -> void:
 	SceneTransition.fade_in_duration = 0.01
 	SceneTransition.fade_out_duration = 0.01
-	var original_volume := AudioServer.get_bus_volume_db(0)
 	var main := load("res://Interface/Main.tscn").instantiate() as Node2D
 	get_tree().root.add_child(main)
 	get_tree().current_scene = main
@@ -181,7 +186,10 @@ func _run() -> void:
 			slider.value = audio_index * 17
 			_check(row.get_node("Value").text == "%d%%" % (audio_index * 17), "滑条即时显示百分数")
 	_check(audio_index == 4, "音频子菜单包含四个滑条")
-	_check(is_equal_approx(AudioServer.get_bus_volume_db(0), original_volume), "滑条不改变实际音频总线")
+	_check(_bus_matches("Master", 17.0), "主音量滑条改变主总线")
+	_check(_bus_matches("Music", 34.0), "音乐滑条改变音乐总线")
+	_check(_bus_matches("SFX", 51.0), "音效滑条改变音效总线")
+	_check(_bus_matches("Ambient", 68.0), "环境音滑条改变环境音总线")
 	await _snapshot("audio")
 	var sidebar: Button = options.get_node("SideBar/Audio")
 	var text: Label = sidebar.get_node("Text")
