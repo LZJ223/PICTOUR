@@ -26,9 +26,6 @@ const UAV_RECALL_DURATION: float = 0.25
 var current_state: PlayerState = PlayerState.NORMAL
 var player_body: LayerObject = null
 var _recall_tween: Tween
-var _was_on_floor: bool = true
-var _step_wait: float = 0.0
-const STEP_INTERVAL := 0.34
 ## 无人机系统使用的玩家（物体）节点资源预加载
 const player_body_type: PackedScene = preload("res://Component/Object/Others/Player_Object.tscn")
 
@@ -40,13 +37,14 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if SignalSystem.dialogue_active:
 		velocity = Vector2.ZERO
-		SoundPlayer.stop(&"jump")
+		SoundPlayer.stop(&"player_step")
 		player_animation.set_motion(0.0, true)
 		return
 	if Global.goal.completed:
 		## 结算时只注入向右行走，不读取按键，保留碰撞、重力和行走动效。
 		_update_normal(1.0, false)
 	elif current_state == PlayerState.RECALLING:
+		SoundPlayer.stop(&"player_step")
 		return
 	else:
 		## 观察目标只屏蔽输入，重力、惯性、碰撞和动画仍正常更新。
@@ -59,7 +57,7 @@ func _physics_process(delta: float) -> void:
 	if velocity.length() > 0.0001:
 		SignalSystem.timer_reset()
 	move_and_slide()
-	_play_motion_sounds(delta)
+	_play_motion_sounds()
 	player_animation.set_motion(velocity.x, current_state == PlayerState.NORMAL and is_on_floor())
 
 ## 普通地面/空中移动
@@ -73,8 +71,6 @@ func _update_normal(input_axis: float, can_jump: bool = true) -> void:
 	if can_jump and Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = -jump_speed
 		player_animation.play_jump_flame()
-		SoundPlayer.play_for(&"jump", &"player_jump")
-		_step_wait = STEP_INTERVAL
 	if not is_on_floor():
 		velocity.y += gravity_acceleration
 		velocity.y = clamp(velocity.y, jump_speed * -1, max_falling_speed)
@@ -108,7 +104,6 @@ func UAV_activate() -> void:
 	else:
 		SoundPlayer.play(&"uav_on")
 		SoundPlayer.play_for(&"uav_move", &"uav_move", true)
-		_was_on_floor = true
 		## 从普通切入无人机
 		current_state = PlayerState.UAV
 		body_collision_box.disabled = true
@@ -160,21 +155,15 @@ func _recall_uav() -> void:
 	player_body.queue_free()
 	player_body = null
 
-## 脚步按间隔重播。跳跃声在落地时停，避免落地后还拖着。
-func _play_motion_sounds(delta: float) -> void:
+## 行走时循环移动声。离开行走后立刻停。
+func _play_motion_sounds() -> void:
 	if current_state != PlayerState.NORMAL:
+		SoundPlayer.stop(&"player_step")
 		return
-	var on_floor := is_on_floor()
-	if on_floor and not _was_on_floor:
-		SoundPlayer.stop(&"jump")
-		SoundPlayer.play(&"player_land")
-		_step_wait = STEP_INTERVAL
-	elif on_floor and absf(velocity.x) > 30.0:
-		_step_wait -= delta
-		if _step_wait <= 0.0:
-			SoundPlayer.play(&"player_step")
-			_step_wait = STEP_INTERVAL
-	_was_on_floor = on_floor
+	if is_on_floor() and absf(velocity.x) > 30.0:
+		SoundPlayer.play_for(&"player_step", &"player_step", true)
+	else:
+		SoundPlayer.stop(&"player_step")
 
 ## 改变碰撞图层
 func set_collision_group(group: int) -> void:

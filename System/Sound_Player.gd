@@ -9,8 +9,6 @@ const POOL_SIZE := 8
 
 const CUES := {
 	"player_step": "res://Audio/SFX/player_step.mp3",
-	"player_jump": "res://Audio/SFX/player_jump.mp3",
-	"player_land": "res://Audio/SFX/player_land.mp3",
 	"uav_on": "res://Audio/SFX/uav_on.mp3",
 	"uav_move": "res://Audio/SFX/uav_move.mp3",
 	"uav_off": "res://Audio/SFX/uav_off.mp3",
@@ -33,6 +31,12 @@ const CUES := {
 }
 
 const TREE_CUES: Array[String] = ["transfer_tree", "tree_transform_1", "tree_transform_3"]
+
+## 源文件偏响时只压这一条。飞行声仍低于原始音量，脚步再低一档。
+const CUE_VOLUME_DB := {
+	"uav_move": -4.0,
+	"player_step": -6.0,
+}
 
 var _players: Array[AudioStreamPlayer] = []
 var _cursor: int = 0
@@ -70,6 +74,7 @@ func play_for(channel: StringName, cue: StringName, looping: bool = false) -> vo
 	if stream == null:
 		return
 	player.stream = stream
+	player.volume_db = float(CUE_VOLUME_DB.get(String(cue), 0.0))
 	player.play()
 	_channel_cue[channel] = cue
 	_channel_loop[channel] = looping
@@ -83,7 +88,7 @@ func stop(channel: StringName) -> void:
 
 ## 离开当前画面时，还挂在操作上的长音效全部停掉。过关音是结果，留给它自己播完。
 func stop_actions() -> void:
-	for channel: StringName in [&"dialogue", &"uav_move", &"destination", &"jump"]:
+	for channel: StringName in [&"dialogue", &"uav_move", &"destination", &"player_step"]:
 		stop(channel)
 
 func play_transfer(object: LayerObject) -> void:
