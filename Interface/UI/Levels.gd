@@ -4,7 +4,7 @@ extends Control
 signal level_selected(level_id: int)
 
 const COMPLETED := preload("res://Texture/Level_Icon/Level_Completed.png")
-const UNLOCKED := preload("res://Texture/Level_Icon/Leve_Unlock.png")
+const UNLOCKED := preload("res://Texture/Level_Icon/Level_Unlock.png")
 const LOCKED := preload("res://Texture/Level_Icon/Level_Lock.png")
 
 @export_range(1.0, 1.3, 0.01) var hover_scale: float = 1.06

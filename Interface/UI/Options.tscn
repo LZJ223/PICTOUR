@@ -5,11 +5,9 @@
 [ext_resource type="FontFile" uid="uid://2lyivrhesola" path="res://Font/Bold.ttf" id="3_75ru0"]
 [ext_resource type="Script" uid="uid://bmw5qs7ms1go" path="res://Interface/UI/Options.gd" id="4_options"]
 [ext_resource type="FontFile" uid="uid://p6fsq772f7ud" path="res://Font/WenYuanRoundedSC-Regular.ttf" id="5_font"]
-
-[ext_resource type="Script" path="res://Interface/UI/Setting_Connector.gd" id="6_connector"]
-
-[ext_resource type="Texture2D" path="res://Texture/Button/Checkbox_Checked.svg" id="7_checked"]
-[ext_resource type="Texture2D" path="res://Texture/Button/Checkbox_Unchecked.svg" id="8_unchecked"]
+[ext_resource type="Script" uid="uid://cmlc22dg3sk51" path="res://Interface/UI/Setting_Connector.gd" id="6_connector"]
+[ext_resource type="Texture2D" uid="uid://b7ira6tcvu4md" path="res://Texture/Button/Checkbox_Checked.svg" id="7_checked"]
+[ext_resource type="Texture2D" uid="uid://d0cwhbk6gqjfo" path="res://Texture/Button/Checkbox_Unchecked.svg" id="8_unchecked"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_focus"]
 bg_color = Color(0, 0, 0, 0)
@@ -91,13 +89,6 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_clear_fill"]
-bg_color = Color(0.05, 0.67, 0.32, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
 [sub_resource type="Theme" id="Theme_options"]
 default_font = ExtResource("5_font")
 default_font_size = 26
@@ -135,6 +126,13 @@ font_color = Color(0.008000004, 0.2, 0.12319999, 1)
 outline_size = 2
 outline_color = Color(0.007843138, 0.2, 0.12156863, 1)
 shadow_offset = Vector2(-5, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_clear_fill"]
+bg_color = Color(0.05, 0.67, 0.32, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="Options" type="Control" unique_id=320740776]
 process_mode = 3
@@ -254,17 +252,28 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Game/Fullscreen" unique_id=1928190276]
 layout_mode = 0
+offset_left = 56.0
 offset_right = 276.0
 offset_bottom = 46.0
 text = "全屏"
 vertical_alignment = 1
-offset_left = 56.0
 
 [node name="Toggle" type="CheckBox" parent="Content/Game/Fullscreen" unique_id=1414851775]
 layout_mode = 0
 offset_left = 496.0
 offset_right = 544.0
 offset_bottom = 46.0
+
+[node name="Connector" type="Control" parent="Content/Game/Fullscreen" unique_id=386525700]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Toggle")
 
 [node name="Dialogue" type="Control" parent="Content/Game" unique_id=1871981513]
 anchors_preset = 0
@@ -275,17 +284,28 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Game/Dialogue" unique_id=670706767]
 layout_mode = 0
+offset_left = 56.0
 offset_right = 276.0
 offset_bottom = 46.0
 text = "跳过对话"
 vertical_alignment = 1
-offset_left = 56.0
 
 [node name="Toggle" type="CheckBox" parent="Content/Game/Dialogue" unique_id=1078601819]
 layout_mode = 0
 offset_left = 496.0
 offset_right = 544.0
 offset_bottom = 46.0
+
+[node name="Connector" type="Control" parent="Content/Game/Dialogue" unique_id=1516809608]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Toggle")
 
 [node name="Progress" type="Control" parent="Content/Game" unique_id=1154246101]
 anchors_preset = 0
@@ -296,11 +316,11 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Game/Progress" unique_id=103951786]
 layout_mode = 0
+offset_left = 56.0
 offset_right = 276.0
 offset_bottom = 46.0
 text = "进度限制"
 vertical_alignment = 1
-offset_left = 56.0
 
 [node name="Toggle" type="CheckBox" parent="Content/Game/Progress" unique_id=764077517]
 layout_mode = 0
@@ -308,6 +328,17 @@ offset_left = 496.0
 offset_right = 544.0
 offset_bottom = 46.0
 button_pressed = true
+
+[node name="Connector" type="Control" parent="Content/Game/Progress" unique_id=2026678187]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Toggle")
 
 [node name="Clear" type="Control" parent="Content/Game" unique_id=652083390]
 anchors_preset = 0
@@ -318,11 +349,11 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Game/Clear" unique_id=575137531]
 layout_mode = 0
+offset_left = 56.0
 offset_right = 276.0
 offset_bottom = 46.0
 text = "重置存档"
 vertical_alignment = 1
-offset_left = 56.0
 
 [node name="Action" type="Button" parent="Content/Game/Clear" unique_id=1639661034]
 layout_mode = 0
@@ -375,8 +406,7 @@ theme_override_styles/fill = SubResource("StyleBox_clear_fill")
 max_value = 1.0
 show_percentage = false
 
-[node name="Audio" type="Control" parent="Content" unique_id=296682674]
-visible = false
+[node name="Connector" type="Control" parent="Content/Game/Clear" unique_id=386968358]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -384,8 +414,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Action")
+
+[node name="Audio" type="Control" parent="Content" unique_id=296682674]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 offset_top = 13.0
 offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="Master" type="Control" parent="Content/Audio" unique_id=1915521753]
 anchors_preset = 0
@@ -396,11 +438,11 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Audio/Master" unique_id=2088898144]
 layout_mode = 0
+offset_left = 50.0
 offset_right = 230.0
 offset_bottom = 46.0
 text = "主音量"
 vertical_alignment = 1
-offset_left = 50.0
 
 [node name="Slider" type="HSlider" parent="Content/Audio/Master" unique_id=840755268]
 layout_mode = 0
@@ -419,6 +461,17 @@ text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="Connector" type="Control" parent="Content/Audio/Master" unique_id=2108421602]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Slider")
+
 [node name="Music" type="Control" parent="Content/Audio" unique_id=1338481465]
 anchors_preset = 0
 offset_top = 90.0
@@ -428,11 +481,11 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Audio/Music" unique_id=1782087912]
 layout_mode = 0
+offset_left = 50.0
 offset_right = 230.0
 offset_bottom = 46.0
 text = "音乐音量"
 vertical_alignment = 1
-offset_left = 50.0
 
 [node name="Slider" type="HSlider" parent="Content/Audio/Music" unique_id=1307963854]
 layout_mode = 0
@@ -451,6 +504,17 @@ text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="Connector" type="Control" parent="Content/Audio/Music" unique_id=1603276836]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Slider")
+
 [node name="SFX" type="Control" parent="Content/Audio" unique_id=1512108564]
 anchors_preset = 0
 offset_top = 162.0
@@ -460,11 +524,11 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Audio/SFX" unique_id=98025630]
 layout_mode = 0
+offset_left = 50.0
 offset_right = 230.0
 offset_bottom = 46.0
 text = "音效音量"
 vertical_alignment = 1
-offset_left = 50.0
 
 [node name="Slider" type="HSlider" parent="Content/Audio/SFX" unique_id=324675157]
 layout_mode = 0
@@ -483,6 +547,17 @@ text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="Connector" type="Control" parent="Content/Audio/SFX" unique_id=888439259]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Slider")
+
 [node name="Ambient" type="Control" parent="Content/Audio" unique_id=605524358]
 anchors_preset = 0
 offset_top = 234.0
@@ -492,11 +567,11 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Audio/Ambient" unique_id=1394466372]
 layout_mode = 0
+offset_left = 50.0
 offset_right = 230.0
 offset_bottom = 46.0
 text = "环境音效音量"
 vertical_alignment = 1
-offset_left = 50.0
 
 [node name="Slider" type="HSlider" parent="Content/Audio/Ambient" unique_id=2007644296]
 layout_mode = 0
@@ -515,6 +590,17 @@ text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="Connector" type="Control" parent="Content/Audio/Ambient" unique_id=956424702]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+target_path = NodePath("../Slider")
+
 [node name="Control" type="Control" parent="Content" unique_id=887931555]
 visible = false
 layout_mode = 1
@@ -527,27 +613,24 @@ mouse_filter = 2
 
 [node name="Up" type="Control" parent="Content/Control" unique_id=1980083097]
 anchors_preset = 0
+offset_left = 12.0
+offset_top = 36.0
 offset_right = 282.0
 offset_bottom = 80.0
 mouse_filter = 2
-offset_left = 12.0
-offset_top = 36.0
 
 [node name="Label" type="Label" parent="Content/Control/Up" unique_id=813156761]
 layout_mode = 0
+offset_left = 8.0
 offset_right = 160.0
 offset_bottom = 44.0
 theme_override_font_sizes/font_size = 24
 text = "向上"
-horizontal_alignment = 0
 vertical_alignment = 1
-offset_left = 8.0
-offset_top = 0.0
 
 [node name="Key" type="Button" parent="Content/Control/Up" unique_id=1181827542]
 layout_mode = 0
 offset_left = 166.0
-offset_top = 0.0
 offset_right = 270.0
 offset_bottom = 44.0
 metadata/action = &"move_up"
@@ -565,29 +648,36 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
+[node name="Connector" type="Control" parent="Content/Control/Up" unique_id=749336350]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+
 [node name="Down" type="Control" parent="Content/Control" unique_id=925158627]
 anchors_preset = 0
 offset_left = 310.0
+offset_top = 36.0
 offset_right = 580.0
 offset_bottom = 80.0
 mouse_filter = 2
-offset_top = 36.0
 
 [node name="Label" type="Label" parent="Content/Control/Down" unique_id=568225301]
 layout_mode = 0
+offset_left = 8.0
 offset_right = 160.0
 offset_bottom = 44.0
 theme_override_font_sizes/font_size = 24
 text = "向下"
-horizontal_alignment = 0
 vertical_alignment = 1
-offset_left = 8.0
-offset_top = 0.0
 
 [node name="Key" type="Button" parent="Content/Control/Down" unique_id=1864508629]
 layout_mode = 0
 offset_left = 166.0
-offset_top = 0.0
 offset_right = 270.0
 offset_bottom = 44.0
 metadata/action = &"move_down"
@@ -605,29 +695,36 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
+[node name="Connector" type="Control" parent="Content/Control/Down" unique_id=477669613]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+
 [node name="Left" type="Control" parent="Content/Control" unique_id=290809401]
 anchors_preset = 0
 offset_left = 12.0
+offset_top = 88.0
 offset_right = 282.0
 offset_bottom = 132.0
 mouse_filter = 2
-offset_top = 88.0
 
 [node name="Label" type="Label" parent="Content/Control/Left" unique_id=1131645561]
 layout_mode = 0
+offset_left = 8.0
 offset_right = 160.0
 offset_bottom = 44.0
 theme_override_font_sizes/font_size = 24
 text = "向左"
-horizontal_alignment = 0
 vertical_alignment = 1
-offset_left = 8.0
-offset_top = 0.0
 
 [node name="Key" type="Button" parent="Content/Control/Left" unique_id=1779606754]
 layout_mode = 0
 offset_left = 166.0
-offset_top = 0.0
 offset_right = 270.0
 offset_bottom = 44.0
 metadata/action = &"move_left"
@@ -645,29 +742,36 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
+[node name="Connector" type="Control" parent="Content/Control/Left" unique_id=1490324957]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+
 [node name="Right" type="Control" parent="Content/Control" unique_id=681911047]
 anchors_preset = 0
+offset_left = 310.0
 offset_top = 88.0
 offset_right = 580.0
 offset_bottom = 132.0
 mouse_filter = 2
-offset_left = 310.0
 
 [node name="Label" type="Label" parent="Content/Control/Right" unique_id=1371782628]
 layout_mode = 0
+offset_left = 8.0
 offset_right = 160.0
 offset_bottom = 44.0
 theme_override_font_sizes/font_size = 24
 text = "向右"
-horizontal_alignment = 0
 vertical_alignment = 1
-offset_left = 8.0
-offset_top = 0.0
 
 [node name="Key" type="Button" parent="Content/Control/Right" unique_id=1525436067]
 layout_mode = 0
 offset_left = 166.0
-offset_top = 0.0
 offset_right = 270.0
 offset_bottom = 44.0
 metadata/action = &"move_right"
@@ -685,6 +789,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
+[node name="Connector" type="Control" parent="Content/Control/Right" unique_id=2100796391]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+
 [node name="Jump" type="Control" parent="Content/Control" unique_id=380162511]
 anchors_preset = 0
 offset_left = 12.0
@@ -695,19 +809,16 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Control/Jump" unique_id=667359047]
 layout_mode = 0
+offset_left = 8.0
 offset_right = 160.0
 offset_bottom = 44.0
 theme_override_font_sizes/font_size = 24
 text = "跳跃"
-horizontal_alignment = 0
 vertical_alignment = 1
-offset_left = 8.0
-offset_top = 0.0
 
 [node name="Key" type="Button" parent="Content/Control/Jump" unique_id=483053845]
 layout_mode = 0
 offset_left = 166.0
-offset_top = 0.0
 offset_right = 270.0
 offset_bottom = 44.0
 metadata/action = &"jump"
@@ -725,6 +836,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
+[node name="Connector" type="Control" parent="Content/Control/Jump" unique_id=884947623]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+
 [node name="UAV" type="Control" parent="Content/Control" unique_id=574107677]
 anchors_preset = 0
 offset_left = 310.0
@@ -735,19 +856,16 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Control/UAV" unique_id=1690152773]
 layout_mode = 0
+offset_left = 8.0
 offset_right = 160.0
 offset_bottom = 44.0
 theme_override_font_sizes/font_size = 24
 text = "唤起无人机"
-horizontal_alignment = 0
 vertical_alignment = 1
-offset_left = 8.0
-offset_top = 0.0
 
 [node name="Key" type="Button" parent="Content/Control/UAV" unique_id=865121857]
 layout_mode = 0
 offset_left = 166.0
-offset_top = 0.0
 offset_right = 270.0
 offset_bottom = 44.0
 metadata/action = &"UAV"
@@ -765,29 +883,36 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
+[node name="Connector" type="Control" parent="Content/Control/UAV" unique_id=410389505]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+
 [node name="Forward" type="Control" parent="Content/Control" unique_id=1993638333]
 anchors_preset = 0
+offset_left = 12.0
 offset_top = 192.0
 offset_right = 282.0
 offset_bottom = 236.0
 mouse_filter = 2
-offset_left = 12.0
 
 [node name="Label" type="Label" parent="Content/Control/Forward" unique_id=2045451301]
 layout_mode = 0
+offset_left = 8.0
 offset_right = 160.0
 offset_bottom = 44.0
 theme_override_font_sizes/font_size = 24
 text = "向前转换图层"
-horizontal_alignment = 0
 vertical_alignment = 1
-offset_left = 8.0
-offset_top = 0.0
 
 [node name="Key" type="Button" parent="Content/Control/Forward" unique_id=465884442]
 layout_mode = 0
 offset_left = 166.0
-offset_top = 0.0
 offset_right = 270.0
 offset_bottom = 44.0
 metadata/action = &"forward"
@@ -805,6 +930,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
+[node name="Connector" type="Control" parent="Content/Control/Forward" unique_id=2099746773]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+
 [node name="Backward" type="Control" parent="Content/Control" unique_id=1028972406]
 anchors_preset = 0
 offset_left = 310.0
@@ -815,19 +950,16 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Control/Backward" unique_id=94702014]
 layout_mode = 0
+offset_left = 8.0
 offset_right = 160.0
 offset_bottom = 44.0
 theme_override_font_sizes/font_size = 24
 text = "向后转换图层"
-horizontal_alignment = 0
 vertical_alignment = 1
-offset_left = 8.0
-offset_top = 0.0
 
 [node name="Key" type="Button" parent="Content/Control/Backward" unique_id=178319253]
 layout_mode = 0
 offset_left = 166.0
-offset_top = 0.0
 offset_right = 270.0
 offset_bottom = 44.0
 metadata/action = &"backward"
@@ -845,6 +977,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
+[node name="Connector" type="Control" parent="Content/Control/Backward" unique_id=456517814]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+
 [node name="Destination" type="Control" parent="Content/Control" unique_id=2082810108]
 anchors_preset = 0
 offset_left = 12.0
@@ -855,19 +997,16 @@ mouse_filter = 2
 
 [node name="Label" type="Label" parent="Content/Control/Destination" unique_id=401012187]
 layout_mode = 0
+offset_left = 8.0
 offset_right = 160.0
 offset_bottom = 44.0
 theme_override_font_sizes/font_size = 24
 text = "预览目的地"
-horizontal_alignment = 0
 vertical_alignment = 1
-offset_left = 8.0
-offset_top = 0.0
 
 [node name="Key" type="Button" parent="Content/Control/Destination" unique_id=974863069]
 layout_mode = 0
 offset_left = 166.0
-offset_top = 0.0
 offset_right = 270.0
 offset_bottom = 44.0
 metadata/action = &"look_at_destination"
@@ -885,7 +1024,17 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
-[node name="Back" type="Control" parent="Content/Control"]
+[node name="Connector" type="Control" parent="Content/Control/Destination" unique_id=1108565222]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+
+[node name="Back" type="Control" parent="Content/Control" unique_id=1953820129]
 anchors_preset = 0
 offset_left = 310.0
 offset_top = 244.0
@@ -893,7 +1042,7 @@ offset_right = 580.0
 offset_bottom = 288.0
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="Content/Control/Back"]
+[node name="Label" type="Label" parent="Content/Control/Back" unique_id=1823944898]
 layout_mode = 0
 offset_left = 8.0
 offset_right = 160.0
@@ -902,14 +1051,14 @@ theme_override_font_sizes/font_size = 24
 text = "返回/暂停"
 vertical_alignment = 1
 
-[node name="Key" type="Button" parent="Content/Control/Back"]
+[node name="Key" type="Button" parent="Content/Control/Back" unique_id=1588232481]
 layout_mode = 0
 offset_left = 166.0
 offset_right = 270.0
 offset_bottom = 44.0
 metadata/action = &"back"
 
-[node name="Text" type="Label" parent="Content/Control/Back/Key"]
+[node name="Text" type="Label" parent="Content/Control/Back/Key" unique_id=1539754926]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -922,6 +1071,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 text_overrun_behavior = 3
 
+[node name="Connector" type="Control" parent="Content/Control/Back" unique_id=556235494]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_connector")
+
 [node name="BindingHint" type="Label" parent="Content/Control" unique_id=219227336]
 visible = false
 layout_mode = 0
@@ -932,204 +1091,6 @@ theme_override_font_sizes/font_size = 22
 text = "请输入按键..."
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Connector" type="Control" parent="Content/Game/Fullscreen"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Toggle")
-
-[node name="Connector" type="Control" parent="Content/Game/Dialogue"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Toggle")
-
-[node name="Connector" type="Control" parent="Content/Game/Progress"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Toggle")
-
-[node name="Connector" type="Control" parent="Content/Game/Clear"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Action")
-
-[node name="Connector" type="Control" parent="Content/Audio/Master"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Slider")
-
-[node name="Connector" type="Control" parent="Content/Audio/Music"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Slider")
-
-[node name="Connector" type="Control" parent="Content/Audio/SFX"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Slider")
-
-[node name="Connector" type="Control" parent="Content/Audio/Ambient"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Slider")
-
-[node name="Connector" type="Control" parent="Content/Control/Up"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Key")
-
-[node name="Connector" type="Control" parent="Content/Control/Down"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Key")
-
-[node name="Connector" type="Control" parent="Content/Control/Left"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Key")
-
-[node name="Connector" type="Control" parent="Content/Control/Right"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Key")
-
-[node name="Connector" type="Control" parent="Content/Control/Jump"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Key")
-
-[node name="Connector" type="Control" parent="Content/Control/UAV"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Key")
-
-[node name="Connector" type="Control" parent="Content/Control/Forward"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Key")
-
-[node name="Connector" type="Control" parent="Content/Control/Backward"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Key")
-
-[node name="Connector" type="Control" parent="Content/Control/Destination"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Key")
-
-[node name="Connector" type="Control" parent="Content/Control/Back"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_connector")
-target_path = NodePath("../Key")
 
 [node name="ClearTimer" type="Timer" parent="." unique_id=1234005643]
 wait_time = 5.0

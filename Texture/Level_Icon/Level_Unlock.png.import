@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bswiwjtd80wvy"
-path="res://.godot/imported/Leve_Unlock.png-3e8eef11c589a53e848eb55952f8508a.ctex"
+path="res://.godot/imported/Level_Unlock.png-67ac1dba16a5ae9953303708af58819d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Texture/Level_Icon/Leve_Unlock.png"
-dest_files=["res://.godot/imported/Leve_Unlock.png-3e8eef11c589a53e848eb55952f8508a.ctex"]
+source_file="res://Texture/Level_Icon/Level_Unlock.png"
+dest_files=["res://.godot/imported/Level_Unlock.png-67ac1dba16a5ae9953303708af58819d.ctex"]
 
 [params]
 

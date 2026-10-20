@@ -60,6 +60,27 @@ speaker = 2
 text = "在月光下分别也挺好的......"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bbs3t"]
+resource_local_to_scene = true
+shader = ExtResource("3_m2xr1")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p1smg"]
+resource_local_to_scene = true
+shader = ExtResource("4_cfpkf")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dmi4s"]
 resource_local_to_scene = true
 shader = ExtResource("3_m2xr1")
@@ -123,27 +144,6 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yxdl5"]
-resource_local_to_scene = true
-shader = ExtResource("3_m2xr1")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-shader_parameter/shadow_projection_enabled = false
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ggsb1"]
-resource_local_to_scene = true
-shader = ExtResource("4_cfpkf")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
-
 [sub_resource type="Resource" id="Resource_bbs3t"]
 script = ExtResource("2_cav3p")
 text = "最后，小机器人爬到了遥远的云端，这里有圆圆的月亮。他看到了这样的景色，忽然明白了自己一直在寻找的宝藏是什么......"
@@ -180,7 +180,7 @@ metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="Resource" id="Resource_dmi4s"]
 script = ExtResource("2_cav3p")
-text = "晚安，宝贝。"
+text = "晚安。"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="Resource" id="Resource_lk5mc"]
@@ -232,12 +232,12 @@ parallax_ratio_y = 0.1
 sample_distance = 10.0
 
 [node name="Layer3" parent="." unique_id=1104449370 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_dmi4s")
+material = SubResource("ShaderMaterial_bbs3t")
 layer_id = 3
 slot = 3
 
 [node name="HazePlane" parent="Layer3" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_svnbj")
+material = SubResource("ShaderMaterial_p1smg")
 
 [node name="Ground" parent="Layer3" unique_id=1744010081 instance=ExtResource("8_baw0o")]
 position = Vector2(0, 720)
@@ -273,12 +273,12 @@ position = Vector2(0, 720)
 position = Vector2(0, -72)
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_wrla2")
+material = SubResource("ShaderMaterial_dmi4s")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_akhyu")
+material = SubResource("ShaderMaterial_svnbj")
 
 [node name="Ground" parent="Layer2" unique_id=1569343589 instance=ExtResource("8_baw0o")]
 position = Vector2(0, 720)
@@ -317,11 +317,11 @@ position = Vector2(0, 720)
 position = Vector2(0, -72)
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_4u4ni")
+material = SubResource("ShaderMaterial_wrla2")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_rm1mo")
+material = SubResource("ShaderMaterial_akhyu")
 
 [node name="Ground" parent="Layer1" unique_id=651531451 instance=ExtResource("8_baw0o")]
 position = Vector2(0, 720)
@@ -363,11 +363,11 @@ position = Vector2(0, 720)
 position = Vector2(0, -72)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_was4d")]
-material = SubResource("ShaderMaterial_yxdl5")
+material = SubResource("ShaderMaterial_4u4ni")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_ggsb1")
+material = SubResource("ShaderMaterial_rm1mo")
 
 [node name="CloudBox_05" parent="Layer0" unique_id=1175901663 instance=ExtResource("16_svnbj")]
 position = Vector2(936, 426)

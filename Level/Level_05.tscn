@@ -57,7 +57,7 @@ metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 [sub_resource type="Resource" id="Resource_ypgdf"]
 script = ExtResource("2_j7gd0")
 speaker = 2
-text = "我会的，[color=#1B5E20]试试按 shift 唤出无人机吧[/color]......"
+text = "我会的，[color=#1B5E20]试试按 F 唤出无人机吧[/color]......"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j7gd0"]
