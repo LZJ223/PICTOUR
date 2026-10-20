@@ -1,4 +1,4 @@
-## 仅修饰 Icon，不改变按钮命中范围；长按进度复用调用者的实际计时器。
+## 仅修饰 Icon 及可选 Label，不改变按钮命中范围；长按进度复用调用者的实际计时器。
 extends Button
 
 @export_range(1.0, 1.3, 0.01) var hover_scale: float = 1.08
@@ -12,6 +12,7 @@ extends Button
 @export_range(0.0, 20.0, 1.0) var ring_padding: float = 6.0
 
 @onready var _icon: Sprite2D = $Icon
+@onready var _label: Label = get_node_or_null("Label") as Label
 @onready var _base_scale: Vector2 = _icon.scale
 @onready var _base_position: Vector2 = _icon.position
 @onready var _base_rotation: float = _icon.rotation
@@ -26,8 +27,17 @@ var _shake_time: float = 0.0
 var _icon_size: Vector2
 var _hover_rotation: float = 0.0
 var _shake_rotation: float = 0.0
+var _label_base_scale := Vector2.ONE
+var _label_base_position := Vector2.ZERO
+var _label_base_rotation: float = 0.0
 
 func _ready() -> void:
+	if _label != null:
+		_label_base_scale = _label.scale
+		_label_base_position = _label.position
+		_label_base_rotation = _label.rotation
+		_label.resized.connect(_sync_label_pivot)
+		_sync_label_pivot()
 	_icon_size = _icon.get_rect().size
 	## PNG 的透明留白不应扩大进度环；图像边界只在初始化时计算一次。
 	if _icon.texture != null:
@@ -40,7 +50,7 @@ func _ready() -> void:
 	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
 		add_theme_stylebox_override(state, empty)
 	if tooltip_text.is_empty():
-		tooltip_text = text if not text.is_empty() else name
+		tooltip_text = _label.text if _label != null else (text if not text.is_empty() else name)
 	text = ""
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_set_hover.bind(false))
@@ -65,7 +75,7 @@ func _set_hover(active: bool) -> void:
 		_set_hover_rotation, _hover_rotation, randf_range(-angle, angle) if active else 0.0, hover_duration
 	)
 
-## 只缩放 Icon，Container 布局、按钮命中范围和 Sprite 原点均保持不变。
+## 只缩放视觉节点，Container 布局、按钮命中范围和 Sprite 原点均保持不变。
 func set_presented(presented: bool, instant: bool = false) -> void:
 	if _presentation_tween != null and _presentation_tween.is_valid():
 		_presentation_tween.kill()
@@ -98,6 +108,12 @@ func _set_presentation_scale(value: float) -> void:
 func _update_scale() -> void:
 	## 两种 Tween 独立控制倍率，避免同时写入 scale 导致跳变或累计缩放。
 	_icon.scale = _base_scale * _hover_scale * _presentation_scale
+	if _label != null:
+		_label.scale = _label_base_scale * _hover_scale * _presentation_scale
+		_label.visible = not is_zero_approx(_presentation_scale)
+
+func _sync_label_pivot() -> void:
+	_label.pivot_offset = _label.size * 0.5
 
 func _set_hover_rotation(value: float) -> void:
 	_hover_rotation = value
@@ -106,6 +122,9 @@ func _set_hover_rotation(value: float) -> void:
 func _update_rotation() -> void:
 	## 悬停倾斜与长按抖动独立叠加，避免 Tween 和逐帧更新争抢同一个属性。
 	_icon.rotation = _base_rotation + _hover_rotation + _shake_rotation
+	if _label != null:
+		_label.rotation = _label_base_rotation + _hover_rotation + _shake_rotation
+		_label.position = _label_base_position + _icon.position - _base_position
 
 func start_hold(timer: Timer) -> void:
 	stop_hold()

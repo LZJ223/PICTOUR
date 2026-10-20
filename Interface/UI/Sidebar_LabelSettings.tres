@@ -1,0 +1,11 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://c4j4uwfke6k84"]
+
+[ext_resource type="FontFile" uid="uid://2lyivrhesola" path="res://Font/Bold.ttf" id="1_font"]
+
+[resource]
+font = ExtResource("1_font")
+font_size = 48
+font_color = Color(0.008000004, 0.2, 0.12319999, 1)
+outline_size = 2
+outline_color = Color(0.007843138, 0.2, 0.12156863, 1)
+shadow_offset = Vector2(-5, 5)

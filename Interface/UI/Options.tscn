@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c5svp6viwk5r7" path="res://Texture/Button/Options_Interface.png" id="1_ta6qa"]
 [ext_resource type="Texture2D" uid="uid://xmw1rw0w0lca" path="res://Texture/Button/Button_released.png" id="2_75ru0"]
-[ext_resource type="FontFile" uid="uid://2lyivrhesola" path="res://Font/Bold.ttf" id="3_75ru0"]
+[ext_resource type="LabelSettings" path="res://Interface/UI/Sidebar_LabelSettings.tres" id="3_sidebar_text"]
 [ext_resource type="Script" uid="uid://bmw5qs7ms1go" path="res://Interface/UI/Options.gd" id="4_options"]
 [ext_resource type="FontFile" uid="uid://p6fsq772f7ud" path="res://Font/WenYuanRoundedSC-Regular.ttf" id="5_font"]
 [ext_resource type="Script" uid="uid://cmlc22dg3sk51" path="res://Interface/UI/Setting_Connector.gd" id="6_connector"]
@@ -119,14 +119,6 @@ ProgressBar/styles/fill = SubResource("StyleBox_fill")
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_tabs"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_nwjy5"]
-font = ExtResource("3_75ru0")
-font_size = 48
-font_color = Color(0.008000004, 0.2, 0.12319999, 1)
-outline_size = 2
-outline_color = Color(0.007843138, 0.2, 0.12156863, 1)
-shadow_offset = Vector2(-5, 5)
-
 [sub_resource type="StyleBoxFlat" id="StyleBox_clear_fill"]
 bg_color = Color(0.05, 0.67, 0.32, 1)
 corner_radius_top_left = 8
@@ -176,7 +168,7 @@ offset_right = 120.0
 offset_bottom = 70.0
 pivot_offset = Vector2(48.5, 28)
 text = "游戏"
-label_settings = SubResource("LabelSettings_nwjy5")
+label_settings = ExtResource("3_sidebar_text")
 
 [node name="Audio" type="Button" parent="SideBar" unique_id=1723830758]
 layout_mode = 0
@@ -199,7 +191,7 @@ offset_right = 120.0
 offset_bottom = 70.0
 pivot_offset = Vector2(48.5, 28)
 text = "音频"
-label_settings = SubResource("LabelSettings_nwjy5")
+label_settings = ExtResource("3_sidebar_text")
 
 [node name="Control" type="Button" parent="SideBar" unique_id=885604448]
 layout_mode = 0
@@ -222,7 +214,7 @@ offset_right = 120.0
 offset_bottom = 70.0
 pivot_offset = Vector2(48.5, 28)
 text = "控件"
-label_settings = SubResource("LabelSettings_nwjy5")
+label_settings = ExtResource("3_sidebar_text")
 
 [node name="Content" type="Control" parent="." unique_id=574505313]
 anchors_preset = 0

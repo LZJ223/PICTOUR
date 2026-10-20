@@ -6,11 +6,10 @@
 [ext_resource type="Script" uid="uid://dfsjxuki2x8dy" path="res://Interface/Main_Background.gd" id="4_background"]
 [ext_resource type="Texture2D" uid="uid://cqk8nh8v6gq5i" path="res://Texture/Logo/Logo_Back.png" id="5_fpmtg"]
 [ext_resource type="Texture2D" uid="uid://dvgaksgebx3fq" path="res://Texture/Logo/Logo_P.png" id="6_3fvgq"]
-[ext_resource type="Texture2D" uid="uid://cfedxygv5oiuh" path="res://Texture/Button/Level_Selection.png" id="6_qoy6l"]
+[ext_resource type="Texture2D" uid="uid://dyq7o1xt54op5" path="res://Texture/Button/Button_MainScene.png" id="6_main_button"]
 [ext_resource type="Texture2D" uid="uid://dp5qnqfax1xv2" path="res://Texture/Button/Back.png" id="6_rac2l"]
 [ext_resource type="Script" uid="uid://dr2mkm8w1p600" path="res://Interface/UI/Icon_Button.gd" id="7_icon_button"]
 [ext_resource type="Texture2D" uid="uid://c00k1juukfc2y" path="res://Texture/Logo/Logo_I.png" id="7_ixa4l"]
-[ext_resource type="Texture2D" uid="uid://bylqre2yyhf1n" path="res://Texture/Button/Game_Options.png" id="7_oh7kd"]
 [ext_resource type="Texture2D" uid="uid://ng53rcp5je0d" path="res://Texture/Logo/Logo_C.png" id="8_iy5e0"]
 [ext_resource type="PackedScene" uid="uid://buwo7k6abaqv2" path="res://Interface/UI/Options.tscn" id="8_options"]
 [ext_resource type="Texture2D" uid="uid://govy2dkl2162" path="res://Texture/Logo/Logo_T.png" id="9_cb5ur"]
@@ -19,6 +18,15 @@
 [ext_resource type="Texture2D" uid="uid://cmbmptcue86fq" path="res://Texture/Logo/Logo_U.png" id="11_wv8ss"]
 [ext_resource type="Texture2D" uid="uid://d2cgcnxh5vyk" path="res://Texture/Logo/Logo_R.png" id="12_8h4d6"]
 [ext_resource type="Texture2D" uid="uid://yklwuk423ttt" path="res://Texture/Logo/Logo_Front.png" id="13_vvlcl"]
+[ext_resource type="FontFile" uid="uid://2lyivrhesola" path="res://Font/Bold.ttf" id="18_fpmtg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3fvgq"]
+font = ExtResource("18_fpmtg")
+font_size = 66
+font_color = Color(0.008000004, 0.2, 0.12319999, 1)
+outline_size = 2
+outline_color = Color(0.007843138, 0.2, 0.12156863, 1)
+shadow_offset = Vector2(-5, 5)
 
 [node name="Main" type="Node2D" unique_id=2057756595]
 script = ExtResource("2_main")
@@ -103,34 +111,70 @@ offset_top = 460.0
 offset_right = 475.0
 offset_bottom = 910.0
 
-[node name="MainMenu" type="HBoxContainer" parent="." unique_id=2004838966]
-offset_left = -360.0
-offset_top = 415.0
-offset_right = 360.0
-offset_bottom = 515.0
-theme_override_constants/separation = 120
+[node name="MainMenu" type="Control" parent="." unique_id=811762737]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -340.0
+offset_top = 425.0
+offset_right = 340.0
+offset_bottom = 505.0
 
 [node name="LevelSelection" type="Button" parent="MainMenu" unique_id=1877194886]
 custom_minimum_size = Vector2(300, 100)
-layout_mode = 2
+layout_mode = 0
+offset_right = 300.0
+offset_bottom = 100.0
+scale = Vector2(0.8, 0.8)
 size_flags_horizontal = 3
 script = ExtResource("7_icon_button")
 
 [node name="Icon" type="Sprite2D" parent="MainMenu/LevelSelection" unique_id=258493131]
-position = Vector2(155, 46)
-scale = Vector2(0.22, 0.22)
-texture = ExtResource("6_qoy6l")
+position = Vector2(150, 50)
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("6_main_button")
+
+[node name="Label" type="Label" parent="MainMenu/LevelSelection" unique_id=1772030191]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "关卡选择"
+label_settings = SubResource("LabelSettings_3fvgq")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="GameOption" type="Button" parent="MainMenu" unique_id=930548197]
 custom_minimum_size = Vector2(300, 100)
-layout_mode = 2
+layout_mode = 0
+offset_left = 440.0
+offset_right = 740.0
+offset_bottom = 100.0
+scale = Vector2(0.8, 0.8)
 size_flags_horizontal = 3
 script = ExtResource("7_icon_button")
 
 [node name="Icon" type="Sprite2D" parent="MainMenu/GameOption" unique_id=437748719]
-position = Vector2(144, 44)
-scale = Vector2(0.22, 0.22)
-texture = ExtResource("7_oh7kd")
+position = Vector2(150, 50)
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("6_main_button")
+
+[node name="Label" type="Label" parent="MainMenu/GameOption" unique_id=2117474102]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "游戏设置"
+label_settings = SubResource("LabelSettings_3fvgq")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MenuUI" type="CanvasLayer" parent="." unique_id=2106478354]
 
