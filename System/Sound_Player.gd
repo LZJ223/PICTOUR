@@ -8,6 +8,8 @@ const BUS_NAME := "SFX"
 const POOL_SIZE := 8
 
 const CUES := {
+	"opening_piano": "res://Audio/SFX/opening_piano.wav",
+	"collection_triangle": "res://Audio/SFX/collection_triangle.wav",
 	"player_step": "res://Audio/SFX/player_step.mp3",
 	"uav_on": "res://Audio/SFX/uav_on.mp3",
 	"uav_move": "res://Audio/SFX/uav_move.mp3",

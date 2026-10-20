@@ -21,6 +21,7 @@ var _logo_first: bool = false
 var _back_screen_fixed: bool = true
 var _back_screen_offset := Vector2.ZERO
 var _back_screen_size := Vector2.ZERO
+var _sound_cursor_before_opening: int = 0
 
 func _ready() -> void:
 	_run.call_deferred()
@@ -61,6 +62,7 @@ func _run() -> void:
 	SceneTransition.fade_out_duration = 0.03
 	_check(ProjectSettings.get_setting("application/run/main_scene") == "res://Opening/Opening.tscn", "项目启动入口为轻量开屏")
 	_check(not ProjectSettings.get_setting("application/boot_splash/show_image"), "原生启动不显示默认 Godot Logo")
+	_sound_cursor_before_opening = SoundPlayer._cursor
 	_opening = load("res://Opening/Opening.tscn").instantiate()
 	_opening.phase_changed.connect(_on_phase)
 	get_tree().root.add_child(_opening)
@@ -83,6 +85,7 @@ func _run() -> void:
 	_menu = get_tree().current_scene as Node2D
 	_check(_phases == [1, 2, 3, 4, 5, 6, 7, 8, 9], "完整阶段顺序：描边、涨水填白、加载、圆形揭示、停留、上移、天空、下移、交接")
 	_check(_logo_first, "Logo 圆形蒙版先扩张，背景稍后独立展开")
+	_check(SoundPlayer._cursor == (_sound_cursor_before_opening + 1) % SoundPlayer.POOL_SIZE, "整个开屏只播放一次钢琴分解和弦")
 	_check(_peak_scale > 1.04 and _peak_scale <= 1.081, "Logo 快速放大再回落")
 	_check(_menu.scene_file_path == "res://Interface/Main.tscn" and not _menu.opening_active, "结束后主菜单成为当前场景")
 	_check(_menu.get_node("Game").get_instance_id() == _background_id, "交接沿用同一份动态背景实例")
@@ -108,6 +111,7 @@ func _run() -> void:
 	_menu.queue_free()
 	await _frames()
 	## 独立验证在尚未挂载 Main 时跳过：仍等待资源，但不留下中间动画或黑幕。
+	_sound_cursor_before_opening = SoundPlayer._cursor
 	_opening = load("res://Opening/Opening.tscn").instantiate()
 	get_tree().root.add_child(_opening)
 	get_tree().current_scene = _opening
@@ -124,6 +128,7 @@ func _run() -> void:
 	_menu = get_tree().current_scene as Node2D
 	_check(_menu != null and _menu.scene_file_path == "res://Interface/Main.tscn" and not _menu.opening_active, "加载期间按空格可安全跳过")
 	_check(not SceneTransition.busy and not get_tree().paused, "跳过后没有残留输入锁")
+	_check(SoundPlayer._cursor == _sound_cursor_before_opening, "加载期间跳过开屏不补播钢琴音效")
 	_check_prepared_menu("跳过开屏后")
 	_menu.queue_free()
 	await _frames()
@@ -150,6 +155,8 @@ func _on_phase(value: int) -> void:
 			_capture_after(0.0, value, "04_white")
 		Intro.Phase.REVEAL:
 			_menu = _opening._main
+			var piano: AudioStreamPlayer = SoundPlayer._players[posmod(SoundPlayer._cursor - 1, SoundPlayer.POOL_SIZE)]
+			_check(piano.playing and piano.stream.resource_path == SoundPlayer.CUES["opening_piano"] and piano.bus == &"SFX", "首个圆形蒙版开始扩张时钢琴已在暂停期间通过 SFX 总线播放")
 			_background_id = _menu.get_node("Game").get_instance_id()
 			_phase_start_scroll = _menu.get_node("Game")._scroll
 			var back_rect: Rect2 = _menu.back_button.get_global_transform_with_canvas() * Rect2(Vector2.ZERO, _menu.back_button.size)

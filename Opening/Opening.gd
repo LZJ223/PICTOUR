@@ -88,6 +88,8 @@ func _set_phase(value: Phase) -> void:
 	if phase == Phase.REVEAL:
 		# 先随背景蒙版揭示屏幕固定的 Back，避免到 Godot 画面才突然出现。
 		_main.prepare_opening_back_ui()
+		# 第一个圆形蒙版开始扩张时落键；只播放一次，不跟随每帧更新。
+		SoundPlayer.play(&"opening_piano")
 	elif phase == Phase.SKY:
 		_main.prepare_opening_menu()
 	_sync_frame()

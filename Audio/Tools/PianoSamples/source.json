@@ -1,0 +1,14 @@
+{
+  "source": "https://github.com/sfzinstruments/SalamanderGrandPiano",
+  "author": "Alexander Holm",
+  "license": "CC BY 3.0",
+  "commit": "3382bf9496bba2486f5ab0de55a264d1dfc38404",
+  "samples": [
+    "C4v4.flac",
+    "F#4v4.flac",
+    "C5v4.flac",
+    "D#5v4.flac",
+    "F#5v4.flac",
+    "C6v4.flac"
+  ]
+}

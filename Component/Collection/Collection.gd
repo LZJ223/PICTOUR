@@ -146,6 +146,7 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	_state = State.COLLECTING
 	_pickup_character = character
+	SoundPlayer.play(&"collection_triangle")
 	set_process(false)
 	set_physics_process(false)
 	_area.set_deferred("monitoring", false)

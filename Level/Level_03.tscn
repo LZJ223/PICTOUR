@@ -56,14 +56,35 @@ metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 [sub_resource type="Resource" id="Resource_tylnt"]
 script = ExtResource("2_b2uan")
 speaker = 1
-text = "不然说你是主角呢！我在想，他们虽然看起来不聪明[color=#1B5E20]但是搬搬东西因该还是很在行的吧[/color]！"
+text = "不然说你是主角呢！我在想，他们虽然看起来不聪明，[color=#1B5E20]但是搬搬东西应该还是很在行的吧[/color]！"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
 
 [sub_resource type="Resource" id="Resource_kjhld"]
 script = ExtResource("2_b2uan")
 speaker = 2
-text = "我想他们生来就是干这个的吧......"
+text = "不许这么说他们......"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mg0o3"]
+resource_local_to_scene = true
+shader = ExtResource("3_l3bwp")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lkl8c"]
+resource_local_to_scene = true
+shader = ExtResource("4_e3fay")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_70ech"]
 resource_local_to_scene = true
@@ -107,27 +128,6 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kjhld"]
-resource_local_to_scene = true
-shader = ExtResource("3_l3bwp")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-shader_parameter/shadow_projection_enabled = false
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_q12b3"]
-resource_local_to_scene = true
-shader = ExtResource("4_e3fay")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7lje2"]
 size = Vector2(20, 1200)
 
@@ -144,12 +144,12 @@ dialogue = Array[ExtResource("2_b2uan")]([SubResource("Resource_s0341"), SubReso
 texture = ExtResource("3_rx4xp")
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_7lje2")]
-material = SubResource("ShaderMaterial_70ech")
+material = SubResource("ShaderMaterial_mg0o3")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_k2gbx")
+material = SubResource("ShaderMaterial_lkl8c")
 
 [node name="Tree3" parent="Layer2" unique_id=1775670945 instance=ExtResource("7_gxayn")]
 position = Vector2(-156, 284)
@@ -186,11 +186,11 @@ position = Vector2(1344, -175)
 character = "I"
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_7lje2")]
-material = SubResource("ShaderMaterial_ex0ra")
+material = SubResource("ShaderMaterial_70ech")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_ubige")
+material = SubResource("ShaderMaterial_k2gbx")
 
 [node name="Tree" parent="Layer1" unique_id=620908010 instance=ExtResource("8_6b76s")]
 position = Vector2(-979, 284)
@@ -226,11 +226,11 @@ position = Vector2(2141, -646)
 position = Vector2(636, 720)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_7lje2")]
-material = SubResource("ShaderMaterial_kjhld")
+material = SubResource("ShaderMaterial_ex0ra")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_q12b3")
+material = SubResource("ShaderMaterial_ubige")
 
 [node name="Tree_01" parent="Layer0" unique_id=719242815 instance=ExtResource("7_ricaw")]
 position = Vector2(-1265, 284)
