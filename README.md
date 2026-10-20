@@ -91,6 +91,14 @@ PICTOUR/
 
 存档回归入口为 `tests/save_system_test.tscn`，应在隔离的用户目录中运行；第二次启动追加 `-- --verify-persisted` 可验证跨进程读取。
 
+## 字母收集
+
+将 `Component/Collection/Collection.tscn` 直接放到关卡的 `DepthLayer` 下，通过检查器的 `Character` 选择 P、I、C、T、O、U、R。物件无实体碰撞箱，不可选取或换层，不留影、不参与影子切割；只有同层正常状态的玩家本体能拾取。待机时浮动并随机倾斜，拾取时先下沉、再上升淡出，动画结束落盘并停用。
+
+存档的 `collected_letters` 为七个独立布尔值，旧存档默认全部未收集。Main 的 `Logo/Logo_字母` 可见性同步存档；`Logo_Back` 和 `Logo_Front` 保持原有结构。重置存档同时清空关卡和字母进度，保留偏好、音量和键位。
+
+场景结构、参数与隔离回归入口见 [字母收集物说明](Component/Collection/README.md)。
+
 ## 选关界面
 
 主菜单的选关和设置面板以场景中原本的布局位置为基准，相对于背景向上滑入、向下滑出后隐藏，默认耗时 0.22 秒，可在 Main 根节点的 `submenu_slide_duration` 调整。面板不补偿镜头位移，支持动画中返回、重开和窗口缩放；离场立即取消按键监听和重置蓄力，滑动期间暂停面板的鼠标及焦点交互。

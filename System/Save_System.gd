@@ -5,9 +5,15 @@ signal progress_changed
 signal preferences_changed
 signal key_bindings_changed
 signal audio_changed
+signal collection_changed
 
 const LEVEL_COUNT: int = 12
 const SAVE_PATH: String = "user://progress.json"
+const COLLECTION_CHARACTERS: Array[String] = ["P", "I", "C", "T", "O", "U", "R"]
+const DEFAULT_COLLECTION := {
+	"P": false, "I": false, "C": false, "T": false,
+	"O": false, "U": false, "R": false,
+}
 const REBINDABLE_ACTIONS: Array[StringName] = [
 	&"move_up", &"move_down", &"move_left", &"move_right", &"jump",
 	&"UAV", &"forward", &"backward", &"look_at_destination", &"back",
@@ -26,6 +32,7 @@ const DEFAULT_AUDIO := {
 }
 
 var _completed_levels: Array[bool] = []
+var _collected_letters: Dictionary = DEFAULT_COLLECTION.duplicate()
 var _preferences: Dictionary = DEFAULT_PREFERENCES.duplicate()
 var _audio: Dictionary = DEFAULT_AUDIO.duplicate()
 var _default_key_bindings: Dictionary[StringName, InputEventKey] = {}
@@ -62,6 +69,7 @@ func is_level_completed(level_id: int) -> bool:
 func load_progress() -> Error:
 	if not FileAccess.file_exists(SAVE_PATH):
 		_completed_levels.fill(false)
+		_collected_letters = DEFAULT_COLLECTION.duplicate()
 		_preferences = DEFAULT_PREFERENCES.duplicate()
 		_audio = DEFAULT_AUDIO.duplicate()
 		_key_bindings = _default_key_bindings.duplicate()
@@ -77,6 +85,7 @@ func load_progress() -> Error:
 	var levels: Variant = data if legacy else data.get("completed_levels") if data is Dictionary else null
 	var preferences: Dictionary = DEFAULT_PREFERENCES.duplicate()
 	var audio: Dictionary = DEFAULT_AUDIO.duplicate()
+	var collection: Dictionary = DEFAULT_COLLECTION.duplicate()
 	var bindings: Dictionary[StringName, InputEventKey] = _default_key_bindings.duplicate()
 	var migrate_bindings: bool = false
 	if not levels is Array or levels.size() != LEVEL_COUNT:
@@ -124,12 +133,22 @@ func load_progress() -> Error:
 		if stored_audio == null:
 			return ERR_FILE_CORRUPT
 		audio = stored_audio
-	## 全部验证通过后再更新内存；旧存档自动补齐偏好、音量和键位并迁移。
+		var stored_collection: Variant = data.get("collected_letters", DEFAULT_COLLECTION)
+		if not stored_collection is Dictionary:
+			return ERR_FILE_CORRUPT
+		for character: String in COLLECTION_CHARACTERS:
+			var collected: Variant = stored_collection.get(character)
+			if not collected is bool:
+				return ERR_FILE_CORRUPT
+			collection[character] = collected
+	## 全部验证通过后再更新内存；旧存档补齐字母收集、偏好、音量和键位。
 	_completed_levels.assign(levels)
+	_collected_letters = collection
 	_preferences = preferences
 	_audio = audio
 	_key_bindings = bindings
-	return _publish_loaded_state(save_progress() if legacy or not data.has("key_bindings") or not data.has("audio") or migrate_bindings else OK)
+	var migrate: bool = legacy or not data.has("key_bindings") or not data.has("audio") or not data.has("collected_letters") or migrate_bindings
+	return _publish_loaded_state(save_progress() if migrate else OK)
 
 func _publish_loaded_state(error: Error) -> Error:
 	_apply_fullscreen()
@@ -139,7 +158,26 @@ func _publish_loaded_state(error: Error) -> Error:
 	preferences_changed.emit()
 	key_bindings_changed.emit()
 	audio_changed.emit()
+	collection_changed.emit()
 	return error
+
+func is_character_collected(character: String) -> bool:
+	return bool(_collected_letters.get(character.to_upper(), false))
+
+## 收集动画完成后落盘；写入失败不丢失收集物，也不改变已保存的进度。
+func collect_character(character: String) -> Error:
+	character = character.to_upper()
+	if not DEFAULT_COLLECTION.has(character):
+		return ERR_INVALID_PARAMETER
+	if _collected_letters[character]:
+		return OK
+	_collected_letters[character] = true
+	var error := save_progress()
+	if error != OK:
+		_collected_letters[character] = false
+		return error
+	collection_changed.emit()
+	return OK
 
 func _read_audio(data: Dictionary) -> Variant:
 	var audio := DEFAULT_AUDIO.duplicate()
@@ -293,15 +331,19 @@ func _apply_fullscreen() -> void:
 		DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED
 	)
 
-## 重置只清空通关记录，保留用户偏好与当前运行中的关卡。
+## 重置清空关卡和字母收集进度，保留偏好、音量、键位与当前运行中的关卡。
 func reset_progress() -> Error:
 	var previous := _completed_levels.duplicate()
+	var previous_collection := _collected_letters.duplicate()
 	_completed_levels.fill(false)
+	_collected_letters = DEFAULT_COLLECTION.duplicate()
 	var error := save_progress()
 	if error != OK:
 		_completed_levels.assign(previous)
+		_collected_letters = previous_collection
 		return error
 	progress_changed.emit()
+	collection_changed.emit()
 	return OK
 
 ## 每次通关立即落盘；先写临时文件，成功后替换旧存档。
@@ -329,8 +371,9 @@ func save_progress() -> Error:
 		push_error("写入存档失败：%s" % error_string(error))
 		return error
 	file.store_string(JSON.stringify({
-		"version": 2,
+		"version": 3,
 		"completed_levels": _completed_levels,
+		"collected_letters": _collected_letters,
 		"preferences": _preferences,
 		"audio": _audio,
 		"key_bindings": bindings,

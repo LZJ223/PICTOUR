@@ -30,6 +30,7 @@
 [ext_resource type="PackedScene" uid="uid://bpq31rpppl2jc" path="res://Component/Object/Tree/Tree_05.tscn" id="20_ute37"]
 [ext_resource type="PackedScene" uid="uid://sym6edwksexy" path="res://Component/Object/Cloud/Cloud_04.tscn" id="21_g3ba4"]
 [ext_resource type="PackedScene" uid="uid://bxedf58d0q1cs" path="res://Component/Object/Bush/Bush_08.tscn" id="21_hd82q"]
+[ext_resource type="PackedScene" path="res://Component/Collection/Collection.tscn" id="21_n35f2"]
 [ext_resource type="PackedScene" uid="uid://cgibvtj58txga" path="res://Component/Object/Cloud/Cloud_01.tscn" id="30_n35f2"]
 [ext_resource type="PackedScene" uid="uid://cq6muhbic0ogi" path="res://Component/Object/Cloud/Cloud_02.tscn" id="31_vwd6t"]
 [ext_resource type="PackedScene" uid="uid://0eltboikjrks" path="res://Component/Object/Soil/Soil_08/Soil_08.tscn" id="32_g3ba4"]
@@ -52,27 +53,6 @@ script = ExtResource("2_g3ba4")
 speaker = 2
 text = "我不知道，反正我应该飞不上去。"
 metadata/_custom_type_script = "uid://ctimfmygmqfa3"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g3ba4"]
-resource_local_to_scene = true
-shader = ExtResource("3_8xjsh")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/is_night = false
-shader_parameter/shadow_projection_enabled = false
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_n35f2"]
-resource_local_to_scene = true
-shader = ExtResource("4_dln1f")
-shader_parameter/layer_z_index = 0.0
-shader_parameter/is_night = false
-shader_parameter/cycle_opacity = 1.0
-shader_parameter/layer_id = 0.0
-shader_parameter/layer_scale = 0.8
-shader_parameter/anchor_position = Vector2(0, 0)
-shader_parameter/visual_offset = Vector2(0, 0)
-shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-shader_parameter/scroll_offset = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vwd6t"]
 resource_local_to_scene = true
@@ -116,6 +96,27 @@ shader_parameter/visual_offset = Vector2(0, 0)
 shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 shader_parameter/scroll_offset = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8md1k"]
+resource_local_to_scene = true
+shader = ExtResource("3_8xjsh")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/is_night = false
+shader_parameter/shadow_projection_enabled = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7s2ds"]
+resource_local_to_scene = true
+shader = ExtResource("4_dln1f")
+shader_parameter/layer_z_index = 0.0
+shader_parameter/is_night = false
+shader_parameter/cycle_opacity = 1.0
+shader_parameter/layer_id = 0.0
+shader_parameter/layer_scale = 0.8
+shader_parameter/anchor_position = Vector2(0, 0)
+shader_parameter/visual_offset = Vector2(0, 0)
+shader_parameter/world_to_space = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+shader_parameter/scroll_offset = 0.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jtyau"]
 size = Vector2(20, 1840)
 
@@ -136,12 +137,12 @@ metadata/_edit_use_anchors_ = true
 texture = ExtResource("3_aihxx")
 
 [node name="Layer2" parent="." unique_id=1568737787 instance=ExtResource("2_jp3vx")]
-material = SubResource("ShaderMaterial_g3ba4")
+material = SubResource("ShaderMaterial_vwd6t")
 layer_id = 2
 slot = 2
 
 [node name="HazePlane" parent="Layer2" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_n35f2")
+material = SubResource("ShaderMaterial_5amqd")
 
 [node name="Soil_001" parent="Layer2" unique_id=1915358975 instance=ExtResource("5_l755y")]
 position = Vector2(1245, 720)
@@ -189,12 +190,16 @@ position = Vector2(2168, -680)
 [node name="House" parent="Layer2" unique_id=149779875 instance=ExtResource("13_rsox4")]
 position = Vector2(671, -75)
 
+[node name="Collection" parent="Layer2" unique_id=1250995434 instance=ExtResource("21_n35f2")]
+position = Vector2(-472, -568)
+character = "T"
+
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_jp3vx")]
-material = SubResource("ShaderMaterial_vwd6t")
+material = SubResource("ShaderMaterial_wpflu")
 layer_id = 1
 
 [node name="HazePlane" parent="Layer1" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_5amqd")
+material = SubResource("ShaderMaterial_gsn4g")
 
 [node name="Soil_001" parent="Layer1" unique_id=126668145 instance=ExtResource("5_l755y")]
 position = Vector2(1245, 720)
@@ -252,11 +257,11 @@ position = Vector2(264, -309)
 position = Vector2(1376, -248)
 
 [node name="Layer0" parent="." unique_id=1112075574 instance=ExtResource("2_jp3vx")]
-material = SubResource("ShaderMaterial_wpflu")
+material = SubResource("ShaderMaterial_8md1k")
 slot = 0
 
 [node name="HazePlane" parent="Layer0" index="0" unique_id=1093515214]
-material = SubResource("ShaderMaterial_gsn4g")
+material = SubResource("ShaderMaterial_7s2ds")
 
 [node name="Soil_001" parent="Layer0" unique_id=1497286851 instance=ExtResource("5_l755y")]
 position = Vector2(1245, 720)

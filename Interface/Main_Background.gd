@@ -3,6 +3,7 @@ extends Node2D
 
 @export_range(0.0, 1000.0, 1.0) var scroll_speed: float = 260.0
 @export_range(1.0, 32000.0, 1.0, "or_greater") var loop_length: float = 8000.0
+@export var initial_scroll: float = 0.0
 
 @onready var _level: Level = $Level
 @onready var _player: Node2D = $Player
@@ -17,6 +18,7 @@ var _tiles: Array[Level] = []
 func _ready() -> void:
 	## 背景及展示角色不随转场暂停，淡入、淡出期间也持续运动。
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_scroll = initial_scroll
 	_register_tile(_level)
 	_level.write_to_renderer()
 	Renderer.apply_settings()
@@ -97,7 +99,7 @@ func _get_layer_center(layer: DepthLayer) -> float:
 	var bounds := Rect2()
 	var initialized := false
 	for child in layer.get_children():
-		if child is LayerObject:
+		if child is LayerObject and child.collision_box != null:
 			for point in child.collision_box.polygon:
 				var local_point := to_local(child.collision_box.to_global(point))
 				if not initialized:

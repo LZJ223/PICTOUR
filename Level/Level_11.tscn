@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://b5qg53ujgms22" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_10/CloudBox_10.tscn" id="11_2rc0m"]
 [ext_resource type="PackedScene" uid="uid://dfjvk0uv1v31u" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_08/CloudBox_08.tscn" id="11_3chyc"]
 [ext_resource type="PackedScene" uid="uid://bxccfxbo6pc1d" path="res://Component/Shadowed_Geometry/CloudBox/CloudBox_09/CloudBox_09.tscn" id="12_dpg28"]
+[ext_resource type="PackedScene" path="res://Component/Collection/Collection.tscn" id="14_3chyc"]
 
 [sub_resource type="Resource" id="Resource_ufpb4"]
 script = ExtResource("2_wv7h7")
@@ -156,7 +157,7 @@ position = Vector2(-576, 32)
 position = Vector2(-277, -404)
 
 [node name="CloudBox_11" parent="Layer3" unique_id=151661789 instance=ExtResource("9_go74a")]
-position = Vector2(481, 188)
+position = Vector2(481, 221)
 
 [node name="CloudGround_03" parent="Layer3" unique_id=991615389 instance=ExtResource("9_wv7h7")]
 position = Vector2(-568, 596)
@@ -179,16 +180,20 @@ position = Vector2(-1192, 56)
 position = Vector2(-180, 412)
 
 [node name="CloudBox_11" parent="Layer2" unique_id=1248019674 instance=ExtResource("9_go74a")]
-position = Vector2(88, 184)
+position = Vector2(88, 151)
 
 [node name="CloudBox_12" parent="Layer2" unique_id=442877063 instance=ExtResource("9_go74a")]
-position = Vector2(-888, -216)
+position = Vector2(-888, -267)
 
 [node name="CloudGround_03" parent="Layer2" unique_id=1642083986 instance=ExtResource("9_wv7h7")]
 position = Vector2(-568, 596)
 
 [node name="CloudGround_04" parent="Layer2" unique_id=626744779 instance=ExtResource("10_3chyc")]
 position = Vector2(540, -272)
+
+[node name="Collection" parent="Layer2" unique_id=564968836 instance=ExtResource("14_3chyc")]
+position = Vector2(-888, -354)
+character = "R"
 
 [node name="Layer1" parent="." unique_id=1836359811 instance=ExtResource("2_k0oya")]
 material = SubResource("ShaderMaterial_jwa40")

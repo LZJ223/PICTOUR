@@ -14,6 +14,7 @@ var busy: bool = true
 var _initial_scene: bool = true
 var _black: ColorRect
 var _next_play_dialogue: bool = true
+var _opening_active: bool = false
 
 func consume_dialogue_request() -> bool:
 	var play_dialogue := _next_play_dialogue
@@ -30,6 +31,22 @@ func _ready() -> void:
 	_black.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	get_tree().paused = true
 	PhysicsServer2D.set_active(false)
+
+## 只有项目入口 Opening 调用。保留输入锁，移走初始黑幕，不提前播放菜单音乐。
+func begin_opening() -> void:
+	_initial_scene = false
+	_opening_active = true
+	busy = true
+	get_tree().paused = true
+	PhysicsServer2D.set_active(false)
+	_black.hide()
+
+func finish_opening() -> void:
+	if not _opening_active:
+		return
+	_opening_active = false
+	MusicPlayer.play_main_menu()
+	_finish(false)
 
 ## Main、Game 在首帧布局完成后通知；普通切换由切换协程负责淡入。
 func scene_ready() -> void:

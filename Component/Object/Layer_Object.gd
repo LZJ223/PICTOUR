@@ -1,5 +1,5 @@
 ## 此脚本为景深物件基类，负责物件的图层转换、画面更新和选择反馈。
-## 其中，所有物件都是PhysicsBody2D，根目录下必须是CollisionBox节点和VisualRoot节点，负责物体实际大小的管理
+## 所有物件都是 PhysicsBody2D；VisualRoot 必需，CollisionBox 可省略以支持无实体碰撞的收集物。
 ## CollisionBox节点负责物体实际大小的管理，VisualRoot节点中包含贴图和点击判定的Area，负责视觉上的变换，碰撞箱位置不改变
 ## 注意以上两个节点的位移和旋转的初始状态必须保持为0，在关卡中的移动依靠根节点，缩放依靠CollisionBox，旋转暂不支持
 
@@ -37,7 +37,7 @@ static func receiver_mask_bit(layer_id: int) -> int:
 @export_range(0.01, 0.5, 0.01) var blocked_shake_duration: float = 0.20
 
 ## 子节点信息
-@onready var collision_box: CollisionPolygon2D = $CollisionBox
+@onready var collision_box: CollisionPolygon2D = get_node_or_null("CollisionBox") as CollisionPolygon2D
 @onready var visual_root: Node2D = $VisualRoot
 var owner_layer: DepthLayer
 ## 影子信息
@@ -64,7 +64,8 @@ func _ready() -> void:
 func transfer_to(target_layer: DepthLayer, target_transform: Transform2D, target_collision_transform: Transform2D) -> void:
 	reparent(target_layer, false)
 	global_transform = target_transform
-	collision_box.transform = target_collision_transform
+	if collision_box != null:
+		collision_box.transform = target_collision_transform
 	owner_layer = target_layer
 	update_layer_slot()
 
@@ -75,7 +76,8 @@ func apply_visual_transfer(anchor_position: Vector2, camera_zoom: Vector2) -> vo
 	var local_anchor := to_local(anchor_position)
 	var world_offset := Vector2(offset_pixels.x / maxf(camera_zoom.x, 0.0001), offset_pixels.y / maxf(camera_zoom.y, 0.0001))
 	var visual_offset := global_transform.affine_inverse().basis_xform(world_offset)
-	visual_root.scale = collision_box.scale * scaling * _transfer_visual_scale
+	var collision_scale := collision_box.scale if collision_box != null else Vector2.ONE
+	visual_root.scale = collision_scale * scaling * _transfer_visual_scale
 	visual_root.position = local_anchor * (1 - scaling) + visual_offset
 	if _selected:
 		_sync_selection_outlines()

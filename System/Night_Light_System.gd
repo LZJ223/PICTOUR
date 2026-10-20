@@ -78,6 +78,8 @@ func _sync_occluders() -> void:
 			if not child is LayerObject or child.is_queued_for_deletion():
 				continue
 			var object := child as LayerObject
+			if object.collision_box == null:
+				continue
 			var id: int = object.get_instance_id()
 			live[id] = true
 			if not _occluders.has(id):

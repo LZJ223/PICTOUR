@@ -32,10 +32,15 @@ var _background_player_offset: Vector2
 var _control_offsets: Array[Vector2] = []
 var _submenu_progress: Array[float] = [0.0, 1.0, 1.0]
 var _submenu_tweens: Dictionary[int, Tween] = {}
+## 由轻量启动入口在入树前设置；普通返回菜单始终使用默认值。
+var opening_active: bool = false
+var _opening_offset := Vector2.ZERO
 
 func _ready() -> void:
 	SignalSystem.set_gameplay_active(false)
 	Global.clear_scene_nodes()
+	SaveSystem.collection_changed.connect(_sync_logo_collection)
+	_sync_logo_collection()
 	menu_camera.make_current()
 	## 场景中的坐标仍是 1280×720 的布局参考，只缓存一次，避免累计缩放。
 	_main_origin = main_camera_position.position
@@ -71,11 +76,47 @@ func _ready() -> void:
 	SignalSystem.back_pressed.connect(_on_back_key_pressed)
 	SignalSystem.back_released.connect(_on_back_key_released)
 	_set_main_buttons_presented(false, true)
-	if SceneTransition.busy:
+	if opening_active:
+		$Logo.hide()
+		$Game/Player.hide()
+		$MenuUI.hide()
+	elif SceneTransition.busy:
 		SceneTransition.transition_finished.connect(_set_main_buttons_presented.bind(true), CONNECT_ONE_SHOT)
 	else:
 		_set_main_buttons_presented(true)
 	SceneTransition.scene_ready()
+
+func _sync_logo_collection() -> void:
+	for character: String in SaveSystem.COLLECTION_CHARACTERS:
+		var letter: Sprite2D = get_node("Logo/Logo_" + character)
+		letter.visible = SaveSystem.is_character_collected(character)
+
+func set_opening_view(offset: Vector2) -> void:
+	_opening_offset = offset
+	_set_page_blend(_page_blend)
+	## 远景是 CanvasLayer，需要显式同步镜头位移才能真正抬头看到天空。
+	for background in get_tree().get_nodes_in_group(&"level_backgrounds"):
+		if is_ancestor_of(background):
+			background.set_camera_framing(Vector2.ONE, -offset * menu_camera.zoom * 0.45)
+
+## Back 随背景揭示出现；CanvasLayer 固定在屏幕上，不参与开屏镜头运动。
+func prepare_opening_back_ui() -> void:
+	$MenuUI.show()
+	$MenuUI/Screen.modulate.a = 1.0
+
+## 在天空展示 Godot Logo 时准备完整菜单，回程直接沿用实际场景内容。
+func prepare_opening_menu() -> void:
+	_sync_logo_collection()
+	$Logo.show()
+	$Game/Player.show()
+	$Game/Player.modulate.a = 1.0
+	prepare_opening_back_ui()
+	_set_main_buttons_presented(true, true)
+
+func complete_opening() -> void:
+	set_opening_view(Vector2.ZERO)
+	opening_active = false
+	prepare_opening_menu()
 
 func _set_main_buttons_presented(presented: bool, instant: bool = false) -> void:
 	for button in main_menu.get_children():
@@ -164,7 +205,7 @@ func _set_page_blend(value: float) -> void:
 	_page_blend = value
 	menu_camera.global_position = main_camera_position.global_position.lerp(
 		secondary_camera_position.global_position, _page_blend
-	)
+	) + _opening_offset
 	menu_camera.force_update_scroll()
 	## 尺寸变化和 Tween 也可能发生在暂停时，直接刷新而不等待下一帧。
 	$Game.refresh_view()

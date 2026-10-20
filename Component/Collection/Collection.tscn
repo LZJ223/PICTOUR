@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Component/Collection/Collection.gd" id="1_collection"]
+[ext_resource type="Texture2D" path="res://Texture/Logo/Collection_P.png" id="2_letter"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 45.0
+
+[node name="Collection" type="StaticBody2D"]
+input_pickable = false
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_collection")
+can_transfer = false
+can_leave_shadow = false
+can_be_shadowed = false
+front = true
+
+[node name="VisualRoot" type="Node2D" parent="."]
+
+[node name="Motion" type="Node2D" parent="VisualRoot"]
+
+[node name="Sprite" type="Sprite2D" parent="VisualRoot/Motion"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_letter")
+
+[node name="Area2D" type="Area2D" parent="VisualRoot/Motion"]
+z_index = 999
+input_pickable = false
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisualRoot/Motion/Area2D"]
+shape = SubResource("CircleShape2D_pickup")

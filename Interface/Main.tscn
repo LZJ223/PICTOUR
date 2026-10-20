@@ -1,16 +1,24 @@
 [gd_scene format=3 uid="uid://hp7gwrwih27g"]
 
 [ext_resource type="PackedScene" uid="uid://bg4wh1daqiv2v" path="res://Level/Level_00.tscn" id="1_ctv0a"]
-[ext_resource type="Texture2D" uid="uid://p6f05hf2ctn8" path="res://Texture/Others/Logo.png" id="1_fd6su"]
 [ext_resource type="Script" uid="uid://cnt04mflecnqa" path="res://Interface/Main.gd" id="2_main"]
 [ext_resource type="PackedScene" uid="uid://c7l6w1cpnicjv" path="res://Component/Player/Player_Sprite.tscn" id="3_4df8p"]
 [ext_resource type="Script" uid="uid://dfsjxuki2x8dy" path="res://Interface/Main_Background.gd" id="4_background"]
+[ext_resource type="Texture2D" uid="uid://cqk8nh8v6gq5i" path="res://Texture/Logo/Logo_Back.png" id="5_fpmtg"]
+[ext_resource type="Texture2D" uid="uid://dvgaksgebx3fq" path="res://Texture/Logo/Logo_P.png" id="6_3fvgq"]
 [ext_resource type="Texture2D" uid="uid://cfedxygv5oiuh" path="res://Texture/Button/Level_Selection.png" id="6_qoy6l"]
 [ext_resource type="Texture2D" uid="uid://dp5qnqfax1xv2" path="res://Texture/Button/Back.png" id="6_rac2l"]
 [ext_resource type="Script" uid="uid://dr2mkm8w1p600" path="res://Interface/UI/Icon_Button.gd" id="7_icon_button"]
+[ext_resource type="Texture2D" uid="uid://c00k1juukfc2y" path="res://Texture/Logo/Logo_I.png" id="7_ixa4l"]
 [ext_resource type="Texture2D" uid="uid://bylqre2yyhf1n" path="res://Texture/Button/Game_Options.png" id="7_oh7kd"]
+[ext_resource type="Texture2D" uid="uid://ng53rcp5je0d" path="res://Texture/Logo/Logo_C.png" id="8_iy5e0"]
 [ext_resource type="PackedScene" uid="uid://buwo7k6abaqv2" path="res://Interface/UI/Options.tscn" id="8_options"]
+[ext_resource type="Texture2D" uid="uid://govy2dkl2162" path="res://Texture/Logo/Logo_T.png" id="9_cb5ur"]
 [ext_resource type="PackedScene" uid="uid://c7cne4gaptwgg" path="res://Interface/UI/Levels.tscn" id="9_levels"]
+[ext_resource type="Texture2D" uid="uid://dbvox8rsyx1g3" path="res://Texture/Logo/Logo_O.png" id="10_sfuin"]
+[ext_resource type="Texture2D" uid="uid://cmbmptcue86fq" path="res://Texture/Logo/Logo_U.png" id="11_wv8ss"]
+[ext_resource type="Texture2D" uid="uid://d2cgcnxh5vyk" path="res://Texture/Logo/Logo_R.png" id="12_8h4d6"]
+[ext_resource type="Texture2D" uid="uid://yklwuk423ttt" path="res://Texture/Logo/Logo_Front.png" id="13_vvlcl"]
 
 [node name="Main" type="Node2D" unique_id=2057756595]
 script = ExtResource("2_main")
@@ -27,10 +35,52 @@ position = Vector2(0, 388)
 [node name="PlayerSprite" parent="Game/Player" unique_id=1037145376 instance=ExtResource("3_4df8p")]
 follow_activity_timer = false
 
-[node name="Logo" type="Sprite2D" parent="." unique_id=925718396]
+[node name="Logo" type="Node2D" parent="." unique_id=845870605]
+
+[node name="Logo_Back" type="Sprite2D" parent="Logo" unique_id=925718396]
 position = Vector2(0, -4.0000305)
 scale = Vector2(0.4, 0.39999995)
-texture = ExtResource("1_fd6su")
+texture = ExtResource("5_fpmtg")
+
+[node name="Logo_P" type="Sprite2D" parent="Logo" unique_id=1196854726]
+position = Vector2(0, -4.0000305)
+scale = Vector2(0.4, 0.39999995)
+texture = ExtResource("6_3fvgq")
+
+[node name="Logo_I" type="Sprite2D" parent="Logo" unique_id=1727199752]
+position = Vector2(0, -4.0000305)
+scale = Vector2(0.4, 0.39999995)
+texture = ExtResource("7_ixa4l")
+
+[node name="Logo_C" type="Sprite2D" parent="Logo" unique_id=2055454594]
+position = Vector2(0, -4.0000305)
+scale = Vector2(0.4, 0.39999995)
+texture = ExtResource("8_iy5e0")
+
+[node name="Logo_T" type="Sprite2D" parent="Logo" unique_id=1723797422]
+position = Vector2(0, -4.0000305)
+scale = Vector2(0.4, 0.39999995)
+texture = ExtResource("9_cb5ur")
+
+[node name="Logo_O" type="Sprite2D" parent="Logo" unique_id=1056911624]
+position = Vector2(0, -4.0000305)
+scale = Vector2(0.4, 0.39999995)
+texture = ExtResource("10_sfuin")
+
+[node name="Logo_U" type="Sprite2D" parent="Logo" unique_id=1720941540]
+position = Vector2(0, -4.0000305)
+scale = Vector2(0.4, 0.39999995)
+texture = ExtResource("11_wv8ss")
+
+[node name="Logo_R" type="Sprite2D" parent="Logo" unique_id=1820844161]
+position = Vector2(0, -4.0000305)
+scale = Vector2(0.4, 0.39999995)
+texture = ExtResource("12_8h4d6")
+
+[node name="Logo_Front" type="Sprite2D" parent="Logo" unique_id=180991615]
+position = Vector2(0, -4.0000305)
+scale = Vector2(0.4, 0.39999995)
+texture = ExtResource("13_vvlcl")
 
 [node name="Camera" type="Camera2D" parent="." unique_id=367628253]
 position = Vector2(0, 175.99998)
