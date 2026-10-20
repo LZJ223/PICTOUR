@@ -120,6 +120,9 @@ func _present_current() -> void:
 	_box.show_line(line.text)
 
 func _on_presented() -> void:
+	## 旁白声只覆盖文字出现的过程。播完或被点击提前结束时，呈现完成即停。
+	if _index < _lines.size() and _lines[_index].speaker == DialogueLine.Speaker.VOICEOVER:
+		SoundPlayer.stop(&"dialogue")
 	_state = State.WAITING
 
 func _on_dismissed() -> void:

@@ -27,6 +27,7 @@ const CUES := {
 	"select": "res://Audio/SFX/select.mp3",
 	"destination_in": "res://Audio/SFX/destination_in.mp3",
 	"goal": "res://Audio/SFX/goal.mp3",
+	"dialogue_voiceover": "res://Audio/SFX/dialogue_voiceover.mp3",
 	"dialogue_player": "res://Audio/SFX/dialogue_player.mp3",
 	"dialogue_spirit": "res://Audio/SFX/dialogue_spirit.mp3",
 	"ui_press": "res://Audio/SFX/ui_press.mp3",
@@ -38,6 +39,7 @@ const TREE_CUES: Array[String] = ["transfer_tree", "tree_transform_1", "tree_tra
 const CUE_VOLUME_DB := {
 	"uav_move": -4.0,
 	"player_step": -6.0,
+	"dialogue_voiceover": -4.0,
 }
 
 var _players: Array[AudioStreamPlayer] = []
@@ -105,11 +107,11 @@ func play_transfer(object: LayerObject) -> void:
 		play(&"transfer_box")
 
 func play_dialogue(speaker: int) -> void:
-	var cue: StringName = (
-		&"dialogue_spirit"
-		if speaker == DialogueLine.Speaker.BOOK_SPIRIT
-		else &"dialogue_player"
-	)
+	var cue := &"dialogue_player"
+	if speaker == DialogueLine.Speaker.BOOK_SPIRIT:
+		cue = &"dialogue_spirit"
+	elif speaker == DialogueLine.Speaker.VOICEOVER:
+		cue = &"dialogue_voiceover"
 	play_for(&"dialogue", cue)
 
 func _make_stream(cue: StringName, looping: bool) -> AudioStream:
