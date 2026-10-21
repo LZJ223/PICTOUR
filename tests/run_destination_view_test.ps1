@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory = $true)][string]$Godot,
-    [switch]$WithRendering
+    [switch]$WithRendering,
+    [ValidateSet('destination_view', 'jump_grace')][string]$Suite = 'destination_view'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -20,7 +21,7 @@ Set-Content -LiteralPath (Join-Path $qaRoot 'project.godot') -Value $config -Enc
 Get-ChildItem -LiteralPath $projectRoot -Directory -Force | Where-Object { $_.Name -ne '.git' } | ForEach-Object {
     New-Item -ItemType Junction -Path (Join-Path $qaRoot $_.Name) -Target $_.FullName | Out-Null
 }
-$runArgs = @('--path', $qaRoot, 'res://tests/destination_view_test.tscn', '--log-file', (Join-Path $qaRoot 'test.log'))
+$runArgs = @('--path', $qaRoot, "res://tests/${Suite}_test.tscn", '--log-file', (Join-Path $qaRoot 'test.log'))
 if ($WithRendering) {
     $runArgs += @('--audio-driver', 'Dummy', '--resolution', '1280x720')
 } else {

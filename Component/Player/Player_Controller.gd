@@ -11,6 +11,8 @@ const UAV_RECALL_DURATION: float = 0.25
 ## 人物运动参数
 @export var move_speed: float = 260.0
 @export var jump_speed: float = 700
+## 离开地面后仍允许起跳的秒数；不延迟下落或修改碰撞，设为 0 关闭。
+@export_range(0.0, 0.2, 0.01) var jump_grace_time: float = 0.10
 @export var UAV_move_speed: float = 350
 @export var max_falling_speed: float = 600
 @export var acceleration: float = 80
@@ -26,6 +28,7 @@ const UAV_RECALL_DURATION: float = 0.25
 var current_state: PlayerState = PlayerState.NORMAL
 var player_body: LayerObject = null
 var _recall_tween: Tween
+var _jump_grace_remaining: float = 0.0
 ## 无人机系统使用的玩家（物体）节点资源预加载
 const player_body_type: PackedScene = preload("res://Component/Object/Others/Player_Object.tscn")
 
@@ -36,6 +39,7 @@ func _ready() -> void:
 ## 人物移动逻辑
 func _physics_process(delta: float) -> void:
 	if SignalSystem.dialogue_active:
+		_jump_grace_remaining = 0.0
 		velocity = Vector2.ZERO
 		SoundPlayer.stop(&"player_step")
 		player_animation.set_motion(0.0, true)
@@ -44,6 +48,7 @@ func _physics_process(delta: float) -> void:
 		## 结算时只注入向右行走，不读取按键，保留碰撞、重力和行走动效。
 		_update_normal(1.0, false)
 	elif current_state == PlayerState.RECALLING:
+		_jump_grace_remaining = 0.0
 		SoundPlayer.stop(&"player_step")
 		return
 	else:
@@ -57,6 +62,7 @@ func _physics_process(delta: float) -> void:
 	if velocity.length() > 0.0001:
 		SignalSystem.timer_reset()
 	move_and_slide()
+	_update_jump_grace(delta)
 	_play_motion_sounds()
 	player_animation.set_motion(velocity.x, current_state == PlayerState.NORMAL and is_on_floor())
 
@@ -68,12 +74,26 @@ func _update_normal(input_axis: float, can_jump: bool = true) -> void:
 	else:
 		velocity.x -= sign(velocity.x) * friction_deceleration
 	velocity.x = clamp(velocity.x, -move_speed, move_speed)
-	if can_jump and Input.is_action_just_pressed("jump") and is_on_floor():
+	var jumped: bool = can_jump and Input.is_action_just_pressed("jump") and (
+		is_on_floor() or _jump_grace_remaining > 0.0
+	)
+	if jumped:
 		velocity.y = -jump_speed
+		_jump_grace_remaining = 0.0
 		player_animation.play_jump_flame()
-	if not is_on_floor():
+	## 宽限起跳也使用完整的原起跳速度，不在起跳当帧额外扣一次重力。
+	if not is_on_floor() and not jumped:
 		velocity.y += gravity_acceleration
 		velocity.y = clamp(velocity.y, jump_speed * -1, max_falling_speed)
+
+## 只用本帧真实移动后的落地结果补充宽限；不会把旧图层的落地缓存重新计时。
+func _update_jump_grace(delta: float) -> void:
+	if current_state != PlayerState.NORMAL or SignalSystem.looking_at_destination or Global.goal.completed:
+		_jump_grace_remaining = 0.0
+	elif is_on_floor():
+		_jump_grace_remaining = jump_grace_time
+	else:
+		_jump_grace_remaining = maxf(0.0, _jump_grace_remaining - delta)
 
 ## 无人机移动
 func _update_uav(_delta: float, can_control: bool = true) -> void:
@@ -97,6 +117,7 @@ func UAV_activate() -> void:
 	if current_state == PlayerState.NORMAL and not is_on_floor():
 		SoundPlayer.play(&"uav_fail")
 		return
+	_jump_grace_remaining = 0.0
 	if current_state == PlayerState.UAV:
 		SoundPlayer.stop(&"uav_move")
 		SoundPlayer.play(&"uav_off")
@@ -167,6 +188,7 @@ func _play_motion_sounds() -> void:
 
 ## 改变碰撞图层
 func set_collision_group(group: int) -> void:
+	_jump_grace_remaining = 0.0
 	collision_mask = 0
 	collision_layer = 0
 	set_collision_layer_value(group, true)
