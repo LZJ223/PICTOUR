@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://Opening/Opening.gd" id="1"]
-[ext_resource type="Shader" path="res://Opening/Opening.gdshader" id="2"]
+[ext_resource type="Script" uid="uid://cyr6teperxi4w" path="res://Interface/Opening/Opening.gd" id="1"]
+[ext_resource type="Shader" uid="uid://bbtomhptd0bq8" path="res://Interface/Opening/Opening.gdshader" id="2"]
 [ext_resource type="Texture2D" uid="uid://p6f05hf2ctn8" path="res://Texture/Logo/Logo.png" id="3"]
-[ext_resource type="Texture2D" path="res://Opening/Logo_Stroke.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://ldrrjei2n82t" path="res://Interface/Opening/Logo_Stroke.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://ymij8t7ctu2l" path="res://Texture/Logo/Godot.png" id="5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_opening"]

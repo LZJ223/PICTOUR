@@ -19,7 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://d2cgcnxh5vyk" path="res://Texture/Logo/Logo_R.png" id="12_8h4d6"]
 [ext_resource type="Texture2D" uid="uid://yklwuk423ttt" path="res://Texture/Logo/Logo_Front.png" id="13_vvlcl"]
 [ext_resource type="FontFile" uid="uid://2lyivrhesola" path="res://Font/Bold.ttf" id="18_fpmtg"]
-[ext_resource type="Script" path="res://Interface/UI/Logo_Button.gd" id="19_logo_button"]
+[ext_resource type="Script" uid="uid://bi3qil0ml4s5t" path="res://Interface/UI/Logo_Button.gd" id="19_logo_button"]
 [ext_resource type="Texture2D" uid="uid://1d6rs3aj6nxo" path="res://Texture/Others/Contributer.png" id="20_contributer"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3fvgq"]
@@ -92,7 +92,7 @@ position = Vector2(0, -4.0000305)
 scale = Vector2(0.4, 0.39999995)
 texture = ExtResource("13_vvlcl")
 
-[node name="LogoButton" type="Button" parent="."]
+[node name="LogoButton" type="Button" parent="." unique_id=649037619]
 offset_left = -360.0
 offset_top = -184.0
 offset_right = 360.0
@@ -106,10 +106,10 @@ hover_rotation_degrees = 2.0
 hold_shake_amplitude = 0.3
 hold_shake_rotation_degrees = 0.5
 
-[node name="Credits" type="CanvasLayer" parent="LogoButton"]
+[node name="Credits" type="CanvasLayer" parent="LogoButton" unique_id=1185907938]
 layer = 2
 
-[node name="Screen" type="Control" parent="LogoButton/Credits"]
+[node name="Screen" type="Control" parent="LogoButton/Credits" unique_id=1205319831]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -118,7 +118,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Contributer" type="TextureRect" parent="LogoButton/Credits/Screen"]
+[node name="Contributer" type="TextureRect" parent="LogoButton/Credits/Screen" unique_id=273098952]
 layout_mode = 0
 mouse_filter = 2
 texture = ExtResource("20_contributer")
