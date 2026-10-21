@@ -13,6 +13,8 @@ signal back_released
 var dialogue_active: bool = false
 var looking_at_destination: bool = false
 var _gameplay_active: bool = false
+## 观察必须来自真实的按下事件，不能仅凭可能残留的 Input 全局缓存重新开启。
+var _destination_key: InputEventKey
 # 设置界面等待改键时，键盘输入（包括当前返回键）交由该界面处理。
 var key_binding_listener: Control
 ## 影子布尔计时器
@@ -30,6 +32,8 @@ func _ready() -> void:
 	timer.one_shot = true
 	timer.timeout.connect(_timer_trigger)
 	set_gameplay_active(false)
+	get_window().focus_exited.connect(_clear_destination_key)
+	SaveSystem.key_bindings_changed.connect(_clear_destination_key)
 
 func set_gameplay_active(active: bool) -> void:
 	_gameplay_active = active
@@ -48,6 +52,9 @@ func set_gameplay_active(active: bool) -> void:
 
 ## 全局界面输入不受玩法开关、对话或观察目标的输入锁影响。
 func _input(event: InputEvent) -> void:
+	## 暂停和菜单期间也记录松键，不依赖后续的 _unhandled_input。
+	if event is InputEventKey:
+		_track_destination_key(event)
 	if is_instance_valid(key_binding_listener) and key_binding_listener.is_visible_in_tree():
 		return
 	if event.is_echo():
@@ -59,6 +66,33 @@ func _input(event: InputEvent) -> void:
 	elif not SceneTransition.busy and event.is_action_pressed("back"):
 		get_viewport().set_input_as_handled()
 		back_pressed.emit()
+
+func _track_destination_key(event: InputEventKey) -> void:
+	if not event.pressed:
+		if _destination_key == null:
+			return
+		## 部分松键事件缺少物理键码或左右位置，退回按下时的逻辑键码匹配。
+		var same_key: bool = (
+			event.physical_keycode == _destination_key.physical_keycode
+			if event.physical_keycode != KEY_NONE and _destination_key.physical_keycode != KEY_NONE
+			else event.keycode != KEY_NONE and event.keycode == _destination_key.keycode
+		)
+		var same_side: bool = (
+			event.location == KEY_LOCATION_UNSPECIFIED
+			or _destination_key.location == KEY_LOCATION_UNSPECIFIED
+			or event.location == _destination_key.location
+		)
+		if same_key and same_side:
+			_destination_key = null
+		return
+	if event.echo or (is_instance_valid(key_binding_listener) and key_binding_listener.is_visible_in_tree()):
+		return
+	if event.is_action_pressed("look_at_destination"):
+		_destination_key = event.duplicate() as InputEventKey
+
+func _clear_destination_key() -> void:
+	_destination_key = null
+	_update_destination_view()
 
 ## 玩法输入判定与信号触发
 func _unhandled_input(event: InputEvent) -> void:
@@ -140,12 +174,15 @@ func _physics_process(_delta: float) -> void:
 	_update_destination_view()
 
 func _update_destination_view() -> void:
+	## UI 可能提前消费松键；轮询发现已释放后也丢弃记录，避免被其他键重新激活。
+	if _destination_key != null and not _is_destination_key_pressed():
+		_destination_key = null
 	if not _gameplay_active or get_tree().paused:
 		return
 	var active: bool = (
 		not dialogue_active
+		and _destination_key != null
 		and Input.is_action_pressed("look_at_destination")
-		and _is_destination_key_pressed()
 		and not Global.goal.completed
 	)
 	if active == looking_at_destination:
