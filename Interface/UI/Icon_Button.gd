@@ -1,6 +1,8 @@
 ## 仅修饰 Icon 及可选 Label，不改变按钮命中范围；长按进度复用调用者的实际计时器。
 extends Button
 
+@export_node_path("Node2D") var icon_path: NodePath = ^"Icon"
+@export var show_hold_progress: bool = true
 @export_range(1.0, 1.3, 0.01) var hover_scale: float = 1.08
 @export_range(0.01, 0.5, 0.01) var hover_duration: float = 0.06
 @export_range(0.0, 10.0, 0.5) var hover_rotation_degrees: float = 6.0
@@ -11,7 +13,7 @@ extends Button
 @export var progress_color: Color = Color(0.08, 0.68, 0.29)
 @export_range(0.0, 20.0, 1.0) var ring_padding: float = 6.0
 
-@onready var _icon: Sprite2D = $Icon
+@onready var _icon: Node2D = get_node(icon_path)
 @onready var _label: Label = get_node_or_null("Label") as Label
 @onready var _base_scale: Vector2 = _icon.scale
 @onready var _base_position: Vector2 = _icon.position
@@ -38,10 +40,12 @@ func _ready() -> void:
 		_label_base_rotation = _label.rotation
 		_label.resized.connect(_sync_label_pivot)
 		_sync_label_pivot()
-	_icon_size = _icon.get_rect().size
+	_icon_size = size
 	## PNG 的透明留白不应扩大进度环；图像边界只在初始化时计算一次。
-	if _icon.texture != null:
-		var image := _icon.texture.get_image()
+	var sprite := _icon as Sprite2D
+	if sprite != null and sprite.texture != null:
+		_icon_size = sprite.get_rect().size
+		var image := sprite.texture.get_image()
 		if image != null:
 			if image.is_compressed():
 				image.decompress()
@@ -60,7 +64,7 @@ func _ready() -> void:
 	set_process(false)
 
 func _on_mouse_entered() -> void:
-	if not disabled and not SceneTransition.busy:
+	if not disabled and not SceneTransition.busy and _icon.is_visible_in_tree():
 		_set_hover(true)
 
 func _set_hover(active: bool) -> void:
@@ -115,6 +119,11 @@ func _update_scale() -> void:
 func _sync_label_pivot() -> void:
 	_label.pivot_offset = _label.size * 0.5
 
+## 供响应式布局更新视觉原点；后续抖动与复位仍使用新的布局位置。
+func set_icon_position(value: Vector2) -> void:
+	_base_position = value
+	_icon.position = value
+
 func _set_hover_rotation(value: float) -> void:
 	_hover_rotation = value
 	_update_rotation()
@@ -157,7 +166,7 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	if not is_instance_valid(_hold_timer):
+	if not show_hold_progress or not is_instance_valid(_hold_timer):
 		return
 	var icon_size := _icon_size * _base_scale.abs() * hover_scale
 	var radius: float = maxf(maxf(icon_size.x, icon_size.y), maxf(size.x, size.y)) * 0.5 + ring_padding

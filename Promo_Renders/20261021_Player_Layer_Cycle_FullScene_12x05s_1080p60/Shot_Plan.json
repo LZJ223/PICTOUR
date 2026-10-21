@@ -1,0 +1,254 @@
+[
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": 1,
+		"layer_count": 3,
+		"level": 1,
+		"motion": "forward",
+		"night": false,
+		"player_spawn": [
+			992.0,
+			351.0
+		],
+		"shot": 1,
+		"source_layer_id": 0,
+		"target_floor_supported": true,
+		"target_layer_id": 2,
+		"type": "Player"
+	},
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": -1,
+		"layer_count": 3,
+		"level": 2,
+		"motion": "backward",
+		"night": false,
+		"player_spawn": [
+			8.0,
+			519.0
+		],
+		"shot": 2,
+		"source_layer_id": 0,
+		"target_floor_supported": true,
+		"target_layer_id": 1,
+		"type": "Player"
+	},
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": 1,
+		"layer_count": 3,
+		"level": 3,
+		"motion": "forward",
+		"night": false,
+		"player_spawn": [
+			8.0,
+			519.0
+		],
+		"shot": 3,
+		"source_layer_id": 0,
+		"target_floor_supported": true,
+		"target_layer_id": 2,
+		"type": "Player"
+	},
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": 1,
+		"layer_count": 3,
+		"level": 4,
+		"motion": "forward",
+		"night": false,
+		"player_spawn": [
+			-1056.0,
+			520.0
+		],
+		"shot": 4,
+		"source_layer_id": 0,
+		"target_floor_supported": true,
+		"target_layer_id": 2,
+		"type": "Player"
+	},
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": 1,
+		"layer_count": 3,
+		"level": 5,
+		"motion": "forward",
+		"night": false,
+		"player_spawn": [
+			-420.0,
+			519.0
+		],
+		"shot": 5,
+		"source_layer_id": 0,
+		"target_floor_supported": true,
+		"target_layer_id": 2,
+		"type": "Player"
+	},
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": -1,
+		"layer_count": 3,
+		"level": 6,
+		"motion": "backward",
+		"night": false,
+		"player_spawn": [
+			301.0,
+			519.0
+		],
+		"shot": 6,
+		"source_layer_id": 0,
+		"target_floor_supported": true,
+		"target_layer_id": 1,
+		"type": "Player"
+	},
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": -1,
+		"layer_count": 3,
+		"level": 7,
+		"motion": "backward",
+		"night": false,
+		"player_spawn": [
+			-403.0,
+			519.0
+		],
+		"shot": 7,
+		"source_layer_id": 0,
+		"target_floor_supported": true,
+		"target_layer_id": 1,
+		"type": "Player"
+	},
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": -1,
+		"layer_count": 3,
+		"level": 8,
+		"motion": "backward",
+		"night": false,
+		"player_spawn": [
+			540.0,
+			519.0
+		],
+		"shot": 8,
+		"source_layer_id": 0,
+		"target_floor_supported": true,
+		"target_layer_id": 1,
+		"type": "Player"
+	},
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": 1,
+		"layer_count": 4,
+		"level": 9,
+		"motion": "forward",
+		"night": true,
+		"player_spawn": [
+			22.474609375,
+			519.457275390625
+		],
+		"shot": 9,
+		"source_layer_id": 1,
+		"target_floor_supported": true,
+		"target_layer_id": 0,
+		"type": "Player"
+	},
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": -1,
+		"layer_count": 4,
+		"level": 10,
+		"motion": "backward",
+		"night": true,
+		"player_spawn": [
+			-298.7685546875,
+			518.941284179688
+		],
+		"shot": 10,
+		"source_layer_id": 1,
+		"target_floor_supported": true,
+		"target_layer_id": 2,
+		"type": "Player"
+	},
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": 1,
+		"layer_count": 4,
+		"level": 11,
+		"motion": "forward",
+		"night": true,
+		"player_spawn": [
+			-4.0,
+			-369.0
+		],
+		"shot": 11,
+		"source_layer_id": 1,
+		"target_floor_supported": true,
+		"target_layer_id": 0,
+		"type": "Player"
+	},
+	{
+		"audio": {
+			"source": "res://Audio/SFX/layer_cycle.mp3",
+			"start_frame": 6,
+			"volume_db": 0.0
+		},
+		"direction": 1,
+		"layer_count": 4,
+		"level": 12,
+		"motion": "forward",
+		"night": true,
+		"player_spawn": [
+			-10.0,
+			519.0
+		],
+		"shot": 12,
+		"source_layer_id": 1,
+		"target_floor_supported": true,
+		"target_layer_id": 0,
+		"type": "Player"
+	}
+]

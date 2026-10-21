@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Promo_Renders/20261021_Level_Walk_10x2s_1080p60/Source/Walk_Capture.gd" id="1"]
+
+[node name="WalkCapture" type="Node"]
+process_mode = 3
+process_priority = 200
+script = ExtResource("1")
+level_ids = Array[int]([11, 12])
+first_shot_number = 11
+output_directory = "res://Promo_Renders/20261021_Level_Walk_11_12_2x2s_1080p60/"
+frames_directory = "res://.godot/promo_walk_11_12_20261021/"

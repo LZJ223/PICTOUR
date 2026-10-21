@@ -16,7 +16,7 @@ const PRESSED := preload("res://Texture/Button/Button_Pressed.png")
 @onready var _clear_visual: Control = $Content/Game/Clear/Action/VisualRoot
 @onready var _clear_visual_position: Vector2 = _clear_visual.position
 @onready var _clear_visual_rotation: float = _clear_visual.rotation
-@onready var _clear_progress: ProgressBar = $Content/Game/Clear/Action/VisualRoot/Progress
+@onready var _clear_progress: TextureProgressBar = $Content/Game/Clear/Action/VisualRoot/Progress
 @onready var _clear_timer: Timer = $ClearTimer
 @onready var _binding_hint: Label = $Content/Control/BindingHint
 
@@ -52,6 +52,7 @@ func _ready() -> void:
 		var button: Button = row.get_node("Key")
 		var action: StringName = button.get_meta(&"action")
 		_binding_buttons[action] = button
+		button.toggle_mode = true
 		button.pressed.connect(_listen_for_key.bind(button))
 	SaveSystem.key_bindings_changed.connect(_sync_key_bindings)
 	_sync_key_bindings()
@@ -119,6 +120,7 @@ func _update_percentage(value: float, label: Label) -> void:
 func _listen_for_key(button: Button) -> void:
 	_cancel_listening()
 	_listening_button = button
+	button.set_pressed_no_signal(true)
 	SignalSystem.key_binding_listener = self
 	_key_label(button).text = ""
 	_binding_hint.text = "请输入按键..."
@@ -170,6 +172,7 @@ func _cancel_listening() -> void:
 	if SignalSystem.key_binding_listener == self:
 		SignalSystem.key_binding_listener = null
 	if _listening_button != null:
+		_listening_button.set_pressed_no_signal(false)
 		_listening_button = null
 		_sync_key_bindings()
 	_binding_hint.hide()

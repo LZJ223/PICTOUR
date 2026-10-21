@@ -19,6 +19,8 @@
 [ext_resource type="Texture2D" uid="uid://d2cgcnxh5vyk" path="res://Texture/Logo/Logo_R.png" id="12_8h4d6"]
 [ext_resource type="Texture2D" uid="uid://yklwuk423ttt" path="res://Texture/Logo/Logo_Front.png" id="13_vvlcl"]
 [ext_resource type="FontFile" uid="uid://2lyivrhesola" path="res://Font/Bold.ttf" id="18_fpmtg"]
+[ext_resource type="Script" path="res://Interface/UI/Logo_Button.gd" id="19_logo_button"]
+[ext_resource type="Texture2D" uid="uid://1d6rs3aj6nxo" path="res://Texture/Others/Contributer.png" id="20_contributer"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3fvgq"]
 font = ExtResource("18_fpmtg")
@@ -89,6 +91,39 @@ texture = ExtResource("12_8h4d6")
 position = Vector2(0, -4.0000305)
 scale = Vector2(0.4, 0.39999995)
 texture = ExtResource("13_vvlcl")
+
+[node name="LogoButton" type="Button" parent="."]
+offset_left = -360.0
+offset_top = -184.0
+offset_right = 360.0
+offset_bottom = 176.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+script = ExtResource("19_logo_button")
+icon_path = NodePath("../Logo")
+show_hold_progress = false
+hover_rotation_degrees = 2.0
+hold_shake_amplitude = 0.3
+hold_shake_rotation_degrees = 0.5
+
+[node name="Credits" type="CanvasLayer" parent="LogoButton"]
+layer = 2
+
+[node name="Screen" type="Control" parent="LogoButton/Credits"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Contributer" type="TextureRect" parent="LogoButton/Credits/Screen"]
+layout_mode = 0
+mouse_filter = 2
+texture = ExtResource("20_contributer")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Camera" type="Camera2D" parent="." unique_id=367628253]
 position = Vector2(0, 175.99998)

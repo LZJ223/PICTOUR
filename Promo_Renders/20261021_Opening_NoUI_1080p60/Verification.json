@@ -1,0 +1,20 @@
+{
+  "video": "PICTOUR_Opening_NoUI_1920x1080_60fps.mp4",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fps": 60,
+  "frames": 1026,
+  "duration_seconds": 17.1,
+  "camera_return_seconds": 7.1,
+  "tail_seconds": 10.0,
+  "audio": "Only the original opening_piano.wav, aligned to the Logo reveal frame",
+  "piano_start_seconds": 2.2666666666666666,
+  "piano_correlation_after_aac": 0.9999951035129621,
+  "silence_peak_outside_piano": 0.0,
+  "file_size_bytes": 53207329,
+  "all_source_frames_native_1080p": true,
+  "source_frames_continuous": true,
+  "all_runtime_ui_checks_passed": 890
+}

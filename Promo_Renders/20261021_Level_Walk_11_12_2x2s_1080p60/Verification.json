@@ -1,0 +1,32 @@
+[
+  {
+    "file": "Walk_11_Level_11_2s_1080p60.mp4",
+    "level": 11,
+    "frames": 120,
+    "fps": 60,
+    "duration": 2,
+    "resolution": [
+      1920,
+      1080
+    ],
+    "silent": true,
+    "all_frames_grounded": true,
+    "floor_y_range": 0.0,
+    "size_bytes": 1056202
+  },
+  {
+    "file": "Walk_12_Level_12_2s_1080p60.mp4",
+    "level": 12,
+    "frames": 120,
+    "fps": 60,
+    "duration": 2,
+    "resolution": [
+      1920,
+      1080
+    ],
+    "silent": true,
+    "all_frames_grounded": true,
+    "floor_y_range": 0.0,
+    "size_bytes": 3019632
+  }
+]

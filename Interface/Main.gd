@@ -16,6 +16,7 @@ const DESIGN_SIZE := Vector2(1280.0, 720.0)
 @onready var level_selection: LevelsMenu = $LevelSelection
 @onready var game_option: Control = $GameOption
 @onready var back_button: Button = $MenuUI/Screen/Back
+@onready var logo_button: Button = $LogoButton
 @onready var _page_controls: Array[Control] = [main_menu, level_selection, game_option]
 
 var _page: Page = Page.MAIN
@@ -68,6 +69,7 @@ func _ready() -> void:
 	back_button.button_up.connect(_on_back_up)
 	back_button.mouse_exited.connect(_on_back_up)
 	get_window().focus_exited.connect(_cancel_back_hold)
+	logo_button.credits_started.connect(_cancel_back_hold)
 	_exit_timer = Timer.new()
 	_exit_timer.one_shot = true
 	_exit_timer.wait_time = EXIT_HOLD_DURATION
@@ -119,11 +121,12 @@ func complete_opening() -> void:
 	prepare_opening_menu()
 
 func _set_main_buttons_presented(presented: bool, instant: bool = false) -> void:
+	logo_button.set_available(presented)
 	for button in main_menu.get_children():
 		button.set_presented(presented, instant)
 
 func _show_page(page: Page) -> void:
-	if SceneTransition.busy or page == _page:
+	if SceneTransition.busy or logo_button.playing or page == _page:
 		return
 	if _camera_tween != null and _camera_tween.is_valid():
 		_camera_tween.kill()
@@ -194,7 +197,11 @@ func _finish_submenu_animation(page: Page, presented: bool) -> void:
 func _update_layout() -> void:
 	var view_size := get_viewport_rect().size / menu_camera.zoom.abs()
 	secondary_camera_position.position = _main_origin + _secondary_offset * view_size
-	$Logo.position = _main_origin + _logo_offset * view_size
+	logo_button.set_icon_position(_main_origin + _logo_offset * view_size)
+	var logo_sprite: Sprite2D = $Logo/Logo_Back
+	var logo_rect := logo_sprite.transform * logo_sprite.get_rect()
+	logo_button.position = $Logo.position + logo_rect.position
+	logo_button.size = logo_rect.size
 	$Game.position = _main_origin + _background_offset * view_size - _background_player_offset
 	main_menu.position = main_camera_position.position + _control_offsets[Page.MAIN] * view_size - main_menu.size * 0.5
 	for page: Page in [Page.LEVEL_SELECTION, Page.GAME_OPTION]:
@@ -215,7 +222,7 @@ func _on_back_pressed() -> void:
 		_show_page(Page.MAIN)
 
 func _on_back_down() -> void:
-	if SceneTransition.busy:
+	if SceneTransition.busy or logo_button.playing:
 		return
 	_back_held = true
 	_update_exit_hold()
@@ -226,7 +233,7 @@ func _on_back_up() -> void:
 
 ## Esc 直接响应全局输入信号，不模拟按钮按下或点击。
 func _on_back_key_pressed() -> void:
-	if SceneTransition.busy:
+	if SceneTransition.busy or logo_button.playing:
 		return
 	if _page != Page.MAIN:
 		_show_page(Page.MAIN)

@@ -6,8 +6,15 @@
 [ext_resource type="Script" uid="uid://bmw5qs7ms1go" path="res://Interface/UI/Options.gd" id="4_options"]
 [ext_resource type="FontFile" uid="uid://p6fsq772f7ud" path="res://Font/WenYuanRoundedSC-Regular.ttf" id="5_font"]
 [ext_resource type="Script" uid="uid://cmlc22dg3sk51" path="res://Interface/UI/Setting_Connector.gd" id="6_connector"]
-[ext_resource type="Texture2D" uid="uid://b7ira6tcvu4md" path="res://Texture/Button/Checkbox_Checked.svg" id="7_checked"]
-[ext_resource type="Texture2D" uid="uid://d0cwhbk6gqjfo" path="res://Texture/Button/Checkbox_Unchecked.svg" id="8_unchecked"]
+[ext_resource type="Texture2D" uid="uid://b763viuphwosx" path="res://Texture/Button/Checkbox_Checked.png" id="7_checked"]
+[ext_resource type="Texture2D" uid="uid://cm2nvdgr76ejc" path="res://Texture/Button/Checkbox_Unchecked.png" id="8_unchecked"]
+[ext_resource type="Texture2D" path="res://Texture/Button/ChargeButton_Uncharged.png" id="9_charge_empty"]
+[ext_resource type="Texture2D" path="res://Texture/Button/ChargeButton_Charged.png" id="10_charge_full"]
+[ext_resource type="Texture2D" path="res://Texture/Button/Slidebar_Full.png" id="11_slider_full"]
+[ext_resource type="Texture2D" path="res://Texture/Button/Slidebar_Empty.png" id="12_slider_empty"]
+[ext_resource type="Texture2D" path="res://Texture/Button/Slidebar_Slider.png" id="13_slider_grabber"]
+[ext_resource type="Texture2D" path="res://Texture/Button/Button_Control.png" id="14_key_normal"]
+[ext_resource type="Texture2D" path="res://Texture/Button/Button_Control_Pressed.png" id="15_key_pressed"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_focus"]
 bg_color = Color(0, 0, 0, 0)
@@ -21,73 +28,31 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_hover"]
+[sub_resource type="StyleBoxTexture" id="StyleBox_button"]
 content_margin_left = 12.0
 content_margin_top = 5.0
 content_margin_right = 12.0
 content_margin_bottom = 5.0
-bg_color = Color(0.9, 1, 0.95, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.01, 0.4, 0.23, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+texture = ExtResource("14_key_normal")
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_button"]
+[sub_resource type="StyleBoxTexture" id="StyleBox_pressed"]
 content_margin_left = 12.0
 content_margin_top = 5.0
 content_margin_right = 12.0
 content_margin_bottom = 5.0
-bg_color = Color(0.75, 1, 0.87, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.01, 0.3, 0.18, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBox_pressed"]
-content_margin_left = 12.0
-content_margin_top = 5.0
-content_margin_right = 12.0
-content_margin_bottom = 5.0
-bg_color = Color(0.05, 0.78, 0.4, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.01, 0.3, 0.18, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+texture = ExtResource("15_key_pressed")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBox_empty"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_fill"]
-content_margin_top = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.01, 0.54, 0.27, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[sub_resource type="StyleBoxTexture" id="StyleBox_fill"]
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+texture = ExtResource("11_slider_full")
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_track"]
-content_margin_top = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.02, 0.35, 0.19, 0.25)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[sub_resource type="StyleBoxTexture" id="StyleBox_track"]
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+texture = ExtResource("12_slider_empty")
 
 [sub_resource type="Theme" id="Theme_options"]
 default_font = ExtResource("5_font")
@@ -97,12 +62,15 @@ Button/colors/font_focus_color = Color(0.008, 0.2, 0.1232, 1)
 Button/colors/font_hover_color = Color(0.008, 0.2, 0.1232, 1)
 Button/colors/font_pressed_color = Color(0.008, 0.2, 0.1232, 1)
 Button/styles/focus = SubResource("StyleBox_focus")
-Button/styles/hover = SubResource("StyleBox_hover")
+Button/styles/hover = SubResource("StyleBox_button")
+Button/styles/hover_pressed = SubResource("StyleBox_pressed")
+Button/styles/disabled = SubResource("StyleBox_button")
 Button/styles/normal = SubResource("StyleBox_button")
 Button/styles/pressed = SubResource("StyleBox_pressed")
 CheckBox/colors/icon_hover_color = Color(1, 1, 1, 1)
 CheckBox/colors/icon_normal_color = Color(1, 1, 1, 1)
 CheckBox/colors/icon_pressed_color = Color(1, 1, 1, 1)
+CheckBox/constants/h_separation = 0
 CheckBox/icons/checked = ExtResource("7_checked")
 CheckBox/icons/unchecked = ExtResource("8_unchecked")
 CheckBox/styles/focus = SubResource("StyleBox_focus")
@@ -110,21 +78,15 @@ CheckBox/styles/hover = SubResource("StyleBox_empty")
 CheckBox/styles/hover_pressed = SubResource("StyleBox_empty")
 CheckBox/styles/normal = SubResource("StyleBox_empty")
 CheckBox/styles/pressed = SubResource("StyleBox_empty")
+HSlider/icons/grabber = ExtResource("13_slider_grabber")
+HSlider/icons/grabber_highlight = ExtResource("13_slider_grabber")
+HSlider/icons/grabber_disabled = ExtResource("13_slider_grabber")
 HSlider/styles/grabber_area = SubResource("StyleBox_fill")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBox_fill")
 HSlider/styles/slider = SubResource("StyleBox_track")
 Label/colors/font_color = Color(0.008, 0.2, 0.1232, 1)
-ProgressBar/styles/background = SubResource("StyleBox_track")
-ProgressBar/styles/fill = SubResource("StyleBox_fill")
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_tabs"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBox_clear_fill"]
-bg_color = Color(0.05, 0.67, 0.32, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
 
 [node name="Options" type="Control" unique_id=320740776]
 process_mode = 3
@@ -252,9 +214,10 @@ vertical_alignment = 1
 
 [node name="Toggle" type="CheckBox" parent="Content/Game/Fullscreen" unique_id=1414851775]
 layout_mode = 0
-offset_left = 496.0
-offset_right = 544.0
-offset_bottom = 46.0
+offset_left = 498.0
+offset_top = -5.0
+offset_right = 554.0
+offset_bottom = 51.0
 
 [node name="Connector" type="Control" parent="Content/Game/Fullscreen" unique_id=386525700]
 layout_mode = 1
@@ -284,9 +247,10 @@ vertical_alignment = 1
 
 [node name="Toggle" type="CheckBox" parent="Content/Game/Dialogue" unique_id=1078601819]
 layout_mode = 0
-offset_left = 496.0
-offset_right = 544.0
-offset_bottom = 46.0
+offset_left = 498.0
+offset_top = -5.0
+offset_right = 554.0
+offset_bottom = 51.0
 
 [node name="Connector" type="Control" parent="Content/Game/Dialogue" unique_id=1516809608]
 layout_mode = 1
@@ -316,9 +280,10 @@ vertical_alignment = 1
 
 [node name="Toggle" type="CheckBox" parent="Content/Game/Progress" unique_id=764077517]
 layout_mode = 0
-offset_left = 496.0
-offset_right = 544.0
-offset_bottom = 46.0
+offset_left = 498.0
+offset_top = -5.0
+offset_right = 554.0
+offset_bottom = 51.0
 button_pressed = true
 
 [node name="Connector" type="Control" parent="Content/Game/Progress" unique_id=2026678187]
@@ -349,7 +314,7 @@ vertical_alignment = 1
 
 [node name="Action" type="Button" parent="Content/Game/Clear" unique_id=1639661034]
 layout_mode = 0
-offset_left = 372.0
+offset_left = 386.0
 offset_right = 544.0
 offset_bottom = 46.0
 theme_override_styles/normal = SubResource("StyleBox_empty")
@@ -359,44 +324,39 @@ theme_override_styles/hover_pressed = SubResource("StyleBox_empty")
 theme_override_styles/disabled = SubResource("StyleBox_empty")
 theme_override_styles/focus = SubResource("StyleBox_empty")
 
-[node name="VisualRoot" type="Panel" parent="Content/Game/Clear/Action" unique_id=521939155]
+[node name="VisualRoot" type="Control" parent="Content/Game/Clear/Action" unique_id=521939155]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(86, 23)
+pivot_offset = Vector2(79, 23)
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBox_button")
 
-[node name="Text" type="Label" parent="Content/Game/Clear/Action/VisualRoot" unique_id=974127844]
+[node name="Background" type="TextureRect" parent="Content/Game/Clear/Action/VisualRoot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-horizontal_alignment = 1
-vertical_alignment = 1
+mouse_filter = 2
+texture = ExtResource("9_charge_empty")
+expand_mode = 1
 
-[node name="Progress" type="ProgressBar" parent="Content/Game/Clear/Action/VisualRoot" unique_id=1417098354]
+[node name="Progress" type="TextureProgressBar" parent="Content/Game/Clear/Action/VisualRoot" unique_id=1417098354]
 visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = 2.0
-offset_right = -2.0
-offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/background = SubResource("StyleBox_empty")
-theme_override_styles/fill = SubResource("StyleBox_clear_fill")
 max_value = 1.0
-show_percentage = false
+step = 0.0
+texture_progress = ExtResource("10_charge_full")
 
 [node name="Connector" type="Control" parent="Content/Game/Clear" unique_id=386968358]
 layout_mode = 1
